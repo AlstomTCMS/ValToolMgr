@@ -37,7 +37,7 @@ Dim VBComp As VBIDE.VBComponent
         End Select
         If Sfx <> "" Then
         VBComp.Export _
-        Filename:=ActiveWorkbook.Path & "\export\PrimaII\" & VBComp.Name & Sfx
+        Filename:=ActiveWorkbook.Path & "\export\Functions_PrimaELII_2-A0\" & VBComp.Name & Sfx
         End If
     Next VBComp
 End Sub
