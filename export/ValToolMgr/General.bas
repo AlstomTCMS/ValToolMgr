@@ -1,12 +1,13 @@
 Attribute VB_Name = "General"
+
 '------------------------------------------------------------------------
 ' Initie une feuille par son nom
 '------------------------------------------------------------------------
 Function InitSheet(ByVal sheetName As String, Optional ByVal eraseContent As Boolean, Optional visible As Boolean = True, Optional sheetAlreadyExist As Boolean, Optional titles As Variant = Null) As Excel.Worksheet
-    Dim WsExist As Boolean, range1 As range
+    Dim WsExist As Boolean, range1 As Range
  
 On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(sheetName).Index
+    WsExist = ActiveWorkbook.Sheets(sheetName).index
 On Error GoTo 0
 
     'Si la feuille n'existe pas, on l'ajoute
@@ -28,7 +29,7 @@ On Error GoTo 0
     If Not titles Is Null Then
         With Sheets(sheetName)
         
-            Set range1 = .range("A1", .Cells(1, UBound(titles) + 1))
+            Set range1 = .Range("A1", .Cells(1, UBound(titles) + 1))
             range1 = titles
             tableLiens = "Tableau" & sheetName
             .ListObjects.Add(xlSrcRange, range1, , xlYes).Name = tableLiens
@@ -59,7 +60,7 @@ End Function
 Function WsExist(ByVal Nom$) As Boolean
 'Nous dit si la feuille mis en paramètre existe
     On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(Nom).Index
+    WsExist = ActiveWorkbook.Sheets(Nom).index
     On Error GoTo 0
 End Function
 

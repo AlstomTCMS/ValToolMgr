@@ -17,7 +17,7 @@ Sub Supprimer_Onglets_Tests(control As IRibbonControl)
 End Sub
 
 ' Génère les onglets de test à partir de la synthèse
-Sub Generer_OngletsTests()
+Public Sub Generer_OngletsTests()
     Dim testRange, debut, Fin, finSynthese As range
     Dim testSheet As Worksheet
     Dim testTitle As Variant

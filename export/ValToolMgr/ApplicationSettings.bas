@@ -85,6 +85,7 @@ End Function
 
 '''Gets value of seting by name
 Public Function GetValue(ByRef PropertyName As String) As String
+    GetValue = "Error"
     If FileExists(MacroPath & "\" & SETTING_FILE_NAME) = True Then
         SortToArray (MacroPath & "\" & SETTING_FILE_NAME)
 
@@ -96,8 +97,6 @@ Public Function GetValue(ByRef PropertyName As String) As String
                 Exit Function
             End If
         Next
-    Else
-        GetValue = "Error"
     End If
 End Function
 

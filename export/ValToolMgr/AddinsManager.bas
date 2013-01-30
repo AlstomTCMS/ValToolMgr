@@ -4,7 +4,6 @@ Public AutoUpdate As Boolean
 Dim barreMacro As IRibbonUI
 
 
-
 'Ajoute les fonctionnalitées en fonctions des versions à l'installe
 Sub AjoutFonctionnalitesVersions()
     Select Case macroVersion:
@@ -70,6 +69,11 @@ Sub SetUpdateDate(control As IRibbonControl, ByRef label)
     label = "Date MaJ: " & macroUpdateDate
 End Sub
 
+Sub SetVersionsList(control As IRibbonControl, ByRef list)
+    LayoutVersions = Array("2012", "2013")
+End Sub
+
+    
 Sub Ribbon_OnLoad(ribbon As IRibbonUI)
     Set barreMacro = ribbon
 End Sub

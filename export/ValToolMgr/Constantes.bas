@@ -1,6 +1,7 @@
 Attribute VB_Name = "Constantes"
 Public Const SETTING_FILE_NAME As String = "Application_Settings_File.MIESET"
 Public Const MacroPath As String = "C:\macros_alstom"
+Public Const exportFolder As String = "\export\ValToolMgr\"
 
 Public Const macroVersion As String = "A0"
 'Public Const refVersion As String = "A3"
@@ -27,6 +28,9 @@ Public Const TYPE_VAR_ACTION_ENV As String = "AEn"
 Public Const TYPE_VAR_CHECK_EMB As String = "CCc"
 Public Const TYPE_VAR_CHECK_ENV As String = "CEn"
 Public Const TYPE_VAR_PGM As String = "PGM"
+
+Public Const LAYOUT_2012 As String = "2012"
+Public Const LAYOUT_2013 As String = "2013"
 
 
 

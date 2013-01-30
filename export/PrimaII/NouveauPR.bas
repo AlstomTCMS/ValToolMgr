@@ -12,7 +12,7 @@ End Sub
 ' Renvoie True si la copie s'est bien passée
 ' Macro crée le 11/01/2013 par dLeonardi
 '------------------------------------------------------------------------
-Function CopyRef() As Boolean
+Public Function CopyRef() As Boolean
 Dim fileSaveFullName, fileSaveName, RefFileName As String
 Dim splitName As Variant
     

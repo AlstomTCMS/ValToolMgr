@@ -28,7 +28,7 @@ End Sub
 
 
 'Fonction principale qui à partir du PR créer une synthèse et les onglets de tests qui correspondent
-Sub AncienVersNouveau()
+Public Sub AncienVersNouveau()
     
     ' Empeche le rafraichissement de la fenetre
     Application.ScreenUpdating = False

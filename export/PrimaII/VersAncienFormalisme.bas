@@ -7,7 +7,7 @@ Sub Reverse_Nvo_Vers_Ancien(control As IRibbonControl)
 End Sub
 
 'Function Reverse
-Sub Reverse_NvoVersAncien()
+Public Sub Reverse_NvoVersAncien()
 Dim ws As Worksheet
     Application.ScreenUpdating = False
     
