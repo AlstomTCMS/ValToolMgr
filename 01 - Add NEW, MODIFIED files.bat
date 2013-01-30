@@ -1,2 +1,2 @@
-git add .
+git add -v .
 @pause
