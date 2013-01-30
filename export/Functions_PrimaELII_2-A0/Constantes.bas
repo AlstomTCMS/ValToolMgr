@@ -1,6 +1,7 @@
 Attribute VB_Name = "Constantes"
 Public Const SETTING_FILE_NAME As String = "Application_Settings_File.MIESET"
 Public Const MacroPath As String = "C:\macros_alstom"
+Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
 Public Const macroVersion As String = "A7"
 Public Const refVersion As String = "A3"

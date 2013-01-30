@@ -73,7 +73,7 @@ Function HasActiveBook() As Boolean
     HasActiveBook = True
     On Error GoTo NoActiveWorkBook:
     'Si on a un nouveau classeur vide
-    If ActiveWorkbook.Name Like "Classeur*" Then
+    If ActiveWorkbook.Name Like "Classeur*" Or ActiveWorkbook.Name Like "Book*" Then
         GoTo NoActiveWorkBook
     End If
     On Error GoTo 0
@@ -81,7 +81,7 @@ Function HasActiveBook() As Boolean
     
 NoActiveWorkBook:
     HasActiveBook = False
-    Call MsgBox("Veuillez ouvrir un fichier PR pour utiliser cette fonctionnalité.", vbExclamation, "Alerte")
+    Call MsgBox("Please open a PR file to use this feature.", vbExclamation, "Alerte")
 End Function
 
 

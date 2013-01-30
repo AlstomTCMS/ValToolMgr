@@ -66,7 +66,7 @@ Sub SetVersion(control As IRibbonControl, ByRef label)
 End Sub
 
 Sub SetUpdateDate(control As IRibbonControl, ByRef label)
-    label = "Date MaJ: " & macroUpdateDate
+    label = "Update date: " & macroUpdateDate
 End Sub
 
 Sub SetVersionsList(control As IRibbonControl, ByRef list)

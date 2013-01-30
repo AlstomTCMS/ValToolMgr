@@ -6,6 +6,16 @@ Dim ListItemsRg As Range
 Public SelectedLayoutVersion As String
 Public LayoutVersions As Variant
 
+Function getSelectedLayoutVersion() As String
+    If SelectedLayoutVersion = "" Then
+        SelectedLayoutVersion = GetValue("LayoutVersion")
+        If SelectedLayoutVersion = "Error" Then
+            Call AddValue("LayoutVersion", LAYOUT_2013)
+            SelectedLayoutVersion = GetValue("LayoutVersion")
+        End If
+    End If
+    getSelectedLayoutVersion = SelectedLayoutVersion
+End Function
 
 Function getLayoutVersions() As Variant
     On Error Resume Next
@@ -45,6 +55,7 @@ End Sub
 ''We use "index" to know which item to return to Excel.
 Sub DDListItem(control As IRibbonControl, index As Integer, ByRef returnedVal)
     returnedVal = getLayoutVersions(index)
+    SelectedLayoutVersion = returnedVal
     ''index is 0-based, our list is 1-based so we add 1.
 End Sub
 
