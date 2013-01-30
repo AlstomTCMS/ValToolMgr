@@ -9,6 +9,10 @@ Public Const macroUpdateDate As String = "30/01/2013"
 Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"
 Public Const PR_MODEL_NAME As String = "PR Model"
+
+Public Const PR_TEST_PREFIX As String = "Test_"
+Public Const PR_TEST_STEP_PATERN As String = "STEP 1"
+
 Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"
