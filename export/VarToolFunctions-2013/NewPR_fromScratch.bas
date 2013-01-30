@@ -13,6 +13,10 @@ Sub NewPR()
     
 End Sub
 
+Sub del()
+
+End Sub
+
 ' Créé l'ensemble des éléments du format de test 2013
 Sub createWholeTestFormat(ByVal testName As String)
     On Error Resume Next
@@ -30,9 +34,48 @@ Sub createWholeTestFormat(ByVal testName As String)
     Call TableAction(testName)
     Call TableCheck(testName)
     Call AddTestTitle(testName)
-    Call AddDescTableFormat
+    'Call AddDescTableFormat
+    Call AddActionLabel(testName)
 End Sub
 
+
+Sub AddActionLabel(ByVal testName As String)
+    
+    With Sheets(PR_TEST_PREFIX & testName)
+        .Columns("A:A").ColumnWidth = 5.5
+        
+    
+        .Range("A7") = "Action"
+        
+        With .Range("A5:A7")
+            .MergeCells = True
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlBottom
+            .WrapText = False
+            .Orientation = 90
+            .AddIndent = False
+            .IndentLevel = 0
+            .ShrinkToFit = False
+            .ReadingOrder = xlContext
+            
+            With .Font
+                .Name = "Calibri"
+                .Size = 14
+                .Strikethrough = False
+                .Superscript = False
+                .Subscript = False
+                .OutlineFont = False
+                .Shadow = False
+                .Underline = xlUnderlineStyleNone
+                .ThemeColor = xlThemeColorLight1
+                .TintAndShade = 0
+                .ThemeFont = xlThemeFontMinor
+                .Bold = True
+            End With
+        End With
+        
+    End With
+End Sub
 
 Sub AddTestTitle(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName).Range("B3")
