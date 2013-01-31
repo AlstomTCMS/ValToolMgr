@@ -7,8 +7,9 @@ Public Sub Generate_scenario()
         lcInputsTableColumns As ListColumns, _
         lcOutputsTableColumns As ListColumns
 
-
-
+    Application.ScreenUpdating = False
+    
+    if ActiveSheet.name like  then
 
 
     Set wsCurrentSheet = Worksheets("Scenario")
@@ -120,8 +121,10 @@ Application.DisplayAlerts = False
             .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
         End With
     
-    Debug.Print "End of scenario"
+fin:
 
+    Debug.Print "End of scenario"
+    Application.ScreenUpdating = True
 End Sub
 
 Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine As Integer, wsResultSheet As Worksheet, loSourceFiles As ListObject, ColumnIndex As Integer) As Integer
