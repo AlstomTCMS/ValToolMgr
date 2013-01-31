@@ -39,77 +39,43 @@ Sub createWholeTestFormat(ByVal testName As String)
         .TintAndShade = 0
     End With
     
-    Call AddTableDescription(testName)
     Call TableAction(testName)
     Call TableCheck(testName)
     Call AddTestTitle(testName)
     'Call AddDescTableFormat
     Call AddActionLabel(testName)
     Call AddCheckLabel(testName)
+    Call AddTableDescription(testName)
 End Sub
 
 'Ajoute la table de description en haut
 Sub AddTableDescription(ByVal testName As String)
-    AddTableDescription_Title (testName)
-End Sub
+    With Sheets(PR_TEST_PREFIX & testName)
+    
+        'on insert une ligne supplémentaire pour les titres (qu'il n'y a pas)
+        .Rows("1:1").Insert Shift:=xlDown
+        tableName = "TableDesc" & testName
+        .ListObjects.Add(xlSrcRange, .Range("C1:D5"), , xlYes).Name = tableName
+        Call AddDescTableFormat
+        .ListObjects(tableName).TableStyle = "desc table"
+        .ListObjects(tableName).ShowHeaders = False
+        .ListObjects(tableName).ShowTableStyleFirstColumn = True
+        .ListObjects(tableName).ShowTableStyleColumnStripes = True
 
-Sub AddTableDescription_Title(ByVal testName As String)
-    With Sheets(PR_TEST_PREFIX & testName).Range("C1:C3")
-        .Value = Application.Transpose(Array(PR_TEST_ACTION, PR_TEST_CHECK, "Name"))
+        'On réefface cette ligne qui ne sert plus
+        .Rows("1:1").Delete Shift:=xlUp
         
-        .HorizontalAlignment = xlRight
-        .VerticalAlignment = xlCenter
-        .WrapText = False
-        .Orientation = 0
-        .AddIndent = False
-        .IndentLevel = 0
-        .ShrinkToFit = False
-        .ReadingOrder = xlContext
-        .MergeCells = False
+        'Ajoute les labels des titres verticaux
+        .Range("C1:C3") = Application.Transpose(Array(PR_TEST_ACTION, PR_TEST_CHECK, "Name"))
         
-        With .Font
-            .ThemeColor = xlThemeColorDark1
-            .TintAndShade = 0
-            .Bold = True
-        End With
-        
-        With .Interior
+        ' Efface la mise en forme de la première case de la ligne des totaux
+        With .Range("C4").Interior
             .Pattern = xlSolid
             .PatternColorIndex = xlAutomatic
-            .ThemeColor = xlThemeColorAccent1
+            .ThemeColor = xlThemeColorDark1
             .TintAndShade = 0
             .PatternTintAndShade = 0
         End With
-        
-        .Borders(xlDiagonalDown).LineStyle = xlNone
-        .Borders(xlDiagonalUp).LineStyle = xlNone
-        .Borders(xlEdgeRight).LineStyle = xlNone
-        .Borders(xlInsideVertical).LineStyle = xlNone
-        With .Borders(xlEdgeLeft)
-            .LineStyle = xlContinuous
-            .ThemeColor = 1
-            .TintAndShade = 0
-            .Weight = xlThick
-        End With
-        With .Borders(xlEdgeTop)
-            .LineStyle = xlContinuous
-            .ThemeColor = 1
-            .TintAndShade = 0
-            .Weight = xlThick
-        End With
-        With .Borders(xlEdgeBottom)
-            .LineStyle = xlContinuous
-            .ThemeColor = 1
-            .TintAndShade = 0
-            .Weight = xlThick
-        End With
-        With .Borders(xlInsideHorizontal)
-            .LineStyle = xlContinuous
-            .ThemeColor = 1
-            .TintAndShade = 0
-            .Weight = xlThick
-        End With
-    
     End With
 End Sub
 
@@ -284,6 +250,7 @@ End Sub
 
 ' Ajoute au workbook le style de tableau pour la partie descriptive s'il n'existe pas déjà
 Sub AddDescTableFormat()
+Dim FirstColumnEdges As Variant
 
     With ActiveWorkbook
         On Error GoTo Add:
@@ -297,16 +264,50 @@ Add:
             .ShowAsAvailableTableStyle = True
             .ShowAsAvailableSlicerStyle = False
             
-            With .TableStyleElements(xlTotalRow).Borders(xlEdgeTop)
-                .ThemeColor = xlThemeColorLight2
-                .TintAndShade = 0.799981688894314
-                .Weight = xlThin
-                .LineStyle = xlNone
+            ' -------------------------------------------------------------
+            ' LA Première colonne
+            ' -------------------------------------------------------------
+            With .TableStyleElements(xlFirstColumn)
+                With .Font
+                    .FontStyle = "Gras": .TintAndShade = 0:  .ThemeColor = xlThemeColorAccent1
+                End With
+                FirstColumnEdges = Array(xlEdgeTop, xlEdgeBottom, xlEdgeLeft, xlInsideHorizontal)
+                For Each edge In FirstColumnEdges
+                    With .Borders(edge)
+                        .ThemeColor = xlThemeColorDark1: .TintAndShade = 0: .Weight = xlThick: .LineStyle = xlNone
+                    End With
+                Next edge
             End With
+            
+            ' -------------------------------------------------------------
+            ' Lignes impaires
+            ' -------------------------------------------------------------
+            
+            
+            
+            ' -------------------------------------------------------------
+            ' Lignes paires
+            ' -------------------------------------------------------------
+            
+            With .TableStyleElements(xlColumnStripe2)
+                With .Interior
+                    .Pattern = xlSolid
+                    .PatternColorIndex = 0
+                    .Color = 15853276
+                    .TintAndShade = 0
+                    .PatternTintAndShade = 0
+                End With
+            End With
+            
+            
             With .TableStyleElements(xlFirstColumn).Font
                 .FontStyle = "Gras"
                 .TintAndShade = 0
-                .ThemeColor = xlThemeColorAccent1
+                .ThemeColor = xlThemeColorDark1
+            End With
+            With .TableStyleElements(xlFirstColumn).Interior
+                .Color = 12419407
+                .TintAndShade = 0
             End With
             With .TableStyleElements(xlFirstColumn).Borders(xlEdgeTop)
                 .ThemeColor = xlThemeColorDark1
@@ -344,10 +345,30 @@ Add:
                 .Weight = xlThin
                 .LineStyle = xlNone
             End With
+            
             With .TableStyleElements(xlColumnStripe2).Interior
-                .ThemeColor = xlThemeColorLight2
-                .TintAndShade = 0.799981688894314
+                .Pattern = xlNone
+                .TintAndShade = 0
+                .PatternTintAndShade = 0
             End With
+        
+            
+            ' -------------------------------------------------------------
+            ' Ligne des Totaux
+            ' -------------------------------------------------------------
+            With .TableStyleElements(xlTotalRow)
+                With .Borders(xlEdgeTop)
+                    .ThemeColor = xlThemeColorLight2
+                    .TintAndShade = 0.799951170384838 '0.799981688894314
+                    .Weight = xlThin
+                    .LineStyle = 0 'xlNone
+                End With
+                With .Font
+                    .TintAndShade = 0
+                    .ThemeColor = xlThemeColorDark1
+                End With
+            End With
+            
         End With
 NoAdd:
     End With
