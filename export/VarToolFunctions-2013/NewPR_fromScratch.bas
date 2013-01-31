@@ -13,10 +13,6 @@ Sub NewPR()
     
 End Sub
 
-Sub del()
-
-End Sub
-
 ' Créé l'ensemble des éléments du format de test 2013
 Sub createWholeTestFormat(ByVal testName As String)
     On Error Resume Next
@@ -36,19 +32,29 @@ Sub createWholeTestFormat(ByVal testName As String)
     Call AddTestTitle(testName)
     'Call AddDescTableFormat
     Call AddActionLabel(testName)
+    Call AddCheckLabel(testName)
 End Sub
 
+Sub AddCheckLabel(ByVal testName As String)
+    Call DefineVerticalLabel(testName, PR_TEST_CHECK)
+End Sub
 
 Sub AddActionLabel(ByVal testName As String)
+    Call DefineVerticalLabel(testName, PR_TEST_ACTION)
+End Sub
+
+Sub DefineVerticalLabel(ByVal testName As String, ByVal label As String)
     
     With Sheets(PR_TEST_PREFIX & testName)
         .Columns("A:A").ColumnWidth = 5.5
         
-    
-        .Range("A7") = "Action"
-        
-        With .Range("A5:A7")
+        tableAddress = .ListObjects("Table" & label & testName).Range.Address
+        tableAddressArray = Split(tableAddress, "$")
+        tableAddress = "A" & tableAddressArray(2) & "A" & tableAddressArray(4)
+        Set LabelRange = .Range(tableAddress)
+        With LabelRange
             .MergeCells = True
+            .Value = label
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlBottom
             .WrapText = False
@@ -114,7 +120,6 @@ Sub AddTestTitle(ByVal testName As String)
         .MergeCells = False
     End With
 
-
     With Sheets(PR_TEST_PREFIX & testName)
         .Columns("B:B").ColumnWidth = 25
         .Rows("3:3").RowHeight = 30
@@ -124,7 +129,7 @@ End Sub
 
 Sub TableCheck(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
-        tableName = "TableCheck" & testName
+        tableName = "Table" & PR_TEST_CHECK & testName
         .ListObjects.Add(xlSrcRange, .Range("B8"), , xlYes).Name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium12"
         .Range("B8:D8") = Array("Target", "Location", PR_TEST_STEP_PATERN)
@@ -156,7 +161,7 @@ End Sub
 Sub TableAction(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
         
-        tableName = "TableAction" & testName
+        tableName = "Table" & PR_TEST_ACTION & testName
         .ListObjects.Add(xlSrcRange, .Range("$B$5"), , xlYes).Name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium9"
         .Range("B5:D5") = Array("Target", "Location", PR_TEST_STEP_PATERN)

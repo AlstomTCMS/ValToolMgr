@@ -12,6 +12,8 @@ Public Const PR_MODEL_NAME As String = "PR Model"
 
 Public Const PR_TEST_PREFIX As String = "Test_"
 Public Const PR_TEST_STEP_PATERN As String = "STEP 1"
+Public Const PR_TEST_ACTION As String = "Action"
+Public Const PR_TEST_CHECK As String = "Check"
 
 Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"
