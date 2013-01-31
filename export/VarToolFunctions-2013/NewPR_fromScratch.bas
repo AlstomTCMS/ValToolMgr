@@ -1,5 +1,6 @@
 Attribute VB_Name = "NewPR_fromScratch"
 Sub NewPR()
+    Application.ScreenUpdating = False
     'MsgBox ERROR_NOT_IMPLEMENTED_FUNCTION
     
     'Demander à l'utilisateur le nom qu'il veut mettre
@@ -11,6 +12,12 @@ Sub NewPR()
     
     'Sauvegarder
     
+    Application.ScreenUpdating = True
+    
+End Sub
+
+Sub defige()
+    Application.ScreenUpdating = True
 End Sub
 
 ' Créé l'ensemble des éléments du format de test 2013
@@ -21,18 +28,89 @@ Sub createWholeTestFormat(ByVal testName As String)
     Application.DisplayAlerts = True
     On Error GoTo 0
     
+    'Ajout TEMPORAIRE d'un workbook s'il n'en n'existe pas
+    If Not HasActiveBook(False) Then
+        Workbooks.Add
+    End If
+    
     InitSheet (PR_TEST_PREFIX & testName)
     With Sheets(PR_TEST_PREFIX & testName).Tab
         .ThemeColor = xlThemeColorLight2
         .TintAndShade = 0
     End With
     
+    Call AddTableDescription(testName)
     Call TableAction(testName)
     Call TableCheck(testName)
     Call AddTestTitle(testName)
     'Call AddDescTableFormat
     Call AddActionLabel(testName)
     Call AddCheckLabel(testName)
+End Sub
+
+'Ajoute la table de description en haut
+Sub AddTableDescription(ByVal testName As String)
+    AddTableDescription_Title (testName)
+End Sub
+
+Sub AddTableDescription_Title(ByVal testName As String)
+    With Sheets(PR_TEST_PREFIX & testName).Range("C1:C3")
+        .Value = Application.Transpose(Array(PR_TEST_ACTION, PR_TEST_CHECK, "Name"))
+        
+        .HorizontalAlignment = xlRight
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+        
+        With .Font
+            .ThemeColor = xlThemeColorDark1
+            .TintAndShade = 0
+            .Bold = True
+        End With
+        
+        With .Interior
+            .Pattern = xlSolid
+            .PatternColorIndex = xlAutomatic
+            .ThemeColor = xlThemeColorAccent1
+            .TintAndShade = 0
+            .PatternTintAndShade = 0
+        End With
+        
+        .Borders(xlDiagonalDown).LineStyle = xlNone
+        .Borders(xlDiagonalUp).LineStyle = xlNone
+        .Borders(xlEdgeRight).LineStyle = xlNone
+        .Borders(xlInsideVertical).LineStyle = xlNone
+        With .Borders(xlEdgeLeft)
+            .LineStyle = xlContinuous
+            .ThemeColor = 1
+            .TintAndShade = 0
+            .Weight = xlThick
+        End With
+        With .Borders(xlEdgeTop)
+            .LineStyle = xlContinuous
+            .ThemeColor = 1
+            .TintAndShade = 0
+            .Weight = xlThick
+        End With
+        With .Borders(xlEdgeBottom)
+            .LineStyle = xlContinuous
+            .ThemeColor = 1
+            .TintAndShade = 0
+            .Weight = xlThick
+        End With
+        With .Borders(xlInsideHorizontal)
+            .LineStyle = xlContinuous
+            .ThemeColor = 1
+            .TintAndShade = 0
+            .Weight = xlThick
+        End With
+    
+    End With
 End Sub
 
 Sub AddCheckLabel(ByVal testName As String)
@@ -56,7 +134,7 @@ Sub DefineVerticalLabel(ByVal testName As String, ByVal label As String)
             .MergeCells = True
             .Value = label
             .HorizontalAlignment = xlCenter
-            .VerticalAlignment = xlBottom
+            .VerticalAlignment = xlCenter
             .WrapText = False
             .Orientation = 90
             .AddIndent = False

@@ -14,3 +14,12 @@ Sub Reverse_Nvo_Vers_Ancien()
     
     'Call Generate_scenario
 End Sub
+
+Sub AddNewStep()
+    With ActiveSheet
+        'détecter si c'est bien un onglet de test au bon format
+        ' sortir avec message sinon
+        
+        
+    End With
+End Sub

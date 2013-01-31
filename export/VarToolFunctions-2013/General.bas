@@ -68,7 +68,7 @@ End Function
 
 'Fonction à appeler depuis toute macro appelée par un bouton de barre de macro externe
 'return vrai si il y a un fichier d'ouvert
-Function HasActiveBook() As Boolean
+Function HasActiveBook(Optional ByVal displayMsg As Boolean = True) As Boolean
 
     HasActiveBook = True
     On Error GoTo NoActiveWorkBook:
@@ -81,7 +81,9 @@ Function HasActiveBook() As Boolean
     
 NoActiveWorkBook:
     HasActiveBook = False
-    Call MsgBox("Please open a PR file to use this feature.", vbExclamation, "Alerte")
+    If displayMsg Then
+        Call MsgBox("Please open a PR file to use this feature.", vbExclamation, "Alerte")
+    End If
 End Function
 
 

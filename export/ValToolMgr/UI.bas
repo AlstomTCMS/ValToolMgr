@@ -43,3 +43,14 @@ Sub AddNewPR(control As IRibbonControl)
             ValToolFunctions_2013.NewPR
     End Select
 End Sub
+
+Sub AddNewStep(control As IRibbonControl)
+    Select Case getSelectedLayoutVersion
+        Case LAYOUT_2012
+            'ValToolFunctions_2012.CopyRef
+            MsgBox ERROR_NOT_IMPLEMENTED_FUNCTION
+        Case LAYOUT_2013
+            ValToolFunctions_2013.AddNewStep
+    End Select
+End Sub
+

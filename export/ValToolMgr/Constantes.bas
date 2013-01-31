@@ -15,6 +15,8 @@ Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"
 Public Const ERROR_NAME As String = "Erreurs"
 
+Public Const ERROR_NOT_IMPLEMENTED_FUNCTION As String = "Function not implemented"
+
 Public Const ERROR_TYPE_DOUBLON As String = "{0} est en doublon."
 Public Const ERROR_TYPE_EMPTY As String = "Les colonnes {0} ne sont pas entièrement remplies."
 Public Const ERROR_TYPE_ORDER As String = "L'ordre des types de variables (ACc, AEn, CCc, CEn) est non respecté."
