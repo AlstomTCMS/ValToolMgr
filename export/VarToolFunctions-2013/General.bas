@@ -68,20 +68,23 @@ End Function
 
 'Fonction à appeler depuis toute macro appelée par un bouton de barre de macro externe
 'return vrai si il y a un fichier d'ouvert
-Function HasActiveBook() As Boolean
+Function HasActiveBook(Optional ByVal displayMsg As Boolean = True) As Boolean
 
     HasActiveBook = True
     On Error GoTo NoActiveWorkBook:
     'Si on a un nouveau classeur vide
-    If ActiveWorkbook.Name Like "Classeur*" Or ActiveWorkbook.Name Like "Book*" Then
-        GoTo NoActiveWorkBook
-    End If
+    'If ActiveWorkbook.Name Like "Classeur*" Or ActiveWorkbook.Name Like "Book*" Then
+        'GoTo NoActiveWorkBook
+    'End If
+    Set wb = Workbooks(1)
     On Error GoTo 0
     Exit Function
     
 NoActiveWorkBook:
     HasActiveBook = False
-    Call MsgBox("Please open a PR file to use this feature.", vbExclamation, "Alerte")
+    If displayMsg Then
+        Call MsgBox("Please open a PR file to use this feature.", vbExclamation, "Alerte")
+    End If
 End Function
 
 

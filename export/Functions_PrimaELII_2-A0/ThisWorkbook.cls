@@ -20,10 +20,20 @@ Sub exportBas()
     Dim VBComp As VBIDE.VBComponent
     Dim Sfx As String
     
+    'On supprime tous les fichiers du dossier de sortie.
+    On Error Resume Next
+    Kill MacroPath & exportFolder & "*.*"
+    On Error GoTo 0
+    
+    'On exporte tous les modules, les forms et cette feuille-ci
     For Each VBComp In ActiveWorkbook.VBProject.VBComponents
         Select Case VBComp.Type
             Case vbext_ct_ClassModule, vbext_ct_Document
-                Sfx = ".cls"
+                If Not VBComp.Name Like "Feuil*" Then
+                    Sfx = ".cls"
+                Else
+                    Sfx = ""
+                End If
             Case vbext_ct_MSForm
                 Sfx = ".frm"
             Case vbext_ct_StdModule
@@ -64,4 +74,5 @@ Sub importBas()
     Wend
 
 End Sub
+
 
