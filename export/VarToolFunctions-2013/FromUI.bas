@@ -11,20 +11,43 @@ End Sub
 
 Sub Reverse_Nvo_Vers_Ancien()
     If isActivesheet_a_PR_Test Then
-        With ActiveSheet
-            Call Generate_scenario
-        End With
+        Call Generate_scenario(getTestNumber)
     End If
 End Sub
 
 Sub AddNewStep()
     If isActivesheet_a_PR_Test Then
         With ActiveSheet
-            testNumber = Split(.Name, "_")(1)
+            testNumber = getTestNumber
             ' Ajouter une colonne à chaque tableau
-            .ListObjects("TableAction" & testNumber).ListColumns.Add
-            .ListObjects("TableCheck" & testNumber).ListColumns.Add
-            .ListObjects("TableDesc" & testNumber).ListColumns.Add
+            Set actionT = .ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber).ListColumns
+            Set checkT = .ListObjects(PR_TEST_TABLE_CHECK_PREFIX & testNumber).ListColumns
+            Set descT = .ListObjects(PR_TEST_TABLE_DESCRIPTION_PREFIX & testNumber).ListColumns
+            
+            
+            ' Si tous les tableaux ont la meme taille
+            If actionT.Count = checkT.Count And actionT.Count = descT.Count + 1 Then
+                actionT.Add
+                checkT.Add
+                descT.Add
+            ElseIf False Then
+                stepNumber = actionT.Count
+                If stepNumber = checkT.Count Then
+                    checkT.Add
+                Else
+                    'checkT.Resize Range("$B$15:$U$15")
+                End If
+                
+                If stepNumber = descT.Count + 1 Then
+                    descT.Add
+                Else
+                    'descT.Resize Range("$B$15:$U$15")
+                End If
+            Else
+                MsgBox "All tables are not at the same size"
+            End If
+                       
+            
         End With
     End If
 End Sub
@@ -41,4 +64,9 @@ Function isActivesheet_a_PR_Test(Optional ByVal displayMsg As Boolean = True) As
             MsgBox "This sheet is not a PR test. You cannot use this function on this sheet."
         End If
     End If
+End Function
+
+
+Function getTestNumber() As String
+    getTestNumber = Split(ActiveSheet.Name, "_")(1)
 End Function

@@ -1,77 +1,40 @@
 Attribute VB_Name = "Scenario_generator"
-Public Sub Generate_scenario()
-    Dim wsCurrentSheet As Worksheet, _
+Public Sub Generate_scenario(ByVal testNumber As String)
+    Dim wsCurrentTestSheet As Worksheet, _
         wsResultSheet As Worksheet, _
-        loInputsTable As ListObject, _
-        loOutputsTable As ListObject, _
-        lcInputsTableColumns As ListColumns, _
-        lcOutputsTableColumns As ListColumns
-
-    Application.ScreenUpdating = False
-    
-    if ActiveSheet.name like  then
-
-
-    Set wsCurrentSheet = Worksheets("Scenario")
-    wsCurrentSheet.Activate
-    
-    
-    Set wsResultSheet = Worksheets("Result")
-    
-    Set loInputsTable = wsCurrentSheet.ListObjects("Inputs_table")
-    Set lcInputsTableColumns = loInputsTable.ListColumns
-    
-    Set loOutputsTable = wsCurrentSheet.ListObjects("Outputs_table")
-    Set lcOutputsTableColumns = loOutputsTable.ListColumns
-
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    ' Checking that columns are the same between two tables
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    If lcInputsTableColumns.Count <> lcOutputsTableColumns.Count Then
-        Debug.Print "Wrong column count"
-        Exit Sub
-    End If
-    
-    If lcInputsTableColumns.Item(1) <> "Variable" Then
-        Debug.Print "First column must be called Variable"
-        Exit Sub
-    End If
-    
-    If lcInputsTableColumns.Item(2) <> "Type" Then
-        Debug.Print "Second column must be called Type"
-        Exit Sub
-    End If
-    
-    If lcInputsTableColumns.Item(3) <> "Localisation" Then
-        Debug.Print "Second column must be called Localisation"
-        Exit Sub
-    End If
-    
-    If lcInputsTableColumns.Item(4) <> "Section" Then
-        Debug.Print "Second column must be called Section"
-        Exit Sub
-    End If
-    
-    For i = 1 To lcInputsTableColumns.Count
-        If lcInputsTableColumns.Item(i) <> lcOutputsTableColumns.Item(i) Then
-            Debug.Print "Columns has not same names : " & lcInputsTableColumns.Item(i) & " / " & lcOutputsTableColumns.Item(i)
-            Exit Sub
-        End If
-    Next i
-    
+        loActionsTable As ListObject, _
+        loChecksTable As ListObject, _
+        lcActionsTableColumns As ListColumns, _
+        lcChecksTableColumns As ListColumns
+        
+    Dim scenario_shName As String
+ 
     'optimisation excel
-Application.Calculation = xlCalculationManual
-Application.EnableEvents = False
-Application.ScreenUpdating = False
-Application.CutCopyMode = False
-Application.DisplayAlerts = False
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    Application.EnableEvents = False
+    Application.CutCopyMode = False
+    Application.DisplayAlerts = False
+
+    Set wsCurrentTestSheet = ActiveSheet 'Worksheets("Scenario")
+    'wsCurrentTestSheet.Activate
     
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    ' Removing everything
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Set loActionsTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber)
+    Set lcActionsTableColumns = loActionsTable.ListColumns
     
-    wsResultSheet.Cells.Clear
+    ' Pour l'instant on ne vérifie pas le formalisme
+    'If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
+    
+    Set loChecksTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_CHECK_PREFIX & testNumber)
+    Set lcChecksTableColumns = loChecksTable.ListColumns
+
+    scenario_shName = PR_TEST_SCENARIO_PREFIX & testNumber
+    ' Delete scenario sheet if already existe
+    If WsExist(scenario_shName) Then
+        Sheets(scenario_shName).Delete
+    End If
+    Set wsResultSheet = InitSheet(scenario_shName)
+    
     
         
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -82,26 +45,25 @@ Application.DisplayAlerts = False
     Dim OffsetSection As Integer
     OffsetSection = 3
     
-    For CurrentColumn = 5 To lcInputsTableColumns.Count
+    For CurrentColumn = 3 To lcActionsTableColumns.Count
         ' Writing header
-        Debug.Print "Processing Step : " & lcInputsTableColumns.Item(CurrentColumn)
-        
+        Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
        
         
         With wsResultSheet
-            .Cells(CurrentLine, OffsetSection + 1).Value = lcInputsTableColumns.Item(CurrentColumn).Name
+            .Cells(CurrentLine, OffsetSection + 1).Value = lcActionsTableColumns.Item(CurrentColumn).Name
             .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
             .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
-            .Cells(CurrentLine, OffsetSection + 3).Value = getComment(wsCurrentSheet, loInputsTable, CurrentColumn, "TBD")
-            .Cells(CurrentLine, OffsetSection + 8).Value = getComment(wsCurrentSheet, loOutputsTable, CurrentColumn, "Verifications to perform")
+            '.Cells(CurrentLine, OffsetSection + 3).Value = getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
+            '.Cells(CurrentLine, OffsetSection + 8).Value = getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
             .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
             .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
         End With
         
         CurrentLine = CurrentLine + 1
-        ScenarioOffsetInputs = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loInputsTable, CurrentColumn)
+        ScenarioOffsetInputs = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
         
-        ScenarioOffsetOutputs = fillInputs(OffsetSection + 5, "Test", CurrentLine, wsResultSheet, loOutputsTable, CurrentColumn)
+        ScenarioOffsetOutputs = fillInputs(OffsetSection + 5, "Test", CurrentLine, wsResultSheet, loChecksTable, CurrentColumn)
         
         If ScenarioOffsetInputs > ScenarioOffsetOutputs Then
             CurrentLine = CurrentLine + ScenarioOffsetInputs
@@ -122,17 +84,22 @@ Application.DisplayAlerts = False
         End With
     
 fin:
-
+    'optimisation excel
     Debug.Print "End of scenario"
     Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    Application.Calculation = xlCalculationAutomatic
 End Sub
+
 
 Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine As Integer, wsResultSheet As Worksheet, loSourceFiles As ListObject, ColumnIndex As Integer) As Integer
     Dim lrCurrent As ListRow, _
-        strFileNameDate As String, _
-        ValueOfCell As Variant
-        
-        fillInputs = 0
+    strFileNameDate As String, _
+    ValueOfCell As Variant
+    
+    fillInputs = 0
     
     For i = 1 To loSourceFiles.ListRows.Count
         Set lrCurrent = loSourceFiles.ListRows(i)
@@ -162,14 +129,9 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
         End If
     Next i
     
-    'optimisation excel
-Application.EnableEvents = True
-Application.ScreenUpdating = True
-Application.DisplayAlerts = True
-Application.Calculation = xlCalculationAutomatic
 End Function
 
-Function getComment(wsCurrentSheet As Worksheet, lcTable As ListObject, CurrentColumn As Integer, OldComment As String) As String
+Function getComment(wsCurrentTestSheet As Worksheet, lcTable As ListObject, CurrentColumn As Integer, OldComment As String) As String
     Dim ColumnsHeaderPosition As Integer
     
     getComment = OldComment
@@ -177,7 +139,47 @@ Function getComment(wsCurrentSheet As Worksheet, lcTable As ListObject, CurrentC
     xPosition = lcTable.HeaderRowRange.Row - 1
     yPosition = lcTable.ListColumns.Item(CurrentColumn).Range.Column
     
-    If xPosition > 0 And Not IsEmpty(wsCurrentSheet.Cells(xPosition, yPosition)) Then
-        getComment = wsCurrentSheet.Cells(xPosition, yPosition).Value
+    If xPosition > 0 And Not IsEmpty(wsCurrentTestSheet.Cells(xPosition, yPosition)) Then
+        getComment = wsCurrentTestSheet.Cells(xPosition, yPosition).Value
     End If
+End Function
+
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Checking that columns are the same between two tables
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Function checkingTestFormat(lcActionsTableColumns As ListColumns) As Boolean
+
+    If lcActionsTableColumns.Count <> lcChecksTableColumns.Count Then
+        Debug.Print "Wrong column count"
+        Exit Function
+    End If
+    
+    If lcActionsTableColumns.Item(1) <> "Variable" Then
+        Debug.Print "First column must be called Variable"
+        Exit Function
+    End If
+    
+    If lcActionsTableColumns.Item(2) <> "Type" Then
+        Debug.Print "Second column must be called Type"
+        Exit Function
+    End If
+    
+    If lcActionsTableColumns.Item(3) <> "Localisation" Then
+        Debug.Print "Second column must be called Localisation"
+        Exit Function
+    End If
+    
+    If lcActionsTableColumns.Item(4) <> "Section" Then
+        Debug.Print "Second column must be called Section"
+        Exit Function
+    End If
+    
+    For i = 1 To lcActionsTableColumns.Count
+        If lcActionsTableColumns.Item(i) <> lcChecksTableColumns.Item(i) Then
+            Debug.Print "Columns has not same names : " & lcActionsTableColumns.Item(i) & " / " & lcChecksTableColumns.Item(i)
+            Exit Function
+        End If
+    Next i
 End Function

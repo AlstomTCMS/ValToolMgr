@@ -6,9 +6,15 @@ Sub NewPR()
     'Demander à l'utilisateur le nom qu'il veut mettre
     'fileSaveFullName = Application.GetSaveAsFilename(InitialFileName:="B2_XXX_Y_A0", _
     'fileFilter:="xls Files (*.xls), *.xls")
+    DefaultValue = "1."
+    testName = InputBox(Prompt:="Please, give a name to your test.", _
+          Title:="Test Name", Default:=DefaultValue)
     
     'Créer l'ensemble des éléments du format
-    Call createWholeTestFormat("1.3")
+    If testName <> "" And testName <> DefaultValue Then
+        'TODO: Tester si le test existe deja...
+        Call createWholeTestFormat(testName)
+    End If
     
     'Sauvegarder
     
@@ -39,10 +45,9 @@ Sub createWholeTestFormat(ByVal testName As String)
         .TintAndShade = 0
     End With
     
-    Call TableAction(testName)
-    Call TableCheck(testName)
+    Call AddTableAction(testName)
+    Call AddTableCheck(testName)
     Call AddTestTitle(testName)
-    'Call AddDescTableFormat
     Call AddActionLabel(testName)
     Call AddCheckLabel(testName)
     Call AddTableDescription(testName)
@@ -54,10 +59,10 @@ Sub AddTableDescription(ByVal testName As String)
     
         'on insert une ligne supplémentaire pour les titres (qu'il n'y a pas)
         .Rows("1:1").Insert Shift:=xlDown
-        tableName = "TableDesc" & testName
+        tableName = PR_TEST_TABLE_DESCRIPTION_PREFIX & testName
         .ListObjects.Add(xlSrcRange, .Range("C1:D5"), , xlYes).Name = tableName
         Call AddDescTableFormat
-        .ListObjects(tableName).TableStyle = "desc table"
+        .ListObjects(tableName).TableStyle = PR_TEST_DESCRIPTION_TABLE_STYLE
         .ListObjects(tableName).ShowHeaders = False
         .ListObjects(tableName).ShowTableStyleFirstColumn = True
         .ListObjects(tableName).ShowTableStyleColumnStripes = True
@@ -92,7 +97,7 @@ Sub DefineVerticalLabel(ByVal testName As String, ByVal label As String)
     With Sheets(PR_TEST_PREFIX & testName)
         .Columns("A:A").ColumnWidth = 5.5
         
-        tableAddress = .ListObjects("Table" & label & testName).Range.Address
+        tableAddress = .ListObjects(TABLE_PREFIX & label & "_" & testName).Range.Address
         tableAddressArray = Split(tableAddress, "$")
         tableAddress = "A" & tableAddressArray(2) & "A" & tableAddressArray(4)
         Set LabelRange = .Range(tableAddress)
@@ -129,7 +134,7 @@ End Sub
 
 Sub AddTestTitle(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName).Range("B3")
-        .Value = PR_TEST_PREFIX & testName
+        .Value = Replace(PR_TEST_PREFIX, "_", " ") & testName
         'TODO: Donner un nom
         With .Font
             .Name = "Calibri"
@@ -171,9 +176,9 @@ Sub AddTestTitle(ByVal testName As String)
 
 End Sub
 
-Sub TableCheck(ByVal testName As String)
+Sub AddTableCheck(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
-        tableName = "Table" & PR_TEST_CHECK & testName
+        tableName = PR_TEST_TABLE_CHECK_PREFIX & testName
         .ListObjects.Add(xlSrcRange, .Range("B8"), , xlYes).Name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium12"
         .Range("B8:D8") = Array("Target", "Location", PR_TEST_STEP_PATERN)
@@ -202,10 +207,10 @@ Sub TableCheck(ByVal testName As String)
     End With
 End Sub
 
-Sub TableAction(ByVal testName As String)
+Sub AddTableAction(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
         
-        tableName = "Table" & PR_TEST_ACTION & testName
+        tableName = PR_TEST_TABLE_ACTION_PREFIX & testName
         .ListObjects.Add(xlSrcRange, .Range("$B$5"), , xlYes).Name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium9"
         .Range("B5:D5") = Array("Target", "Location", PR_TEST_STEP_PATERN)
@@ -254,12 +259,12 @@ Dim FirstColumnEdges As Variant
 
     With ActiveWorkbook
         On Error GoTo Add:
-        BuiltIn = .TableStyles("desc table").BuiltIn
+        BuiltIn = .TableStyles(PR_TEST_DESCRIPTION_TABLE_STYLE).BuiltIn
         GoTo NoAdd
         
 Add:
-        .TableStyles.Add ("desc table")
-        With .TableStyles("desc table")
+        .TableStyles.Add (PR_TEST_DESCRIPTION_TABLE_STYLE)
+        With .TableStyles(PR_TEST_DESCRIPTION_TABLE_STYLE)
             .ShowAsAvailablePivotTableStyle = False
             .ShowAsAvailableTableStyle = True
             .ShowAsAvailableSlicerStyle = False
@@ -301,7 +306,7 @@ Add:
             
             
             With .TableStyleElements(xlFirstColumn).Font
-                .FontStyle = "Gras"
+                .Bold = True '.FontStyle = "Gras"
                 .TintAndShade = 0
                 .ThemeColor = xlThemeColorDark1
             End With

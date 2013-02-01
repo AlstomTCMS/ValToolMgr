@@ -51,7 +51,8 @@ End Sub
 
 
 Private Sub Workbook_Open()
-    'Call importBas
+    'Permet la modif des modules par plusieurs utilisateurs par la gestion de conf
+    Call importBas
 End Sub
 
 Sub importBas()

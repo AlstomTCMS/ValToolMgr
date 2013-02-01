@@ -10,16 +10,25 @@ Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"
 Public Const PR_MODEL_NAME As String = "PR Model"
 
-Public Const PR_TEST_PREFIX As String = "Test_"
+Public Const TABLE_PREFIX As String = "Table_"
+
 Public Const PR_TEST_STEP_PATERN As String = "STEP 1"
+Public Const PR_TEST_PREFIX As String = "Test_"
+Public Const PR_TEST_SCENARIO_PREFIX As String = "TS_"
+Public Const PR_TEST_TABLE_ACTION_PREFIX As String = TABLE_PREFIX & PR_TEST_ACTION & "_"
+Public Const PR_TEST_TABLE_CHECK_PREFIX As String = TABLE_PREFIX & PR_TEST_CHECK & "_"
+Public Const PR_TEST_TABLE_DESCRIPTION_PREFIX As String = TABLE_PREFIX & PR_TEST_DESCRIPTION & "_"
+
 Public Const PR_TEST_ACTION As String = "Action"
 Public Const PR_TEST_CHECK As String = "Check"
+Public Const PR_TEST_DESCRIPTION As String = "Desc"
+Public Const PR_TEST_DESCRIPTION_TABLE_STYLE As String = "Description table"
+
 
 Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"
 Public Const ERROR_NAME As String = "Erreurs"
-
 
 Public Const ERROR_NOT_IMPLEMENTED_FUNCTION As String = "Function not implemented"
 
