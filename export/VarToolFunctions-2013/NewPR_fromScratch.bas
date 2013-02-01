@@ -60,7 +60,7 @@ Sub AddTableDescription(ByVal testName As String)
         'on insert une ligne supplémentaire pour les titres (qu'il n'y a pas)
         .Rows("1:1").Insert Shift:=xlDown
         tableName = PR_TEST_TABLE_DESCRIPTION_PREFIX & testName
-        .ListObjects.Add(xlSrcRange, .Range("C1:D5"), , xlYes).Name = tableName
+        .ListObjects.Add(xlSrcRange, .Range("C1:D5"), , xlYes).name = tableName
         Call AddDescTableFormat
         .ListObjects(tableName).TableStyle = PR_TEST_DESCRIPTION_TABLE_STYLE
         .ListObjects(tableName).ShowHeaders = False
@@ -114,7 +114,7 @@ Sub DefineVerticalLabel(ByVal testName As String, ByVal label As String)
             .ReadingOrder = xlContext
             
             With .Font
-                .Name = "Calibri"
+                .name = "Calibri"
                 .Size = 14
                 .Strikethrough = False
                 .Superscript = False
@@ -137,7 +137,7 @@ Sub AddTestTitle(ByVal testName As String)
         .Value = Replace(PR_TEST_PREFIX, "_", " ") & testName
         'TODO: Donner un nom
         With .Font
-            .Name = "Calibri"
+            .name = "Calibri"
             .Size = 14
             .Bold = True
             .Strikethrough = False
@@ -179,7 +179,7 @@ End Sub
 Sub AddTableCheck(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
         tableName = PR_TEST_TABLE_CHECK_PREFIX & testName
-        .ListObjects.Add(xlSrcRange, .Range("B8"), , xlYes).Name = tableName
+        .ListObjects.Add(xlSrcRange, .Range("B8"), , xlYes).name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium12"
         .Range("B8:D8") = Array("Target", "Location", PR_TEST_STEP_PATERN)
         
@@ -211,7 +211,7 @@ Sub AddTableAction(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName)
         
         tableName = PR_TEST_TABLE_ACTION_PREFIX & testName
-        .ListObjects.Add(xlSrcRange, .Range("$B$5"), , xlYes).Name = tableName
+        .ListObjects.Add(xlSrcRange, .Range("$B$5"), , xlYes).name = tableName
         .ListObjects(tableName).TableStyle = "TableStyleMedium9"
         .Range("B5:D5") = Array("Target", "Location", PR_TEST_STEP_PATERN)
         .ListObjects(tableName).ShowTotals = True

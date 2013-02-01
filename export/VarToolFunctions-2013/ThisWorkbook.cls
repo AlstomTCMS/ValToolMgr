@@ -29,7 +29,7 @@ Sub exportBas()
     For Each VBComp In ActiveWorkbook.VBProject.VBComponents
         Select Case VBComp.Type
             Case vbext_ct_ClassModule, vbext_ct_Document
-                If Not VBComp.Name Like "Feuil*" Then
+                If Not VBComp.name Like "Feuil*" Then
                     Sfx = ".cls"
                 Else
                     Sfx = ""
@@ -43,7 +43,7 @@ Sub exportBas()
         End Select
         
         If Sfx <> "" Then
-            VBComp.Export Filename:=ActiveWorkbook.Path & exportFolder & VBComp.Name & Sfx
+            VBComp.Export Filename:=ActiveWorkbook.Path & exportFolder & VBComp.name & Sfx
         End If
     Next VBComp
 End Sub

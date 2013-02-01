@@ -18,7 +18,7 @@ Private col_projet As Variant
     Dim Acronym As String
     Dim AcronymOk As Boolean
     Dim sFileseq As String
-    Dim Compteur As Long
+    Dim compteur As Long
     Dim EnsembleLignes0 As New Collection
     Dim EnsembleLignes1 As New Collection
     Dim tableau_instance(1000, 1000) As String
@@ -49,6 +49,8 @@ Public Sub writeEnd()
     MsgBox "write end!"
 End Sub
 
+
+
 Private Sub Generation_TestStand()
 
 
@@ -60,11 +62,11 @@ Private Sub Generation_TestStand()
     Application.DisplayAlerts = False
 
     'teste de génération
-    If LCase(ActiveWorkbook.ActiveSheet.Name) = "param" Or LCase(ActiveWorkbook.ActiveSheet.Name) = "sousfonct" Or _
-        LCase(ActiveWorkbook.ActiveSheet.Name) = "history" Or LCase(ActiveWorkbook.ActiveSheet.Name) = "rapport" Or _
-        LCase(ActiveWorkbook.ActiveSheet.Name) = "outils" Or LCase(ActiveWorkbook.ActiveSheet.Name) = "context_error" Or _
-        LCase(ActiveWorkbook.ActiveSheet.Name) = "events_error" Or LCase(ActiveWorkbook.ActiveSheet.Name) = "variable_cont" Or _
-        LCase(ActiveWorkbook.ActiveSheet.Name) = "parameters" Or LCase(ActiveWorkbook.ActiveSheet.Name) = "tabconv" Then
+    If LCase(ActiveWorkbook.ActiveSheet.name) = "param" Or LCase(ActiveWorkbook.ActiveSheet.name) = "sousfonct" Or _
+        LCase(ActiveWorkbook.ActiveSheet.name) = "history" Or LCase(ActiveWorkbook.ActiveSheet.name) = "rapport" Or _
+        LCase(ActiveWorkbook.ActiveSheet.name) = "outils" Or LCase(ActiveWorkbook.ActiveSheet.name) = "context_error" Or _
+        LCase(ActiveWorkbook.ActiveSheet.name) = "events_error" Or LCase(ActiveWorkbook.ActiveSheet.name) = "variable_cont" Or _
+        LCase(ActiveWorkbook.ActiveSheet.name) = "parameters" Or LCase(ActiveWorkbook.ActiveSheet.name) = "tabconv" Then
         MsgBox ("This sheet can not be generated.")
         End
     End If
@@ -92,10 +94,10 @@ Private Sub Generation_TestStand()
     seq_nb_senar = 35000 'nombre de senarios dans le fichier teststand avant le découpage (découpage a la fin du senario)
 
     'Initialisation
-    Compteur = 0
+    compteur = 0
 
     'Par défaut, le nom de la fonction à traiter est celui de l'onglet actif
-    Acronym = ActiveWorkbook.ActiveSheet.Name
+    Acronym = ActiveWorkbook.ActiveSheet.name
     sFileseq = Acronym & ".seq"
 
     If LCase(Acronym) Like "**slave**" Then
@@ -148,9 +150,9 @@ Private Sub Generation_TestStand()
     If Cells(i, j) <> "" Then
     If LCase(Cells(i, j)) = "nominal cases" Or LCase(Cells(i, j)) = "degraded cases" Or LCase(Cells(i, j)) = "end" Or LCase(Cells(i, j)) = LCase(proj) Then
     If LCase(Cells(i, j)) = LCase(proj) Then
-    Call TraitementLabel("Specific senario for " & proj, EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel("Specific senario for " & proj, EnsembleLignes0, EnsembleLignes1, compteur)
     Else
-    Call TraitementLabel(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur)
     End If
     i = i + 1
     Else
@@ -164,20 +166,20 @@ Private Sub Generation_TestStand()
     Call recuperation_instance(tableau_instance, proj_inst)
     Erase instance
     tableau_courant tableau_instance, 1
-    l = TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, Compteur, i, teststand_conf, proj, proj_filglo, proj_conf)
+    l = TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, compteur, i, teststand_conf, proj, proj_filglo, proj_conf)
     calcul_k tableau_instance, k
     Cells(i, 1) = k
     For t = 2 To k
     tableau_courant tableau_instance, k
-    l = TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, Compteur, i, teststand_conf, proj, proj_filglo, proj_conf)
+    l = TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, compteur, i, teststand_conf, proj, proj_filglo, proj_conf)
     Next t
     i = l + 1
     Else
     i = i + 1
     End If
 
-    If Compteur > seq_nb_senar And (Cells(i, 2) <> "END" And Cells(i + 1, 2) <> "END" And Cells(i + 2, 2) <> "END") Then
-    Call write_teststand(fic, sFileseq, Compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, file_num, False)
+    If compteur > seq_nb_senar And (Cells(i, 2) <> "END" And Cells(i + 1, 2) <> "END" And Cells(i + 2, 2) <> "END") Then
+    Call write_teststand(fic, sFileseq, compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, file_num, False)
     End If
     Wend
 
@@ -191,7 +193,7 @@ Private Sub Generation_TestStand()
     'Barre d'attente
     Call BarreAttente("En cours", "Ecriture du SEQ de " & Acronym)
 
-    Call write_teststand(fic, sFileseq, Compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, file_num, True)
+    Call write_teststand(fic, sFileseq, compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, file_num, True)
 
     'Barre d'attente
     Unload F_BarreAttente
@@ -207,7 +209,7 @@ Private Sub Generation_TestStand()
 
 End Sub
 
-Function write_teststand(fic As Variant, sFileseq As String, Compteur As Long, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, ByRef file_num As Variant, fin As Boolean)
+Function write_teststand(fic As Variant, sFileseq As String, compteur As Long, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory, ByRef file_num As Variant, fin As Boolean)
 
     fic = FreeFile
 
@@ -219,7 +221,7 @@ Function write_teststand(fic As Variant, sFileseq As String, Compteur As Long, E
     Else
     nextseq = Left(sFileseq, Len(sFileseq) - 6) & file_num & ".seq"
     End If
-    Call TraitementSequenceCall("Call " & nextseq, EnsembleLignes0, EnsembleLignes1, Compteur, "MainSequence", nextseq, proj_filglo, proj_conf, NSection)
+    Call TraitementSequenceCall("Call " & nextseq, EnsembleLignes0, EnsembleLignes1, compteur, "MainSequence", nextseq, proj_filglo, proj_conf, NSection)
     End If
 
     'Si le fichier existe ,on le renomme en .old
@@ -229,13 +231,13 @@ Function write_teststand(fic As Variant, sFileseq As String, Compteur As Long, E
     End If
 
     Open directory & "\" & sFileseq For Output As #fic
-    Call CreationFicSeq(fic, sFileseq, Compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory)
+    Call CreationFicSeq(fic, sFileseq, compteur, EnsembleLignes0, EnsembleLignes1, proj_filglo, proj_conf, teststand_conf, directory)
     Close #fic
 
     sFileseq = nextseq
 
     'vider les donnée ecrites
-    Compteur = 0
+    compteur = 0
     Set EnsembleLignes0 = Nothing
     Set EnsembleLignes0 = New Collection
     Set EnsembleLignes1 = Nothing
@@ -250,7 +252,7 @@ Function write_teststand(fic As Variant, sFileseq As String, Compteur As Long, E
 
 End Function
 
-Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, ByVal i, teststand_conf, proj, proj_filglo, proj_conf) As Variant
+Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef compteur, ByVal i, teststand_conf, proj, proj_filglo, proj_conf) As Variant
 
     'lecture automatic restart
     'Auto_restart = LCase(lecture_param(teststand_conf, "Automatic restart"))
@@ -260,16 +262,16 @@ Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef 
 
     'Call TraitementLabel("****" & (Cells(i, j + 1) & " -- " & Cells(i, j + 2)), EnsembleLignes0, EnsembleLignes1, Compteur)
     ' redemarrage de controlbuild
-    If Compteur > 2 Then
-        If LCase(Cells(i, j)) = "restart" Then Call TraitementSequenceCall("Restart", EnsembleLignes0, EnsembleLignes1, Compteur, "Restart", "CurFile", proj_filglo, proj_conf, NSection): i = i + 1
+    If compteur > 2 Then
+        If LCase(Cells(i, j)) = "restart" Then Call TraitementSequenceCall("Restart", EnsembleLignes0, EnsembleLignes1, compteur, "Restart", "CurFile", proj_filglo, proj_conf, NSection): i = i + 1
     End If
 
     While UCase(Cells(i, j + 2)) <> "END"
-    If Cells(i, j + 1) Like "*_N_*" Or Cells(i, j + 1) Like "*_D_*" Then Call TraitementLabel("****" & (Cells(i, j + 1) & " -- " & Cells(i, j + 2)), EnsembleLignes0, EnsembleLignes1, Compteur)
+    If Cells(i, j + 1) Like "*_N_*" Or Cells(i, j + 1) Like "*_D_*" Then Call TraitementLabel("****" & (Cells(i, j + 1) & " -- " & Cells(i, j + 2)), EnsembleLignes0, EnsembleLignes1, compteur)
     'i = i - 2
     ' redemarrage de controlbuild
     If LCase(Cells(i, j)) = "restart" Then
-        Call TraitementSequenceCall("Restart", EnsembleLignes0, EnsembleLignes1, Compteur, "Restart", "CurFile", proj_filglo, proj_conf, NSection)
+        Call TraitementSequenceCall("Restart", EnsembleLignes0, EnsembleLignes1, compteur, "Restart", "CurFile", proj_filglo, proj_conf, NSection)
         i = i + 1
     End If
 
@@ -279,13 +281,13 @@ Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef 
     End If
 
     If Cells(i, j + 2) <> "" Then
-    Call TraitementLabel((Cells(i, j + 2) & " -- " & Cells(i, j + Numcol)), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel((Cells(i, j + 2) & " -- " & Cells(i, j + Numcol)), EnsembleLignes0, EnsembleLignes1, compteur)
     k = 1
     
     While Cells(i + k, j + 2) = ""
     If Cells(i + k, j + Numcol) <> "" Then
     DoEvents
-    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, Compteur, Cells(i + k, j + Numcol), i + k, j + Numcol, proj_filglo, proj_conf)
+    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, compteur, Cells(i + k, j + Numcol), i + k, j + Numcol, proj_filglo, proj_conf)
     End If
     If Cells(i + k, j) = "END" Then
     MsgBox ("Borne END du senario non trouvée")
@@ -295,13 +297,13 @@ Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef 
     Wend
 
     If Cells(i, j + Numcol + 5) <> "" Then
-    Call TraitementLabel((Cells(i, j + 2) & " -- " & Cells(i, j + Numcol + 5)), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel((Cells(i, j + 2) & " -- " & Cells(i, j + Numcol + 5)), EnsembleLignes0, EnsembleLignes1, compteur)
     End If
     k = 1
     While Cells(i + k, j + 2) = ""
     If Cells(i + k, j + Numcol + 5) <> "" Then
     DoEvents
-    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, Compteur, Cells(i + k, j + Numcol + 5), i + k, j + Numcol + 5, proj_filglo, proj_conf)
+    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, compteur, Cells(i + k, j + Numcol + 5), i + k, j + Numcol + 5, proj_filglo, proj_conf)
     End If
     If Cells(i + k, j) = "END" Then
     MsgBox ("Borne END du senario non trouvée")
@@ -325,7 +327,7 @@ Function TraitementExcel_master(Numcol, EnsembleLignes0, EnsembleLignes1, ByRef 
 
 End Function
 
-Private Sub TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, sous_fonct, ByRef Compteur)
+Private Sub TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, sous_fonct, ByRef compteur)
 
     Dim i, j As Integer
 
@@ -335,28 +337,28 @@ Private Sub TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, so
     While Cells(i, j) <> "END"
     While Cells(i, j + 1) = sous_fonct
     If Cells(i, j + 1) <> "" Then
-    Call TraitementLabel("______" & (Cells(i, j + 1) & " -- " & Cells(i, j + 2)), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel("______" & (Cells(i, j + 1) & " -- " & Cells(i, j + 2)), EnsembleLignes0, EnsembleLignes1, compteur)
     i = i + 1
     While UCase(Cells(i, j + 2)) <> "END"
     If Cells(i, j + 2) <> "" Then
-    Call TraitementLabel("______" & Cells(i, j + 2) & " -- " & (Cells(i, j + Numcol)), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel("______" & Cells(i, j + 2) & " -- " & (Cells(i, j + Numcol)), EnsembleLignes0, EnsembleLignes1, compteur)
     k = 1
     While Cells(i + k, j + 2) = ""
     If Cells(i + k, j + Numcol) <> "" Then
     DoEvents
-    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, Compteur, Cells(i + k, j + Numcol), i + k, j + Numcol, proj_filglo, proj_conf)
+    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, compteur, Cells(i + k, j + Numcol), i + k, j + Numcol, proj_filglo, proj_conf)
     End If
     k = k + 1
     Wend
 
     If Cells(i, j + Numcol + 5) <> "" Then
-    Call TraitementLabel("______" & Cells(i, j + 2) & " -- " & Cells(i, j + Numcol + 5), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel("______" & Cells(i, j + 2) & " -- " & Cells(i, j + Numcol + 5), EnsembleLignes0, EnsembleLignes1, compteur)
     End If
     k = 1
     While Cells(i + k, j + 2) = ""
     If Cells(i + k, j + Numcol + 5) <> "" Then
     DoEvents
-    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, Compteur, Cells(i + k, j + Numcol + 5), i + k, j + Numcol + 5, proj_filglo, proj_conf)
+    Call TraitementAction(EnsembleLignes0, EnsembleLignes1, compteur, Cells(i + k, j + Numcol + 5), i + k, j + Numcol + 5, proj_filglo, proj_conf)
     End If
     k = k + 1
     Wend
@@ -375,7 +377,7 @@ Private Sub TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, so
 
 End Sub
 
-Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef Compteur, MotAction As String, ByVal i As Integer, ByVal j As Integer, proj_filglo, proj_conf)
+Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef compteur, MotAction As String, ByVal i As Integer, ByVal j As Integer, proj_filglo, proj_conf)
     Dim strLib As String
     Dim variable As String
     Dim NSection As String
@@ -386,17 +388,17 @@ Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef Compteur, M
     variable = Cells(i, j + 1)
     Do While variable Like "*<*>*"
     temp = Mid(variable, InStr(1, variable, "<"), InStr(1, variable, ">") + 1 - InStr(1, variable, "<"))
-    X = 0
-    Do While instance(X, 0) <> "" Or instance(X + 1, 0) <> ""
-    If temp = instance(X, 0) Then
-    If Not temp Like "*_*" Then instance(X, 2) = 1
-    If temp Like "*_*" Then instance(X, 2) = 1
-    variable = Replace(variable, instance(X, 0), instance(X, 1))
+    x = 0
+    Do While instance(x, 0) <> "" Or instance(x + 1, 0) <> ""
+    If temp = instance(x, 0) Then
+    If Not temp Like "*_*" Then instance(x, 2) = 1
+    If temp Like "*_*" Then instance(x, 2) = 1
+    variable = Replace(variable, instance(x, 0), instance(x, 1))
     Exit Do
     End If
-    X = X + 1
+    x = x + 1
     Loop
-    If variable Like "*<*>*" And instance(X, 0) = "" Then
+    If variable Like "*<*>*" And instance(x, 0) = "" Then
     MsgBox ("Instance non trouvée pour la variable " & variable & "   ligne " & i)
     End
     End If
@@ -621,114 +623,114 @@ Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef Compteur, M
 
     Select Case UCase(MotAction)
     Case UCase("LoadParamFile")
-    Call TraitementCB_LoadParamFile(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location)
+    Call TraitementCB_LoadParamFile(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location)
     Case UCase("MsgPopUp")
-    Call TraitementCB_MsgPopUp(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, valeur)
+    Call TraitementCB_MsgPopUp(strLib, EnsembleLignes0, EnsembleLignes1, compteur, valeur)
     Case UCase("Force")
-    Call TraitementCB_Force(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, NSection)
+    Call TraitementCB_Force(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, NSection)
     Case UCase("ForceArrayElt")
-    Call TraitementCB_ForceArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, CInt(Cells(i, j + 4)), valeur)
+    Call TraitementCB_ForceArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, CInt(Cells(i, j + 4)), valeur)
     Case UCase("UnForce")
-    Call TraitementCB_UnForce(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, NSection)
+    Call TraitementCB_UnForce(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, NSection)
     Case UCase("Write")
-    Call TraitementCB_Write(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, NSection)
+    Call TraitementCB_Write(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, NSection)
     Case UCase("WriteArrayElt")
-    Call TraitementCB_WriteArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, Cells(i, j + 4))
+    Call TraitementCB_WriteArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, Cells(i, j + 4))
     Case UCase("Read")
-    Call TraitementCB_Read(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, NSection)
+    Call TraitementCB_Read(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, NSection)
     Case UCase("Test")
-    Call TraitementCB_Test(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_Test(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("TestDT")
-    Call TraitementCB_TestDT(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, Cells(i, j + 4), valeur, NSection)
+    Call TraitementCB_TestDT(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, Cells(i, j + 4), valeur, NSection)
     Case UCase("TestBool")
-    Call TraitementCB_TestBool(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, Cells(i, j + 3), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)), NSection)
+    Call TraitementCB_TestBool(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, Cells(i, j + 3), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)), NSection)
     Case UCase("TestAna")
-    Call TraitementCB_TestAna(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, valeur, Cells(i, j + 4), Cells(i, j + 6), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_TestAna(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, valeur, Cells(i, j + 4), Cells(i, j + 6), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("TestArrayElt")
-    Call TraitementCB_TestArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Location, Cells(i, j + 4), valeur, , , IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_TestArrayElt(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, Location, Cells(i, j + 4), valeur, , , IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("ForceNN")
-    Call TraitementCB_ForceNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection)
+    Call TraitementCB_ForceNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection)
     Case UCase("UnForceNN")
-    Call TraitementCB_UnForceNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, NSection)
+    Call TraitementCB_UnForceNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, NSection)
     Case UCase("WriteNN")
-    Call TraitementCB_SetNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection)
+    Call TraitementCB_SetNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection)
     Case UCase("ReadNN")
-    Call TraitementCB_ReadNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection)
+    Call TraitementCB_ReadNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection)
     Case UCase("TestNN")
-    Call TraitementCB_TestNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_TestNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("TestBoolNN")
-    Call TraitementCB_TestBoolNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_TestBoolNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection, IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("TestAnaNN")
-    Call TraitementCB_TestAnaNN(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, NSection, Cells(i, j + 4), Cells(i, j + 6), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
+    Call TraitementCB_TestAnaNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection, Cells(i, j + 4), Cells(i, j + 6), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("Call")
-    Call TraitementSequenceCall(Cells(i, j) & ";" & variable, EnsembleLignes0, EnsembleLignes1, Compteur, variable, Path, proj_filglo, proj_conf, NSection)
+    Call TraitementSequenceCall(Cells(i, j) & ";" & variable, EnsembleLignes0, EnsembleLignes1, compteur, variable, Path, proj_filglo, proj_conf, NSection)
     Case UCase("Wait")
-    Call TraitementNI_Wait(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, valeur)
+    Call TraitementNI_Wait(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, valeur)
     Case UCase("CB_StopTask")
-    Call TraitementCB_StopTask(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementCB_StopTask(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur)
     Case UCase("CB_StartTask")
-    Call TraitementCB_StartTask(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementCB_StartTask(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur)
     Case UCase("TestDDU")
-    Call TraitementTestDDU(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur)
+    Call TraitementTestDDU(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur)
     Case UCase("WriteDDU")
-    Call TraitementWriteDDU(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur)
+    Call TraitementWriteDDU(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur)
     Case UCase("Attrib")
     If j < 9 Then
-    Call Traitementinstance(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur)
+    Call Traitementinstance(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur)
     Else
-    Call Traitementcheck(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur)
+    Call Traitementcheck(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur)
     End If
     Case UCase("Run")
-    Call Traitement_sousseq(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur, i)
+    Call Traitement_sousseq(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, i)
     Case UCase("Statement")
-    Call Traitement_Statement(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur, variable, valeur)
+    Call Traitement_Statement(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur)
     Case UCase("CompareScreenshot")
-    Call Traitement_CompareScreenshot(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_CompareScreenshot(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("MakeScreenshot")
-    Call Traitement_Initialisation(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_Initialisation(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("KeyboardControl")
-    Call Traitement_KeyboardControl(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_KeyboardControl(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("MouseControl")
-    Call Traitement_MouseControl(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
-    Call TraitementNI_Wait("wait", EnsembleLignes0, EnsembleLignes1, Compteur, "1") ''1s attente pour traitement
+    Call Traitement_MouseControl(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
+    Call TraitementNI_Wait("wait", EnsembleLignes0, EnsembleLignes1, compteur, "1") ''1s attente pour traitement
     Case UCase("OpticalCharacterRecognition")
-    Call Traitement_OpticalCharacterRecognition(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_OpticalCharacterRecognition(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("RemoteControlStart")
-    Call Traitement_RemoteControlStart(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_RemoteControlStart(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("RemoteControlStop")
-    Call Traitement_RemoteControlStop(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_RemoteControlStop(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case UCase("SendText")
-    Call Traitement_SendText(strLib, EnsembleLignes0, EnsembleLignes1, Compteur, variable, localise, valeur)
+    Call Traitement_SendText(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, localise, valeur)
     Case Else
-    Call TraitementLabel(Cells(i, j), EnsembleLignes0, EnsembleLignes1, Compteur)
+    Call TraitementLabel(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur)
     End Select
 
 End Sub
 
-Private Sub Traitement_sousseq(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, writeValue As Variant, ligne As Variant)
-    Dim X
+Private Sub Traitement_sousseq(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, writeValue As Variant, ligne As Variant)
+    Dim x
     Dim feuille As String
-    X = 2
-    Do While Sheets("param").Cells(X, 1) <> ""
-    If Sheets("param").Cells(X, 2) = strNickName Then
-    sousseq = Sheets("param").Cells(X, 1)
+    x = 2
+    Do While Sheets("param").Cells(x, 1) <> ""
+    If Sheets("param").Cells(x, 2) = strNickName Then
+    sousseq = Sheets("param").Cells(x, 1)
     Exit Do
     End If
-    X = X + 1
+    x = x + 1
     Loop
     If sousseq = "" Then
     MsgBox ("La sous fonction """ & strNickName & """  (ligne " & ligne & ") n'existe pas" & Chr(13) & "Génération annulée")
     End
     End If
-    feuille = ActiveSheet.Name
+    feuille = ActiveSheet.name
     Sheets("SousFonct").Select
-    Call TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, sousseq, Compteur)
+    Call TraitementExcel_sousseq(Numcol, EnsembleLignes0, EnsembleLignes1, sousseq, compteur)
     Sheets(feuille).Select
 
 
 End Sub
 
-Private Sub Traitementcheck(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, writeValue As Variant)
+Private Sub Traitementcheck(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, writeValue As Variant)
     Dim j
     Do While check(j, 0) <> ""
     If check(j, 0) = strNickName Then check(j, 1) = writeValue
@@ -740,7 +742,7 @@ Private Sub Traitementcheck(sLigne As String, EnsembleLignes0, EnsembleLignes1, 
 
 End Sub
 
-Private Sub Traitementinstance(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, writeValue As Variant)
+Private Sub Traitementinstance(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, writeValue As Variant)
     Dim j
     Do While instance(j, 0) <> ""
     If instance(j, 0) = strNickName Then instance(j, 1) = writeValue
@@ -751,7 +753,7 @@ Private Sub Traitementinstance(sLigne As String, EnsembleLignes0, EnsembleLignes
     If instance(j, 1) = "" Then instance(j, 1) = writeValue
 
 End Sub
-Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, FilePath As String, strInstanceName As String)
+Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, FilePath As String, strInstanceName As String)
 
     Dim TmpLine As String
     Dim TmpArray
@@ -873,11 +875,11 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
     If Not IsToSkip Then
     If IsAnArray Then 'array element variable
     ligne = "ForceArrayElt" & ";" & VarName & "[" & ArrayIndex & "];" & VarVal
-    TraitementCB_ForceArrayElt ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, ArrayIndex, VarVal
+    TraitementCB_ForceArrayElt ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, ArrayIndex, VarVal
 
     ElseIf IsATime Then 'time variable
     ligne = "Write" & ";" & VarName & ";" & VarVal
-    Call TraitementCB_Write(ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, VarVal, Section)
+    Call TraitementCB_Write(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, VarVal, Section)
 
     Else 'normal variable
     Select Case VarType
@@ -888,16 +890,16 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
     VarVal = "false"
     End If
     ligne = "Force" & ";" & VarName & ";" & VarVal
-    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, VarVal, Section)
+    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, VarVal, Section)
     Case "I":
     ligne = "Force" & ";" & VarName & ";" & CLng(VarVal)
-    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, CLng(VarVal), Section)
+    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, CLng(VarVal), Section)
     Case "C":
     ligne = "Force" & ";" & VarName & ";" & Chr(VarVal)
-    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, """" & Chr(VarVal) & """", Section)
+    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, """" & Chr(VarVal) & """", Section)
     Case "F":
     ligne = "Force" & ";" & VarName & ";" & Replace(VarVal, ",", ".")
-    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, Compteur, VarName, VarPath, Replace(VarVal, ",", "."), Section)
+    Call TraitementCB_Force(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, Replace(VarVal, ",", "."), Section)
     End Select
     End If
     End If
@@ -909,78 +911,78 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
 
 End Sub
 
-Private Sub Traitement_CompareScreenshot(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Compare"""
+Private Sub Traitement_CompareScreenshot(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Compare"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "Id = ""ID#:O20QV1XzbE+dR5V0CpOOeD"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "intScreenshotX =" & Split(localise, ";")(0)
     EnsembleLignes1.Add "intScreenshotY = " & Split(localise, ";")(1)
     EnsembleLignes1.Add "intScreenshotW = " & Split(localise, ";")(2)
     EnsembleLignes1.Add "intScreenshotH = " & Split(localise, ";")(3)
     EnsembleLignes1.Add "stepname = " & strNickName
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Compare Screenshot"""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub Traitement_Initialisation(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_Initialisation(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
 End Sub
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"                               '''fonction déplacée dans le setup
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Init"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"                               '''fonction déplacée dans le setup
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Init"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "ID = ""ID#:Un729hMWiE6kx4Jk4M7VyC"" "
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "sImagesPath = " & strNickName
     EnsembleLignes1.Add "bReferenceBuild = " & writeValue
     EnsembleLignes1.Add "sShadowFileConf = " & localise
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""DDU Initialisation"""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
 
-Private Sub Traitement_KeyboardControl(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_KeyboardControl(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"            '''''''''''''''''''''''''''''''''pas utilisé
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Keyboard"""        '
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"            '''''''''''''''''''''''''''''''''pas utilisé
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Keyboard"""        '
     '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"                    '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"                    '
     EnsembleLignes1.Add "Id = ""ID#:Mb7So24OmkWZfG7pbA2XFB"""                      '
     EnsembleLignes1.Add ""                                                         '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"                       '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"                       '
     EnsembleLignes1.Add "key =" & writeValue                                       '
     EnsembleLignes1.Add ""                                                         '
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"                  '
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"                  '
     EnsembleLignes1.Add "%NAME = ""Keyboard Control"""                             '
     '
-    Compteur = Compteur + 1                                                        '
+    compteur = compteur + 1                                                        '
     ''''''''''''''''''''
 End Sub
 
-Private Sub Traitement_MouseControl(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_MouseControl(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Mouse"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Mouse"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "Id = ""ID#:tla0zLYnlkyjOt1x7o1R7A"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, DotNetStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "AssemblyPath = ""C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"""
     EnsembleLignes1.Add "ClassVariable = ""FileGlobals.TH"""
     EnsembleLignes1.Add "ClassName = ""TestHMI.TestHMI"""
@@ -989,7 +991,7 @@ Private Sub Traitement_MouseControl(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "MemberName = ""MouseControl"""
     EnsembleLignes1.Add "%HI: Params = [8]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params]"
     EnsembleLignes1.Add "%[0] = ""TYPE, DotNetParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, DotNetParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, DotNetParameter"""
@@ -1000,199 +1002,199 @@ Private Sub Traitement_MouseControl(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "%[7] = ""TYPE, DotNetParameter"""
     EnsembleLignes1.Add "%[8] = ""TYPE, DotNetParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[0]]"
     EnsembleLignes1.Add "Name = ""bPassFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "Type = 2"
     EnsembleLignes1.Add "Direction = 10"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[1]]"
     EnsembleLignes1.Add "Name = ""sReportText"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "Type = 1"
     EnsembleLignes1.Add "Direction = 10"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[2]]"
     EnsembleLignes1.Add "Name = ""num_DDU"""
     EnsembleLignes1.Add "ArgVal = ""Step.num_DDU"""
     EnsembleLignes1.Add "Type = 6"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[3]]"
     EnsembleLignes1.Add "Name = ""ev"""
     EnsembleLignes1.Add "ArgVal = "" \ ""MouseClick\"""""         '''possibilité
     EnsembleLignes1.Add "Type = 16"
     EnsembleLignes1.Add "DisplayType = ""Enum (TestHMI.EnumMouseEvent)"""
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[4]]"
     EnsembleLignes1.Add "Name = ""but"""
     EnsembleLignes1.Add "ArgVal = "" \ ""MouseLeft\"""""          '''possibilité
     EnsembleLignes1.Add "Type = 16"
     EnsembleLignes1.Add "DisplayType = ""Enum (TestHMI.EnumMouseButton)"""
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[5]]"
     EnsembleLignes1.Add "Name = ""iMouseX"""
     EnsembleLignes1.Add "ArgVal = ""Step.iMouseX"""
     EnsembleLignes1.Add "Type = 6"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[6]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[6]]"
     EnsembleLignes1.Add "Name = ""iMouseY"""
     EnsembleLignes1.Add "ArgVal = ""Step.iMouseY"""
     EnsembleLignes1.Add "Type = 6"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[7]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[7]]"
     EnsembleLignes1.Add "Name = ""iMouseCount"""
     EnsembleLignes1.Add "ArgVal = ""Step.iMouseCount"""
     EnsembleLignes1.Add "Type = 6"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Params[8]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Params[8]]"
     EnsembleLignes1.Add "Name = ""iMouseWait"""
     EnsembleLignes1.Add "ArgVal = ""Step.iMouseWait"""
     EnsembleLignes1.Add "Type = 6"
     EnsembleLignes1.Add "Dimension = -1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "iMouseX = " & Split(localise, ";")(0)
     EnsembleLignes1.Add "iMouseY = " & Split(localise, ";")(1)
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Mouse Control"""
 
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
 
-Private Sub Traitement_OpticalCharacterRecognition(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_OpticalCharacterRecognition(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"                    ''''''''''''''''''''''''''pas utilisé
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_OCR"""                     '
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"                    ''''''''''''''''''''''''''pas utilisé
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_OCR"""                     '
     '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"                            '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"                            '
     EnsembleLignes1.Add "Id = ""ID#:Jlo1ZqpU+kaeS199ohP32D"""                              '
     EnsembleLignes1.Add ""                                                                 '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"                               '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"                               '
     EnsembleLignes1.Add "iOcrX = " & Split(localise, ";")(0)                               '
     EnsembleLignes1.Add "iOcrY = " & Split(localise, ";")(1)                               '
     EnsembleLignes1.Add "iOcrW = " & Split(localise, ";")(2)                               '
     EnsembleLignes1.Add "iOcrH = " & Split(localise, ";")(3)                               '
     EnsembleLignes1.Add "sTextToCompare = " & writeValue                                   '
     EnsembleLignes1.Add ""                                                                 '
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"                          '
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"                          '
     EnsembleLignes1.Add "%NAME = ""Optical Character Recognition"""                        '
     '
     '
-    Compteur = Compteur + 1                                             ''''''''''''''''''''
+    compteur = compteur + 1                                             ''''''''''''''''''''
 
 End Sub
 
-Private Sub Traitement_RemoteControlStart(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_RemoteControlStart(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"                                  '''fonction déplacée dans le setup
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Start"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"                                  '''fonction déplacée dans le setup
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Start"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "Id = ""ID#:ADj0HVcsMUi0X0i6ntHHND"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "sRemoteEqtAddress = " & strNickName
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Remote Control Start"""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
 
-Private Sub Traitement_RemoteControlStop(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_RemoteControlStop(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"                                  '''fonction déplacée dans le cleanup
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Stop"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"                                  '''fonction déplacée dans le cleanup
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Stop"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "Id = ""ID#:PJPMaXLACkmkneVke5M50B"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Remote Control Stop"""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
 
-Private Sub Traitement_SendText(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
+Private Sub Traitement_SendText(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, localise As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"                          ''''''''''''''''''''pas utilisée
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """TH_Text"""                     '
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"                          ''''''''''''''''''''pas utilisée
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """TH_Text"""                     '
     '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"                             '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"                             '
     EnsembleLignes1.Add "Id = ""ID#:6R05Sk2J0E6Md7BvcVHXyA"""                               '
     EnsembleLignes1.Add ""                                                                  '
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"                                '
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"                                '
     EnsembleLignes1.Add "text = " & writeValue                                              '
     EnsembleLignes1.Add ""                                                                  '
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"                           '
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"                           '
     EnsembleLignes1.Add "%NAME = ""Send Text"""                                             '
     '
-    Compteur = Compteur + 1                                                   '''''''''''''''
+    compteur = compteur + 1                                                   '''''''''''''''
 
 End Sub
-Private Sub TraitementLabel(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur)
+Private Sub TraitementLabel(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur)
 
     If sLigne <> "" Then
     ' traitement du nom avec instance
     Do While sLigne Like "*<*>*"
     temp = Mid(sLigne, InStr(1, sLigne, "<"), InStr(1, sLigne, ">") + 1 - InStr(1, sLigne, "<"))
-    X = 0
-    Do While instance(X, 0) <> "" Or instance(X + 1, 0) <> ""
-    If temp = instance(X, 0) Then
-    If Not temp Like "*_*" Then instance(X, 2) = 1
-    If temp Like "*_*" Then instance(X, 2) = 2
-    sLigne = Replace(sLigne, instance(X, 0), instance(X, 1))
+    x = 0
+    Do While instance(x, 0) <> "" Or instance(x + 1, 0) <> ""
+    If temp = instance(x, 0) Then
+    If Not temp Like "*_*" Then instance(x, 2) = 1
+    If temp Like "*_*" Then instance(x, 2) = 2
+    sLigne = Replace(sLigne, instance(x, 0), instance(x, 1))
     Exit Do
     End If
-    X = X + 1
+    x = x + 1
     Loop
-    If sLigne Like "*<*>*" And instance(X, 0) = "" Then
+    If sLigne Like "*<*>*" And instance(x, 0) = "" Then
     MsgBox ("Instance non trouvée pour la variable " & sLigne & "   ligne " & i)
     End
     End If
     Loop
 
     'Pour les Labels
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """Label"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """Label"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
     End If
 End Sub
 
-Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Section As String)
+Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Section As String)
 
     'Pour Forcer les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Force"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Force"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -1212,14 +1214,14 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     'EnsembleLignes1.Add "VTableOffset = 204"
     EnsembleLignes1.Add "%HI: Parameters = [4]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1229,7 +1231,7 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1239,7 +1241,7 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""vForcedValue"""
     EnsembleLignes1.Add "ArgVal =""" & vForcedValue & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & vForcedValue & "\"""""
@@ -1250,7 +1252,7 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     '    If Quick_acces = True Then EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1261,7 +1263,7 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1274,25 +1276,25 @@ Private Sub TraitementCB_Force(sLigne As String, EnsembleLignes0, EnsembleLignes
     'EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
     'EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     'EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, Index As Integer, vForcedValue As Variant)
+Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, index As Integer, vForcedValue As Variant)
 
     'Pour Forcer les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_ForceArrayElement"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_ForceArrayElement"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb"""
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -1310,7 +1312,7 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "VTableOffset = 340"
     EnsembleLignes1.Add "%HI: Parameters = [5]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -1318,7 +1320,7 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[5] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1327,7 +1329,7 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1336,16 +1338,16 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""nIndex"""
-    EnsembleLignes1.Add "ArgVal =""" & Index & """"
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & Index & "\"""""
+    EnsembleLignes1.Add "ArgVal =""" & index & """"
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & index & "\"""""
     EnsembleLignes1.Add "Type = 2"
     EnsembleLignes1.Add "DisplayType = ""Number (Signed 16-bit Integer)"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""vForcedValue"""
     EnsembleLignes1.Add "ArgVal = ""\""" & vForcedValue & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & vForcedValue & "\"""""
@@ -1354,7 +1356,7 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1364,7 +1366,7 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1374,27 +1376,27 @@ Private Sub TraitementCB_ForceArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, Section As String)
+Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, Section As String)
 
     'Pour de-Forcer les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_UnForce"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_UnForce"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -1414,13 +1416,13 @@ Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "VTableOffset = 140"
     EnsembleLignes1.Add "%HI: Parameters = [3]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1429,7 +1431,7 @@ Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1438,7 +1440,7 @@ Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1448,7 +1450,7 @@ Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1458,27 +1460,27 @@ Private Sub TraitementCB_UnForce(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Section As String)
+Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Section As String)
 
     'Pour écrire les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Write"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Write"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -1498,14 +1500,14 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "VTableOffset = 88"
     EnsembleLignes1.Add "%HI: Parameters = [4]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1514,7 +1516,7 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1523,7 +1525,7 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""nValue"""
     EnsembleLignes1.Add "ArgVal =""" & nValue & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & nValue & "\"""""
@@ -1532,7 +1534,7 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1542,7 +1544,7 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1552,29 +1554,29 @@ Private Sub TraitementCB_Write(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, nValue As Variant, nIndex As Integer)
+Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, nIndex As Integer)
 
     'Pour écrire les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_WriteArrayElement"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_WriteArrayElement"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb"""
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -1593,7 +1595,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "VTableOffset = 336"
     EnsembleLignes1.Add "%HI: Parameters = [5]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -1601,7 +1603,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[5] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1610,7 +1612,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1619,7 +1621,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""nIndex"""
     EnsembleLignes1.Add "ArgVal =""" & nIndex & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & nIndex & "\"""""
@@ -1627,7 +1629,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "DisplayType = ""Number (Signed 16-bit Integer)"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""nValue"""
     EnsembleLignes1.Add "ArgVal =""" & nValue & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & nValue & "\"""""
@@ -1636,7 +1638,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1646,7 +1648,7 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1656,28 +1658,28 @@ Private Sub TraitementCB_WriteArrayElt(sLigne As String, EnsembleLignes0, Ensemb
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, Section As String)
+Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, Section As String)
 
     'Pour lire les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Read"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Read"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -1697,14 +1699,14 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "VTableOffset = 156"
     EnsembleLignes1.Add "%HI: Parameters = [4]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1713,7 +1715,7 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1722,7 +1724,7 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""vReadValue"""
     EnsembleLignes1.Add "ArgVal =""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal =""Step.Result.ReportText"""
@@ -1733,7 +1735,7 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "IsByRef = True"
 
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1743,7 +1745,7 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1753,28 +1755,28 @@ Private Sub TraitementCB_Read(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, AwaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Test"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Test"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -1794,7 +1796,7 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "VTableOffset = 164"
     EnsembleLignes1.Add "%HI: Parameters = [5]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -1802,7 +1804,7 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[5] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1811,7 +1813,7 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1820,16 +1822,16 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal =""" & AwaitedValue & """"
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal =""" & awaitedValue & """"
     EnsembleLignes1.Add "Type = 12"
     EnsembleLignes1.Add "DisplayType = ""Variant"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -1839,7 +1841,7 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -1849,7 +1851,7 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -1860,35 +1862,35 @@ Private Sub TraitementCB_Test(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_TestDT(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, AwaitedValue As Variant, Section As String)
+Private Sub TraitementCB_TestDT(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, awaitedValue As Variant, Section As String)
 
-    Call TraitementCB_Read(sLigne, EnsembleLignes0, EnsembleLignes1, Compteur, strVariableName, strInstanceName, vReadValue, Section)
+    Call TraitementCB_Read(sLigne, EnsembleLignes0, EnsembleLignes1, compteur, strVariableName, strInstanceName, vReadValue, Section)
     ' FIN DU READ
 
     'DT formatting
 
     'Add start/end quotes if necessary
-    If Left(AwaitedValue, 1) = """" Then
-    AwaitedValue = Right(AwaitedValue, Len(AwaitedValue) - 1)
+    If Left(awaitedValue, 1) = """" Then
+    awaitedValue = Right(awaitedValue, Len(awaitedValue) - 1)
     End If
-    If Right(AwaitedValue, 1) = """" Then
-    AwaitedValue = Left(AwaitedValue, Len(AwaitedValue) - 1)
+    If Right(awaitedValue, 1) = """" Then
+    awaitedValue = Left(awaitedValue, Len(awaitedValue) - 1)
     End If
 
     DTError = False
 
     'Check if prefix is "DT#"
-    tmp = Split(AwaitedValue, "#")
+    tmp = Split(awaitedValue, "#")
     If tmp(0) <> "DT" Then
     DTError = True
     Else
@@ -1913,7 +1915,7 @@ Private Sub TraitementCB_TestDT(sLigne As String, EnsembleLignes0, EnsembleLigne
     tSec = CInt(TimeTab(2))
     End If
 
-    AwaitedValue = "DT#" & tYear & "-" & tMonth & "-" & tDay & "-" & tHour & ":" & tMin & ":" & tSec
+    awaitedValue = "DT#" & tYear & "-" & tMonth & "-" & tDay & "-" & tHour & ":" & tMin & ":" & tSec
 
     End If
 
@@ -1921,33 +1923,33 @@ Private Sub TraitementCB_TestDT(sLigne As String, EnsembleLignes0, EnsembleLigne
     MsgBox "TestDT value is not a DateTime value", vbCritical
     End If
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = ""Statement"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = ""Statement"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "StatusExpr =""" & vReadValue & " == \""" & AwaitedValue & "\""? \""Passed\"": \""Failed\"""""
+    EnsembleLignes1.Add "StatusExpr =""" & vReadValue & " == \""" & awaitedValue & "\""? \""Passed\"": \""Failed\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Statement"""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, AwaitedValue As Boolean, Section As String, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Boolean, Section As String, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables booléenne sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestBool"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestBool"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -1965,7 +1967,7 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "VTableOffset = 96"
     EnsembleLignes1.Add "%HI: Parameters = [5]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -1973,7 +1975,7 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[5] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -1982,7 +1984,7 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -1991,16 +1993,16 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & AwaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & awaitedValue & "\"""""
     EnsembleLignes1.Add "Type = 11"
     EnsembleLignes1.Add "DisplayType = ""Boolean"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2010,7 +2012,7 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2020,7 +2022,7 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2031,31 +2033,31 @@ Private Sub TraitementCB_TestBool(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 
 
 End Sub
-Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, AwaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables analogique sans mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestAna"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestAna"""
 
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb"""
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2073,7 +2075,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "VTableOffset = 100"
     EnsembleLignes1.Add "%HI: Parameters = [7]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -2083,7 +2085,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "%[6] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[7] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -2092,7 +2094,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -2101,16 +2103,16 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & AwaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & awaitedValue & "\"""""
     EnsembleLignes1.Add "Type = 12"
     EnsembleLignes1.Add "DisplayType = ""Variant"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""maxValue"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(IsMissing(maxValue), 0, maxValue) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(IsMissing(maxValue), 0, maxValue) & "\"""""
@@ -2119,7 +2121,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""nTolerance"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(IsMissing(nTolerance), 0, nTolerance) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(IsMissing(nTolerance), 0, nTolerance) & "\"""""
@@ -2128,7 +2130,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2138,7 +2140,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[6]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[6]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2148,7 +2150,7 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[7]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[7]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2159,27 +2161,27 @@ Private Sub TraitementCB_TestAna(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, vForcedValue As Variant, Section As String)
+Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, vForcedValue As Variant, Section As String)
     'Pour Forcer les variables reseaux (avec Mnémonique)
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_ForceNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_ForceNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -2199,13 +2201,13 @@ Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "VTableOffset = 208"
     EnsembleLignes1.Add "%HI: Parameters = [3]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
 
     EnsembleLignes1.Add "Name = ""strNickName"""
 
@@ -2216,7 +2218,7 @@ Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
 
     EnsembleLignes1.Add "Name = ""vForcedValue"""
 
@@ -2229,7 +2231,7 @@ Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 1"
 
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2239,7 +2241,7 @@ Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2249,24 +2251,24 @@ Private Sub TraitementCB_ForceNN(sLigne As String, EnsembleLignes0, EnsembleLign
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, Section As String)
+Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, Section As String)
 
     'Pour de-forcer les variables avec mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_UnForceNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_UnForceNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2286,12 +2288,12 @@ Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "VTableOffset = 144"
     EnsembleLignes1.Add "%HI: Parameters = [2]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
 
     EnsembleLignes1.Add "Name = ""strNickName"""
 
@@ -2302,7 +2304,7 @@ Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2312,7 +2314,7 @@ Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2322,25 +2324,25 @@ Private Sub TraitementCB_UnForceNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName, nValue, Section As String)
+Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName, nValue, Section As String)
     'Pour Ecrire les variables reseaux (avec Mnémonique)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_SetNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_SetNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -2360,13 +2362,13 @@ Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "VTableOffset = 224"
     EnsembleLignes1.Add "%HI: Parameters = [3]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
 
     EnsembleLignes1.Add "Name = ""strNickName"""
 
@@ -2377,7 +2379,7 @@ Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""nValue"""
     EnsembleLignes1.Add "ArgVal =""" & nValue & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & nValue & """"
@@ -2388,7 +2390,7 @@ Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 1"
 
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2398,7 +2400,7 @@ Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2408,24 +2410,24 @@ Private Sub TraitementCB_SetNN(sLigne As String, EnsembleLignes0, EnsembleLignes
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, vReadValue, Section As String)
+Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, vReadValue, Section As String)
 
     'Pour lire les variables avec mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_ReadNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_ReadNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2445,13 +2447,13 @@ Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "VTableOffset = 148"
     EnsembleLignes1.Add "%HI: Parameters = [3]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
 
     EnsembleLignes1.Add "Name = ""strNickName"""
 
@@ -2462,7 +2464,7 @@ Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""vReadValue"""
     EnsembleLignes1.Add "ArgVal =""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal =""Step.Result.ReportText"""
@@ -2472,7 +2474,7 @@ Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef  = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2482,7 +2484,7 @@ Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2492,25 +2494,25 @@ Private Sub TraitementCB_ReadNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, AwaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, awaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables avec mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2530,14 +2532,14 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "VTableOffset = 164"
     EnsembleLignes1.Add "%HI: Parameters = [4]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
 
     EnsembleLignes1.Add "Name = ""strNickName"""
 
@@ -2548,18 +2550,18 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
 
-    If UCase(AwaitedValue) = "FALSE" Or UCase(AwaitedValue) = "TRUE" Or IsNumeric(Replace(AwaitedValue, ".", ",")) Then
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal =""" & AwaitedValue & """"
-    ElseIf InStr(1, AwaitedValue, ".") <> 0 Then
-    EnsembleLignes1.Add "ArgVal = " & AwaitedValue
-    EnsembleLignes1.Add "ArgDisplayVal = " & AwaitedValue
+    If UCase(awaitedValue) = "FALSE" Or UCase(awaitedValue) = "TRUE" Or IsNumeric(Replace(awaitedValue, ".", ",")) Then
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal =""" & awaitedValue & """"
+    ElseIf InStr(1, awaitedValue, ".") <> 0 Then
+    EnsembleLignes1.Add "ArgVal = " & awaitedValue
+    EnsembleLignes1.Add "ArgDisplayVal = " & awaitedValue
     Else
-    EnsembleLignes1.Add "ArgVal = ""\""" & AwaitedValue & "\"""""
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & AwaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgVal = ""\""" & awaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & awaitedValue & "\"""""
     End If
 
     EnsembleLignes1.Add "Type = 12"
@@ -2567,7 +2569,7 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2577,7 +2579,7 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2587,7 +2589,7 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2598,29 +2600,29 @@ Private Sub TraitementCB_TestNN(sLigne As String, EnsembleLignes0, EnsembleLigne
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strNickName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 
 End Sub
-Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, AwaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, awaitedValue As Variant, Section As String, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables boolenne avec mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestBoolNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestBoolNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2638,14 +2640,14 @@ Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "VTableOffset = 156"
     EnsembleLignes1.Add "%HI: Parameters = [4]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strNickName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strNickName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strNickName & "\"""""
@@ -2654,16 +2656,16 @@ Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
-    EnsembleLignes1.Add "ArgVal =  ""\""" & AwaitedValue & "\"""""
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & AwaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgVal =  ""\""" & awaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & awaitedValue & "\"""""
     EnsembleLignes1.Add "Type = 11"
     EnsembleLignes1.Add "DisplayType = ""Boolean"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2673,7 +2675,7 @@ Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2683,7 +2685,7 @@ Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2694,28 +2696,28 @@ Private Sub TraitementCB_TestBoolNN(sLigne As String, EnsembleLignes0, EnsembleL
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strNickName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 
 End Sub
-Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As String, AwaitedValue As Variant, Section As String, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As String, awaitedValue As Variant, Section As String, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant)
 
     'Pour tester les variables analogique avec mnémonique
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestAnaNN"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestAnaNN"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
@@ -2733,7 +2735,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "VTableOffset = 160"
     EnsembleLignes1.Add "%HI: Parameters = [6]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -2742,7 +2744,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "%[5] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[6] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strNickName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strNickName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strNickName & "\"""""
@@ -2751,16 +2753,16 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""awaitedValue"""
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal =""" & AwaitedValue & """"
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal =""" & awaitedValue & """"
     EnsembleLignes1.Add "Type = 12"
     EnsembleLignes1.Add "DisplayType = ""Variant"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""maxValue"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(maxValue = "", 0, maxValue) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(maxValue = "", 0, maxValue) & "\"""""
@@ -2769,7 +2771,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""nTolerance"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(nTolerance = "", 0, nTolerance) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(nTolerance = "", 0, nTolerance) & "\"""""
@@ -2778,7 +2780,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2788,7 +2790,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2798,7 +2800,7 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[6]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[6]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2809,29 +2811,29 @@ Private Sub TraitementCB_TestAnaNN(sLigne As String, EnsembleLignes0, EnsembleLi
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strNickName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 
 End Sub
-Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strVariableName As String, strInstanceName As String, nIndex As Variant, AwaitedValue As Variant, Optional nVariation, Optional nVariationPercent, Optional lTimeout_ms As Variant)
+Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strVariableName As String, strInstanceName As String, nIndex As Variant, awaitedValue As Variant, Optional nVariation, Optional nVariationPercent, Optional lTimeout_ms As Variant)
 
     'Pour tester un élement de tableau
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_TestArrayElement"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_TestArrayElement"""
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb"""
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -2849,7 +2851,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "VTableOffset = 344"
     EnsembleLignes1.Add "%HI: Parameters = [8]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
@@ -2860,7 +2862,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "%[7] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[8] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""strInstanceName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
@@ -2869,7 +2871,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""strVariableName"""
     EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
@@ -2878,7 +2880,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[2]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[2]]"
     EnsembleLignes1.Add "Name = ""nIndex"""
     EnsembleLignes1.Add "ArgVal =""" & nIndex & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & nIndex & "\"""""
@@ -2887,16 +2889,16 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[3]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[3]]"
     EnsembleLignes1.Add "Name = ""AwaitedValue"""
-    EnsembleLignes1.Add "ArgVal =""" & AwaitedValue & """"
-    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & AwaitedValue & "\"""""
+    EnsembleLignes1.Add "ArgVal =""" & awaitedValue & """"
+    EnsembleLignes1.Add "ArgDisplayVal = ""\""" & awaitedValue & "\"""""
     EnsembleLignes1.Add "Type = 12"
     EnsembleLignes1.Add "DisplayType = ""Variant"""
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[4]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[4]]"
     EnsembleLignes1.Add "Name = ""nVariation"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(IsMissing(nVariation), 0, nVariation) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(IsMissing(nVariation), 0, nVariation) & "\"""""
@@ -2905,7 +2907,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[5]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[5]]"
     EnsembleLignes1.Add "Name = ""nVariationPercent"""
     EnsembleLignes1.Add "ArgVal =""" & IIf(IsMissing(nVariationPercent), 100, nVariationPercent) & """"
     EnsembleLignes1.Add "ArgDisplayVal = ""\""" & IIf(IsMissing(nVariationPercent), 100, nVariationPercent) & "\"""""
@@ -2914,7 +2916,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "TypeValid = True"
     EnsembleLignes1.Add "Direction = 1"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[6]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[6]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -2924,7 +2926,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[7]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[7]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -2934,7 +2936,7 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[8]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[8]]"
     EnsembleLignes1.Add "Name = ""lTimeout_ms"""
     EnsembleLignes1.Add "ArgVal =""" & lTimeout_ms & """"
     EnsembleLignes1.Add "ArgDisplayVal =""" & lTimeout_ms & """"
@@ -2945,30 +2947,30 @@ Private Sub TraitementCB_TestArrayElt(sLigne As String, EnsembleLignes0, Ensembl
     EnsembleLignes1.Add "IsUserOptional = True"
     EnsembleLignes1.Add "IsServerOptional = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 
 End Sub
-Private Sub TraitementSequenceCall(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, NameSequence, SequenceFile, proj_filglo, proj_conf, NSection)
+Private Sub TraitementSequenceCall(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, NameSequence, SequenceFile, proj_filglo, proj_conf, NSection)
 
     'Pour les Appels de sequence
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """SequenceCall"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """SequenceCall"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add "LoadOpt = ""DynamicLoad"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, SeqCallStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData]"
     EnsembleLignes1.Add "SFPath =""" & SequenceFile & """"
     EnsembleLignes1.Add "SeqName =""" & NameSequence & """"
     EnsembleLignes1.Add "SpecifyHostByExpr = True"
@@ -2986,26 +2988,26 @@ Private Sub TraitementSequenceCall(sLigne As String, EnsembleLignes0, EnsembleLi
     '    EnsembleLignes1.Add "RemoteHostExpr = ""FileGlobals.PC_Emb" & NSection & "_ip"""
     'End If
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub TraitementSequenceExe(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, NameSequence, SequenceFile)
+Private Sub TraitementSequenceExe(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, NameSequence, SequenceFile)
 
     'Pour les Appels de sequence
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """SequenceCall"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """SequenceCall"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, SeqCallStepAdditions"""
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData]"
     EnsembleLignes1.Add "SFPath =""" & SequenceFile & """"
     EnsembleLignes1.Add "SeqName =""" & "Single Pass" & """"
     EnsembleLignes1.Add "%FLG: Prototype = 262144"
@@ -3014,29 +3016,29 @@ Private Sub TraitementSequenceExe(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "ExecTypeMask = 16"
     EnsembleLignes1.Add "ExecSync = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData]"
     EnsembleLignes1.Add "ActualArgs = Arguments"
     EnsembleLignes1.Add "Prototype = Obj"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs]"
     EnsembleLignes1.Add "sequence = """ & "TYPE, SequenceArgument" & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Prototype]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Prototype]"
     EnsembleLignes1.Add "sequence = Str"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Prototype]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Prototype]"
     EnsembleLignes1.Add "sequence = """ & "MainSequence" & """"
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
-Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_filglo, proj_conf, Section As String)
+Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef compteur, proj_filglo, proj_conf, Section As String)
 
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs]"
 
     EnsembleLignes1.Add "CB_Simu" & " = ""TYPE, SequenceArgument"""
     EnsembleLignes1.Add "Embedded" & " = ""TYPE, SequenceArgument"""
@@ -3056,19 +3058,19 @@ Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_fi
 
     EnsembleLignes1.Add ""
     'declaration du nom
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & "CB_Simu" & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & "CB_Simu" & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals.cb" & Section & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & "Embedded" & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & "Embedded" & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & "Embedded" & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & "Embedded1" & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & "Embedded1" & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & "Embedded1" & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & "Embedded2" & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & "Embedded2" & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & "Embedded2" & """"
     EnsembleLignes1.Add ""
@@ -3080,20 +3082,20 @@ Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_fi
     '      EnsembleLignes1.Add "UseDef = False"
     '      EnsembleLignes1.Add "Expr = ""FileGlobals." & "QuickForceCheck" & """"
     '      EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & "InitDone" & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & "InitDone" & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & "InitDone" & """"
     EnsembleLignes1.Add ""
 
     For i = 0 To UBound(proj_conf, 2)
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & proj_conf(0, i) & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & proj_conf(0, i) & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & proj_conf(0, i) & """"
     EnsembleLignes1.Add ""
     Next
 
     For i = 0 To UBound(proj_filglo, 2)
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.ActualArgs." & proj_filglo(0, i) & "]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.ActualArgs." & proj_filglo(0, i) & "]"
     EnsembleLignes1.Add "UseDef = False"
     EnsembleLignes1.Add "Expr = ""FileGlobals." & proj_filglo(0, i) & """"
     EnsembleLignes1.Add ""
@@ -3101,7 +3103,7 @@ Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_fi
 
     EnsembleLignes1.Add ""
     'definition du type
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Prototype]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Prototype]"
     EnsembleLignes1.Add "CB_Simu" & " = " & ""
     EnsembleLignes1.Add "Embedded" & " = " & ""
     EnsembleLignes1.Add "Embedded1" & " = " & ""
@@ -3119,7 +3121,7 @@ Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_fi
 
     EnsembleLignes1.Add ""
     'attribution d'une valeur
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Prototype]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Prototype]"
     EnsembleLignes1.Add "%FLG: " & "CB_Simu" & " = 4"
     EnsembleLignes1.Add "%FLG: " & "Embedded" & " = 4"
     EnsembleLignes1.Add "%FLG: " & "Embedded1" & " = 4"
@@ -3137,38 +3139,38 @@ Private Sub Gen_SequenceArguments(ByRef EnsembleLignes1, ByRef Compteur, proj_fi
 
 End Sub
 
-Private Sub TraitementNI_Wait(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, TimeValue)
+Private Sub TraitementNI_Wait(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, TimeValue)
 
     'Pour les Wait
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """NI_Wait"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """NI_Wait"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "SeqCallStepGroupIdx = -1"
     EnsembleLignes1.Add "TimeExpr =""" & TimeValue & """"
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementCB_StopTask(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur)
+Private Sub TraitementCB_StopTask(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur)
 
     'Pour les Initialisation de control build
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_StopTask"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_StopTask"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS]"
     EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call]"
     EnsembleLignes1.Add "ObjectVariable = ""FileGlobals.cb"""
     EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
     EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
@@ -3187,11 +3189,11 @@ Private Sub TraitementCB_StopTask(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "VTableOffset = 196"
     EnsembleLignes1.Add "%HI: Parameters = [1]"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters]"
     EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[0]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[0]]"
     EnsembleLignes1.Add "Name = ""passFail"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
@@ -3201,7 +3203,7 @@ Private Sub TraitementCB_StopTask(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS.SData.Call.Parameters[1]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS.SData.Call.Parameters[1]]"
     EnsembleLignes1.Add "Name = ""errorMsg"""
     EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
     EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
@@ -3211,57 +3213,57 @@ Private Sub TraitementCB_StopTask(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "Direction = 3"
     EnsembleLignes1.Add "IsByRef = True"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementCB_StartTask(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur)
+Private Sub TraitementCB_StartTask(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur)
 
     'Pour les Initialisation de control build
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_StartTask"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_StartTask"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
 
-Private Sub TraitementCB_Init(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur)
+Private Sub TraitementCB_Init(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur)
 
     'Pour l'Initialisation de control build
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Init"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Init"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementCB_MsgPopUp(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, vMessage As Variant)
+Private Sub TraitementCB_MsgPopUp(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, vMessage As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """MessagePopup"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """MessagePopup"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add "StatusExpr = ""Step.Result.ButtonHit == 1 ? \""Passed\"": Step.Result.ButtonHit == 2 ? \""Failed\"": \""Done\"""""
     EnsembleLignes1.Add ""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "TitleExpr = ""\""Pop Up Message\"""""
     EnsembleLignes1.Add "MessageExpr = ""\""" & vMessage & "\"""""
     EnsembleLignes1.Add "Button1Label = ""\""OK\"""""
@@ -3269,41 +3271,41 @@ Private Sub TraitementCB_MsgPopUp(sLigne As String, EnsembleLignes0, EnsembleLig
     EnsembleLignes1.Add "Button3Label = ""\""SKIP\"""""
     EnsembleLignes1.Add "CancelButton = 0"
 
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = ""Message Popup"""
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementCB_Close(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur)
+Private Sub TraitementCB_Close(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur)
 
     'Pour la fermeture de l'arbre control build
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """CB_Close"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """CB_Close"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementTestDDU(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, readValue As Variant)
+Private Sub TraitementTestDDU(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, readValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """MessagePopup"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """MessagePopup"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add "ConnectionLifetime = 4"
     'EnsembleLignes1.Add "PreCond = ""FileGlobals.Type_simu == 2"""
     EnsembleLignes1.Add "StatusExpr = ""Step.Result.ButtonHit ==1 ? \""Passed\"": Step.Result.ButtonHit ==2 ? \""Failed\"":\""Done\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "TitleExpr = ""\""Read DDU\"""""
     If strNickName <> "" Then
     EnsembleLignes1.Add "MessageExpr = ""\""Check the variable of nickname " & strNickName & " at " & readValue & " on the DDU\"""""
@@ -3314,49 +3316,49 @@ Private Sub TraitementTestDDU(sLigne As String, EnsembleLignes0, EnsembleLignes1
     EnsembleLignes1.Add "Button2Label = ""\""NOK\"""""
     EnsembleLignes1.Add "Button3Label = ""\""SKIP\"""""
     EnsembleLignes1.Add "CancelButton = 0"
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & "; " & strNickName & "; " & readValue & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub TraitementWriteDDU(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, writeValue As Variant)
+Private Sub TraitementWriteDDU(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, writeValue As Variant)
 
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """MessagePopup"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """MessagePopup"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add "ConnectionLifetime = 4"
     EnsembleLignes1.Add "PreCond = ""FileGlobals.Type_simu == 2"""
     EnsembleLignes1.Add "StatusExpr = ""Step.Result.ButtonHit <2 ? \""Passed\"": \""Failed\"""""
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "TitleExpr = ""\""Write DDU\"""""
     EnsembleLignes1.Add "MessageExpr = ""\""Set the variable of nickname " & strNickName & " at " & writeValue & " on the DDU\"""""
     EnsembleLignes1.Add "Button1Label = ""\""OK\"""""
     EnsembleLignes1.Add "Button2Label = ""\""NOK\"""""
     EnsembleLignes1.Add "CancelButton = 0"
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME =""" & sLigne & "; " & strNickName & "; " & writeValue & """"
     EnsembleLignes1.Add ""
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 
-Private Sub Traitement_Statement(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef Compteur, strNickName As Variant, vForcedValue As Variant)
+Private Sub Traitement_Statement(sLigne As String, EnsembleLignes0, EnsembleLignes1, ByRef compteur, strNickName As Variant, vForcedValue As Variant)
     'test statement
-    EnsembleLignes0.Add "%[" & Compteur & "] = Step"
-    EnsembleLignes0.Add "%TYPE: %[" & Compteur & "] = " & """Statement"""
+    EnsembleLignes0.Add "%[" & compteur & "] = Step"
+    EnsembleLignes0.Add "%TYPE: %[" & compteur & "] = " & """Statement"""
 
-    EnsembleLignes1.Add "[SF.Seq[0].Main[" & Compteur & "].TS]"
-    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(Compteur)))), "0") & Trim(Str$(Compteur)) & """"
+    EnsembleLignes1.Add "[SF.Seq[0].Main[" & compteur & "].TS]"
+    EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
     EnsembleLignes1.Add "PostExpr = """ & strNickName & " = " & vForcedValue & """"
     EnsembleLignes1.Add ""
-    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & Compteur & "]]"
+    EnsembleLignes1.Add "[DEF, SF.Seq[0].Main[" & compteur & "]]"
     EnsembleLignes1.Add "%NAME = """ & sLigne & """"
 
-    Compteur = Compteur + 1
+    compteur = compteur + 1
 End Sub
 

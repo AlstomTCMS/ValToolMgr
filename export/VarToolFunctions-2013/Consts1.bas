@@ -1,4 +1,4 @@
-Attribute VB_Name = "Constants1"
+Attribute VB_Name = "Consts1"
 Public Const SETTING_FILE_NAME As String = "Application_Settings_File.MIESET"
 Public Const MacroPath As String = "C:\macros_alstom"
 Public Const exportFolder As String = "\export\VarToolFunctions-2013\"

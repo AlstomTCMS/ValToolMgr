@@ -7,12 +7,12 @@ Function InitSheet(ByVal sheetName As String, Optional ByVal eraseContent As Boo
     Dim WsExist As Boolean, range1 As Range
  
 On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(sheetName).Index
+    WsExist = ActiveWorkbook.Sheets(sheetName).index
 On Error GoTo 0
 
     'Si la feuille n'existe pas, on l'ajoute
     If Not WsExist Then
-        Worksheets.Add(After:=Sheets(Sheets.Count)).Name = sheetName
+        Worksheets.Add(After:=Sheets(Sheets.Count)).name = sheetName
     Else
         sheetAlreadyExist = True
     End If
@@ -32,7 +32,7 @@ On Error GoTo 0
             Set range1 = .Range("A1", .Cells(1, UBound(titles) + 1))
             range1 = titles
             tableLiens = "Tableau" & sheetName
-            .ListObjects.Add(xlSrcRange, range1, , xlYes).Name = tableLiens
+            .ListObjects.Add(xlSrcRange, range1, , xlYes).name = tableLiens
             .ListObjects(tableLiens).TableStyle = "tableau de test"
             
             'enlève l'affichage grille
@@ -60,7 +60,7 @@ End Function
 Function WsExist(ByVal Nom$) As Boolean
 'Nous dit si la feuille mis en paramètre existe
     On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(Nom).Index
+    WsExist = ActiveWorkbook.Sheets(Nom).index
     On Error GoTo 0
 End Function
 

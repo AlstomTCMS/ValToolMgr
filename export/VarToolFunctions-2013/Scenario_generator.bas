@@ -50,7 +50,7 @@ Public Sub Generate_scenario(ByVal testNumber As String)
         Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
         
         With wsResultSheet
-            .Cells(CurrentLine, OffsetSection + 1).Value = lcActionsTableColumns.Item(CurrentColumn).Name
+            .Cells(CurrentLine, OffsetSection + 1).Value = lcActionsTableColumns.Item(CurrentColumn).name
             .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
             .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
             '.Cells(CurrentLine, OffsetSection + 3).Value = getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
@@ -132,7 +132,7 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
     Next i
     
     'Traitement des temporisations
-    If loSourceFiles.Name Like PR_TEST_TABLE_ACTION_PREFIX & "*" Then
+    If loSourceFiles.name Like PR_TEST_TABLE_ACTION_PREFIX & "*" Then
         delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
         If delay <> "" Then
             With wsResultSheet
