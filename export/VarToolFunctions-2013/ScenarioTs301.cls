@@ -15,6 +15,20 @@ Private check(1000, 1)
 Private Numcol
 Private col_projet As Variant
 
+    Dim Acronym As String
+    Dim AcronymOk As Boolean
+    Dim sFileseq As String
+    Dim Compteur As Long
+    Dim EnsembleLignes0 As New Collection
+    Dim EnsembleLignes1 As New Collection
+    Dim tableau_instance(1000, 1000) As String
+    Dim proj_conf() As Variant     'parametre valeur type
+    Dim teststand_conf() As String      'parametre valeur type
+    Dim proj_filglo() As String    'parametre valeur type
+    Dim proj_inst() As String      'parametre valeur
+    Dim Path As String
+    Dim k As Integer
+
 Private Sub Class_Initialize()
     MsgBox "Initialized!"
 End Sub
@@ -36,19 +50,7 @@ Public Sub writeEnd()
 End Sub
 
 Private Sub Generation_TestStand()
-    Dim Acronym As String
-    Dim AcronymOk As Boolean
-    Dim sFileseq As String
-    Dim Compteur As Long
-    Dim EnsembleLignes0 As New Collection
-    Dim EnsembleLignes1 As New Collection
-    Dim tableau_instance(1000, 1000) As String
-    Dim proj_conf() As Variant     'parametre valeur type
-    Dim teststand_conf() As String      'parametre valeur type
-    Dim proj_filglo() As String    'parametre valeur type
-    Dim proj_inst() As String      'parametre valeur
-    Dim Path As String
-    Dim k As Integer
+
 
     'optimisation excel
     Application.Calculation = xlCalculationManual

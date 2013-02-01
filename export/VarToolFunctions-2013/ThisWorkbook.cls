@@ -56,6 +56,7 @@ Private Sub Workbook_Open()
 End Sub
 
 Sub importBas()
+    Dim VBComp As VBIDE.VBComponent
     Dim MyObj As Object, MySource As Object, file As Variant
     
     'Efface tous les Modules présents dans ce fichier

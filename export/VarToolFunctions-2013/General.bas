@@ -90,8 +90,8 @@ End Function
 
 'Réecri un String avec des parametres entre crochet {} remplacés par la liste de paramètres mis en argument
 Public Function StringFormat(ByVal forFormat As String, ParamArray params() As Variant) As String
-Dim i As Integer
-Dim formatted As String
+    Dim i As Integer
+    Dim formatted As String
 
     formatted = forFormat
     For i = LBound(params()) To UBound(params())
