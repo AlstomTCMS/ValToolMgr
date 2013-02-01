@@ -7,7 +7,7 @@ Function InitSheet(ByVal sheetName As String, Optional ByVal eraseContent As Boo
     Dim WsExist As Boolean, range1 As Range
  
 On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(sheetName).index
+    WsExist = ActiveWorkbook.Sheets(sheetName).Index
 On Error GoTo 0
 
     'Si la feuille n'existe pas, on l'ajoute
@@ -60,7 +60,7 @@ End Function
 Function WsExist(ByVal Nom$) As Boolean
 'Nous dit si la feuille mis en paramètre existe
     On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(Nom).index
+    WsExist = ActiveWorkbook.Sheets(Nom).Index
     On Error GoTo 0
 End Function
 
