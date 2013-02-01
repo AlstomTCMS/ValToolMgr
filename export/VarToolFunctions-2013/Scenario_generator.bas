@@ -19,6 +19,14 @@ Public Sub Generate_scenario(ByVal testNumber As String)
     Set wsCurrentTestSheet = ActiveSheet 'Worksheets("Scenario")
     'wsCurrentTestSheet.Activate
     
+    Dim ScenarioTs As ScenarioTs
+    Set C = New ScenarioTs
+
+
+    
+    
+    GoTo End_GenScenario
+    
     Set loActionsTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber)
     Set lcActionsTableColumns = loActionsTable.ListColumns
     
@@ -85,7 +93,7 @@ Public Sub Generate_scenario(ByVal testNumber As String)
         .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
     End With
     
-fin:
+End_GenScenario:
     'optimisation excel
     Debug.Print "End of scenario"
     Application.ScreenUpdating = True

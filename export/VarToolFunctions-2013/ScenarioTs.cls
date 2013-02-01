@@ -52,7 +52,7 @@ Const ACTION_HMI_STOP_TEST As String = "HMI_Stop_Test"
 Const ACTION_HMI_SEND_KEY As String = "HMI_Send_Key"
 Const ACTION_STATEMENT As String = "Statement"
 
-Type SubSequence
+Private Type SubSequence
     cpt As Long
     Host As String
     EnsembleLignes0 As New Collection
@@ -81,7 +81,7 @@ Private Sub Class_Terminate()
     MsgBox ERROR_NOT_IMPLEMENTED_FUNCTION
 End Sub
 
-Sub ProcessingExcel(file As String)
+Private Sub ProcessingExcel(file As String)
     nb_seq = 1
     compteur = 0
 
@@ -205,7 +205,7 @@ Close #fic
 
 End Sub
 
-Sub Processing_SubSequence(sLigne As String, ByRef nb_seq, ByRef Seq() As SubSequence, compteur, seq_sup, Optional HostName As String, Optional ByVal Comment As String = "")
+Private Sub Processing_SubSequence(sLigne As String, ByRef nb_seq, ByRef Seq() As SubSequence, compteur, seq_sup, Optional HostName As String, Optional ByVal Comment As String = "")
     
     If sLigne <> "" Then
         nb_seq = nb_seq + 1
@@ -253,7 +253,7 @@ Sub Processing_SubSequence(sLigne As String, ByRef nb_seq, ByRef Seq() As SubSeq
     
 End Sub
 
-Sub ProcessingAction(ByRef Seq() As SubSequence, nb_seq, ByRef compteur, MotAction As String, ByVal i As Long, ByVal j As Long)
+Private Sub ProcessingAction(ByRef Seq() As SubSequence, nb_seq, ByRef compteur, MotAction As String, ByVal i As Long, ByVal j As Long)
 Dim strLib As String
 Dim Name_Var As String
 Dim Precon As String
@@ -385,7 +385,7 @@ End Sub
 
 '#####################################################      CallExe_HMI     ############################################################
 
-Sub ProcessingCallExecutable(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, parametres As String, executablePath As String, Precon As String)
+Private Sub ProcessingCallExecutable(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, parametres As String, executablePath As String, Precon As String)
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CallExecutable"""
     
@@ -416,7 +416,7 @@ End Sub
 '######################################################         CB_QA_ResetAll      #####################################################
 
 
-Sub ProcessingCB_QA_ResetAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
+Private Sub ProcessingCB_QA_ResetAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_QuickReset"""
@@ -483,7 +483,7 @@ Sub ProcessingCB_QA_ResetAll(sLigne As String, ByRef Seq() As SubSequence, nb_se
     
 End Sub
 
-Sub ProcessingCB_QA_UnForceAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
+Private Sub ProcessingCB_QA_UnForceAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_QuickUnforceAll"""
@@ -550,7 +550,7 @@ End Sub
 
 '#####################################################        CB_QuickForceProducer       #############################################
 
-Sub ProcessingCB_QA_ForceVar(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
+Private Sub ProcessingCB_QA_ForceVar(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_QuickForceProducer"""
@@ -646,7 +646,7 @@ End Sub
 
 '#####################################################      CB_QuickUnForceProducer     ###################################################
 
-Sub ProcessingCB_QA_UnForceVar(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
+Private Sub ProcessingCB_QA_UnForceVar(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_QuickUnForceProducer"""
@@ -733,7 +733,7 @@ End Sub
 
 '################################################       CB_UnForceArrayElement      ##########################################################
 
-Sub ProcessingCB_UnForceArray(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
+Private Sub ProcessingCB_UnForceArray(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_UnForceArrayElement"""
@@ -831,7 +831,7 @@ End Sub
 
 '################################################       CB_UnForceArrayElementNN        #############################################
 
-Sub ProcessingCB_UnForceArrayNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, Precon As String)
+Private Sub ProcessingCB_UnForceArrayNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, Precon As String)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_UnForceArrayElementNN"""
@@ -913,7 +913,7 @@ End Sub
 
 '###############################################        CB_ForceAllElements        ####################################################
 
-Sub ProcessingCB_ForceArrayAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
+Private Sub ProcessingCB_ForceArrayAll(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
     
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_ForceAllElements"""
@@ -1023,7 +1023,7 @@ End Sub
 
 '###############################################################        CB_ForceArrayElement        ##########################################################
 
-Sub ProcessingCB_ForceArrayElt(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, valueField As Variant, Precon As String)
+Private Sub ProcessingCB_ForceArrayElt(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, valueField As Variant, Precon As String)
 
     Dim ForcedValue As String
     Dim index As String
@@ -1152,7 +1152,7 @@ End Sub
 
 '#############################################      CB_ForceAllElementsNN       ######################################################
 
-Sub ProcessingCB_ForceArrayAllNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vForcedValue As Variant, Precon As String)
+Private Sub ProcessingCB_ForceArrayAllNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vForcedValue As Variant, Precon As String)
     
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_ForceAllElementsNN"""
@@ -1246,7 +1246,7 @@ End Sub
 '##########################################################     CB_ForceArrayElementNN      #######################################################
 
 
-Sub ProcessingCB_ForceArrayEltNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, valueField As Variant, Precon As String)
+Private Sub ProcessingCB_ForceArrayEltNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, valueField As Variant, Precon As String)
     
     Dim ForcedValue As String
     Dim index As String
@@ -1361,7 +1361,7 @@ End Sub
 
 '#########################################################      CB_TestArrayElement     #########################################################
 
-Sub ProcessingCB_TestArrayElt(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, valueField As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_TestArrayElt(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, valueField As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
 
     Dim awaitedValue As String
     Dim index As String
@@ -1526,7 +1526,7 @@ End Sub
 
 '#######################################################        CB_TestArrayElementNN       #######################################################
 
-Sub ProcessingCB_TestArrayEltNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, valueField As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_TestArrayEltNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, valueField As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
 
     Dim awaitedValue As String
     Dim index As String
@@ -1680,7 +1680,7 @@ End Sub
 
 '####################################################       LABEL       ###########################################################
 
-Sub ProcessingLabel(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur)
+Private Sub ProcessingLabel(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur)
 If sLigne <> "" Then
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """Label"""
@@ -1739,7 +1739,7 @@ If sLigne <> "" Then
 End If
 End Sub
 
-Sub ProcessingCB_Init_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
+Private Sub ProcessingCB_Init_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
 
     Call ProcessingCB_Stop_Task(Seq, nb_seq, compteur, Precon)
     Call ProcessingCB_Start_Task(Seq, nb_seq, compteur, Precon)
@@ -1749,7 +1749,7 @@ End Sub
 '###################################################        CB_Start_Task       #####################################################
 
 
-Sub ProcessingCB_Start_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
+Private Sub ProcessingCB_Start_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_StartTask"""
@@ -1828,7 +1828,7 @@ End Sub
 
 '###########################################        CB_Stop_Task            ########################################################
 
-Sub ProcessingCB_Stop_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
+Private Sub ProcessingCB_Stop_Task(Seq() As SubSequence, nb_seq, compteur, Precon)
 
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_StopTask"""
@@ -1914,7 +1914,7 @@ End Sub
 '###########################################        POPUP       ####################################################
 
 
-Sub ProcessingCB_Popup(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
+Private Sub ProcessingCB_Popup(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, Precon As String)
 
 Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
 Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """MessagePopup"""
@@ -1958,107 +1958,107 @@ compteur = compteur + 1
 
 End Sub
 
-Sub ProcessingCB_Force(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
+Private Sub ProcessingCB_Force(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vForcedValue As Variant, Precon As String)
 
       'Pour Forcer les variables sans mnémonique
-Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
-Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_Force"""
+    Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
+    Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_Force"""
 
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS]"
-Seq(nb_seq).EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
-If Precon <> "" Then
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS]"
+    Seq(nb_seq).EnsembleLignes1.Add "Id = ""ID#:" & String$(22 - Len(Trim((Str$(compteur)))), "0") & Trim(Str$(compteur)) & """"
+    If Precon <> "" Then
         Seq(nb_seq).EnsembleLignes1.Add "PreCond = """ & Precon & """"
-End If
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS]"
-Seq(nb_seq).EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call]"
-Seq(nb_seq).EnsembleLignes1.Add "ObjectVariable = ""Stationglobals.cb"""
-Seq(nb_seq).EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
-Seq(nb_seq).EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
-Seq(nb_seq).EnsembleLignes1.Add "CoClass = ""{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"""
-Seq(nb_seq).EnsembleLignes1.Add "CoClassName = ""ControlBuild"""
-Seq(nb_seq).EnsembleLignes1.Add "Interface = ""{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"""
-Seq(nb_seq).EnsembleLignes1.Add "InterfaceName = ""_ControlBuild"""
-Seq(nb_seq).EnsembleLignes1.Add "MemberType = 1"
-Seq(nb_seq).EnsembleLignes1.Add "Member = 1610809364"
-Seq(nb_seq).EnsembleLignes1.Add "MemberName = ""CB_Force"""
-Seq(nb_seq).EnsembleLignes1.Add "HasMemberInfo = True"
-Seq(nb_seq).EnsembleLignes1.Add "Locale = 1036"
-Seq(nb_seq).EnsembleLignes1.Add "TypeLibVersion = ""453.0"""
-Seq(nb_seq).EnsembleLignes1.Add "InterfaceType = 1"
-Seq(nb_seq).EnsembleLignes1.Add "VTableOffset = 204"
-Seq(nb_seq).EnsembleLignes1.Add "%HI: Parameters = [4]"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters]"
-Seq(nb_seq).EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
-Seq(nb_seq).EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
-Seq(nb_seq).EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
-Seq(nb_seq).EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
-Seq(nb_seq).EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[0]]"
-Seq(nb_seq).EnsembleLignes1.Add "Name = ""strInstanceName"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
-Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
-Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
-Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[1]]"
-Seq(nb_seq).EnsembleLignes1.Add "Name = ""strVariableName"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
-Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
-Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
-Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[2]]"
-Seq(nb_seq).EnsembleLignes1.Add "Name = ""vForcedValue"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgVal = """ & vForcedValue & """"
-Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & vForcedValue & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
-Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
-Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
-Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[3]]"
-Seq(nb_seq).EnsembleLignes1.Add "Name = ""passFail"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
-Seq(nb_seq).EnsembleLignes1.Add "Type = 11"
-Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Boolean"""
-Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
-Seq(nb_seq).EnsembleLignes1.Add "Direction = 3"
-Seq(nb_seq).EnsembleLignes1.Add "IsByRef = True"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[4]]"
-Seq(nb_seq).EnsembleLignes1.Add "Name = ""errorMsg"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
-Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
-Seq(nb_seq).EnsembleLignes1.Add "Type = 8"
-Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""String"""
-Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
-Seq(nb_seq).EnsembleLignes1.Add "Direction = 3"
-Seq(nb_seq).EnsembleLignes1.Add "IsByRef = True"
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "]]"
-Seq(nb_seq).EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
-Seq(nb_seq).EnsembleLignes1.Add ""
-Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "]]"
-Seq(nb_seq).EnsembleLignes1.Add "%NAME = """ & sLigne & """"
-Seq(nb_seq).EnsembleLignes1.Add ""
+    End If
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS]"
+    Seq(nb_seq).EnsembleLignes1.Add "SData = ""TYPE, AutomationStepAdditions"""
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call]"
+    Seq(nb_seq).EnsembleLignes1.Add "ObjectVariable = ""Stationglobals.cb"""
+    Seq(nb_seq).EnsembleLignes1.Add "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
+    Seq(nb_seq).EnsembleLignes1.Add "ServerName = ""Interface between TestStand3.0 et CB3.32"""
+    Seq(nb_seq).EnsembleLignes1.Add "CoClass = ""{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"""
+    Seq(nb_seq).EnsembleLignes1.Add "CoClassName = ""ControlBuild"""
+    Seq(nb_seq).EnsembleLignes1.Add "Interface = ""{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"""
+    Seq(nb_seq).EnsembleLignes1.Add "InterfaceName = ""_ControlBuild"""
+    Seq(nb_seq).EnsembleLignes1.Add "MemberType = 1"
+    Seq(nb_seq).EnsembleLignes1.Add "Member = 1610809364"
+    Seq(nb_seq).EnsembleLignes1.Add "MemberName = ""CB_Force"""
+    Seq(nb_seq).EnsembleLignes1.Add "HasMemberInfo = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Locale = 1036"
+    Seq(nb_seq).EnsembleLignes1.Add "TypeLibVersion = ""453.0"""
+    Seq(nb_seq).EnsembleLignes1.Add "InterfaceType = 1"
+    Seq(nb_seq).EnsembleLignes1.Add "VTableOffset = 204"
+    Seq(nb_seq).EnsembleLignes1.Add "%HI: Parameters = [4]"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters]"
+    Seq(nb_seq).EnsembleLignes1.Add "%[0] = ""TYPE, AutomationParameter"""
+    Seq(nb_seq).EnsembleLignes1.Add "%[1] = ""TYPE, AutomationParameter"""
+    Seq(nb_seq).EnsembleLignes1.Add "%[2] = ""TYPE, AutomationParameter"""
+    Seq(nb_seq).EnsembleLignes1.Add "%[3] = ""TYPE, AutomationParameter"""
+    Seq(nb_seq).EnsembleLignes1.Add "%[4] = ""TYPE, AutomationParameter"""
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[0]]"
+    Seq(nb_seq).EnsembleLignes1.Add "Name = ""strInstanceName"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""\""" & strInstanceName & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strInstanceName & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
+    Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
+    Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[1]]"
+    Seq(nb_seq).EnsembleLignes1.Add "Name = ""strVariableName"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""\""" & strVariableName & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & strVariableName & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
+    Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
+    Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[2]]"
+    Seq(nb_seq).EnsembleLignes1.Add "Name = ""vForcedValue"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgVal = """ & vForcedValue & """"
+    Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""\""" & vForcedValue & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add "Type = 12"
+    Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Variant"""
+    Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Direction = 1"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[3]]"
+    Seq(nb_seq).EnsembleLignes1.Add "Name = ""passFail"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""Step.Result.PassFail"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.PassFail"""
+    Seq(nb_seq).EnsembleLignes1.Add "Type = 11"
+    Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""Boolean"""
+    Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Direction = 3"
+    Seq(nb_seq).EnsembleLignes1.Add "IsByRef = True"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "].TS.SData.Call.Parameters[4]]"
+    Seq(nb_seq).EnsembleLignes1.Add "Name = ""errorMsg"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgVal = ""Step.Result.ReportText"""
+    Seq(nb_seq).EnsembleLignes1.Add "ArgDisplayVal = ""Step.Result.ReportText"""
+    Seq(nb_seq).EnsembleLignes1.Add "Type = 8"
+    Seq(nb_seq).EnsembleLignes1.Add "DisplayType = ""String"""
+    Seq(nb_seq).EnsembleLignes1.Add "TypeValid = True"
+    Seq(nb_seq).EnsembleLignes1.Add "Direction = 3"
+    Seq(nb_seq).EnsembleLignes1.Add "IsByRef = True"
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "]]"
+    Seq(nb_seq).EnsembleLignes1.Add "InBuf = ""\""" & strInstanceName & "\"""""
+    Seq(nb_seq).EnsembleLignes1.Add ""
+    Seq(nb_seq).EnsembleLignes1.Add "[DEF, SF.Seq[" & nb_seq - 1 & "].Main[" & Seq(nb_seq).cpt & "]]"
+    Seq(nb_seq).EnsembleLignes1.Add "%NAME = """ & sLigne & """"
+    Seq(nb_seq).EnsembleLignes1.Add ""
 
-Seq(nb_seq).cpt = Seq(nb_seq).cpt + 1
-compteur = compteur + 1
+    Seq(nb_seq).cpt = Seq(nb_seq).cpt + 1
+    compteur = compteur + 1
 End Sub
 
 '#################################################      CB_UnForce      ###################################################################
 
-Sub ProcessingCB_UnForce(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
+Private Sub ProcessingCB_UnForce(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, Precon As String)
 
       'Pour de-Forcer les variables sans mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2148,9 +2148,9 @@ End Sub
 
 '##########################################################     CB_Write        #####################################################
 
-Sub ProcessingCB_Write(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Precon As String)
+Private Sub ProcessingCB_Write(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Precon As String)
 
-      'Pour écrire les variables sans mnémonique
+    'Pour écrire les variables sans mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_Write"""
 
@@ -2249,7 +2249,7 @@ End Sub
 
 '#################################################      CB_WriteNN      ##################################################################
 
-Sub ProcessingCB_WriteNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, nValue As Variant, Optional Precon As String)
+Private Sub ProcessingCB_WriteNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, nValue As Variant, Optional Precon As String)
     'Pour écrire une valeur dans une mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """CB_SetNN"""
@@ -2341,7 +2341,7 @@ End Sub
 
 '###################################################################        CB_Read     ###################################################################
 
-Sub ProcessingCB_Read(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, Precon)
+Private Sub ProcessingCB_Read(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, vReadValue As Variant, Precon)
 
     'Pour lire les variables sans mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2443,7 +2443,7 @@ End Sub
 
 '###################################################        CB_Test     #########################################################
 
-Sub ProcessingCB_Test(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_Test(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
 
     'Pour tester les variables sans mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2556,7 +2556,7 @@ End Sub
 
 '#######################################################        CB_TestAna      #################################################
 
-Sub ProcessingCB_TestAna(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_TestAna(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, awaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant, Optional Precon As String)
 
     'Pour tester les variables analogique sans mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2691,7 +2691,7 @@ End Sub
 
 '######################################################     CB_ForceNN      ############################################################
 
-Sub ProcessingCB_ForceNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vForcedValue As Variant, Precon As String)
+Private Sub ProcessingCB_ForceNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vForcedValue As Variant, Precon As String)
     
     'Pour Forcer les variables reseaux (avec Mnémonique)
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2779,7 +2779,7 @@ End Sub
 
 '##############################################     CB_UnForceNN        ########################################################
 
-Sub ProcessingCB_UnForceNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, Precon As String)
+Private Sub ProcessingCB_UnForceNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, Precon As String)
 
     'Pour de-forcer les variables avec mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2857,7 +2857,7 @@ End Sub
 
 '################################################       CB_ReadNN       ####################################################
 
-Sub ProcessingCB_ReadNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vReadValue, Precon As String)
+Private Sub ProcessingCB_ReadNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, vReadValue, Precon As String)
 
     'Pour lire les variables avec mnémonique
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -2946,7 +2946,7 @@ End Sub
 
 '##################################################     CB_TestNN       ##########################################################
 
-Sub ProcessingCB_TestNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, awaitedValue As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_TestNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As Variant, awaitedValue As Variant, Optional lTimeout_ms As Variant, Optional Precon As String)
 
       'Pour tester les variables avec mnémonique
 Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -3055,7 +3055,7 @@ End Sub
 
 '#########################################################      CB_TestAnaNN        ################################################################
 
-Sub ProcessingCB_TestAnaNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As String, awaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant, Optional Precon As String)
+Private Sub ProcessingCB_TestAnaNN(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strNickName As String, awaitedValue As Variant, Optional maxValue, Optional nTolerance, Optional lTimeout_ms As Variant, Optional Precon As String)
 
       'Pour tester les variables analogique avec mnémonique
 Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -3178,7 +3178,7 @@ compteur = compteur + 1
 
 End Sub
 
-Sub ProcessingSequenceCall(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, NameSequence, SequenceFile, Precon As String, Optional parameters = "")
+Private Sub ProcessingSequenceCall(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, NameSequence, SequenceFile, Precon As String, Optional parameters = "")
 
     'Pour les Appels de sequence
     Dim params() As String
@@ -3264,7 +3264,7 @@ End Sub
 
 '##################################################     NI_Wait     ####################################################
 
-Sub ProcessingNI_Wait(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, TimeValue, Precon As String)
+Private Sub ProcessingNI_Wait(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, TimeValue, Precon As String)
     
         'Pour les Wait
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
@@ -3291,7 +3291,7 @@ End Sub
 
 '#################################################          Init_HMI_VNC        ###################################################
 
-Sub ProcessingTH_Init(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
+Private Sub ProcessingTH_Init(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
     
     Dim DDU_num As String
     Dim img_path As String
@@ -3333,7 +3333,7 @@ Sub ProcessingTH_Init(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRe
 
 End Sub
 
-Sub ProcessingTH_Start(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
+Private Sub ProcessingTH_Start(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
     
     Dim DDU_num As String
     Dim remoteAdd As String
@@ -3375,7 +3375,7 @@ End Sub
 '####################################################       Init_Putty      ####################################################
 
 
-Sub ProcessingTL_Init(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
+Private Sub ProcessingTL_Init(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
 
     Dim DDU_num As String
     Dim remoteAdd As String
@@ -3525,7 +3525,7 @@ End Sub
 '##################################################     SendCmd_Putty       ###################################################
 
 
-Sub ProcessingTL_SendCmd(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
+Private Sub ProcessingTL_SendCmd(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
     
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
     Seq(nb_seq).EnsembleLignes0.Add "%TYPE: %[" & Seq(nb_seq).cpt & "] = " & """TL_SendCmd"""
@@ -3642,7 +3642,7 @@ Sub ProcessingTL_SendCmd(sLigne As String, ByRef Seq() As SubSequence, nb_seq, B
     
 End Sub
 
-Sub ProcessingTH_Stop(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
+Private Sub ProcessingTH_Stop(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, Precon As String)
     
     Dim DDU_num As String
     
@@ -3677,7 +3677,7 @@ End Sub
 
 '#####################################################      Send_Cmd_HMI_VNC        ###########################################################
 
-Sub ProcessingTH_Keyboard(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Precon As String)
+Private Sub ProcessingTH_Keyboard(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, strVariableName As String, strInstanceName As String, nValue As Variant, Precon As String)
 
     Dim DDU_num As String
     Dim key_Modifiers As String
@@ -3753,7 +3753,7 @@ Sub ProcessingTH_Keyboard(sLigne As String, ByRef Seq() As SubSequence, nb_seq, 
 
 End Sub
 
-Sub ProcessingStatement(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, exprValue As String, Precon As String)
+Private Sub ProcessingStatement(sLigne As String, ByRef Seq() As SubSequence, nb_seq, ByRef compteur, exprValue As String, Precon As String)
     
     'Pour le pas Statement
     Seq(nb_seq).EnsembleLignes0.Add "%[" & Seq(nb_seq).cpt & "] = Step"
