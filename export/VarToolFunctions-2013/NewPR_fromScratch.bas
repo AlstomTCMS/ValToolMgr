@@ -217,7 +217,7 @@ Sub AddTableAction(ByVal testName As String)
         .ListObjects(tableName).ShowTotals = True
         
         With .Range(tableName & "[[#Totals],[Target]]")
-            .FormulaR1C1 = "TEMPO"
+            .FormulaR1C1 = "DELAY"
             .HorizontalAlignment = xlRight
             .VerticalAlignment = xlBottom
             .WrapText = False

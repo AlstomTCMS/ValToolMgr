@@ -48,7 +48,6 @@ Public Sub Generate_scenario(ByVal testNumber As String)
     For CurrentColumn = 3 To lcActionsTableColumns.Count
         ' Writing header
         Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
-       
         
         With wsResultSheet
             .Cells(CurrentLine, OffsetSection + 1).Value = lcActionsTableColumns.Item(CurrentColumn).Name
@@ -61,27 +60,30 @@ Public Sub Generate_scenario(ByVal testNumber As String)
         End With
         
         CurrentLine = CurrentLine + 1
-        ScenarioOffsetInputs = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
+        ScenarioOffsetActions = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
         
-        ScenarioOffsetOutputs = fillInputs(OffsetSection + 5, "Test", CurrentLine, wsResultSheet, loChecksTable, CurrentColumn)
+        'ScenarioOffsetDelays = fillInputs(OffsetSection, "Wait", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
         
-        If ScenarioOffsetInputs > ScenarioOffsetOutputs Then
-            CurrentLine = CurrentLine + ScenarioOffsetInputs
+        ScenarioOffsetChecks = fillInputs(OffsetSection + 5, "Test", CurrentLine, wsResultSheet, loChecksTable, CurrentColumn)
+        
+        If ScenarioOffsetActions > ScenarioOffsetChecks Then
+            CurrentLine = CurrentLine + ScenarioOffsetActions
         Else
-            CurrentLine = CurrentLine + ScenarioOffsetOutputs
+            CurrentLine = CurrentLine + ScenarioOffsetChecks
         End If
 
     Next CurrentColumn
     
-        With wsResultSheet
-            .Cells(CurrentLine, OffsetSection + 1).Value = "END"
-            .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
-            .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
-            .Cells(CurrentLine, OffsetSection + 3).Value = ""
-            .Cells(CurrentLine, OffsetSection + 8).Value = ""
-            .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
-            .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
-        End With
+    'Finalisation du test avec la ligne END
+    With wsResultSheet
+        .Cells(CurrentLine, OffsetSection + 1).Value = "END"
+        .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
+        .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
+        .Cells(CurrentLine, OffsetSection + 3).Value = ""
+        .Cells(CurrentLine, OffsetSection + 8).Value = ""
+        .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
+        .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
+    End With
     
 fin:
     'optimisation excel
@@ -128,6 +130,18 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
             fillInputs = fillInputs + 1
         End If
     Next i
+    
+    'Traitement des temporisations
+    If loSourceFiles.Name Like PR_TEST_TABLE_ACTION_PREFIX & "*" Then
+        delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
+        If delay <> "" Then
+            With wsResultSheet
+                .Cells(CurrentLine + fillInputs, OffsetSection + 3).Value = "Wait"
+                .Cells(CurrentLine + fillInputs, OffsetSection + 6).Value = delay
+            End With
+            fillInputs = fillInputs + 1
+        End If
+    End If
     
 End Function
 
