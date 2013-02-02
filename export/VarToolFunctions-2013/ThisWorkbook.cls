@@ -14,6 +14,8 @@ Attribute app.VB_VarHelpID = -1
     
 Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
     Call exportBas
+    Debug.Print "Files has been exported"
+    
 End Sub
 
 Sub exportBas()
