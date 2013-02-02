@@ -86,33 +86,42 @@ Private Function parseSingleTest(title As String, loActionsTable As ListObject, 
     Next CurrentColumn
 End Function
 
-Sub fillWithActions(o_step As CStep, typeOfTable As tableType, loSourceFiles As ListObject, ColumnIndex As Integer)
-    Dim Target As Variant, _
-        Location As Variant
-            
-    Target = lrCurrent.Range(1, 1).value
-    Location = lrCurrent.Range(1, 2).value
+Private Sub fillWithActions(o_step As CStep, typeOfTable As tableType, loSourceFiles As ListObject, ColumnIndex As Integer)
+    Dim line As Integer
     
-    For i = 1 To loSourceFiles.ListRows.Count
+    For line = 1 To loSourceFiles.ListRows.Count
         Dim lrCurrent As ListRow, _
+            Target As Variant, _
+            Location As Variant, _
             CellValue As Variant
             
-        Set lrCurrent = loSourceFiles.ListRows(i)
-        ValueOfCell = lrCurrent.Range(1, ColumnIndex)
+        Set lrCurrent = loSourceFiles.ListRows(line)
+        Target = lrCurrent.Range(1, 1).value
+        Location = lrCurrent.Range(1, 2).value
+        CellValue = lrCurrent.Range(1, ColumnIndex)
         
 
-        If Not IsEmpty(ValueOfCell) Then
+        If Not IsEmpty(CellValue) Then
             Dim o_instruction As CInstruction
-            Set o_instruction = detectAndBuildInstruction(ValueOfCell, Target, Location, typeOfTable)
+            Set o_instruction = detectAndBuildInstruction(Target, Location, CellValue, typeOfTable)
             o_step.AddInstruction o_instruction
         End If
-    Next i
+    Next line
 End Sub
 
-Private Function detectAndBuildInstruction(Target As String, Location As String, CellValue As String, typeOfTable As tableType) As CInstruction
+Private Function detectAndBuildInstruction(Target As Variant, Location As Variant, CellValue As Variant, typeOfTable As tableType) As CInstruction
     Set detectAndBuildInstruction = New CInstruction
     
     detectAndBuildInstruction.category = UNIMPLEMENTED
+    detectAndBuildInstruction.Data = Null
+    
+    If (typeOfTable = TABLE_ACTIONS) Then
+        Debug.Print "Detection of an ACTION type"
+    ElseIf (typeOfTable = TABLE_CHECKS) Then
+        Debug.Print "Detection of an CHECK type"
+    End If
+    
+    
     
 End Function
 
