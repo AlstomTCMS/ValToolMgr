@@ -9,14 +9,15 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Enum varType
+Public Enum E_varType
     T_BOOLEAN
     T_REAL
-    t_DATE_AND_TIME
+    T_DATE_AND_TIME
     T_INTEGER
+    UNKNOWN
 End Enum
 
-Public varType As varType
+Public typeOfVar As E_varType
 Public name As String
 Public path As String
 Public value As Variant

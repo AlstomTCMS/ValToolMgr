@@ -115,14 +115,43 @@ Private Function detectAndBuildInstruction(Target As Variant, Location As Varian
     detectAndBuildInstruction.category = UNIMPLEMENTED
     detectAndBuildInstruction.Data = Null
     
+    Dim o_variable As CVariable
+    Set o_variable = buildVariable(Target, Location, CellValue)
+    
     If (typeOfTable = TABLE_ACTIONS) Then
         Debug.Print "Detection of an ACTION type"
+        
+        If (CellValue Like "U") Then
+            detectAndBuildInstruction.category = A_UNFORCE
+        Else
+            detectAndBuildInstruction.category = A_FORCE
+        End If
+        Set detectAndBuildInstruction.Data = o_variable
     ElseIf (typeOfTable = TABLE_CHECKS) Then
         Debug.Print "Detection of an CHECK type"
+        
+        detectAndBuildInstruction.category = A_TEST
+        Set detectAndBuildInstruction.Data = o_variable
     End If
+End Function
+
+Private Function buildVariable(Target As Variant, Location As Variant, CellValue As Variant) As CVariable
     
-    
-    
+    Set buildVariable = New CVariable
+    buildVariable.name = Target
+    buildVariable.path = Location
+    buildVariable.value = CellValue
+    Dim offset
+    If (InStr(1, Target, "I:", 1) = 1) Then
+        buildVariable.typeOfVar = T_INTEGER
+        buildVariable.name = Mid(buildVariable.name, 3)
+    ElseIf (InStr(1, Target, "DT:", 1) = 1) Then
+        buildVariable.typeOfVar = T_DATE_AND_TIME
+         buildVariable.name = Mid(buildVariable.name, 4)
+    Else
+        buildVariable.typeOfVar = T_BOOLEAN
+    End If
+
 End Function
 
 Sub addTempoIfExists(o_step As CStep, loSourceFiles As ListObject, ColumnIndex As Integer)
