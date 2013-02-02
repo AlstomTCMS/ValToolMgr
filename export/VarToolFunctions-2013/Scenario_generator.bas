@@ -67,20 +67,11 @@ Private Function parseSingleTest(title As String, loActionsTable As ListObject, 
         Dim o_step As CStep
         Set o_step = New CStep
         o_step.title = lcActionsTableColumns.Item(CurrentColumn).name
-        o_step.DescAction = "TBD"
-        o_step.DescCheck = "TBD"
+        o_step.DescAction = "TBD" ' getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
+        o_step.DescCheck = "TBD" ' getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
+    
+        Call addTempoIfExists(loActionsTable, ColumnIndex, o_step)
         
-        'With wsResultSheet
-        '    .Cells(CurrentLine, OffsetSection + 1).value =
-        '    .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
-        '    .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
-        '    '.Cells(CurrentLine, OffsetSection + 3).Value = getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
-        '    '.Cells(CurrentLine, OffsetSection + 8).Value = getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
-        '    .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
-        '    .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
-        'End With
-        
-        CurrentLine = CurrentLine + 1
         'ScenarioOffsetActions = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
         
         'ScenarioOffsetDelays = fillInputs(OffsetSection, "Wait", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
@@ -125,20 +116,19 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
             fillInputs = fillInputs + 1
         End If
     Next i
-    
-    'Traitement des temporisations
-    If loSourceFiles.name Like PR_TEST_TABLE_ACTION_PREFIX & "*" Then
-        delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
-        If delay <> "" Then
-            With wsResultSheet
-                .Cells(CurrentLine + fillInputs, OffsetSection + 3).value = "Wait"
-                .Cells(CurrentLine + fillInputs, OffsetSection + 6).value = delay
-            End With
-            fillInputs = fillInputs + 1
-        End If
-    End If
-    
 End Function
+
+Sub addTempoIfExists(loSourceFiles As ListObject, ColumnIndex As Integer, o_step As CStep)
+    'Delay retrieval. We know that data is contained inside Total line property
+    delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
+    If delay <> "" Then
+        Dim o_tempo As CInstruction
+        Set o_tempo = New CInstruction
+        processTempo.category = A_WAIT
+        processTempo.Data = delay
+        o_step.AddInstruction o_tempo
+    End If
+End Sub
 
 Function getComment(wsCurrentTestSheet As Worksheet, lcTable As ListObject, CurrentColumn As Integer, OldComment As String) As String
     Dim ColumnsHeaderPosition As Integer
