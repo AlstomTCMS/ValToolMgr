@@ -1,6 +1,11 @@
 Attribute VB_Name = "Scenario_generator"
 Option Explicit
 
+Private Enum tableType
+    TABLE_ACTIONS
+    TABLE_CHECKS
+End Enum
+
 'Public Sub Generate_scenario(ByVal testNumber As String)
 Public Sub Generate_scenario()
     Dim testNumber As String
@@ -70,62 +75,56 @@ Private Function parseSingleTest(title As String, loActionsTable As ListObject, 
         o_step.DescAction = "TBD" ' getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
         o_step.DescCheck = "TBD" ' getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
     
-        Call addTempoIfExists(loActionsTable, ColumnIndex, o_step)
         
-        'ScenarioOffsetActions = fillInputs(OffsetSection, "Force", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
+        Call fillWithActions(o_step, TABLE_ACTIONS, loActionsTable, CurrentColumn)
         
-        'ScenarioOffsetDelays = fillInputs(OffsetSection, "Wait", CurrentLine, wsResultSheet, loActionsTable, CurrentColumn)
+        Call addTempoIfExists(o_step, loActionsTable, CurrentColumn)
         
-        'ScenarioOffsetChecks = fillInputs(OffsetSection + 5, "Test", CurrentLine, wsResultSheet, loChecksTable, CurrentColumn)
-
+        Call fillWithActions(o_step, TABLE_CHECKS, loChecksTable, CurrentColumn)
+        
         parseSingleTest.AddStep o_step
     Next CurrentColumn
 End Function
 
-Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine As Integer, wsResultSheet As Worksheet, loSourceFiles As ListObject, ColumnIndex As Integer) As Integer
-    Dim lrCurrent As ListRow, _
-    strFileNameDate As String, _
-    ValueOfCell As Variant
-    
-    fillInputs = 0
+Sub fillWithActions(o_step As CStep, typeOfTable As tableType, loSourceFiles As ListObject, ColumnIndex As Integer)
+    Dim Target As Variant, _
+        Location As Variant
+            
+    Target = lrCurrent.Range(1, 1).value
+    Location = lrCurrent.Range(1, 2).value
     
     For i = 1 To loSourceFiles.ListRows.Count
-        Set lrCurrent = loSourceFiles.ListRows(i)
-
-        ValueOfCell = lrCurrent.Range(1, ColumnIndex)
-        Debug.Print lrCurrent.Range(1, ColumnIndex).Address & " : " & IsEmpty(ValueOfCell) & " ( " & varType(ValueOfCell) & ")"
-        
-        If Not IsEmpty(ValueOfCell) Then
-        
-            If varType(ValueOfCell) >= vbInteger And varType(ValueOfCell) <= vbDouble And lrCurrent.Range(1, 2) = "BOOL" Then
-                If ValueOfCell = 0 Then
-                    ValueOfCell = "'False"
-                Else
-                    ValueOfCell = "'True"
-                End If
-            End If
+        Dim lrCurrent As ListRow, _
+            CellValue As Variant
             
-            With wsResultSheet
-                .Cells(CurrentLine + fillInputs, OffsetSection + 3).value = Instruction
-                .Cells(CurrentLine + fillInputs, OffsetSection + 4).value = lrCurrent.Range(1, 1).value
-                .Cells(CurrentLine + fillInputs, OffsetSection + 5).value = lrCurrent.Range(1, 3).value
-                .Cells(CurrentLine + fillInputs, OffsetSection + 6).value = ValueOfCell
-                .Cells(CurrentLine + fillInputs, OffsetSection + 7).value = lrCurrent.Range(1, 4).value
-            End With
+        Set lrCurrent = loSourceFiles.ListRows(i)
+        ValueOfCell = lrCurrent.Range(1, ColumnIndex)
         
-            fillInputs = fillInputs + 1
+
+        If Not IsEmpty(ValueOfCell) Then
+            Dim o_instruction As CInstruction
+            Set o_instruction = detectAndBuildInstruction(ValueOfCell, Target, Location, typeOfTable)
+            o_step.AddInstruction o_instruction
         End If
     Next i
+End Sub
+
+Private Function detectAndBuildInstruction(Target As String, Location As String, CellValue As String, typeOfTable As tableType) As CInstruction
+    Set detectAndBuildInstruction = New CInstruction
+    
+    detectAndBuildInstruction.category = UNIMPLEMENTED
+    
 End Function
 
-Sub addTempoIfExists(loSourceFiles As ListObject, ColumnIndex As Integer, o_step As CStep)
+Sub addTempoIfExists(o_step As CStep, loSourceFiles As ListObject, ColumnIndex As Integer)
     'Delay retrieval. We know that data is contained inside Total line property
+    Dim delay As String
     delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
     If delay <> "" Then
         Dim o_tempo As CInstruction
         Set o_tempo = New CInstruction
-        processTempo.category = A_WAIT
-        processTempo.Data = delay
+        o_tempo.category = A_WAIT
+        o_tempo.Data = delay
         o_step.AddInstruction o_tempo
     End If
 End Sub
