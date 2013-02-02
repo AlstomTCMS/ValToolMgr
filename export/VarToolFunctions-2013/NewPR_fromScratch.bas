@@ -8,7 +8,7 @@ Sub NewPR()
     'fileFilter:="xls Files (*.xls), *.xls")
     DefaultValue = "1."
     testName = InputBox(Prompt:="Please, give a name to your test.", _
-          Title:="Test Name", Default:=DefaultValue)
+          title:="Test Name", Default:=DefaultValue)
     
     'Créer l'ensemble des éléments du format
     If testName <> "" And testName <> DefaultValue Then
@@ -103,7 +103,7 @@ Sub DefineVerticalLabel(ByVal testName As String, ByVal label As String)
         Set LabelRange = .Range(tableAddress)
         With LabelRange
             .MergeCells = True
-            .Value = label
+            .value = label
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
             .WrapText = False
@@ -134,7 +134,7 @@ End Sub
 
 Sub AddTestTitle(ByVal testName As String)
     With Sheets(PR_TEST_PREFIX & testName).Range("B3")
-        .Value = Replace(PR_TEST_PREFIX, "_", " ") & testName
+        .value = Replace(PR_TEST_PREFIX, "_", " ") & testName
         'TODO: Donner un nom
         With .Font
             .name = "Calibri"

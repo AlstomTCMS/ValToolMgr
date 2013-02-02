@@ -58,7 +58,7 @@ Public Sub Generate_scenario(ByVal testNumber As String)
         Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
         
         With wsResultSheet
-            .Cells(CurrentLine, OffsetSection + 1).Value = lcActionsTableColumns.Item(CurrentColumn).name
+            .Cells(CurrentLine, OffsetSection + 1).value = lcActionsTableColumns.Item(CurrentColumn).name
             .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
             .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
             '.Cells(CurrentLine, OffsetSection + 3).Value = getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
@@ -84,11 +84,11 @@ Public Sub Generate_scenario(ByVal testNumber As String)
     
     'Finalisation du test avec la ligne END
     With wsResultSheet
-        .Cells(CurrentLine, OffsetSection + 1).Value = "END"
+        .Cells(CurrentLine, OffsetSection + 1).value = "END"
         .Range(.Cells(CurrentLine, OffsetSection + 3), .Cells(CurrentLine, OffsetSection + 7)).Merge
         .Range(.Cells(CurrentLine, OffsetSection + 8), .Cells(CurrentLine, OffsetSection + 14)).Merge
-        .Cells(CurrentLine, OffsetSection + 3).Value = ""
-        .Cells(CurrentLine, OffsetSection + 8).Value = ""
+        .Cells(CurrentLine, OffsetSection + 3).value = ""
+        .Cells(CurrentLine, OffsetSection + 8).value = ""
         .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
         .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
     End With
@@ -115,11 +115,11 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
         Set lrCurrent = loSourceFiles.ListRows(i)
 
         ValueOfCell = lrCurrent.Range(1, ColumnIndex)
-        Debug.Print lrCurrent.Range(1, ColumnIndex).Address & " : " & IsEmpty(ValueOfCell) & " ( " & VarType(ValueOfCell) & ")"
+        Debug.Print lrCurrent.Range(1, ColumnIndex).Address & " : " & IsEmpty(ValueOfCell) & " ( " & varType(ValueOfCell) & ")"
         
         If Not IsEmpty(ValueOfCell) Then
         
-            If VarType(ValueOfCell) >= vbInteger And VarType(ValueOfCell) <= vbDouble And lrCurrent.Range(1, 2) = "BOOL" Then
+            If varType(ValueOfCell) >= vbInteger And varType(ValueOfCell) <= vbDouble And lrCurrent.Range(1, 2) = "BOOL" Then
                 If ValueOfCell = 0 Then
                     ValueOfCell = "'False"
                 Else
@@ -128,11 +128,11 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
             End If
             
             With wsResultSheet
-                .Cells(CurrentLine + fillInputs, OffsetSection + 3).Value = Instruction
-                .Cells(CurrentLine + fillInputs, OffsetSection + 4).Value = lrCurrent.Range(1, 1).Value
-                .Cells(CurrentLine + fillInputs, OffsetSection + 5).Value = lrCurrent.Range(1, 3).Value
-                .Cells(CurrentLine + fillInputs, OffsetSection + 6).Value = ValueOfCell
-                .Cells(CurrentLine + fillInputs, OffsetSection + 7).Value = lrCurrent.Range(1, 4).Value
+                .Cells(CurrentLine + fillInputs, OffsetSection + 3).value = Instruction
+                .Cells(CurrentLine + fillInputs, OffsetSection + 4).value = lrCurrent.Range(1, 1).value
+                .Cells(CurrentLine + fillInputs, OffsetSection + 5).value = lrCurrent.Range(1, 3).value
+                .Cells(CurrentLine + fillInputs, OffsetSection + 6).value = ValueOfCell
+                .Cells(CurrentLine + fillInputs, OffsetSection + 7).value = lrCurrent.Range(1, 4).value
             End With
         
             fillInputs = fillInputs + 1
@@ -144,8 +144,8 @@ Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine
         delay = loSourceFiles.TotalsRowRange.Cells(1, ColumnIndex)
         If delay <> "" Then
             With wsResultSheet
-                .Cells(CurrentLine + fillInputs, OffsetSection + 3).Value = "Wait"
-                .Cells(CurrentLine + fillInputs, OffsetSection + 6).Value = delay
+                .Cells(CurrentLine + fillInputs, OffsetSection + 3).value = "Wait"
+                .Cells(CurrentLine + fillInputs, OffsetSection + 6).value = delay
             End With
             fillInputs = fillInputs + 1
         End If
@@ -162,7 +162,7 @@ Function getComment(wsCurrentTestSheet As Worksheet, lcTable As ListObject, Curr
     yPosition = lcTable.ListColumns.Item(CurrentColumn).Range.Column
     
     If xPosition > 0 And Not IsEmpty(wsCurrentTestSheet.Cells(xPosition, yPosition)) Then
-        getComment = wsCurrentTestSheet.Cells(xPosition, yPosition).Value
+        getComment = wsCurrentTestSheet.Cells(xPosition, yPosition).value
     End If
 End Function
 
@@ -205,3 +205,5 @@ Function checkingTestFormat(lcActionsTableColumns As ListColumns) As Boolean
         End If
     Next i
 End Function
+
+

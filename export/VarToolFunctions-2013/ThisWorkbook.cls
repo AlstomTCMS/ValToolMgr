@@ -43,7 +43,7 @@ Sub exportBas()
         End Select
         
         If Sfx <> "" Then
-            VBComp.Export Filename:=ActiveWorkbook.Path & exportFolder & VBComp.name & Sfx
+            VBComp.Export Filename:=ActiveWorkbook.path & exportFolder & VBComp.name & Sfx
         End If
     Next VBComp
 End Sub
@@ -52,7 +52,7 @@ End Sub
 
 Private Sub Workbook_Open()
     'Permet la modif des modules par plusieurs utilisateurs par la gestion de conf
-    Call importBas
+    'Call importBas
 End Sub
 
 Sub importBas()

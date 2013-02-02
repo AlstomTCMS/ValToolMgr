@@ -26,7 +26,7 @@ Private col_projet As Variant
     Dim teststand_conf() As String      'parametre valeur type
     Dim proj_filglo() As String    'parametre valeur type
     Dim proj_inst() As String      'parametre valeur
-    Dim Path As String
+    Dim path As String
     Dim k As Integer
 
 Private Sub Class_Initialize()
@@ -123,7 +123,7 @@ Private Sub Generation_TestStand()
 
     'lecture chemin
     directory = lecture_param(teststand_conf, "Generation_directory")
-    If directory = "" Then directory = ThisWorkbook.Path
+    If directory = "" Then directory = ThisWorkbook.path
 
     'lecture automatic restart
     'Auto_restart = LCase(lecture_param(teststand_conf, "Automatic restart"))
@@ -617,8 +617,8 @@ Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef compteur, M
 
 
     ' path management for callsequence
-    Path = ThisWorkbook.Path & "\" & variable & ".seq"
-    Path = Replace(Path, "\", "\\")
+    path = ThisWorkbook.path & "\" & variable & ".seq"
+    path = Replace(path, "\", "\\")
 
 
     Select Case UCase(MotAction)
@@ -663,7 +663,7 @@ Private Sub TraitementAction(EnsembleLignes0, EnsembleLignes1, ByRef compteur, M
     Case UCase("TestAnaNN")
     Call TraitementCB_TestAnaNN(strLib, EnsembleLignes0, EnsembleLignes1, compteur, variable, valeur, NSection, Cells(i, j + 4), Cells(i, j + 6), IIf(Cells(i, j + 5) = "", "FileGlobals.TimeOut", Cells(i, j + 5)))
     Case UCase("Call")
-    Call TraitementSequenceCall(Cells(i, j) & ";" & variable, EnsembleLignes0, EnsembleLignes1, compteur, variable, Path, proj_filglo, proj_conf, NSection)
+    Call TraitementSequenceCall(Cells(i, j) & ";" & variable, EnsembleLignes0, EnsembleLignes1, compteur, variable, path, proj_filglo, proj_conf, NSection)
     Case UCase("Wait")
     Call TraitementNI_Wait(Cells(i, j), EnsembleLignes0, EnsembleLignes1, compteur, valeur)
     Case UCase("CB_StopTask")
@@ -759,7 +759,7 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
     Dim TmpArray
     Dim TmpArray2
     Dim VarName As String
-    Dim VarType As String
+    Dim varType As String
     Dim VarPath As String
     Dim VarVal As Variant
     Dim ligne As String
@@ -780,30 +780,30 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
 
     'ouverture du fichier de paramétrage
     If FS.FileExists(FilePath) Then
-    Set A = FS.OpenTextFile(FilePath, 1)
+    Set a = FS.OpenTextFile(FilePath, 1)
 
     'saute la premiere ligne (code inconnu)
-    A.readline
+    a.readline
 
     'parcours du fichier
-    While Not A.AtEndOfStream
+    While Not a.AtEndOfStream
     IsAnArray = False
     IsATime = False
     IsToSkip = False
 
-    TmpLine = A.readline
+    TmpLine = a.readline
     TmpArray = Split(TmpLine, " ")
 
     '
     ' Variable detection
     '
 
-    VarType = TmpArray(0)
+    varType = TmpArray(0)
     VarVal = TmpArray(2)
 
     'cas de la première ligne : la première ligne comporte un integer à ignorer, suivi d'une ligne à traiter
     If IsFirstLine Then
-    VarType = Right(VarType, 1)
+    varType = Right(varType, 1)
     IsFirstLine = False
     End If
 
@@ -882,7 +882,7 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
     Call TraitementCB_Write(ligne, EnsembleLignes0, EnsembleLignes1, compteur, VarName, VarPath, VarVal, Section)
 
     Else 'normal variable
-    Select Case VarType
+    Select Case varType
     Case "B":
     If CBool(VarVal) Then
     VarVal = "true"
@@ -904,8 +904,8 @@ Private Sub TraitementCB_LoadParamFile(sLigne As String, EnsembleLignes0, Ensemb
     End If
     End If
     Wend
-    A.Close
-    Set A = Nothing
+    a.Close
+    Set a = Nothing
     Set FS = Nothing
     End If
 
