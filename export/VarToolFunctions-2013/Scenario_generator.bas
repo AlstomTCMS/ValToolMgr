@@ -1,11 +1,14 @@
 Attribute VB_Name = "Scenario_generator"
-Public Sub Generate_scenario(ByVal testNumber As String)
+'Public Sub Generate_scenario(ByVal testNumber As String)
+Public Sub Generate_scenario()
+    Dim testNumber As String
+    testNumber = "1.2"
+
     Dim wsCurrentTestSheet As Worksheet, _
         wsResultSheet As Worksheet, _
         loActionsTable As ListObject, _
-        loChecksTable As ListObject, _
-        lcActionsTableColumns As ListColumns, _
-        lcChecksTableColumns As ListColumns
+        loChecksTable As ListObject
+
         
     Dim scenario_shName As String
  
@@ -18,33 +21,36 @@ Public Sub Generate_scenario(ByVal testNumber As String)
 
     Set wsCurrentTestSheet = ActiveSheet 'Worksheets("Scenario")
     'wsCurrentTestSheet.Activate
-    
-    Dim ScenarioTs As ScenarioTs
-    Set C = New ScenarioTs
 
-
-    
-    
-    GoTo End_GenScenario
-    
     Set loActionsTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber)
-    Set lcActionsTableColumns = loActionsTable.ListColumns
-    
-    ' Pour l'instant on ne vérifie pas le formalisme
-    'If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
-    
     Set loChecksTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_CHECK_PREFIX & testNumber)
-    Set lcChecksTableColumns = loChecksTable.ListColumns
+    
+      ' Pour l'instant on ne vérifie pas le formalisme
+    'If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
 
     scenario_shName = PR_TEST_SCENARIO_PREFIX & testNumber
-    ' Delete scenario sheet if already existe
-    If WsExist(scenario_shName) Then
-        Sheets(scenario_shName).Delete
-    End If
-    Set wsResultSheet = InitSheet(scenario_shName)
+
     
+    Dim o_test As CTest
+    o_test = parseSingleTest(loActionsTable, loCheckTable)
+    o_test.title = scenario_shName
     
-        
+End_GenScenario:
+    'optimisation excel
+    Debug.Print "End of scenario"
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    Application.Calculation = xlCalculationAutomatic
+End Sub
+
+Private Function parseSingleTest(loActionsTable As ListObject, loChecksTable As ListObject) As CTest
+    Dim lcActionsTableColumns As ListColumns, _
+        lcChecksTableColumns As ListColumns
+    
+      Set lcActionsTableColumns = loActionsTable.ListColumns
+      Set lcChecksTableColumns = loChecksTable.ListColumns
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     ' Writing inputs
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -92,17 +98,7 @@ Public Sub Generate_scenario(ByVal testNumber As String)
         .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Interior.ColorIndex = 37
         .Range(.Cells(CurrentLine, OffsetSection + 1), .Cells(CurrentLine, OffsetSection + 14)).Characters.Font.ColorIndex = 2
     End With
-    
-End_GenScenario:
-    'optimisation excel
-    Debug.Print "End of scenario"
-    Application.ScreenUpdating = True
-    Application.EnableEvents = True
-    Application.ScreenUpdating = True
-    Application.DisplayAlerts = True
-    Application.Calculation = xlCalculationAutomatic
-End Sub
-
+End Function
 
 Function fillInputs(OffsetSection As Integer, Instruction As String, CurrentLine As Integer, wsResultSheet As Worksheet, loSourceFiles As ListObject, ColumnIndex As Integer) As Integer
     Dim lrCurrent As ListRow, _
@@ -205,5 +201,7 @@ Function checkingTestFormat(lcActionsTableColumns As ListColumns) As Boolean
         End If
     Next i
 End Function
+
+
 
 
