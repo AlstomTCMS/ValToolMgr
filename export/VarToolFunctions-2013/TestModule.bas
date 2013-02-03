@@ -14,7 +14,16 @@ Private Function testStep(Idx As Integer) As CStep
         Set o_action = New CInstruction
     
         o_action.category = A_FORCE
-        o_action.Data = "toto " & numero
+        
+        
+        Dim variable As CVariable
+        Set variable = New CVariable
+        variable.name = "var" & numero
+        variable.path = "chemin" & numero & ""
+        variable.typeOfVar = T_BOOLEAN
+        variable.value = numero
+        
+        Set o_action.Data = variable
         testStep.AddInstruction o_action
         numero = numero + 1
     Wend
