@@ -13,22 +13,7 @@ Private filename As String
 Private filePtr As Integer
 Public testsCont As CTestContainer
 
-Const ACTION_INIT_TASK As String = "Init_Task"
-Const ACTION_POPUP As String = "Popup"
-Const ACTION_FORCE As String = "Force"
-Const ACTION_FORCE_NN As String = "ForceNN"
-Const ACTION_UNFORCE As String = "UnForce"
-Const ACTION_UNFORCE_NN As String = "UnForceNN"
-Const ACTION_WRITE As String = "Write"
-Const ACTION_WRITE_NN As String = "WriteNN"
-Const ACTION_READ As String = "Read"
-Const ACTION_READ_NN As String = "ReadNN"
-Const ACTION_TEST As String = "Test"
-Const ACTION_TEST_NN As String = "TestNN"
-Const ACTION_TEST_ANA As String = "TestAna"
-Const ACTION_TEST_ANA_NN As String = "TestAnaNN"
-Const ACTION_CALL As String = "Call"
-Const ACTION_WAIT As String = "Wait"
+
 
 Private Sub Class_Initialize()
     Debug.Print "Class Generator is initialised"
@@ -42,39 +27,12 @@ Public Sub writeScenario(file As String, o_testContainer As CTestContainer)
     Call OpenScenario
     Call WriteFileHeader
     
-    ' TestStand Needs to predeclare sequences that we want to describe later
-    Dim SequenceIdx As Integer
-    For SequenceIdx = 0 To testsCont.getCount() - 1
-        Print #filePtr, "%[" & SequenceIdx & "] = Sequence"
-    Next SequenceIdx
-    Print #filePtr, ""
-    
-    ' Declare High level steps
-    Print #filePtr, "[SF.Seq[0]]"
-    Print #filePtr, "%HI: Main = [" & testsCont.getCount() - 1 & "]"
-    Print #filePtr, ""
-    Print #filePtr, "[DEF, SF.Seq[0].Main]"
-
-    'Implementing call to sub-sequences
-    For SequenceIdx = 0 To testsCont.getCount() - 1
-       Print #filePtr, "%[" & SequenceIdx & "] = Step"
-       Print #filePtr, "%TYPE: %[" & SequenceIdx & "] = " & """SequenceCall"""
-    Next SequenceIdx
-    
-    Print #filePtr, ""
-    'For i = 1 To Seq(1).EnsembleLignes1.Count
-    '   Print #fic, Seq(1).EnsembleLignes1(i)
-    'Next i
-
-    Print #filePtr, "[DEF, SF.Seq[0].RTS]"
-    
-    
-    
-    
     Call WriteFileFooter
     
     Call CloseScenario
 End Sub
+
+
 
 Private Sub OpenScenario()
     'If File Exists, its is moved to the same name with .old extension
