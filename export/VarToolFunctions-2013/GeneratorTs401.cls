@@ -39,8 +39,9 @@ Public Sub writeScenario(file As String, o_testContainer As CTestContainer)
     Call WriteFileHeader
     
     Dim SequenceIdx As Integer
+    
     For SequenceIdx = 1 To SeqList.getCount
-        Call writeInstructions(SequenceIdx, SeqList.getSequence(SequenceIdx))
+        Call WriteSequence(SequenceIdx, SeqList.getSequence(SequenceIdx))
     Next SequenceIdx
     
     Call WriteFileFooter
@@ -95,13 +96,18 @@ End Sub
 
 Private Sub WriteFileHeader()
 
-    Call AppendTemplateFile("0_Header.txt")
+    Call AppendTemplateFile("0_1Header.txt")
+    Print #filePtr, "%HI: Seq = [" & SeqList.getCount & "]"
+    Call AppendTemplateFile("0_2Header.txt")
     
-    Dim SeqIdx As Integer
+     Dim SeqIdx As Integer
     For SeqIdx = 1 To SeqList.getCount
         Print #filePtr, "%[" & SeqIdx & "] = Sequence"
     Next SeqIdx
     Print #filePtr, ""
+    
+    Call AppendTemplateFile("0_3Header.txt")
+    Print #filePtr, "%HI: Main = [" & SeqList.getCount - 1 & "]"
     
     Call AppendTemplateFile("1_MainSequence_Locals.txt")
     
@@ -112,17 +118,19 @@ Private Sub WriteFileHeader()
     
 End Sub
 
-Private Sub writeInstructions(SequenceIdx As Integer, sequence As CTestStandSeq)
+Private Sub writeInstructions(SequenceIdx As Integer, Sequence As CTestStandSeq)
     Dim InstrIdx As Integer
     
-    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main]"
-    For InstrIdx = 1 To sequence.getCount
+    If (Sequence.getCount > 0) Then Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main]"
+    For InstrIdx = 1 To Sequence.getCount
         Print #filePtr, "%[" & InstrIdx - 1 & "] = Step"
-        Print #filePtr, "%TYPE: %[" & InstrIdx - 1 & "] = """ & sequence.getInstr(InstrIdx).getCategoryAsText & """"
+        Print #filePtr, "%TYPE: %[" & InstrIdx - 1 & "] = """ & Sequence.getInstr(InstrIdx).getCategoryAsText & """"
     Next InstrIdx
     
-    For InstrIdx = 1 To sequence.getCount
-        Call writeSingleInstruction(SequenceIdx, InstrIdx - 1, sequence.getInstr(InstrIdx))
+    If (Sequence.getCount > 0) Then Print #filePtr, ""
+    
+    For InstrIdx = 1 To Sequence.getCount
+        Call writeSingleInstruction(SequenceIdx, InstrIdx - 1, Sequence.getInstr(InstrIdx))
     Next InstrIdx
 End Sub
 
@@ -318,6 +326,96 @@ End Function
 'date_modification = 02/02/2013
 'remarque = Module Générique (fonctionne avec les FDT Fc et NT)
 '********************************************************************************************************************
+
+Private Sub WriteSequence(SequenceIdx As Integer, Sequence As CTestStandSeq)
+    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "]]"
+    Print #filePtr, "Parameters = Obj"
+    Print #filePtr, "Locals = Obj"
+    Print #filePtr, "Main = Objs"
+    Print #filePtr, "Setup = Objs"
+    Print #filePtr, "Cleanup = Objs"
+    Print #filePtr, "GotoCleanupOnFail = Bool"
+    Print #filePtr, "RecordResults = Bool"
+    Print #filePtr, "RTS = Obj"
+    Print #filePtr, "Requirements = Obj"
+    Print #filePtr, "%NAME = """ & Sequence.identifier & """"
+    Print #filePtr, ""
+    
+    Print #filePtr, "[SF.Seq[" & SequenceIdx & "]]"
+    Print #filePtr, "%FLG: Parameters = 4456448"
+    Print #filePtr, "%FLG: Locals = 4194304"
+    If (Sequence.getCount > 0) Then Print #filePtr, "%HI: Main = [" & Sequence.getCount - 1 & "]"
+    Print #filePtr, "%FLG: Main = 4194304"
+    Print #filePtr, "%FLG: Setup = 4194304"
+    Print #filePtr, "%FLG: Cleanup = 4194304"
+    Print #filePtr, "%FLG: GotoCleanupOnFail = 4194312"
+    Print #filePtr, "RecordResults = True"
+    Print #filePtr, "%FLG: RecordResults = 4194312"
+    Print #filePtr, "%FLG: RTS = 4456456"
+    Print #filePtr, "%FLG: Requirements = 4456456"
+    Print #filePtr, ""
+
+    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Locals]"
+    Print #filePtr, "ResultList = Objs"
+    Print #filePtr, ""
+            
+    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Locals.ResultList]"
+    Print #filePtr, "%EPTYPE = TEResult"
+    Print #filePtr, ""
+
+    Call writeInstructions(SequenceIdx, Sequence)
+
+    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].RTS]"
+    Print #filePtr, "Type = Num"
+    Print #filePtr, "OptimizeNonReentrantCalls = Bool"
+    Print #filePtr, "EPNameExpr = Str"
+    Print #filePtr, "EPEnabledExpr = Str"
+    Print #filePtr, "EPMenuHint = Str"
+    Print #filePtr, "EPIgnoreClient = Bool"
+    Print #filePtr, "EPInitiallyHidden = Bool"
+    Print #filePtr, "EPCheckToSaveTitledFile = Bool"
+    Print #filePtr, "ShowEPAlways = Bool"
+    Print #filePtr, "ShowEPForFileWin = Bool"
+    Print #filePtr, "ShowEPForExeWin = Bool"
+    Print #filePtr, "ShowEPForEditorOnly = Bool"
+    Print #filePtr, "AllowIntExeOfEP = Bool"
+    Print #filePtr, "CopyStepsOnOverriding = Bool"
+    Print #filePtr, "Priority = Num"
+    Print #filePtr, ""
+
+    Print #filePtr, "[SF.Seq[" & SequenceIdx & "].RTS]"
+    Print #filePtr, "%FLG: Type = 4194304"
+    Print #filePtr, "OptimizeNonReentrantCalls = True"
+    Print #filePtr, "%FLG: OptimizeNonReentrantCalls = 4194304"
+    Print #filePtr, "EPNameExpr = ""\""Unnamed Entry Point\"""""
+    Print #filePtr, "%FLG: EPNameExpr = 4194304"
+    Print #filePtr, "EPEnabledExpr = ""True"""
+    Print #filePtr, "%FLG: EPEnabledExpr = 4194304"
+    Print #filePtr, "%FLG: EPMenuHint = 4194304"
+    Print #filePtr, "%FLG: EPIgnoreClient = 4194304"
+    Print #filePtr, "%FLG: EPInitiallyHidden = 4194304"
+    Print #filePtr, "EPCheckToSaveTitledFile = True"
+    Print #filePtr, "%FLG: EPCheckToSaveTitledFile = 4194304"
+    Print #filePtr, "%FLG: ShowEPAlways = 4194304"
+    Print #filePtr, "ShowEPForFileWin = True"
+    Print #filePtr, "%FLG: ShowEPForFileWin = 4194304"
+    Print #filePtr, "%FLG: ShowEPForExeWin = 4194304"
+    Print #filePtr, "%FLG: ShowEPForEditorOnly = 4194304"
+    Print #filePtr, "%FLG: AllowIntExeOfEP = 4194304"
+    Print #filePtr, "CopyStepsOnOverriding = True"
+    Print #filePtr, "%FLG: CopyStepsOnOverriding = 4194304"
+    Print #filePtr, "Priority = 2953567917"
+    Print #filePtr, "%FLG: Priority = 4194304"
+    Print #filePtr, ""
+            
+    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Requirements]"
+    Print #filePtr, "Links = Strs"
+    Print #filePtr, ""
+            
+    Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Requirements]"
+    Print #filePtr, "%FLG: Links = 71303168"
+    Print #filePtr, ""
+End Sub
 
 Private Sub ProcessingCB_Force(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr)
 
@@ -625,18 +723,13 @@ Private Sub ProcessingSequenceCall(SequenceIdx As Integer, InstructionIdx As Int
     
     Print #filePtr, "SeqName = """ & instruction.Data & """"
     Print #filePtr, "UseCurFile = True"
-    'Print #filePtr, "%FLG: Prototype = 262144"
+    Print #filePtr, "%FLG: Prototype = 262144"
+    Print #filePtr, "UsePrototype = True"
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData]"
-    Print #filePtr, "ActualArgs = Arguments"
-    'Print #filePtr, "Prototype = Obj"
+    'Print #filePtr, "ActualArgs = Arguments"
+    Print #filePtr, "Prototype = Obj"
     'Print #filePtr, "Trace = ""Don\t Change"""
-    Print #filePtr, ""
-    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.ActualArgs]"
-    Print #filePtr, "blnDep = ""TYPE, SequenceArgument"""
-    Print #filePtr, ""
-    Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.ActualArgs.blnDep]"
-    Print #filePtr, "UseDef = False"
     Print #filePtr, ""
     
     'If parameters <> "" Then
