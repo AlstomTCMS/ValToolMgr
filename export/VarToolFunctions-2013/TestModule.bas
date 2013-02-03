@@ -23,7 +23,7 @@ Private Function testStep() As CStep
 End Function
 
 Private Function testTest() As CTest
-    Set o_test = New CStep
+    Set testTest = New CTest
     
     Dim numero As Integer
     numero = 1 'Numéro de départ (correspond ici au n° de ligne et au n° de numérotation)
@@ -31,9 +31,38 @@ Private Function testTest() As CTest
     While numero <= 12 'TANT QUE la variable numero est <= 12, la boucle est répétée
        Dim o_step As CInstruction
         Set o_step = New CInstruction
-    
 
-        o_test.AddStep testStep()
+        testTest.AddStep testStep()
         numero = numero + 1
     Wend
 End Function
+
+Private Function testContainer() As CTestContainer
+    Set testContainer = New CTestContainer
+
+    Dim numero As Integer
+    numero = 1 'Numéro de départ (correspond ici au n° de ligne et au n° de numérotation)
+
+    While numero <= 12 'TANT QUE la variable numero est <= 12, la boucle est répétée
+       Dim o_test As CTest
+        Set o_test = New CTest
+
+        testContainer.AddTest testTest()
+        numero = numero + 1
+    Wend
+
+End Function
+
+Private Sub testScenarioTs()
+    
+    Dim cContainer As CTestContainer
+    Set cContainer = testContainer()
+    
+    Dim genTs As GeneratorTs401
+    Set genTs = New GeneratorTs401
+    
+    Call genTs.writeScenario("C:\\macros_alstom\\test\\testGen.seq", cContainer)
+    
+    
+    
+End Sub
