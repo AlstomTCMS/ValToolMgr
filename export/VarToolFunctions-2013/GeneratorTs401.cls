@@ -80,8 +80,27 @@ End Sub
 
 Private Sub genInstrListFromTest(ByRef SubSeq As CTestStandSeq, TestContainer As CTest)
     SubSeq.identifier = TestContainer.title
+    SubSeq.title = TestContainer.title
+    
+    Dim StepIdx As Integer
+    For StepIdx = 1 To TestContainer.getCount
+        Dim o_step As CStep
+        Set o_step = TestContainer.getStep(StepIdx)
+        SubSeq.AddInstr genTsLabel("====================================")
+        SubSeq.AddInstr genTsLabel("======== Step " & StepIdx & " : " & o_step.title)
+        SubSeq.AddInstr genTsLabel("====================================")
+        
+        If (o_step.DescAction <> "") Then SubSeq.AddInstr genTsLabel("== Actions : " & o_step.DescAction)
+        If (o_step.DescCheck <> "") Then SubSeq.AddInstr genTsLabel("== Checks : " & o_step.DescCheck)
+    Next StepIdx
     
 End Sub
+
+Private Function genTsLabel(text As String) As CTestStandInstr
+    Set genTsLabel = New CTestStandInstr
+    genTsLabel.category = TS_LABEL
+    genTsLabel.Data = text
+End Function
 
 Private Sub OpenScenario()
     'If File Exists, its is moved to the same name with .old extension

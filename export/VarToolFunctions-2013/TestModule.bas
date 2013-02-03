@@ -7,9 +7,9 @@ Private Function testStep(Idx As Integer) As CStep
     testStep.title = "Step_" & Idx
     
     Dim numero As Integer
-    numero = 1 'Numéro de départ (correspond ici au n° de ligne et au n° de numérotation)
+    numero = 1
 
-    While numero <= 12 'TANT QUE la variable numero est <= 12, la boucle est répétée
+    While numero <= 12
        Dim o_action As CInstruction
         Set o_action = New CInstruction
     
@@ -25,9 +25,9 @@ Private Function testTest(Idx As Integer) As CTest
     
     testTest.title = "Test_" & Idx
     Dim numero As Integer
-    numero = 1 'Numéro de départ (correspond ici au n° de ligne et au n° de numérotation)
+    numero = 1
 
-    While numero <= 12 'TANT QUE la variable numero est <= 12, la boucle est répétée
+    While numero <= 12
        Dim o_step As CInstruction
         Set o_step = New CInstruction
 
