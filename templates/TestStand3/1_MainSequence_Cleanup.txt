@@ -1,0 +1,221 @@
+[DEF, SF.Seq[0].Cleanup]
+%[0] = Step
+%TYPE: %[0] = "Label"
+%[1] = Step
+%TYPE: %[1] = "CB_Disconnect"
+%[2] = Step
+%TYPE: %[2] = "CB_Disconnect"
+%[3] = Step
+%TYPE: %[3] = "NI_Wait"
+%[4] = Step
+%TYPE: %[4] = "SequenceCall"
+%[5] = Step
+%TYPE: %[5] = "SequenceCall"
+%[6] = Step
+%TYPE: %[6] = "SequenceCall"
+%[7] = Step
+%TYPE: %[7] = "Statement"
+
+[SF.Seq[0].Cleanup[0].TS]
+Id = "ID#:l9bIiPxZQkeHD12CYuMC9A"
+NoResult = True
+StepFCSeqF = False
+
+[DEF, SF.Seq[0].Cleanup[0]]
+%NAME = "ModeMultiple"
+
+[SF.Seq[0].Cleanup[1].TS]
+Id = "ID#:3/XgLxT5fEmkj+4sA51L7A"
+NoResult = True
+
+[DEF, SF.Seq[0].Cleanup[1].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Cleanup[1].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{098049AE-1073-4CAE-870A-386D2E94283A}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809437
+MemberName = "CB_Disconnect"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4ba.0"
+InterfaceType = 1
+VTableOffset = 520
+%HI: Parameters = [2]
+
+[DEF, SF.Seq[0].Cleanup[1].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Cleanup[1].TS.SData.Call.Parameters[0]]
+Name = "strTargetName"
+ArgVal = "FileGlobals.CB_Target"
+ArgDisplayVal = "FileGlobals.CB_Target"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Cleanup[1].TS.SData.Call.Parameters[1]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Cleanup[1].TS.SData.Call.Parameters[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, SF.Seq[0].Cleanup[1]]
+%NAME = "Déconnection de la tache Env Loco1"
+
+[SF.Seq[0].Cleanup[2].TS]
+Id = "ID#:WFe3m6ChakWDWCTdu5KLRB"
+NoResult = True
+
+[DEF, SF.Seq[0].Cleanup[2].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Cleanup[2].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_2"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{098049AE-1073-4CAE-870A-386D2E94283A}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809437
+MemberName = "CB_Disconnect"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4ba.0"
+InterfaceType = 1
+VTableOffset = 520
+%HI: Parameters = [2]
+
+[DEF, SF.Seq[0].Cleanup[2].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Cleanup[2].TS.SData.Call.Parameters[0]]
+Name = "strTargetName"
+ArgVal = "FileGlobals.Target_MPU"
+ArgDisplayVal = "FileGlobals.Target_MPU"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Cleanup[2].TS.SData.Call.Parameters[1]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Cleanup[2].TS.SData.Call.Parameters[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, SF.Seq[0].Cleanup[2]]
+%NAME = "Déconnection de la tache MPU_Copy"
+
+[SF.Seq[0].Cleanup[3].TS]
+Id = "ID#:Itoj/vhzQ0GgPU90Kn+5NA"
+NoResult = True
+
+[SF.Seq[0].Cleanup[3]]
+SeqCallStepGroupIdx = -1
+TimeExpr = "2"
+
+[DEF, SF.Seq[0].Cleanup[3]]
+%NAME = "Wait"
+
+[SF.Seq[0].Cleanup[4].TS]
+Id = "ID#:dTw0T+g6okWV9+MWo26WBC"
+LoadOpt = "DynamicLoad"
+
+[DEF, SF.Seq[0].Cleanup[4].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[0].Cleanup[4].TS.SData]
+SFPath = "c:\\teststand\\kill.seq"
+SeqName = "MainSequence"
+SpecifyHostByExpr = True
+RemoteExecution = True
+RemoteHostExpr = "FileGlobals.IP1"
+
+[DEF, SF.Seq[0].Cleanup[4]]
+%NAME = "kill PC Env"
+
+[SF.Seq[0].Cleanup[5].TS]
+Id = "ID#:5cYg1Tyc3kuSSfo3WH9D1C"
+LoadOpt = "DynamicLoad"
+
+[DEF, SF.Seq[0].Cleanup[5].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[0].Cleanup[5].TS.SData]
+SFPath = "c:\\teststand\\kill.seq"
+SeqName = "MainSequence"
+SpecifyHostByExpr = True
+RemoteExecution = True
+RemoteHostExpr = "FileGlobals.IP2"
+
+[DEF, SF.Seq[0].Cleanup[5]]
+%NAME = "Kill PC loco1"
+
+[SF.Seq[0].Cleanup[6].TS]
+Id = "ID#:RGJZbuIlzU+aqNbAoVg1vA"
+LoadOpt = "DynamicLoad"
+Mode = "Skip"
+
+[DEF, SF.Seq[0].Cleanup[6].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[0].Cleanup[6].TS.SData]
+SFPath = "c:\\teststand\\kill.seq"
+SeqName = "MainSequence"
+SpecifyHostByExpr = True
+RemoteExecution = True
+RemoteHostExpr = "FileGlobals.IP3"
+
+[DEF, SF.Seq[0].Cleanup[6]]
+%NAME = "Kill PC loco2"
+
+[SF.Seq[0].Cleanup[7].TS]
+Id = "ID#:yRicyELlDkOIBATW4+sACD"
+NoResult = True
+PostExpr Line0001 = "StationGlobals.cb_1=Nothing,\nStationGlobals.cb_2=Nothing,\nStationGlobals.Remote_1=Nothing,\nStationGlobals.Remote_2=No"
+PostExpr Line0002 = "thing"
+
+[DEF, SF.Seq[0].Cleanup[7]]
+%NAME = "Gestion Fermeture definitive"

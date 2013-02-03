@@ -11,28 +11,73 @@ Option Explicit
 
 Private filename As String
 Private filePtr As Integer
-Public testsCont As CTestContainer
+Private idSalt As Integer ' Used only to generate an ID which is always different
+Private alreadyGenerated As Boolean
+Private Const TEMPLATE_DIR = "C:\\macros_alstom\\templates\\TestStand3\\"
 
+Public MainSeq As CTestStandSeq
+Public SeqList As CTestStandSeqContainer
 
 
 Private Sub Class_Initialize()
     Debug.Print "Class Generator is initialised"
+    alreadyGenerated = False
+    idSalt = 1
 End Sub
 
 
 Public Sub writeScenario(file As String, o_testContainer As CTestContainer)
     filename = file
-    Set testsCont = o_testContainer
     
+    If (alreadyGenerated) Then
+        Call Class_Initialize
+    End If
+    
+    Call genTsStructFromTestContainer(o_testContainer)
+
     Call OpenScenario
     Call WriteFileHeader
+    
+    
     
     Call WriteFileFooter
     
     Call CloseScenario
+    alreadyGenerated = True
 End Sub
 
+' Converts a potentially complex tree structure to a standardized, linear TestStand sequence list
+Private Sub genTsStructFromTestContainer(o_testContainer As CTestContainer)
+    
+    Set MainSeq = New CTestStandSeq
+    Set SeqList = New CTestStandSeqContainer
+    
+    Dim SeqIdx As Integer
+    
+    For SeqIdx = 1 To o_testContainer.getCount
+        Dim TestContainer As CTest
+        Set TestContainer = o_testContainer.getTest(SeqIdx)
+        
+        Dim SubSeq As CTestStandSeq
+        Set SubSeq = New CTestStandSeq
+        
+        Call genInstrListFromTest(SubSeq, TestContainer)
+        
+        Dim TsInstr As CTestStandInstr
+        Set TsInstr = New CTestStandInstr
+        
+        TsInstr.category = TS_CALL
+        TsInstr.Data = SubSeq.identifier
+        
+        Call MainSeq.AddInstr(TsInstr)
+        Call SeqList.AddSequence(SubSeq)
+    Next SeqIdx
+End Sub
 
+Private Sub genInstrListFromTest(ByRef SubSeq As CTestStandSeq, TestContainer As CTest)
+    SubSeq.identifier = TestContainer.title
+    
+End Sub
 
 Private Sub OpenScenario()
     'If File Exists, its is moved to the same name with .old extension
@@ -46,15 +91,24 @@ Private Sub OpenScenario()
 End Sub
 
 Private Sub WriteFileHeader()
-    Print #filePtr, "[__Header__]"
-    Print #filePtr, "Path = """ & filename & """"
-    Print #filePtr, ""
-    Print #filePtr, "[DEF, SF.Seq]"
+
+    Call AppendTemplateFile("0_Header.txt")
+    
+    Dim SeqIdx As Integer
+    For SeqIdx = 1 To SeqList.getCount
+        Print #filePtr, "%[" & SeqIdx & "] = Sequence"
+    Next SeqIdx
+    
+    
+    
+    Call AppendTemplateFile("1_MainSequence_Locals.txt")
+    
+    Call AppendTemplateFile("1_MainSequence_Setup.txt")
+    
+    Call AppendTemplateFile("1_MainSequence_cleanup.txt")
+    
 End Sub
 
-Private Sub InstrWriteSequence()
-
-End Sub
 
 Private Sub WriteActions()
     For j = 2 To nb_seq
@@ -158,10 +212,51 @@ Private Sub WriteActions()
 End Sub
 
 Private Sub WriteFileFooter()
-    Print #filePtr, "[DEF, SF.FileglobalDefaults]"
+    Call AppendTemplateFile("99_Footer.txt")
 End Sub
 
 Private Sub CloseScenario()
     Close #filePtr
     Debug.Print "Scenario is finished"
 End Sub
+
+Private Sub AppendTemplateFile(sInputFile As String)
+    sInputFile = TEMPLATE_DIR & sInputFile
+    
+    'Declare the variables
+    Dim sLineOfText As String
+    Dim SourceNum As Long
+    Dim DestNum As Long
+    
+    'If an error occurs, close the files and exit the sub
+    On Error GoTo ErrHandler
+    
+    'Open the source text file
+    SourceNum = FreeFile()
+    Open sInputFile For Input As SourceNum
+    
+    'Include the following line if the first line of the source
+    'text file is a header row and you don't want to append it to
+    'the destination text file:
+    'Line Input #SourceNum, sLineOfText
+    
+    'Read each line of the source file and append it to the destination file
+    Do Until EOF(SourceNum)
+        Line Input #SourceNum, sLineOfText
+        Print #filePtr, sLineOfText
+    Loop
+    
+CloseFile:
+    'Close the source file
+    Close #SourceNum
+    Exit Sub
+ErrHandler:
+      MsgBox "Error # " & Err & ": " & Error(Err)
+      Resume CloseFile
+End Sub
+
+'Function used only to generate unique ID's for TestStand
+Private Function genIdentifier() As String
+    genIdentifier = String$(22 - Len(Trim((Str$(idSalt)))), "0") & Trim(Str$(idSalt))
+    idSalt = idSalt + 1
+End Function
