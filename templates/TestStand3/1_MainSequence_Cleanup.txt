@@ -84,7 +84,7 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[0].Cleanup[1]]
-%NAME = "Déconnection de la tache Env Loco1"
+%NAME = "DÃ©connection de la tache Env Loco1"
 
 [SF.Seq[0].Cleanup[2].TS]
 Id = "ID#:WFe3m6ChakWDWCTdu5KLRB"
@@ -146,7 +146,7 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[0].Cleanup[2]]
-%NAME = "Déconnection de la tache MPU_Copy"
+%NAME = "DÃ©connection de la tache MPU_Copy"
 
 [SF.Seq[0].Cleanup[3].TS]
 Id = "ID#:Itoj/vhzQ0GgPU90Kn+5NA"
@@ -219,3 +219,45 @@ PostExpr Line0002 = "thing"
 
 [DEF, SF.Seq[0].Cleanup[7]]
 %NAME = "Gestion Fermeture definitive"
+
+[DEF, SF.Seq[0].RTS]
+Type = Num
+OptimizeNonReentrantCalls = Bool
+EPNameExpr = Str
+EPEnabledExpr = Str
+EPMenuHint = Str
+EPIgnoreClient = Bool
+EPInitiallyHidden = Bool
+EPCheckToSaveTitledFile = Bool
+ShowEPAlways = Bool
+ShowEPForFileWin = Bool
+ShowEPForExeWin = Bool
+ShowEPForEditorOnly = Bool
+AllowIntExeOfEP = Bool
+CopyStepsOnOverriding = Bool
+Priority = Num
+
+[SF.Seq[0].RTS]
+%FLG: Type = 4194304
+OptimizeNonReentrantCalls = True
+%FLG: OptimizeNonReentrantCalls = 4194304
+EPNameExpr = "\"Unnamed Entry Point\""
+%FLG: EPNameExpr = 4194304
+EPEnabledExpr = "True"
+%FLG: EPEnabledExpr = 4194304
+%FLG: EPMenuHint = 4194304
+%FLG: EPIgnoreClient = 4194304
+%FLG: EPInitiallyHidden = 4194304
+EPCheckToSaveTitledFile = True
+%FLG: EPCheckToSaveTitledFile = 4194304
+%FLG: ShowEPAlways = 4194304
+ShowEPForFileWin = True
+%FLG: ShowEPForFileWin = 4194304
+%FLG: ShowEPForExeWin = 4194304
+%FLG: ShowEPForEditorOnly = 4194304
+%FLG: AllowIntExeOfEP = 4194304
+CopyStepsOnOverriding = True
+%FLG: CopyStepsOnOverriding = 4194304
+Priority = 2953567917
+%FLG: Priority = 4194304
+
