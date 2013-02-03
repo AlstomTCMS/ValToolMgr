@@ -22,3 +22,10 @@ Public Sub AddInstr(o_instr As CTestStandInstr)
     InstrList.Add o_instr
 End Sub
 
+Public Function getCount() As Integer
+    getCount = InstrList.Count
+End Function
+
+Public Function getInstr(index As Integer) As CTestStandInstr
+    Set getInstr = InstrList.Item(index)
+End Function

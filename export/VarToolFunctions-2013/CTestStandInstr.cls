@@ -15,6 +15,7 @@ Public Enum categoryList
     TS_TEST
     TS_CALL
     TS_WAIT
+    TS_LABEL
     UNKNOWN
 End Enum
 
@@ -23,7 +24,9 @@ Private Const C_TS_UNFORCE As String = "UnForce"
 Private Const C_TS_TEST As String = "Test"
 Private Const C_TS_CALL As String = "SequenceCall"
 Private Const C_TS_WAIT As String = "Wait"
+Private Const C_TS_LABEL As String = "Label"
 Private Const C_UNKNOWN As String = "UNKNOWN"
+
 
 Public category As categoryList
 Public Data As Variant
@@ -40,6 +43,8 @@ Public Function getCategoryAsText() As String
               getCategoryAsText = C_TS_CALL
           Case TS_WAIT
               getCategoryAsText = C_TS_WAIT
+          Case TS_LABEL
+              getCategoryAsText = C_TS_LABEL
           Case Else
               getCategoryAsText = C_UNKNOWN
     End Select
