@@ -43,7 +43,6 @@ Public Sub writeScenario(file As String, o_testContainer As CTestContainer)
         Call writeInstructions(SequenceIdx, SeqList.getSequence(SequenceIdx))
     Next SequenceIdx
     
-    
     Call WriteFileFooter
     
     Call CloseScenario
@@ -108,9 +107,7 @@ Private Sub WriteFileHeader()
     
     Call writeInstructions(0, MainSeq)
     
-    
     Call AppendTemplateFile("1_MainSequence_Setup.txt")
-    
     Call AppendTemplateFile("1_MainSequence_cleanup.txt")
     
 End Sub
@@ -178,22 +175,28 @@ Private Sub writeSingleInstruction(SequenceIdx As Integer, InstructionIdx As Int
     'End If
 
     Select Case instruction.category
-        'Case UCase("Init_Task")
-        '    Call ProcessingCB_Init_Task(Seq, nb_seq, compteur, Precon)
-        'Case UCase("Popup")
-        '    Call ProcessingCB_Popup(Name_Var, Seq, nb_seq, compteur, Precon)
+        Case TS_LABEL
+            Call ProcessingLabel(SequenceIdx, InstructionIdx, instruction)
         Case TS_FORCE
             Call ProcessingCB_Force(SequenceIdx, InstructionIdx, instruction)
         Case TS_UNFORCE
             Call ProcessingCB_UnForce(SequenceIdx, InstructionIdx, instruction)
+        Case TS_TEST
+            Call ProcessingCB_Test(SequenceIdx, InstructionIdx, instruction)
+        Case TS_CALL
+            Call ProcessingSequenceCall(SequenceIdx, InstructionIdx, instruction)
+        Case TS_WAIT
+            Call ProcessingNI_Wait(SequenceIdx, InstructionIdx, instruction)
+        'Case UCase("Init_Task")
+        '    Call ProcessingCB_Init_Task(Seq, nb_seq, compteur, Precon)
+        'Case UCase("Popup")
+        '    Call ProcessingCB_Popup(Name_Var, Seq, nb_seq, compteur, Precon)
         'Case UCase("Write")
         '    Call ProcessingCB_Write(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 2), Cells(i, j + 3), Precon)
         'Case UCase("WriteNN")
         '    Call ProcessingCB_WriteNN(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 3), Precon)
         'Case UCase("Read")
         '    Call ProcessingCB_Read(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 2), Cells(i, j + 3), Precon)
-        Case TS_TEST
-            Call ProcessingCB_Test(SequenceIdx, InstructionIdx, instruction)
         'Case UCase("ForceNN")
         '    Call ProcessingCB_ForceNN(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 3), Precon)
         'Case UCase("UnForceNN")
@@ -206,10 +209,6 @@ Private Sub writeSingleInstruction(SequenceIdx As Integer, InstructionIdx As Int
         '    Call ProcessingCB_TestAnaNN(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 3), Cells(i, j + 3), Cells(i, j + 6), timeout, Precon)
         'Case UCase("TestAna")
         '    Call ProcessingCB_TestAna(strLib, Seq, nb_seq, compteur, Name_Var, Cells(i, j + 2), Cells(i, j + 3), Cells(i, j + 3), Cells(i, j + 6), timeout, Precon)
-        Case TS_CALL
-            Call ProcessingSequenceCall(SequenceIdx, InstructionIdx, instruction)
-        Case TS_WAIT
-            Call ProcessingNI_Wait(SequenceIdx, InstructionIdx, instruction)
         'Case UCase("Tempo_System")
         '    Call ProcessingNI_Wait(Cells(i, j), Seq, nb_seq, compteur, Cells(i, j + 3), Precon)
         'TEST ARRAY
@@ -257,8 +256,6 @@ Private Sub writeSingleInstruction(SequenceIdx As Integer, InstructionIdx As Int
         'Pas Statement
         'Case UCase("Statement")
         '    Call ProcessingStatement(Cells(i, j), Seq, nb_seq, compteur, Cells(i, j + 3), Precon)
-        Case TS_LABEL
-            Call ProcessingLabel(SequenceIdx, InstructionIdx, instruction)
         Case Else
             MsgBox ERROR_NOT_IMPLEMENTED_FUNCTION
     End Select
