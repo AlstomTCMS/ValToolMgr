@@ -45,7 +45,7 @@ Sub exportBas()
         End Select
         
         If Sfx <> "" Then
-            VBComp.Export Filename:=ActiveWorkbook.path & exportFolder & VBComp.name & Sfx
+            VBComp.Export filename:=ActiveWorkbook.path & exportFolder & VBComp.name & Sfx
         End If
     Next VBComp
 End Sub
@@ -72,7 +72,7 @@ Sub importBas()
     file = Dir(MacroPath & exportFolder)
     While (file <> "")
         If InStr(file, ".bas") > 0 Then
-            ThisWorkbook.VBProject.VBComponents.Import Filename:=MacroPath & exportFolder & file
+            ThisWorkbook.VBProject.VBComponents.Import filename:=MacroPath & exportFolder & file
         End If
         file = Dir
     Wend
