@@ -6,10 +6,10 @@ Private Enum tableType
     TABLE_CHECKS
 End Enum
 
-'Public Sub Generate_scenario(ByVal testNumber As String)
-Public Sub Generate_scenario()
-    Dim testNumber As String
-    testNumber = "1.2"
+Public Sub Generate_scenario(ByVal testNumber As String)
+'Public Sub Generate_scenario()
+'    Dim testNumber As String
+'    testNumber = "1.2"
 
     Dim wsCurrentTestSheet As Worksheet, _
         wsResultSheet As Worksheet, _
@@ -39,6 +39,17 @@ Public Sub Generate_scenario()
 
     Dim o_test As CTest
     Set o_test = parseSingleTest(scenario_shName, loActionsTable, loChecksTable)
+    
+    Dim o_testContainer As CTestContainer
+    Set o_testContainer = New CTestContainer
+    
+    o_testContainer.AddTest o_test
+    
+    Dim genTs As GeneratorTs401
+    Set genTs = New GeneratorTs401
+    
+    Call genTs.writeScenario("C:\\macros_alstom\\test\\testGen.seq", o_testContainer)
+    
     
 End_GenScenario:
     'optimisation excel
