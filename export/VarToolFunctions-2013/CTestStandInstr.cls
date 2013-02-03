@@ -19,11 +19,11 @@ Public Enum categoryList
     UNKNOWN
 End Enum
 
-Private Const C_TS_FORCE As String = "Force"
-Private Const C_TS_UNFORCE As String = "UnForce"
-Private Const C_TS_TEST As String = "Test"
+Private Const C_TS_FORCE As String = "CB_Force"
+Private Const C_TS_UNFORCE As String = "CB_UnForce"
+Private Const C_TS_TEST As String = "CB_Test"
 Private Const C_TS_CALL As String = "SequenceCall"
-Private Const C_TS_WAIT As String = "Wait"
+Private Const C_TS_WAIT As String = "NI_Wait"
 Private Const C_TS_LABEL As String = "Label"
 Private Const C_UNKNOWN As String = "UNKNOWN"
 
