@@ -21,6 +21,14 @@ Public Sub AddStep(o_action As CStep)
     StepList.Add o_action
 End Sub
 
+Public Function getCount() As Integer
+    getCount = StepList.Count
+End Function
+
+Public Function getStep(index As Integer) As CStep
+    Set getStep = StepList.Item(index)
+End Function
+
 Public Sub AddReq(ByRef req As String)
     ' Not Implemented
 End Sub

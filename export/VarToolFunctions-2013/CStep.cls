@@ -22,6 +22,14 @@ Public Sub AddInstruction(o_action As CInstruction)
     InstrList.Add o_action
 End Sub
 
+Public Function getCount() As Integer
+    getCount = InstrList.Count
+End Function
+
+Public Function getInstruction(index As Integer) As CInstruction
+    Set getInstruction = InstrList.Item(index)
+End Function
+
 Public Sub AddReq(ByRef req As String)
     ' Not Implemented
 End Sub
