@@ -7,7 +7,6 @@ Cleanup = Objs
 GotoCleanupOnFail = Bool
 RecordResults = Bool
 RTS = Obj
-Requirements = Obj
 %NAME = "MainSequence"
 
 [SF.Seq[0]]

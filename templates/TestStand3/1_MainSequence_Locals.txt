@@ -7,7 +7,6 @@
 RecordResults = True
 %FLG: RecordResults = 4194312
 %FLG: RTS = 4456456
-%FLG: Requirements = 4456456
 
 [DEF, SF.Seq[0].Locals]
 ResultList = Objs
