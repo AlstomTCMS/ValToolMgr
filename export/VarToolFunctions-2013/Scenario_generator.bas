@@ -80,9 +80,9 @@ Private Function parseSingleTest(title As String, loActionsTable As ListObject, 
         Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
         Dim o_step As CStep
         Set o_step = New CStep
-        o_step.title = lcActionsTableColumns.Item(CurrentColumn).name
-        o_step.DescAction = "TBD" ' getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
-        o_step.DescCheck = "TBD" ' getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
+        o_step.title = "Title retrieval not implemented"
+        o_step.DescAction = "Action comment retrieval not implemented" ' getComment(wsCurrentTestSheet, loActionsTable, CurrentColumn, "TBD")
+        o_step.DescCheck = "Check comment retrieval not implemented" ' getComment(wsCurrentTestSheet, loChecksTable, CurrentColumn, "Verifications to perform")
     
         
         Call fillWithActions(o_step, TABLE_ACTIONS, loActionsTable, CurrentColumn)
@@ -113,7 +113,11 @@ Private Sub fillWithActions(o_step As CStep, typeOfTable As tableType, loSourceF
         If Not IsEmpty(CellValue) Then
             Dim o_instruction As CInstruction
             Set o_instruction = detectAndBuildInstruction(Target, Location, CellValue, typeOfTable)
-            o_step.AddInstruction o_instruction
+            If typeOfTable = TABLE_ACTIONS Then
+                o_step.AddAction o_instruction
+            ElseIf typeOfTable = TABLE_CHECKS Then
+                o_step.AddCheck o_instruction
+            End If
         End If
     Next line
 End Sub
@@ -172,7 +176,7 @@ Sub addTempoIfExists(o_step As CStep, loSourceFiles As ListObject, ColumnIndex A
         Set o_tempo = New CInstruction
         o_tempo.category = A_WAIT
         o_tempo.Data = delay
-        o_step.AddInstruction o_tempo
+        o_step.AddAction o_tempo
     End If
 End Sub
 

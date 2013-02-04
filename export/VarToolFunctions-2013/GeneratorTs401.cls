@@ -90,12 +90,16 @@ Private Sub genInstrListFromTest(ByRef SubSeq As CTestStandSeq, TestContainer As
         SubSeq.AddInstr genTsLabel("======== Step " & StepIdx & " : " & o_step.title)
         SubSeq.AddInstr genTsLabel("====================================")
         
-        If (o_step.DescAction <> "") Then SubSeq.AddInstr genTsLabel("== Actions : " & o_step.DescAction)
-        If (o_step.DescCheck <> "") Then SubSeq.AddInstr genTsLabel("== Checks : " & o_step.DescCheck)
-        
         Dim InstrIdx As Integer
-        For InstrIdx = 1 To o_step.getCount
-            SubSeq.AddInstr getTsEquivFromInstr(o_step.getInstruction(InstrIdx))
+        
+        If (o_step.DescAction <> "") Then SubSeq.AddInstr genTsLabel("== Actions : " & o_step.DescAction)
+        For InstrIdx = 1 To o_step.getActionCount
+            SubSeq.AddInstr getTsEquivFromInstr(o_step.getAction(InstrIdx))
+        Next InstrIdx
+        
+        If (o_step.DescCheck <> "") Then SubSeq.AddInstr genTsLabel("== Checks : " & o_step.DescCheck)
+        For InstrIdx = 1 To o_step.getcheckCount
+            SubSeq.AddInstr getTsEquivFromInstr(o_step.getCheck(InstrIdx))
         Next InstrIdx
     Next StepIdx
     
@@ -366,10 +370,6 @@ Private Function genIdentifier() As String
     idSalt = idSalt + 1
 End Function
 
-Private Function defineVariable(Data As Variant) As CVariable
-    Set defineVariable = Data
-End Function
-
 '********************************************************************************************************************
 '                   Librairies séquence TS
 '********************************************************************************************************************
@@ -459,13 +459,13 @@ Private Sub WriteSequence(SequenceIdx As Integer, Sequence As CTestStandSeq)
     Print #filePtr, "%FLG: Priority = 4194304"
     Print #filePtr, ""
             
-    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Requirements]"
-    Print #filePtr, "Links = Strs"
-    Print #filePtr, ""
+    'Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Requirements]"
+    'Print #filePtr, "Links = Strs"
+    'Print #filePtr, ""
             
-    Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Requirements]"
-    Print #filePtr, "%FLG: Links = 71303168"
-    Print #filePtr, ""
+    'Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Requirements]"
+    'Print #filePtr, "%FLG: Links = 71303168"
+    'Print #filePtr, ""
 End Sub
 
 Private Sub ProcessingCB_Force(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr)
@@ -480,21 +480,21 @@ Private Sub ProcessingCB_Force(SequenceIdx As Integer, InstructionIdx As Integer
     Print #filePtr, "SData = ""TYPE, AutomationStepAdditions"""
     Print #filePtr, ""
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call]"
-    Print #filePtr, "ObjectVariable = ""Stationglobals.cb"""
+    Print #filePtr, "ObjectVariable = ""FileGlobals.cb1"""
     Print #filePtr, "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
-    Print #filePtr, "ServerName = ""Interface between TestStand3.0 et CB3.32"""
+    Print #filePtr, "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
     Print #filePtr, "CoClass = ""{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"""
     Print #filePtr, "CoClassName = ""ControlBuild"""
     Print #filePtr, "Interface = ""{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"""
     Print #filePtr, "InterfaceName = ""_ControlBuild"""
     Print #filePtr, "MemberType = 1"
-    Print #filePtr, "Member = 1610809364"
+    Print #filePtr, "Member = 1610809363"
     Print #filePtr, "MemberName = ""CB_Force"""
     Print #filePtr, "HasMemberInfo = True"
     Print #filePtr, "Locale = 1036"
-    Print #filePtr, "TypeLibVersion = ""453.0"""
+    Print #filePtr, "TypeLibVersion = ""22b.0"""
     Print #filePtr, "InterfaceType = 1"
-    Print #filePtr, "VTableOffset = 204"
+    'Print #filePtr, "VTableOffset = 204"
     Print #filePtr, "%HI: Parameters = [4]"
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call.Parameters]"
@@ -552,7 +552,7 @@ Private Sub ProcessingCB_Force(SequenceIdx As Integer, InstructionIdx As Integer
     Print #filePtr, "IsByRef = True"
     Print #filePtr, ""
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
-    Print #filePtr, "InBuf = ""\""" & variable.path & "\"""""
+    Print #filePtr, "%COMMENT = ""\n """
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
     Print #filePtr, "%NAME = ""Force " & variable.name & " at " & variable.value & """"
@@ -659,21 +659,21 @@ Private Sub ProcessingCB_Test(SequenceIdx As Integer, InstructionIdx As Integer,
     Print #filePtr, "SData = ""TYPE, AutomationStepAdditions"""
     Print #filePtr, ""
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call]"
-    Print #filePtr, "ObjectVariable = ""Stationglobals.cb"""
+    Print #filePtr, "ObjectVariable = ""FileGlobals.cb1"""
     Print #filePtr, "Server = ""{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"""
-    Print #filePtr, "ServerName = ""Interface between TestStand3.0 - CB4.0 - RP"""
+    Print #filePtr, "ServerName = ""Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"""
     Print #filePtr, "CoClass = ""{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"""
     Print #filePtr, "CoClassName = ""ControlBuild"""
-    Print #filePtr, "Interface = ""{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"""
+    Print #filePtr, "Interface = ""{65D7DD1D-CEED-49EA-A31F-2A4F70D9A107}"""
     Print #filePtr, "InterfaceName = ""_ControlBuild"""
     Print #filePtr, "MemberType = 1"
     Print #filePtr, "Member = 1610809350"
     Print #filePtr, "MemberName = ""CB_Test"""
     Print #filePtr, "HasMemberInfo = True"
     Print #filePtr, "Locale = 1036"
-    Print #filePtr, "TypeLibVersion = ""4ba.0"""
+    Print #filePtr, "TypeLibVersion = ""454.0"""
     Print #filePtr, "InterfaceType = 1"
-    Print #filePtr, "VTableOffset = 192"
+    Print #filePtr, "VTableOffset = 164"
     Print #filePtr, "%HI: Parameters = [5]"
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call.Parameters]"
@@ -746,7 +746,7 @@ Private Sub ProcessingCB_Test(SequenceIdx As Integer, InstructionIdx As Integer,
     Print #filePtr, "InBuf = ""\""" & variable.path & "\"""""
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
-    Print #filePtr, "%NAME = ""Test_" & idSalt & """"
+    Print #filePtr, "%NAME = ""Test " & variable.name & " at " & variable.getStringValue & """"
     Print #filePtr, ""
 End Sub
 
@@ -770,7 +770,7 @@ Private Sub ProcessingSequenceCall(SequenceIdx As Integer, InstructionIdx As Int
     '    Next
     'End If
 
-    Call printInstructionHeader(SequenceIdx, InstructionIdx, instruction)
+    Call printInstructionHeader(SequenceIdx, InstructionIdx, instruction, True)
     
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS]"
     Print #filePtr, "SData = ""TYPE, SeqCallStepAdditions"""
@@ -832,14 +832,18 @@ End Sub
 Private Sub ProcessingNI_Wait(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr)
     
         
-    Call printInstructionHeader(SequenceIdx, InstructionIdx, instruction)
+    Call printInstructionHeader(SequenceIdx, InstructionIdx, instruction, True)
+    
+    Dim timeStr As String
+    timeStr = instruction.Data
+    timeStr = Replace(timeStr, ",", ".")
 
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
     Print #filePtr, "SeqCallStepGroupIdx = -1"
-    Print #filePtr, "TimeExpr = """ & instruction.Data & """"
+    Print #filePtr, "TimeExpr = """ & timeStr & """"
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
-    Print #filePtr, "%NAME = ""Test_" & idSalt & """"
+    Print #filePtr, "%NAME = ""Wait " & timeStr & " seconds"""
     Print #filePtr, ""
 End Sub
 
@@ -847,19 +851,25 @@ Private Sub ProcessingLabel(SequenceIdx As Integer, InstructionIdx As Integer, i
     
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS]"
     Print #filePtr, "Id = ""ID#:" & genIdentifier() & """"
-    Print #filePtr, "NoResult = False"
-    Print #filePtr, "ConnectionLifetime = 4"
+    'Print #filePtr, "NoResult = False"
+    'Print #filePtr, "ConnectionLifetime = 4"
     Print #filePtr, ""
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "]]"
     Print #filePtr, "%NAME = """ & instruction.Data & """"
     Print #filePtr, ""
 End Sub
 
-Private Sub printInstructionHeader(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr)
+Private Sub printInstructionHeader(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr, Optional skipEval As Boolean)
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS]"
     Print #filePtr, "Id = ""ID#:" & genIdentifier() & """"
+    If (Not skipEval) Then
+        Print #filePtr, "StatusExpr Line0001 = ""Step.DataSource != \""Step.Result.PassFail\""? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"""
+        Print #filePtr, "StatusExpr Line0002 = ""ail ? \""Passed\"": \""Failed\"""""
+    End If
+
     'If Precon <> "" Then
     '    Print #filePtr, "PreCond = """ & Precon & """"
     'End If
     Print #filePtr, ""
 End Sub
+

@@ -12,22 +12,40 @@ Option Explicit
 Public title As String
 Public DescAction As String
 Public DescCheck As String
-Private InstrList As New Collection
+Private actionList As New Collection
+Private checkList As New Collection
 
 Private Sub Class_Initialize()
-    Set InstrList = New Collection
+    Set actionList = New Collection
+    Set checkList = New Collection
 End Sub
 
-Public Sub AddInstruction(o_action As CInstruction)
-    InstrList.Add o_action
+Public Sub AddAction(o_action As CInstruction)
+    actionList.Add o_action
 End Sub
 
-Public Function getCount() As Integer
-    getCount = InstrList.Count
+Public Function getActionCount() As Integer
+    getActionCount = actionList.Count
 End Function
 
-Public Function getInstruction(index As Integer) As CInstruction
-    Set getInstruction = InstrList.Item(index)
+Public Function getAction(index As Integer) As CInstruction
+    Set getAction = actionList.Item(index)
+End Function
+
+Public Sub AddCheck(o_check As CInstruction)
+    checkList.Add o_check
+End Sub
+
+Public Function getcheckCount() As Integer
+    getcheckCount = checkList.Count
+End Function
+
+Public Function getCheck(index As Integer) As CInstruction
+    Set getCheck = checkList.Item(index)
+End Function
+
+Public Function getTotalCount() As Integer
+    getTotalCount = getcheckCount() + getActionCount()
 End Function
 
 Public Sub AddReq(ByRef req As String)

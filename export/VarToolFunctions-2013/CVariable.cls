@@ -35,7 +35,6 @@ Public Function getStringValue() As String
             MsgBox "Variable value is not managed : " & TypeName(value)
         End If
     Case Else
-    Else
         getStringValue = value
     End Select
 End Function

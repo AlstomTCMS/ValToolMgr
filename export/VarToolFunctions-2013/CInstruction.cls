@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Enum ActionList
+Public Enum actionList
     A_INIT_TASK
     A_POPUP
     A_LABEL
@@ -46,5 +46,5 @@ Public Enum ActionList
     UNIMPLEMENTED
 End Enum
 
-Public category As ActionList
+Public category As actionList
 Public Data As Variant
