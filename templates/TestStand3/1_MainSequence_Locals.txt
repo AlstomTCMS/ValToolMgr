@@ -1,7 +1,7 @@
 %FLG: Main = 4194304
-%HI: Setup = [45]
+%HI: Setup = [28]
 %FLG: Setup = 4194304
-%HI: Cleanup = [7]
+%HI: Cleanup = [4]
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
 RecordResults = True
@@ -10,32 +10,19 @@ RecordResults = True
 
 [DEF, SF.Seq[0].Locals]
 ResultList = Objs
-DatabaseHandle = Num
-StatementHandle = Num
-NumRecords = Num
-iExecution = Num
-sVersion = Str
-bContinue = Bool
+cycle_TESTSTAND = Num
+Report = Ref
+lue = Bool
 EACB_File = Str
 HARD = Str
-StationID = Str
-Num_Poste = Num
-IP_PC_1 = Str
-Port_PC_1 = Num
-IP_PC_2 = Str
-Port_PC_2 = Num
-Port_PC_3 = Num
 
 [DEF, SF.Seq[0].Locals.ResultList]
 %EPTYPE = TEResult
 
+[SF.Seq[0].Locals.cycle_TESTSTAND]
+%NUMFMT = "%g"
+
 [SF.Seq[0].Locals]
-EACB_File = "C:\\MAROCCO_ENV\\Workbench\\build\\conf_banc\\embedded\\target_testbench\\EACB.xml"
-HARD = "C:\\MAROCCO_ENV\\Workbench\\build\\conf_banc\\embedded\\target_testbench\\HARD.xml"
-Num_Poste = 1
-IP_PC_1 = "192.168.1.120"
-Port_PC_1 = 1049
-IP_PC_2 = "192.168.1.101"
-Port_PC_2 = 1050
-Port_PC_3 = 1051
+EACB_File = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\EACB.xml"
+HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\HARD.xml"
 

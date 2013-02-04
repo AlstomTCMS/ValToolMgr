@@ -1,42 +1,42 @@
 [DEF, SF.Seq[0].Setup]
 %[0] = Step
-%TYPE: %[0] = "Statement"
+%TYPE: %[0] = "Label"
 %[1] = Step
-%TYPE: %[1] = "Statement"
+%TYPE: %[1] = "CallExecutable"
 %[2] = Step
-%TYPE: %[2] = "Label"
+%TYPE: %[2] = "RP_Init"
 %[3] = Step
-%TYPE: %[3] = "Statement"
+%TYPE: %[3] = "NI_Wait"
 %[4] = Step
-%TYPE: %[4] = "Action"
+%TYPE: %[4] = "RP_StartServer"
 %[5] = Step
-%TYPE: %[5] = "Statement"
+%TYPE: %[5] = "NI_Wait"
 %[6] = Step
-%TYPE: %[6] = "MessagePopup"
+%TYPE: %[6] = "Label"
 %[7] = Step
-%TYPE: %[7] = "Statement"
+%TYPE: %[7] = "CB_Init"
 %[8] = Step
-%TYPE: %[8] = "Label"
+%TYPE: %[8] = "CB_Init"
 %[9] = Step
-%TYPE: %[9] = "SequenceCall"
+%TYPE: %[9] = "NI_Wait"
 %[10] = Step
-%TYPE: %[10] = "RP_Init"
+%TYPE: %[10] = "Label"
 %[11] = Step
-%TYPE: %[11] = "NI_Wait"
+%TYPE: %[11] = "CB_StartTask"
 %[12] = Step
-%TYPE: %[12] = "RP_StartServer"
+%TYPE: %[12] = "CB_StartTask"
 %[13] = Step
 %TYPE: %[13] = "NI_Wait"
 %[14] = Step
-%TYPE: %[14] = "CB_Init"
+%TYPE: %[14] = "Label"
 %[15] = Step
-%TYPE: %[15] = "CB_Init"
+%TYPE: %[15] = "CB_LoadConfiguration"
 %[16] = Step
-%TYPE: %[16] = "NI_Wait"
+%TYPE: %[16] = "CB_LoadConfiguration"
 %[17] = Step
-%TYPE: %[17] = "CB_LoadConfiguration"
+%TYPE: %[17] = "NI_Wait"
 %[18] = Step
-%TYPE: %[18] = "CB_LoadConfiguration"
+%TYPE: %[18] = "CB_Connect"
 %[19] = Step
 %TYPE: %[19] = "NI_Wait"
 %[20] = Step
@@ -54,194 +54,32 @@
 %[26] = Step
 %TYPE: %[26] = "RP_ReadConfig"
 %[27] = Step
-%TYPE: %[27] = "NI_Wait"
+%TYPE: %[27] = "TH_Init"
 %[28] = Step
-%TYPE: %[28] = "RP_WriteVar"
-%[29] = Step
-%TYPE: %[29] = "RP_WriteVar"
-%[30] = Step
-%TYPE: %[30] = "RP_WriteVar"
-%[31] = Step
-%TYPE: %[31] = "RP_WriteVar"
-%[32] = Step
-%TYPE: %[32] = "RP_WriteVar"
-%[33] = Step
-%TYPE: %[33] = "RP_WriteVar"
-%[34] = Step
-%TYPE: %[34] = "RP_WriteVar"
-%[35] = Step
-%TYPE: %[35] = "RP_WriteVar"
-%[36] = Step
-%TYPE: %[36] = "RP_WriteVar"
-%[37] = Step
-%TYPE: %[37] = "RP_WriteVar"
-%[38] = Step
-%TYPE: %[38] = "RP_WriteVar"
-%[39] = Step
-%TYPE: %[39] = "RP_WriteVar"
-%[40] = Step
-%TYPE: %[40] = "RP_WriteVar"
-%[41] = Step
-%TYPE: %[41] = "RP_WriteVar"
-%[42] = Step
-%TYPE: %[42] = "Statement"
-%[43] = Step
-%TYPE: %[43] = "Statement"
-%[44] = Step
-%TYPE: %[44] = "SequenceCall"
-%[45] = Step
-%TYPE: %[45] = "Label"
+%TYPE: %[28] = "TH_Start"
 
 [SF.Seq[0].Setup[0].TS]
-Id = "ID#:EMh0asot6U+/p0T7o+1G0D"
 NoResult = True
-PostExpr = "StationGlobals.Prima = 2"
 
 [DEF, SF.Seq[0].Setup[0]]
-%NAME = "Definition du type de Marché (Gamme)"
+%NAME = "RP initialization"
 
 [SF.Seq[0].Setup[1].TS]
-Id = "ID#:zuQnj5B3Cky0duDK/wVVZB"
+PreCond = "FileGlobals.Embedded1==true"
 NoResult = True
-PostExpr = "FileGlobals.ModeMultiple = True"
+
+[SF.Seq[0].Setup[1]]
+Executable = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\server.exe"
+Arguments = "\"toto 1024\""
+InitialWindowState = "WINSTATE_SHOWMIN_A"
 
 [DEF, SF.Seq[0].Setup[1]]
-%NAME = "Definition de l'UM"
+%NAME = "CB_server"
 
-[SF.Seq[0].Setup[2].TS]
-Id = "ID#:W6quSQaC0UeX4FbKfKG/HD"
-NoResult = True
-
-[SF.Seq[0].Setup[2]]
-Description = "Nom du PC"
-
-[DEF, SF.Seq[0].Setup[2]]
-%NAME = "Nom du PC"
-
-[SF.Seq[0].Setup[3].TS]
-Id = "ID#:+S5qe7Xv6k2YGkUxGLz+SA"
-Mode = "Skip"
-NoResult = True
-PostExpr Line0001 = "StationGlobals.ModeMultiple = FileGlobals.ModeMultiple,\nFileGlobals.IP1 = StationGlobals.IP1, FileGlobals.IP2 = Station"
-PostExpr Line0002 = "Globals.IP2"
-
-[DEF, SF.Seq[0].Setup[3]]
-%NAME = "Recopy value Mode UM"
-
-[SF.Seq[0].Setup[4].TS]
-Id = "ID#:rIkSXcRG00eCrzwggTQcmD"
-Mode = "Skip"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[4].TS]
+[DEF, SF.Seq[0].Setup[2].TS]
 SData = "TYPE, AutomationStepAdditions"
 
-[SF.Seq[0].Setup[4].TS.SData.Call]
-ObjectVariable = "RunState.Engine"
-Server = "{B2794EF3-C0B6-11D0-939C-0020AF68E893}"
-ServerName = "NI TestStand API 3.0"
-CoClass = "{B2794EF6-C0B6-11D0-939C-0020AF68E893}"
-CoClassName = "Engine"
-Interface = "{B2794EF5-C0B6-11D0-939C-0020AF68E893}"
-InterfaceName = "IEngine"
-Member = 316
-MemberName = "StationID"
-HasMemberInfo = True
-Locale = 1033
-HasReturnValue = True
-TypeLibVersion = "1.0"
-InterfaceType = 1
-VTableOffset = 792
-%HI: Parameters = [0]
-
-[DEF, SF.Seq[0].Setup[4].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[0]]
-Name = "Return Value"
-ArgVal = "Locals.StationID"
-ArgDisplayVal = "Locals.StationID"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 2
-IsUserOptional = True
-IsByRef = True
-
-[DEF, SF.Seq[0].Setup[4]]
-%NAME = "Get Station ID"
-
-[SF.Seq[0].Setup[5].TS]
-Id = "ID#:7fJp2eFnjE2PSW+3itYb/A"
-Mode = "Skip"
-NoResult = True
-PostExpr = "Locals.Num_Poste= Val(Right( Locals.StationID,1 ))"
-
-[DEF, SF.Seq[0].Setup[5]]
-%NAME = "Statement_3"
-
-[SF.Seq[0].Setup[6].TS]
-Id = "ID#:LdiUwvCrSUewOhNoSC0+hB"
-PreCond = "Val(Right( Locals.StationID,1 ))==0"
-Mode = "Skip"
-NoResult = True
-PreExpr = "Locals.Num_Poste=1"
-
-[SF.Seq[0].Setup[6]]
-TitleExpr = "\"Quel numéro de poste\""
-MessageExpr = "\"Choisissez sur quel poste vous allez lancer cette séquence ?\""
-Button1Label = "\"POSTE 1\""
-Button2Label = "\"POSTE 2\""
-Button3Label = "\"POSTE 3\""
-CancelButton = 2
-
-[DEF, SF.Seq[0].Setup[6]]
-%NAME = "Question poste ?"
-
-[SF.Seq[0].Setup[7].TS]
-Id = "ID#:CveeC2X3I06e1CwBX0iTXC"
-NoResult = True
-PostExpr = "Locals.Num_Poste=2"
-
-[DEF, SF.Seq[0].Setup[7]]
-%NAME = "Statement_2"
-
-[SF.Seq[0].Setup[8].TS]
-Id = "ID#:x2CKl/TgoE2NyG7YPjgFLB"
-NoResult = True
-
-[SF.Seq[0].Setup[8]]
-Description = "Init"
-
-[DEF, SF.Seq[0].Setup[8]]
-%NAME = "Init"
-
-[SF.Seq[0].Setup[9].TS]
-Id = "ID#:7vxHivMe5kSa996dYEZKLB"
-LoadOpt = "DynamicLoad"
-
-[DEF, SF.Seq[0].Setup[9].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Setup[9].TS.SData]
-SFPath = "c:\\teststand\\server.seq"
-SeqName = "MainSequence"
-SpecifyHostByExpr = True
-RemoteExecution = True
-RemoteHostExpr = "FileGlobals.IP1"
-
-[DEF, SF.Seq[0].Setup[9]]
-%NAME = "Server Loco1"
-
-[SF.Seq[0].Setup[10].TS]
-Id = "ID#:NxMMpH0rJk6n0TKKPQo5fD"
-PreCond = "FileGlobals.Remote_1==Nothing"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[10].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[10].TS.SData.Call]
+[SF.Seq[0].Setup[2].TS.SData.Call]
 ObjectVariable = "FileGlobals.Remote_1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
@@ -250,7 +88,7 @@ CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
 CoClassName = "RemoteCBTarget"
 Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
 InterfaceName = "_RemoteCBTarget"
-RemoteMachine = "FileGlobals.IP1"
+RemoteMachine = "FileGlobals.PC_Env1_ip"
 RemoteMachineByExpr = True
 MemberType = 1
 Member = 1610809344
@@ -262,13 +100,13 @@ InterfaceType = 1
 VTableOffset = 28
 %HI: Parameters = [3]
 
-[DEF, SF.Seq[0].Setup[10].TS.SData.Call.Parameters]
+[DEF, SF.Seq[0].Setup[2].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
 %[3] = "TYPE, AutomationParameter"
 
-[SF.Seq[0].Setup[10].TS.SData.Call.Parameters[0]]
+[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[0]]
 Name = "SeqContext"
 ArgVal = "ThisContext"
 ArgDisplayVal = "ThisContext"
@@ -278,7 +116,7 @@ TypeValid = True
 Direction = 1
 IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
 
-[SF.Seq[0].Setup[10].TS.SData.Call.Parameters[1]]
+[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[1]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -288,7 +126,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[10].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[2]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -298,7 +136,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[10].TS.SData.Call.Parameters[3]]
+[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[3]]
 Name = "SharedMemoryName"
 ArgVal = "\"\""
 ArgDisplayVal = "\"\""
@@ -310,30 +148,29 @@ IsUserOptional = True
 IsServerOptional = True
 IsByRef = True
 
-[DEF, SF.Seq[0].Setup[10]]
-%NAME = "Création Handle RP Loco 1"
-
-[SF.Seq[0].Setup[11].TS]
-Id = "ID#:hq1BpY33rU+AMrh0Vkp/lC"
-PreCond = "AnyOf(FileGlobals.Remote_1!=Nothing, FileGlobals.Remote_2!=Nothing)"
+[SF.Seq[0].Setup[2].TS]
+PreCond = "FileGlobals.Remote_1==Nothing && FileGlobals.Embedded1==true"
 NoResult = True
 
-[SF.Seq[0].Setup[11]]
+[DEF, SF.Seq[0].Setup[2]]
+%NAME = "Handle Creation RP Env 1"
+
+[SF.Seq[0].Setup[3].TS]
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+PreCond = "AnyOf(FileGlobals.Remote_1 != Nothing) && FileGlobals.Embedded1==true"
+NoResult = True
+
+[SF.Seq[0].Setup[3]]
 SeqCallStepGroupIdx = -1
 TimeExpr = "2"
 
-[DEF, SF.Seq[0].Setup[11]]
+[DEF, SF.Seq[0].Setup[3]]
 %NAME = "Wait"
 
-[SF.Seq[0].Setup[12].TS]
-Id = "ID#:bau0o54JYUKHc7QqHQ677B"
-PreCond = "AllOf(FileGlobals.Remote_1 != Nothing, StationGlobals.Remote_1==Nothing)"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[12].TS]
+[DEF, SF.Seq[0].Setup[4].TS]
 SData = "TYPE, AutomationStepAdditions"
 
-[SF.Seq[0].Setup[12].TS.SData.Call]
+[SF.Seq[0].Setup[4].TS.SData.Call]
 ObjectVariable = "FileGlobals.Remote_1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
@@ -351,12 +188,12 @@ InterfaceType = 1
 VTableOffset = 36
 %HI: Parameters = [2]
 
-[DEF, SF.Seq[0].Setup[12].TS.SData.Call.Parameters]
+[DEF, SF.Seq[0].Setup[4].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
 
-[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[0]]
+[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[0]]
 Name = "strIPaddress"
 ArgVal = "\"\""
 ArgDisplayVal = "\"\""
@@ -365,7 +202,7 @@ DisplayType = "String"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[1]]
+[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[1]]
 Name = "passFail"
 ArgVal = "true"
 ArgDisplayVal = "true"
@@ -375,7 +212,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[2]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -385,15 +222,376 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[12]]
+[SF.Seq[0].Setup[4].TS]
+PreCond = "AllOf(FileGlobals.Remote_1 != Nothing && FileGlobals.Embedded1==true)"
+NoResult = True
+
+[SF.Seq[0].Setup[4]]
 InBuf = "\"10.23.176.153\""
 
+[DEF, SF.Seq[0].Setup[4]]
+%NAME = "Start Handle RP Env 1"
+
+[SF.Seq[0].Setup[5].TS]
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+PreCond = "AnyOf(FileGlobals.Remote_1 != Nothing) && FileGlobals.Embedded1==true"
+NoResult = True
+
+[SF.Seq[0].Setup[5]]
+SeqCallStepGroupIdx = -1
+TimeExpr = "2"
+
+[DEF, SF.Seq[0].Setup[5]]
+%NAME = "Wait"
+
+[SF.Seq[0].Setup[6].TS]
+Id = "ID#:SDiNBJGXd0uGbdGQyuDPVA"
+NoResult = True
+
+[DEF, SF.Seq[0].Setup[6]]
+%NAME = "LANCEMENT DE CONTROLBUILD"
+
+[SF.Seq[0].Setup[7].TS]
+Id = "ID#:ZRHjkPdmrEymo2Aews1XTA"
+PreCond = "FileGlobals.cb1==nothing && FileGlobals.Embedded==true"
+NoResult = True
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
+StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
+
+[DEF, SF.Seq[0].Setup[7].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Setup[7].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CreateObject = 0
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
+InterfaceName = "_ControlBuild"
+RemoteMachine = "FileGlobals.PC_Emb1_ip"
+RemoteMachineByExpr = True
+MemberType = 1
+Member = 1610809344
+MemberName = "CB_Init"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4ba.0"
+InterfaceType = 1
+VTableOffset = 176
+%HI: Parameters = [5]
+
+[DEF, SF.Seq[0].Setup[7].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+%[5] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[0]]
+Name = "strPathName"
+ArgVal = "FileGlobals.CB_Path_Name"
+ArgDisplayVal = "FileGlobals.CB_Path_Name"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[1]]
+Name = "strProjectName"
+ArgVal = "FileGlobals.CB_Project_Name"
+ArgDisplayVal = "FileGlobals.CB_Project_Name"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[2]]
+Name = "strApplicationName"
+ArgVal = "FileGlobals.CB_Application_Name"
+ArgDisplayVal = "FileGlobals.CB_Application_Name"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[3]]
+Name = "strFunctionalTaskName"
+ArgVal = "FileGlobals.CB_Task_Name"
+ArgDisplayVal = "FileGlobals.CB_Task_Name"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[4]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[5]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[7]]
+InBuf = "FileGlobals.CB_Path_Name"
+%COMMENT = "\n "
+
+[DEF, SF.Seq[0].Setup[7]]
+%NAME = "Initialize CB"
+
+[SF.Seq[0].Setup[8].TS]
+Id = "ID#:ZRHjkPdmrEymo2Aews1XTA"
+PreCond = "FileGlobals.cb_1==nothing && FileGlobals.Embedded1==true"
+NoResult = True
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
+StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
+
+[DEF, SF.Seq[0].Setup[8].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Setup[8].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CreateObject = 0
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
+InterfaceName = "_ControlBuild"
+RemoteMachine = "FileGlobals.PC_Env1_ip"
+RemoteMachineByExpr = True
+MemberType = 1
+Member = 1610809344
+MemberName = "CB_Init"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4ba.0"
+InterfaceType = 1
+VTableOffset = 176
+%HI: Parameters = [5]
+
+[DEF, SF.Seq[0].Setup[8].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+%[5] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[0]]
+Name = "strPathName"
+ArgVal = "FileGlobals.CB_Path_Name_Env"
+ArgDisplayVal = "FileGlobals.CB_Path_Name_Env"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[1]]
+Name = "strProjectName"
+ArgVal = "FileGlobals.CB_Project_Name_Env"
+ArgDisplayVal = "FileGlobals.CB_Project_Name_Env"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[2]]
+Name = "strApplicationName"
+ArgVal = "FileGlobals.CB_Application_Name_Env"
+ArgDisplayVal = "FileGlobals.CB_Application_Name_Env"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[3]]
+Name = "strFunctionalTaskName"
+ArgVal = "FileGlobals.CB_Task_Name_Env"
+ArgDisplayVal = "FileGlobals.CB_Task_Name_Env"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[4]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[5]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[8]]
+InBuf = "FileGlobals.CB_Path_Name"
+%COMMENT = "\n "
+
+[DEF, SF.Seq[0].Setup[8]]
+%NAME = "Initialize CB"
+
+[SF.Seq[0].Setup[9].TS]
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+NoResult = True
+
+[SF.Seq[0].Setup[9]]
+SeqCallStepGroupIdx = -1
+TimeExpr = "2"
+
+[DEF, SF.Seq[0].Setup[9]]
+%NAME = "Wait"
+
+[SF.Seq[0].Setup[10].TS]
+Id = "ID#:YOt6rnxl3UKG6SchFgE+AB"
+NoResult = True
+
+[DEF, SF.Seq[0].Setup[10]]
+%NAME = "FONCTIONNAL TEST"
+
+[SF.Seq[0].Setup[11].TS]
+Id = "ID#:yL3+FC7H1kCzjNk3jxI4UB"
+PreCond = "FileGlobals.Embedded==false && FileGlobals.Embedded1==false && FileGlobals.Embedded2==false"
+NoResult = True
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
+StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
+
+[DEF, SF.Seq[0].Setup[11].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Setup[11].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809360
+MemberName = "CB_StartTask"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4a5.0"
+InterfaceType = 1
+VTableOffset = 220
+%HI: Parameters = [1]
+
+[DEF, SF.Seq[0].Setup[11].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Setup[11].TS.SData.Call.Parameters[0]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[11].TS.SData.Call.Parameters[1]]
+Name = "\"errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[11]]
+%COMMENT = "\n "
+
+[DEF, SF.Seq[0].Setup[11]]
+%NAME = "Launch CB Functional Task"
+
+[SF.Seq[0].Setup[12].TS]
+Id = "ID#:yL3+FC7H1kCzjNk3jxI4UB"
+PreCond = "FileGlobals.Embedded==false && FileGlobals.Embedded1==false && FileGlobals.Embedded2==false"
+NoResult = True
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
+StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
+
+[DEF, SF.Seq[0].Setup[12].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Setup[12].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809360
+MemberName = "CB_StartTask"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4a5.0"
+InterfaceType = 1
+VTableOffset = 220
+%HI: Parameters = [1]
+
+[DEF, SF.Seq[0].Setup[12].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[0]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[1]]
+Name = "\"errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Setup[12]]
+%COMMENT = "\n "
+
 [DEF, SF.Seq[0].Setup[12]]
-%NAME = "Démarre un Handle RP Loco1"
+%NAME = "Launch CB Functional Task"
 
 [SF.Seq[0].Setup[13].TS]
-Id = "ID#:1Tr+vhqCwkqvX/+a1qbqTB"
-PreCond = "AnyOf(FileGlobals.Remote_1!=Nothing, FileGlobals.Remote_2!=Nothing)"
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+PreCond = "AnyOf(FileGlobals.Remote_2 != Nothing)"
 NoResult = True
 
 [SF.Seq[0].Setup[13]]
@@ -404,175 +602,67 @@ TimeExpr = "2"
 %NAME = "Wait"
 
 [SF.Seq[0].Setup[14].TS]
-Id = "ID#:bvyKdNhxnkC0oRhtILGqsC"
-PreCond = "FileGlobals.cb_1==Nothing"
+Id = "ID#:uJe+2pqBakS1t9tHeVO+lA"
 NoResult = True
-
-[DEF, SF.Seq[0].Setup[14].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[14].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CreateObject = 0
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{B909CFDC-A50B-49DB-AC9F-1E0ACA625262}"
-InterfaceName = "_ControlBuild"
-RemoteMachine = "FileGlobals.IP1"
-RemoteMachineByExpr = True
-MemberType = 1
-Member = 1610809344
-MemberName = "CB_Init"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 148
-%HI: Parameters = [5]
-
-[DEF, SF.Seq[0].Setup[14].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[0]]
-Name = "strPathName"
-ArgVal = "FileGlobals.CB_Path_Name"
-ArgDisplayVal = "FileGlobals.CB_Path_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[1]]
-Name = "strProjectName"
-ArgVal = "FileGlobals.CB_Project_Name"
-ArgDisplayVal = "FileGlobals.CB_Project_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[2]]
-Name = "strApplicationName"
-ArgVal = "FileGlobals.CB_Application_Name"
-ArgDisplayVal = "FileGlobals.CB_Application_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[3]]
-Name = "strFunctionalTaskName"
-ArgVal = "FileGlobals.CB_Task_Name"
-ArgDisplayVal = "FileGlobals.CB_Task_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[4]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[14].TS.SData.Call.Parameters[5]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
 
 [DEF, SF.Seq[0].Setup[14]]
-%NAME = "Création Handle CB Env Loco1"
+%NAME = "EMBEDDED TEST"
 
 [SF.Seq[0].Setup[15].TS]
-Id = "ID#:39me7vb2p0OIaaFApI1BfB"
-PreCond = "FileGlobals.cb_2==Nothing"
+Id = "ID#:Pj5WVd/jU0auQF9aY+tCaA"
+PreCond = "FileGlobals.Embedded==true"
 NoResult = True
+FailAct = "Goto"
+FailActTarget = "\"<End>\""
 
 [DEF, SF.Seq[0].Setup[15].TS]
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[0].Setup[15].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_2"
+ObjectVariable = "FileGlobals.cb1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CreateObject = 0
+ServerName = "Interface between TestStand3.0 et CB3.32"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{F2B7F627-D8CB-4022-8B60-B749E15A2713}"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
 InterfaceName = "_ControlBuild"
-RemoteMachine = "FileGlobals.IP2"
-RemoteMachineByExpr = True
 MemberType = 1
-Member = 1610809345
-MemberName = "CB_Init"
+Member = 1610809362
+MemberName = "CB_LoadConfiguration"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "4ba.0"
+HasReturnValue = True
+TypeLibVersion = "\"385.0"
 InterfaceType = 1
-VTableOffset = 180
-%HI: Parameters = [5]
+VTableOffset = 228
+%HI: Parameters = [3]
 
 [DEF, SF.Seq[0].Setup[15].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
 %[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
 
 [SF.Seq[0].Setup[15].TS.SData.Call.Parameters[0]]
-Name = "strPathName"
-ArgVal = "FileGlobals.CB_Path_Name_Emb"
-ArgDisplayVal = "FileGlobals.CB_Path_Name_Emb"
-Type = 12
-DisplayType = "Variant"
+Name = "Return Value"
+Type = 9
+DisplayType = "ICBCOMEmbeddedConfiguration (Object Reference)"
 TypeValid = True
-Direction = 1
+Direction = 2
+IsUserOptional = True
+IsByRef = True
+IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
 
 [SF.Seq[0].Setup[15].TS.SData.Call.Parameters[1]]
-Name = "strProjectName"
-ArgVal = "FileGlobals.CB_Project_Name_Emb"
-ArgDisplayVal = "FileGlobals.CB_Project_Name_Emb"
+Name = "FileGlobals.CB_Conf"
+ArgVal = "FileGlobals.CB_Conf"
+ArgDisplayVal = "conf"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
 [SF.Seq[0].Setup[15].TS.SData.Call.Parameters[2]]
-Name = "strApplicationName"
-ArgVal = "FileGlobals.CB_Application_Name_Emb"
-ArgDisplayVal = "FileGlobals.CB_Application_Name_Emb"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[3]]
-Name = "strFunctionalTaskName"
-ArgVal = "FileGlobals.CB_Task_Name_Emb"
-ArgDisplayVal = "FileGlobals.CB_Task_Name_Emb"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[4]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -582,7 +672,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[5]]
+[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[3]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -593,54 +683,44 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[0].Setup[15]]
-%NAME = "Création Handle CB Loco1"
+%NAME = "Load a configuration"
 
 [SF.Seq[0].Setup[16].TS]
-Id = "ID#:aRzdAalWTUuUTjKBIAAfvC"
-PreCond = "AnyOf(FileGlobals.cb_1==Nothing, FileGlobals.cb_2==Nothing)"
+Id = "ID#:Pj5WVd/jU0auQF9aY+tCaA"
+PreCond = "FileGlobals.Embedded1==true"
 NoResult = True
+FailAct = "Goto"
+FailActTarget = "\"<End>\""
 
-[SF.Seq[0].Setup[16]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "4"
-
-[DEF, SF.Seq[0].Setup[16]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[17].TS]
-Id = "ID#:y0dqUovq2kCcXE2RGlq5GC"
-PreCond = "FileGlobals.cb_1 != Nothing"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[17].TS]
+[DEF, SF.Seq[0].Setup[16].TS]
 SData = "TYPE, AutomationStepAdditions"
 
-[SF.Seq[0].Setup[17].TS.SData.Call]
+[SF.Seq[0].Setup[16].TS.SData.Call]
 ObjectVariable = "FileGlobals.cb_1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+ServerName = "Interface between TestStand3.0 et CB3.32"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{B909CFDC-A50B-49DB-AC9F-1E0ACA625262}"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809363
+Member = 1610809362
 MemberName = "CB_LoadConfiguration"
 HasMemberInfo = True
 Locale = 1036
 HasReturnValue = True
-TypeLibVersion = "4b8.2"
+TypeLibVersion = "\"385.0"
 InterfaceType = 1
-VTableOffset = 204
+VTableOffset = 228
 %HI: Parameters = [3]
 
-[DEF, SF.Seq[0].Setup[17].TS.SData.Call.Parameters]
+[DEF, SF.Seq[0].Setup[16].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
 %[3] = "TYPE, AutomationParameter"
 
-[SF.Seq[0].Setup[17].TS.SData.Call.Parameters[0]]
+[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[0]]
 Name = "Return Value"
 Type = 9
 DisplayType = "ICBCOMEmbeddedConfiguration (Object Reference)"
@@ -650,16 +730,16 @@ IsUserOptional = True
 IsByRef = True
 IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
 
-[SF.Seq[0].Setup[17].TS.SData.Call.Parameters[1]]
-Name = "strConfigName"
-ArgVal = "FileGlobals.CB_Conf"
-ArgDisplayVal = "FileGlobals.CB_Conf"
+[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[1]]
+Name = "FileGlobals.CB_Conf_Env"
+ArgVal = "FileGlobals.CB_Conf_Env"
+ArgDisplayVal = "conf"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Setup[17].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[2]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -669,7 +749,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[17].TS.SData.Call.Parameters[3]]
+[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[3]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -679,62 +759,61 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
+[DEF, SF.Seq[0].Setup[16]]
+%NAME = "Load a configuration"
+
+[SF.Seq[0].Setup[17].TS]
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+NoResult = True
+
+[SF.Seq[0].Setup[17]]
+SeqCallStepGroupIdx = -1
+TimeExpr = "2"
+
 [DEF, SF.Seq[0].Setup[17]]
-%NAME = "Charge la configuration CB Env Loco1"
+%NAME = "Wait"
 
 [SF.Seq[0].Setup[18].TS]
-Id = "ID#:AHTrVCZJL0epE+0zKI7UFC"
-PreCond = "FileGlobals.cb_2 != Nothing"
+Id = "ID#:SGecjY79FUCQS/jYICFusA"
+PreCond = "FileGlobals.Embedded==true"
 NoResult = True
 
 [DEF, SF.Seq[0].Setup[18].TS]
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[0].Setup[18].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_2"
+ObjectVariable = "FileGlobals.cb1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{B909CFDC-A50B-49DB-AC9F-1E0ACA625262}"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809363
-MemberName = "CB_LoadConfiguration"
+Member = 1610809394
+MemberName = "CB_Connect"
 HasMemberInfo = True
 Locale = 1036
-HasReturnValue = True
-TypeLibVersion = "4b8.2"
+TypeLibVersion = "4b8.0"
 InterfaceType = 1
-VTableOffset = 204
-%HI: Parameters = [3]
+VTableOffset = 348
+%HI: Parameters = [2]
 
 [DEF, SF.Seq[0].Setup[18].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
 
 [SF.Seq[0].Setup[18].TS.SData.Call.Parameters[0]]
-Name = "Return Value"
-Type = 9
-DisplayType = "ICBCOMEmbeddedConfiguration (Object Reference)"
-TypeValid = True
-Direction = 2
-IsUserOptional = True
-IsByRef = True
-IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
-
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[1]]
-Name = "strConfigName"
-ArgVal = "FileGlobals.CB_Conf"
-ArgDisplayVal = "FileGlobals.CB_Conf"
+Name = "strTargetName"
+ArgVal = "FileGlobals.MPU_target"
+ArgDisplayVal = "MPU"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[1]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -744,7 +823,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[3]]
+[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[2]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -755,22 +834,22 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[0].Setup[18]]
-%NAME = "Charge la configuration CB Loco1"
+%NAME = "Connect to a target : MPU"
 
 [SF.Seq[0].Setup[19].TS]
-Id = "ID#:zS2Id+pJHUOlASwwQFTSkC"
-PreCond = "AnyOf(FileGlobals.cb_1 != Nothing, FileGlobals.cb_2 != Nothing)"
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
 NoResult = True
 
 [SF.Seq[0].Setup[19]]
 SeqCallStepGroupIdx = -1
-TimeExpr = "4"
+TimeExpr = "2"
 
 [DEF, SF.Seq[0].Setup[19]]
 %NAME = "Wait"
 
 [SF.Seq[0].Setup[20].TS]
-Id = "ID#:q2Dn4BwYukW7RCtvNuU0mC"
+Id = "ID#:gqDOV1VhQkq005rBlmXwpD"
+PreCond = "FileGlobals.Embedded1==True"
 NoResult = True
 
 [DEF, SF.Seq[0].Setup[20].TS]
@@ -782,16 +861,16 @@ Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{B909CFDC-A50B-49DB-AC9F-1E0ACA625262}"
+Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809395
+Member = 1610809394
 MemberName = "CB_Connect"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "4b8.2"
+TypeLibVersion = "4b8.0"
 InterfaceType = 1
-VTableOffset = 324
+VTableOffset = 348
 %HI: Parameters = [2]
 
 [DEF, SF.Seq[0].Setup[20].TS.SData.Call.Parameters]
@@ -800,9 +879,9 @@ VTableOffset = 324
 %[2] = "TYPE, AutomationParameter"
 
 [SF.Seq[0].Setup[20].TS.SData.Call.Parameters[0]]
-Name = "strTargetName"
-ArgVal = "FileGlobals.CB_Target"
-ArgDisplayVal = "FileGlobals.CB_Target"
+Name = "FileGlobals.TestBench_target"
+ArgVal = "FileGlobals.TestBench_target"
+ArgDisplayVal = "TestBench"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -829,21 +908,23 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[0].Setup[20]]
-%NAME = "Connection de la tache Env Loco1"
+%NAME = "Connect to a target : TestBench"
 
 [SF.Seq[0].Setup[21].TS]
-Id = "ID#:NqccYIMgy06M117rK14zTD"
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+PreCond = "FileGlobals.Embedded1==true"
 NoResult = True
 
 [SF.Seq[0].Setup[21]]
 SeqCallStepGroupIdx = -1
-TimeExpr = "4"
+TimeExpr = "2"
 
 [DEF, SF.Seq[0].Setup[21]]
 %NAME = "Wait"
 
 [SF.Seq[0].Setup[22].TS]
-Id = "ID#:EBU5gXZDAEiYThrivQ56yB"
+Id = "ID#:XyOEjS1ObUKEl1uRzLPHoA"
+PreCond = "FileGlobals.Embedded1==True"
 NoResult = True
 
 [DEF, SF.Seq[0].Setup[22].TS]
@@ -855,16 +936,16 @@ Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{B909CFDC-A50B-49DB-AC9F-1E0ACA625262}"
+Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809376
+Member = 1610809378
 MemberName = "CB_StartExecution"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "4b8.2"
+TypeLibVersion = "4ba.0"
 InterfaceType = 1
-VTableOffset = 252
+VTableOffset = 288
 %HI: Parameters = [2]
 
 [DEF, SF.Seq[0].Setup[22].TS.SData.Call.Parameters]
@@ -887,29 +968,29 @@ Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
 Type = 8
-DisplayType = "String"
+DisplayType = "\"String"
 TypeValid = True
 Direction = 3
 IsByRef = True
 
 [SF.Seq[0].Setup[22].TS.SData.Call.Parameters[2]]
 Name = "strTargetName"
-ArgVal = "FileGlobals.CB_Target"
-ArgDisplayVal = "FileGlobals.CB_Target"
+ArgVal = "FileGlobals.TestBench_target"
+ArgDisplayVal = "FileGlobals.TestBench_target"
 Type = 12
-DisplayType = "Variant"
+DisplayType = "\"Variant"
 TypeValid = True
 Direction = 1
 IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Setup[22]]
-%NAME = "Exécute la tache Env Loco1"
+%NAME = "Launch organ of target TestBench"
 
 [SF.Seq[0].Setup[23].TS]
-Id = "ID#:RLgv4yWjOUG7Idvr3j4OFA"
+Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
+PreCond = "FileGlobals.Embedded1==True"
 NoResult = True
-StepFCSeqF = False
 
 [SF.Seq[0].Setup[23]]
 SeqCallStepGroupIdx = -1
@@ -917,10 +998,6 @@ TimeExpr = "2"
 
 [DEF, SF.Seq[0].Setup[23]]
 %NAME = "Wait"
-
-[SF.Seq[0].Setup[24].TS]
-Id = "ID#:BWEcZeUZWUueiR3OqsVTTB"
-NoResult = True
 
 [DEF, SF.Seq[0].Setup[24].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -968,7 +1045,6 @@ TypeValid = True
 Direction = 1
 
 [SF.Seq[0].Setup[24].TS.SData.Call.Parameters[2]]
-Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
 Type = 11
@@ -987,15 +1063,15 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
+[SF.Seq[0].Setup[24].TS]
+PreCond = "FileGlobals.Embedded1==True"
+NoResult = True
+
 [SF.Seq[0].Setup[24]]
 InBuf = "\"\""
 
 [DEF, SF.Seq[0].Setup[24]]
-%NAME = "Configure hard Loco1"
-
-[SF.Seq[0].Setup[25].TS]
-Id = "ID#:v19t6IaVc0a9PP2X/PS6VD"
-NoResult = True
+%NAME = "Configure a target R/P server for UM Loco1"
 
 [DEF, SF.Seq[0].Setup[25].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1025,7 +1101,6 @@ VTableOffset = 44
 %[3] = "TYPE, AutomationParameter"
 
 [SF.Seq[0].Setup[25].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
 ArgVal = "\"\""
 ArgDisplayVal = "\"\""
 Type = 8
@@ -1062,15 +1137,15 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
+[SF.Seq[0].Setup[25].TS]
+PreCond = "FileGlobals.Embedded1==True"
+NoResult = True
+
 [SF.Seq[0].Setup[25]]
 InBuf = "\"\""
 
 [DEF, SF.Seq[0].Setup[25]]
-%NAME = "Configure eacb Loco1"
-
-[SF.Seq[0].Setup[26].TS]
-Id = "ID#:p2l1YS0zM0CoPKxkIg3SdC"
-NoResult = True
+%NAME = "Configure a target R/P server for UM Loco1"
 
 [DEF, SF.Seq[0].Setup[26].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1110,8 +1185,8 @@ Direction = 1
 
 [SF.Seq[0].Setup[26].TS.SData.Call.Parameters[1]]
 Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
+ArgVal = "\"mvb_s1\""
+ArgDisplayVal = "\"mvb_s1\""
 Type = 8
 DisplayType = "String"
 TypeValid = True
@@ -1137,1553 +1212,146 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
+[SF.Seq[0].Setup[26].TS]
+PreCond = "FileGlobals.Embedded1==True"
+NoResult = True
+
 [SF.Seq[0].Setup[26]]
 InBuf = "\"\""
 
 [DEF, SF.Seq[0].Setup[26]]
-%NAME = "Demarre tous les equipements Loco1"
+%NAME = "Start all equipements Loco1"
 
 [SF.Seq[0].Setup[27].TS]
-Id = "ID#:lmfDSOz3fkWt/DvBDDslwA"
+Id = "ID#: Un729hMWiE6kx4Jk4M7VyC"
+PreCond = "FileGlobals.Embedded2==true"
 NoResult = True
-StepFCSeqF = False
+
+[DEF, SF.Seq[0].Setup[27].TS]
+SData = "TYPE, DotNetStepAdditions"
+
+[SF.Seq[0].Setup[27].TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+ClassVariable = "FileGlobals.TH"
+ClassName = "TestHMI.TestHMI"
+CreateInstance = True
+Constructor = "TestHMI()"
+MemberType = 1
+MemberName = "InitTestDDU"
+%HI: Params = [5]
+
+[DEF, SF.Seq[0].Setup[27].TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
+%[4] = "TYPE, DotNetParameter"
+%[5] = "TYPE, DotNetParameter"
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[0]]
+Name = "bPassFail"
+ArgVal = "Step.Result.PassFail"
+Type = 2
+Direction = 10
+Dimension = -1
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[1]]
+Name = "sReportText"
+ArgVal = "Step.Result.ReportText"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[2]]
+Name = "num_DDU"
+ArgVal = "Step.num_DDU"
+Type = 6
+Dimension = -1
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[3]]
+Name = "sImagesPath"
+ArgVal = "FileGlobals.Teststand_directory"
+Type = 1
+Dimension = -1
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[4]]
+Name = "bReferenceBuild"
+ArgVal = "FileGlobals.DDU_ScreenShot"
+Type = 2
+Dimension = -1
+
+[SF.Seq[0].Setup[27].TS.SData.Call.Params[5]]
+Name = "sShadowFileConf"
+ArgVal = "FileGlobals.Shadow_Path_Name"
+Type = 1
+Dimension = -1
 
 [SF.Seq[0].Setup[27]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
+sImagesPath = "FileGlobals.Teststand_directory"
+sShadowFileConf = "FileGlobals.Shadow_Path_Name"
 
 [DEF, SF.Seq[0].Setup[27]]
-%NAME = "Wait"
+%NAME = "DDU Initialisation"
 
 [SF.Seq[0].Setup[28].TS]
-Id = "ID#:PWY7vVl3sUiQw6FUy+voWC"
+Id = "ID#: ADj0HVcsMUi0X0i6ntHHND "
+PreCond = "FileGlobals.Embedded2==true"
 NoResult = True
 
 [DEF, SF.Seq[0].Setup[28].TS]
-SData = "TYPE, AutomationStepAdditions"
+SData = "TYPE, DotNetStepAdditions"
 
 [SF.Seq[0].Setup[28].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
+AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+ClassVariable = "FileGlobals.TH"
+ClassName = "TestHMI.TestHMI"
+Constructor = "TestHMI()"
 MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
+MemberName = "RemoteControlStart"
+%HI: Params = [4]
 
-[DEF, SF.Seq[0].Setup[28].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
+[DEF, SF.Seq[0].Setup[28].TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
+%[4] = "TYPE, DotNetParameter"
 
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM11\""
-ArgDisplayVal = "\"MODE_RIOM11\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom11\""
-ArgDisplayVal = "\"r_riom11\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[5]]
-Name = "passFail"
+[SF.Seq[0].Setup[28].TS.SData.Call.Params[0]]
+Name = "bPassFail"
 ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
+Type = 2
+Direction = 10
+Dimension = -1
 
-[SF.Seq[0].Setup[28].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
+[SF.Seq[0].Setup[28].TS.SData.Call.Params[1]]
+Name = "sReportText"
 ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
+Type = 1
+Direction = 10
+Dimension = -1
+
+[SF.Seq[0].Setup[28].TS.SData.Call.Params[2]]
+Name = "num_DDU"
+ArgVal = "Step.num_DDU"
+Type = 6
+Dimension = -1
+
+[SF.Seq[0].Setup[28].TS.SData.Call.Params[3]]
+Name = "sRemoteEqtAddress"
+ArgVal = "FileGlobals.DDU_ip"
+Type = 1
+Dimension = -1
+
+[SF.Seq[0].Setup[28].TS.SData.Call.Params[4]]
+Name = "sRemoteEqtPassword"
+ArgVal = "Step.sRemoteEqtPassword"
+Type = 1
+Dimension = -1
 
 [SF.Seq[0].Setup[28]]
-InBuf = "\"\""
+sRemoteEqtAddress = "FileGlobals.DDU_ip"
 
 [DEF, SF.Seq[0].Setup[28]]
-%NAME = "RIOM11 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[29].TS]
-Id = "ID#:R9YqBNm0z020ZygEHTnmmA"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[29].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[29].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[29].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM12\""
-ArgDisplayVal = "\"MODE_RIOM12\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom12\""
-ArgDisplayVal = "\"r_riom12\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[29].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[29]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[29]]
-%NAME = "RIOM12 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[30].TS]
-Id = "ID#:5Bysnani40mSpahoas6SuA"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[30].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[30].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[30].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM21\""
-ArgDisplayVal = "\"MODE_RIOM21\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom21\""
-ArgDisplayVal = "\"r_riom21\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[30].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[30]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[30]]
-%NAME = "RIOM21 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[31].TS]
-Id = "ID#:vp5aHTjqSUSei3oidYdrjB"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[31].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[31].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[31].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM22\""
-ArgDisplayVal = "\"MODE_RIOM22\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom22\""
-ArgDisplayVal = "\"r_riom22\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[31].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[31]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[31]]
-%NAME = "RIOM22 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[32].TS]
-Id = "ID#:W142GU1VgU2zC7eiZXS3OC"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[32].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[32].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[32].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM31\""
-ArgDisplayVal = "\"MODE_RIOM31\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom31\""
-ArgDisplayVal = "\"r_riom31\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[32].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[32]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[32]]
-%NAME = "RIOM31 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[33].TS]
-Id = "ID#:KEBdl7oXekC/1XYpO9hq4B"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[33].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[33].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[33].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM32\""
-ArgDisplayVal = "\"MODE_RIOM32\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom32\""
-ArgDisplayVal = "\"r_riom32\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[33].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[33]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[33]]
-%NAME = "RIOM32 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[34].TS]
-Id = "ID#:ZdRwtn0aP0Sf1FeaP47VhA"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[34].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[34].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[34].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM41\""
-ArgDisplayVal = "\"MODE_RIOM41\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom41\""
-ArgDisplayVal = "\"r_riom41\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[34].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[34]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[34]]
-%NAME = "RIOM41 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[35].TS]
-Id = "ID#:7SuPmis/pUG/RqIGq6z4bC"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[35].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[35].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[35].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM42\""
-ArgDisplayVal = "\"MODE_RIOM42\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom42\""
-ArgDisplayVal = "\"r_riom42\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[35].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[35]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[35]]
-%NAME = "RIOM42 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[36].TS]
-Id = "ID#:ab1PILilT0K0+tRTIyH7aD"
-PreCond = "StationGlobals.Prima==1"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[36].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[36].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809351
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 56
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[36].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM51\""
-ArgDisplayVal = "\"MODE_RIOM51\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom51\""
-ArgDisplayVal = "\"r_riom51\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[36].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[36]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[36]]
-%NAME = "RIOM51 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[37].TS]
-Id = "ID#:9hN93bFHGU2D0pIp6RklmD"
-PreCond = "StationGlobals.Prima==1"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[37].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[37].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{E6AA9223-B602-46FF-BD62-081A6EC5D04D}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809352
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 60
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[37].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM52\""
-ArgDisplayVal = "\"MODE_RIOM52\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom52\""
-ArgDisplayVal = "\"r_riom52\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[37].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[37]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[37]]
-%NAME = "RIOM52 en mode opérationnel Loco1"
-
-[SF.Seq[0].Setup[38].TS]
-Id = "ID#:hfJuau2Q7kWbL01AMj4E2A"
-PreCond = "StationGlobals.Prima==1"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[38].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[38].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{E6AA9223-B602-46FF-BD62-081A6EC5D04D}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809352
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 60
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[38].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM61\""
-ArgDisplayVal = "\"MODE_RIOM61\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom61\""
-ArgDisplayVal = "\"r_riom61\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[38].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[38]]
-InBuf = "\"\""
-%COMMENT = ""
-
-[DEF, SF.Seq[0].Setup[38]]
-%NAME = "RIOM61 en mode opérationnel_Loco1"
-
-[SF.Seq[0].Setup[39].TS]
-Id = "ID#:Guw01SxHckSUUCs6Kt3tqD"
-PreCond = "StationGlobals.Prima==1"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[39].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[39].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{E6AA9223-B602-46FF-BD62-081A6EC5D04D}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809352
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 60
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[39].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM62\""
-ArgDisplayVal = "\"MODE_RIOM62\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom62\""
-ArgDisplayVal = "\"r_riom62\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[39].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[39]]
-InBuf = "\"\""
-%COMMENT = ""
-
-[DEF, SF.Seq[0].Setup[39]]
-%NAME = "RIOM62 en mode opérationnel_Loco1"
-
-[SF.Seq[0].Setup[40].TS]
-Id = "ID#:J6wzvuyKAE+aMu3UTR11qA"
-PreCond = "StationGlobals.Prima==2"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[40].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[40].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{E6AA9223-B602-46FF-BD62-081A6EC5D04D}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809352
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 60
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[40].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM51\""
-ArgDisplayVal = "\"MODE_RIOM51\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "0"
-ArgDisplayVal = "0"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom51\""
-ArgDisplayVal = "\"r_riom51\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[40].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[40]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[40]]
-%NAME = "RIOM51 en mode opérationnel Loco1_Maroc"
-
-[SF.Seq[0].Setup[41].TS]
-Id = "ID#:j0hpHNom6Eu0cEkyJPoSpA"
-PreCond = "StationGlobals.Prima==2"
-NoResult = True
-StepFCSeqF = False
-IgnoreRTE = True
-
-[DEF, SF.Seq[0].Setup[41].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[41].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{E6AA9223-B602-46FF-BD62-081A6EC5D04D}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809352
-MemberName = "RP_WriteVar"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 60
-%HI: Parameters = [6]
-
-[DEF, SF.Seq[0].Setup[41].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-%[6] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"MODE_RIOM52\""
-ArgDisplayVal = "\"MODE_RIOM52\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[2]]
-Name = "Value"
-ArgVal = "0"
-ArgDisplayVal = "0"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[3]]
-Name = "strNetwork"
-ArgVal = "\"mvb\""
-ArgDisplayVal = "\"mvb\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[4]]
-Name = "strEqt"
-ArgVal = "\"r_riom52\""
-ArgDisplayVal = "\"r_riom52\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[5]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[41].TS.SData.Call.Parameters[6]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[41]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[41]]
-%NAME = "RIOM52 en mode opérationnel Loco1_Maroc"
-
-[SF.Seq[0].Setup[42].TS]
-Id = "ID#:I5/VJYRmNUKDQPIZKSizxB"
-NoResult = True
-PostExpr = "FileGlobals.NumPoste= 1"
-
-[DEF, SF.Seq[0].Setup[42]]
-%NAME = "Memorisation num Poste"
-
-[SF.Seq[0].Setup[43].TS]
-Id = "ID#:ynZDuFqB20KuuHrPJY9RiD"
-NoResult = True
-PostExpr Line0001 = "StationGlobals.Remote_1= FileGlobals.Remote_1,\nStationGlobals.Remote_2= FileGlobals.Remote_2,\nStationGlobals.cb_1= Fil"
-PostExpr Line0002 = "eGlobals.cb_1,\nStationGlobals.cb_2= FileGlobals.cb_2"
-
-[SF.Seq[0].Setup[43]]
-%COMMENT = "Stocke les id dans la station pour l'utilisation dans une autre séquence"
-
-[DEF, SF.Seq[0].Setup[43]]
-%NAME = "Statement_Copy_Copy2"
-
-[SF.Seq[0].Setup[44].TS]
-Id = "ID#:oj9TpjZV2U+F2tDGT0O50D"
-NoResult = True
-StepFCSeqF = False
-
-[DEF, SF.Seq[0].Setup[44].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Setup[44].TS.SData]
-SFPath = "Rustine_init.seq"
-SeqName = "MainSequence"
-
-[DEF, SF.Seq[0].Setup[44]]
-%NAME = "SequenceCall"
-
-[SF.Seq[0].Setup[45].TS]
-Id = "ID#:atEea6duWUCmS3Rf1+zacD"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[45]]
-%NAME = "Configuration TCP-IP inter Environnement Loco1 et Loco2"
+%NAME = "Remote Control Start"
 
