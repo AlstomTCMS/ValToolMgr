@@ -56,7 +56,7 @@ End Sub
 ' sortir avec message sinon
 'version bidon
 Function isActivesheet_a_PR_Test(Optional ByVal displayMsg As Boolean = True) As Boolean
-    If ActiveSheet.Name Like PR_TEST_PREFIX & "*" Then
+    If ActiveSheet.name Like PR_TEST_PREFIX & "*" Then
         isActivesheet_a_PR_Test = True
     Else
         isActivesheet_a_PR_Test = False
@@ -68,5 +68,5 @@ End Function
 
 
 Function getTestNumber() As String
-    getTestNumber = Split(ActiveSheet.Name, "_")(1)
+    getTestNumber = Split(ActiveSheet.name, "_")(1)
 End Function
