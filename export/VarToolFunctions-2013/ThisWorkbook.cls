@@ -14,6 +14,8 @@ Attribute app.VB_VarHelpID = -1
     
 Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
     Call exportBas
+    Debug.Print "Files has been exported"
+    
 End Sub
 
 Sub exportBas()
@@ -29,7 +31,7 @@ Sub exportBas()
     For Each VBComp In ActiveWorkbook.VBProject.VBComponents
         Select Case VBComp.Type
             Case vbext_ct_ClassModule, vbext_ct_Document
-                If Not VBComp.Name Like "Feuil*" Then
+                If Not VBComp.name Like "Feuil*" Then
                     Sfx = ".cls"
                 Else
                     Sfx = ""
@@ -43,7 +45,7 @@ Sub exportBas()
         End Select
         
         If Sfx <> "" Then
-            VBComp.Export Filename:=ActiveWorkbook.Path & exportFolder & VBComp.Name & Sfx
+            VBComp.Export filename:=ActiveWorkbook.path & exportFolder & VBComp.name & Sfx
         End If
     Next VBComp
 End Sub
@@ -52,10 +54,11 @@ End Sub
 
 Private Sub Workbook_Open()
     'Permet la modif des modules par plusieurs utilisateurs par la gestion de conf
-    Call importBas
+    'Call importBas
 End Sub
 
 Sub importBas()
+    Dim VBComp As VBIDE.VBComponent
     Dim MyObj As Object, MySource As Object, file As Variant
     
     'Efface tous les Modules présents dans ce fichier
@@ -69,7 +72,7 @@ Sub importBas()
     file = Dir(MacroPath & exportFolder)
     While (file <> "")
         If InStr(file, ".bas") > 0 Then
-            ThisWorkbook.VBProject.VBComponents.Import Filename:=MacroPath & exportFolder & file
+            ThisWorkbook.VBProject.VBComponents.Import filename:=MacroPath & exportFolder & file
         End If
         file = Dir
     Wend
