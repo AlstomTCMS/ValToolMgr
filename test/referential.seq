@@ -131,17 +131,17 @@ HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedde
 %TYPE: %[0] = "SequenceCall"
 
 [SF.Seq[0].Main[0].TS]
-Id = "ID#:Xv/DQfLuaEKswKqo2JfJSC"
+Id = "ID#:0000000000000000000001"
 
 [DEF, SF.Seq[0].Main[0].TS]
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[0].Main[0].TS.SData]
-SeqName = "TEST_1.2"
+SeqName = "Test_1.2"
 UseCurFile = True
 
 [DEF, SF.Seq[0].Main[0]]
-%NAME = "SequenceCall"
+%NAME = "Test_1.2"
 
 [DEF, SF.Seq[0].Setup]
 %[0] = Step
@@ -1622,7 +1622,7 @@ Cleanup = Objs
 GotoCleanupOnFail = Bool
 RecordResults = Bool
 RTS = Obj
-%NAME = "TEST_1.2"
+%NAME = "Test_1.2"
 
 [SF.Seq[1]]
 %FLG: Parameters = 4456448
@@ -1667,31 +1667,31 @@ ResultList = Objs
 %TYPE: %[10] = "CB_Test"
 
 [SF.Seq[1].Main[0].TS]
-Id = "ID#:nY9f9L5g0Ueu/w/2o4xsXC"
+Id = "ID#:0000000000000000000002"
 
 [DEF, SF.Seq[1].Main[0]]
-%NAME = "NOMINAL CASES"
+%NAME = "===================================="
 
 [SF.Seq[1].Main[1].TS]
-Id = "ID#:XqdOfUkcG02IH5AR2WzYgA"
+Id = "ID#:0000000000000000000003"
 
 [DEF, SF.Seq[1].Main[1]]
-%NAME = "****TFE-AHT-F15_N_1 -- Manage the high voltage configuration"
+%NAME = "======== Step 1 : Right conditions"
 
 [SF.Seq[1].Main[2].TS]
-Id = "ID#:s21Tt6uYFE2ekbbxVvr+DA"
+Id = "ID#:0000000000000000000004"
 
 [DEF, SF.Seq[1].Main[2]]
-%NAME = "Manage the high voltage configuration -- "
+%NAME = "===================================="
 
 [SF.Seq[1].Main[3].TS]
-Id = "ID#:fDVoLhBHK0ejUizrZ4hQZA"
+Id = "ID#:0000000000000000000005"
 
 [DEF, SF.Seq[1].Main[3]]
-%NAME = "STEP 1 - N1 -- actions to perform"
+%NAME = "== Actions : Actions to perform"
 
 [SF.Seq[1].Main[4].TS]
-Id = "ID#:hrKQaLU0kU6fnwRYvCbFLC"
+Id = "ID#:0000000000000000000006"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -1742,8 +1742,8 @@ Direction = 1
 
 [SF.Seq[1].Main[4].TS.SData.Call.Parameters[2]]
 Name = "vForcedValue"
-ArgVal = "true"
-ArgDisplayVal = "\"true\""
+ArgVal = "True"
+ArgDisplayVal = "\"True\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1773,10 +1773,10 @@ IsByRef = True
 %COMMENT = "\n "
 
 [DEF, SF.Seq[1].Main[4]]
-%NAME = "force;B_CabAct;true"
+%NAME = "Force B_CabAct at 1"
 
 [SF.Seq[1].Main[5].TS]
-Id = "ID#:mf+nVWJa0U+C1ofb0Mr0mC"
+Id = "ID#:0000000000000000000007"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -1858,10 +1858,10 @@ IsByRef = True
 %COMMENT = "\n "
 
 [DEF, SF.Seq[1].Main[5]]
-%NAME = "force;BY_NumSec;1"
+%NAME = "Force BY_NumSec at 1"
 
 [SF.Seq[1].Main[6].TS]
-Id = "ID#:0/jWpcXnz0qzdDIA2BxSvB"
+Id = "ID#:0000000000000000000008"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -1943,26 +1943,26 @@ IsByRef = True
 %COMMENT = "\n "
 
 [DEF, SF.Seq[1].Main[6]]
-%NAME = "force;P_TpTime;2000"
+%NAME = "Force P_TpTime at 2000"
 
 [SF.Seq[1].Main[7].TS]
-Id = "ID#:x0nkW6EPkU+rEuOajHdyFA"
+Id = "ID#:0000000000000000000009"
 
 [SF.Seq[1].Main[7]]
 SeqCallStepGroupIdx = -1
 TimeExpr = "0.2"
 
 [DEF, SF.Seq[1].Main[7]]
-%NAME = "wait"
+%NAME = "Wait 0.2 seconds"
 
 [SF.Seq[1].Main[8].TS]
-Id = "ID#:Y05M3CFzdk6czp3lkBsHeA"
+Id = "ID#:0000000000000000000010"
 
 [DEF, SF.Seq[1].Main[8]]
-%NAME = "STEP 1 - N1 -- Test to perform"
+%NAME = "== Checks : Checks to perform"
 
 [SF.Seq[1].Main[9].TS]
-Id = "ID#:I/ouYYVlaUCH06qdqw61uB"
+Id = "ID#:0000000000000000000011"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -2055,13 +2055,12 @@ IsServerOptional = True
 
 [SF.Seq[1].Main[9]]
 InBuf = "\"Application_TrTrans/Embedded/Control_Command/FBS/TFE/tfe_aht_trtrans1/tfe_aht_f15_trtrans1\""
-%COMMENT = "\n "
 
 [DEF, SF.Seq[1].Main[9]]
-%NAME = "Test;BY_SelVehHHT_UM;1"
+%NAME = "Test BY_SelVehHHT_UM at 1"
 
 [SF.Seq[1].Main[10].TS]
-Id = "ID#:DqDPt2H3EEC3qr2BBTnGGA"
+Id = "ID#:0000000000000000000012"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -2114,8 +2113,8 @@ Direction = 1
 
 [SF.Seq[1].Main[10].TS.SData.Call.Parameters[2]]
 Name = "awaitedValue"
-ArgVal = "true"
-ArgDisplayVal = "true"
+ArgVal = "True"
+ArgDisplayVal = "True"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -2154,10 +2153,9 @@ IsServerOptional = True
 
 [SF.Seq[1].Main[10]]
 InBuf = "\"Application_TrTrans/Embedded/Control_Command/FBS/TFE/tfe_aht_trtrans1/tfe_aht_f15_trtrans1\""
-%COMMENT = "\n "
 
 [DEF, SF.Seq[1].Main[10]]
-%NAME = "Test;B_HHTOpenState_Veh1_DDU;true"
+%NAME = "Test B_HHTOpenState_Veh1_DDU at True"
 
 [DEF, SF.Seq[1].RTS]
 Type = Num
