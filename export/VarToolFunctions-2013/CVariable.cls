@@ -21,3 +21,21 @@ Public typeOfVar As E_varType
 Public name As String
 Public path As String
 Public value As Variant
+
+Public Function getStringValue() As String
+    Select Case typeOfVar
+    Case T_BOOLEAN
+         If varType(value) = vbInteger Or varType(value) = vbDouble Then
+            If (value = 0) Then
+                getStringValue = "False"
+            Else
+                getStringValue = "True"
+            End If
+        Else
+            MsgBox "Variable value is not managed : " & TypeName(value)
+        End If
+    Case Else
+    Else
+        getStringValue = value
+    End Select
+End Function

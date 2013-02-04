@@ -35,10 +35,8 @@ Public Sub Generate_scenario(ByVal testNumber As String)
       ' Pour l'instant on ne vérifie pas le formalisme
     'If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
 
-    scenario_shName = PR_TEST_SCENARIO_PREFIX & testNumber
-
     Dim o_test As CTest
-    Set o_test = parseSingleTest(scenario_shName, loActionsTable, loChecksTable)
+    Set o_test = parseSingleTest(wsCurrentTestSheet.name, loActionsTable, loChecksTable)
     
     Dim o_testContainer As CTestContainer
     Set o_testContainer = New CTestContainer

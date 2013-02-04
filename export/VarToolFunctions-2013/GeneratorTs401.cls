@@ -366,6 +366,10 @@ Private Function genIdentifier() As String
     idSalt = idSalt + 1
 End Function
 
+Private Function defineVariable(Data As Variant) As CVariable
+    Set defineVariable = Data
+End Function
+
 '********************************************************************************************************************
 '                   Librairies séquence TS
 '********************************************************************************************************************
@@ -384,7 +388,7 @@ Private Sub WriteSequence(SequenceIdx As Integer, Sequence As CTestStandSeq)
     Print #filePtr, "GotoCleanupOnFail = Bool"
     Print #filePtr, "RecordResults = Bool"
     Print #filePtr, "RTS = Obj"
-    Print #filePtr, "Requirements = Obj"
+    'Print #filePtr, "Requirements = Obj"
     Print #filePtr, "%NAME = """ & Sequence.identifier & """"
     Print #filePtr, ""
     
@@ -399,7 +403,7 @@ Private Sub WriteSequence(SequenceIdx As Integer, Sequence As CTestStandSeq)
     Print #filePtr, "RecordResults = True"
     Print #filePtr, "%FLG: RecordResults = 4194312"
     Print #filePtr, "%FLG: RTS = 4456456"
-    Print #filePtr, "%FLG: Requirements = 4456456"
+    'Print #filePtr, "%FLG: Requirements = 4456456"
     Print #filePtr, ""
 
     Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Locals]"
@@ -520,8 +524,8 @@ Private Sub ProcessingCB_Force(SequenceIdx As Integer, InstructionIdx As Integer
     Print #filePtr, ""
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call.Parameters[2]]"
     Print #filePtr, "Name = ""vForcedValue"""
-    Print #filePtr, "ArgVal = """ & variable.value & """"
-    Print #filePtr, "ArgDisplayVal = ""\""" & variable.value & "\"""""
+    Print #filePtr, "ArgVal = """ & variable.getStringValue & """"
+    Print #filePtr, "ArgDisplayVal = ""\""" & variable.getStringValue & "\"""""
     Print #filePtr, "Type = 12"
     Print #filePtr, "DisplayType = ""Variant"""
     Print #filePtr, "TypeValid = True"
@@ -641,10 +645,9 @@ End Sub
 
 Private Sub ProcessingCB_Test(SequenceIdx As Integer, InstructionIdx As Integer, instruction As CTestStandInstr)
 
-    Dim lTimeout_ms As Integer
-    lTimeout_ms = 5000
+    Dim lTimeout_ms As String
+    lTimeout_ms = "FileGlobals.TimeOut"
     Dim sLigne As String
-    sLigne = 0
 
     'Pour tester les variables sans mnémonique
     Dim variable As CVariable
@@ -701,8 +704,8 @@ Private Sub ProcessingCB_Test(SequenceIdx As Integer, InstructionIdx As Integer,
     Print #filePtr, ""
     Print #filePtr, "[SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData.Call.Parameters[2]]"
     Print #filePtr, "Name = ""awaitedValue"""
-    Print #filePtr, "ArgVal = """ & variable.value & """"
-    Print #filePtr, "ArgDisplayVal = """ & variable.value & """"
+    Print #filePtr, "ArgVal = """ & variable.getStringValue & """"
+    Print #filePtr, "ArgDisplayVal = """ & variable.getStringValue & """"
     Print #filePtr, "Type = 12"
     Print #filePtr, "DisplayType = ""Variant"""
     Print #filePtr, "TypeValid = True"
@@ -777,12 +780,12 @@ Private Sub ProcessingSequenceCall(SequenceIdx As Integer, InstructionIdx As Int
     
     Print #filePtr, "SeqName = """ & instruction.Data & """"
     Print #filePtr, "UseCurFile = True"
-    Print #filePtr, "%FLG: Prototype = 262144"
-    Print #filePtr, "UsePrototype = True"
-    Print #filePtr, ""
-    Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData]"
+    'Print #filePtr, "%FLG: Prototype = 262144"
+    'Print #filePtr, "UsePrototype = True"
+    'Print #filePtr, ""
+    'Print #filePtr, "[DEF, SF.Seq[" & SequenceIdx & "].Main[" & InstructionIdx & "].TS.SData]"
     'Print #filePtr, "ActualArgs = Arguments"
-    Print #filePtr, "Prototype = Obj"
+    'Print #filePtr, "Prototype = Obj"
     'Print #filePtr, "Trace = ""Don\t Change"""
     Print #filePtr, ""
     
