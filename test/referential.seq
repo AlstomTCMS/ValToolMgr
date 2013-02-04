@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\Documents and Settings\\Administrator\\Desktop\\TFE-AHT-F15.seq"
+Path = "C:\\macros_alstom\\test\\test.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
