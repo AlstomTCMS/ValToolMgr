@@ -3,16 +3,16 @@ Attribute VB_Name = "General"
 '------------------------------------------------------------------------
 ' Initie une feuille par son nom
 '------------------------------------------------------------------------
-Function InitSheet(ByVal sheetName As String, Optional ByVal eraseContent As Boolean, Optional visible As Boolean = True, Optional sheetAlreadyExist As Boolean, Optional titles As Variant = Null) As Excel.Worksheet
+Function InitSheet(ByVal SheetName As String, Optional ByVal eraseContent As Boolean, Optional visible As Boolean = True, Optional sheetAlreadyExist As Boolean, Optional titles As Variant = Null) As Excel.Worksheet
     Dim WsExist As Boolean, range1 As Range
  
 On Error Resume Next
-    WsExist = ActiveWorkbook.Sheets(sheetName).index
+    WsExist = ActiveWorkbook.Sheets(SheetName).index
 On Error GoTo 0
 
     'Si la feuille n'existe pas, on l'ajoute
     If Not WsExist Then
-        Worksheets.Add(After:=Sheets(Sheets.Count)).name = sheetName
+        Worksheets.Add(After:=Sheets(Sheets.Count)).name = SheetName
     Else
         sheetAlreadyExist = True
     End If
@@ -21,17 +21,17 @@ On Error GoTo 0
     ' On efface le contenu de la feuille
     'Sheets(sheetName).Cells.ClearContents
     If eraseContent Then
-        Sheets(sheetName).Cells.ClearContents
-        Sheets(sheetName).Cells.ClearContents
+        Sheets(SheetName).Cells.ClearContents
+        Sheets(SheetName).Cells.ClearContents
     End If
     
     'On ajoute les titres s'il y en a
     If Not titles Is Null Then
-        With Sheets(sheetName)
+        With Sheets(SheetName)
         
             Set range1 = .Range("A1", .Cells(1, UBound(titles) + 1))
             range1 = titles
-            tableLiens = "Tableau" & sheetName
+            tableLiens = "Tableau" & SheetName
             .ListObjects.Add(xlSrcRange, range1, , xlYes).name = tableLiens
             .ListObjects(tableLiens).TableStyle = "tableau de test"
             
@@ -44,13 +44,13 @@ On Error GoTo 0
     On Error GoTo 0
            
     If Not visible Then
-        Sheets(sheetName).visible = xlSheetHidden
+        Sheets(SheetName).visible = xlSheetHidden
     Else
-        Sheets(sheetName).visible = xlSheetVisible
+        Sheets(SheetName).visible = xlSheetVisible
     End If
     
     'feuille renvoyée
-    Set InitSheet = Sheets(sheetName)
+    Set InitSheet = Sheets(SheetName)
     
 End Function
 

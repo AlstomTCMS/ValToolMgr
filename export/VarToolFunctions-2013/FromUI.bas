@@ -10,9 +10,7 @@ Sub Ancien_Vers_Nouveau()
 End Sub
 
 Sub Reverse_Nvo_Vers_Ancien()
-    If isActivesheet_a_PR_Test Then
-        Call Generate_scenario(getTestNumber)
-    End If
+    Call Generate_scenario
 End Sub
 
 Sub AddNewStep()
@@ -55,18 +53,18 @@ End Sub
 ' Détecter si c'est bien un onglet de test au bon format
 ' sortir avec message sinon
 'version bidon
-Function isActivesheet_a_PR_Test(Optional ByVal displayMsg As Boolean = True) As Boolean
-    If ActiveSheet.name Like PR_TEST_PREFIX & "*" Then
-        isActivesheet_a_PR_Test = True
+Function is_sheet_a_PR_Test(ws As Worksheet, Optional ByVal displayMsg As Boolean = True) As Boolean
+    If ws.name Like PR_TEST_PREFIX & "*" Then
+        is_sheet_a_PR_Test = True
     Else
-        isActivesheet_a_PR_Test = False
+        is_sheet_a_PR_Test = False
         If displayMsg Then
-            MsgBox "This sheet is not a PR test. You cannot use this function on this sheet."
+            MsgBox "Sheet """ & ws.name & """ is not a PR test. Requested function won't be effective on this sheet."
         End If
     End If
 End Function
 
 
-Function getTestNumber() As String
-    getTestNumber = Split(ActiveSheet.name, "_")(1)
+Function getTestNumber(ws As Worksheet) As String
+    getTestNumber = Split(ws.name, "_")(1)
 End Function
