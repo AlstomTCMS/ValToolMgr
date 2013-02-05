@@ -216,7 +216,7 @@ Dim ws As Worksheet
     If WsExist(ERROR_NAME) Then
         Call FormatErrorSheet
         
-        Message = "Des tests n'ont pas été rajouté dans " & PR_OUT_NAME & " !"
+        Message = "Des tests n'ont pas été rajoutés dans " & PR_OUT_NAME & " !"
         Call MsgBox(Message, vbCritical, "Alerte")
     End If
 Finally:
