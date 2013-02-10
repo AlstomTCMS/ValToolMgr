@@ -55,8 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ValtoolMgrDna.cs" />
-    <Compile Include="ExcelSpecific\Addin.cs" />
+    <Compile Include="ExcelSpecific\CInstruction.cs" />
+    <Compile Include="ExcelSpecific\CStep.cs" />
+    <Compile Include="ExcelSpecific\CTest.cs" />
+    <Compile Include="ExcelSpecific\CTestContainer.cs" />
+    <Compile Include="ExcelSpecific\CVariable.cs" />
+    <Compile Include="ExcelSpecific\TestSheetParser.cs" />
+    <Compile Include="ExcelSpecific\WorkbookParser.cs" />
+    <Compile Include="dna\ValtoolMgrDna.cs" />
+    <Compile Include="dna\Addin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

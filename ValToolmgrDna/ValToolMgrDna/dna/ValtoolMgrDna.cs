@@ -26,10 +26,9 @@ namespace ValToolMgrDna
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
-            foreach (Excel.Worksheet sheet in application.ActiveWindow.SelectedSheets)
-            {
-                XlCall.Excel(XlCall.xlcAlert, "Selected sheet : " + sheet.Name); 
-            }
+            ExcelSpecific.CTestContainer t = ExcelSpecific.WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+
+            XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
         } 
     }
 }
