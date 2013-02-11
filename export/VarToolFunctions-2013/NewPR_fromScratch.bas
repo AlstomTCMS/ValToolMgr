@@ -62,7 +62,7 @@ Sub AddTableDescription(ByVal testName As String)
         tableName = PR_TEST_TABLE_DESCRIPTION_PREFIX & testName
         .ListObjects.Add(xlSrcRange, .Range("C1:D5"), , xlYes).name = tableName
         Call AddDescTableFormat
-        .ListObjects(tableName).TableStyle = PR_TEST_DESCRIPTION_TABLE_STYLE
+        .ListObjects(tableName).TableStyle = PR_TEST_DESCRIPTION_TABLE_STYLE & " " & PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION
         .ListObjects(tableName).ShowHeaders = False
         .ListObjects(tableName).ShowTableStyleFirstColumn = True
         .ListObjects(tableName).ShowTableStyleColumnStripes = True
@@ -80,6 +80,11 @@ Sub AddTableDescription(ByVal testName As String)
             .ThemeColor = xlThemeColorDark1
             .TintAndShade = 0
             .PatternTintAndShade = 0
+        End With
+        
+        With .Range(tableName & "[[#All],[Colonne1]]")
+            .HorizontalAlignment = xlRight
+            .VerticalAlignment = xlCenter
         End With
     End With
 End Sub
@@ -254,47 +259,76 @@ Sub AddTableAction(ByVal testName As String)
 End Sub
 
 ' Ajoute au workbook le style de tableau pour la partie descriptive s'il n'existe pas déjà
-Sub AddDescTableFormat()
+' est egale à vrai s'il faut mettre à jour le style du tableau
+Function AddDescTableFormat() As Boolean
 Dim FirstColumnEdges As Variant
+Dim Style As TableStyle
+Dim updateTable As Boolean
+Dim addTable As Boolean
 
+    addTable = True
     With ActiveWorkbook
-        On Error GoTo Add:
-        BuiltIn = .TableStyles(PR_TEST_DESCRIPTION_TABLE_STYLE).BuiltIn
-        GoTo NoAdd
+    
+        ' Vérifie que le style existe déjà et à quelle version
+        For Each Style In .TableStyles
+            If Style.name Like PR_TEST_DESCRIPTION_TABLE_STYLE & "*" Then
+                addTable = False
+                tableName = Split(Style.name, " ")
+                If UBound(tableName) = 2 Then ' Si on a la version
+                    'If tableName(2) < PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION Then
+                        updateTable = True
+                    'End If
+                Else
+                    updateTable = True
+                End If
+            End If
+        Next
         
-Add:
-        .TableStyles.Add (PR_TEST_DESCRIPTION_TABLE_STYLE)
-        With .TableStyles(PR_TEST_DESCRIPTION_TABLE_STYLE)
+        
+        If addTable Then
+            .TableStyles.Add (PR_TEST_DESCRIPTION_TABLE_STYLE & " " & PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION)
+        End If
+        
+        If addTable Or updateTable Then
+        With .TableStyles(PR_TEST_DESCRIPTION_TABLE_STYLE & " " & PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION)
             .ShowAsAvailablePivotTableStyle = False
             .ShowAsAvailableTableStyle = True
             .ShowAsAvailableSlicerStyle = False
+            
+            
+            If updateTable Then
+                AddDescTableFormat = True
+                'effacer les styles avant de les définir
+                For Each stylesElement In .TableStyleElements
+                    stylesElement.Clear
+                Next stylesElement
+            End If
             
             ' -------------------------------------------------------------
             ' LA Première colonne
             ' -------------------------------------------------------------
             With .TableStyleElements(xlFirstColumn)
                 With .Font
-                    .FontStyle = "Gras": .TintAndShade = 0:  .ThemeColor = xlThemeColorAccent1
+                    .Bold = True: .TintAndShade = 0:  .ThemeColor = xlThemeColorDark1
+                End With
+                With .Interior
+                    .Color = 12419407: .TintAndShade = 0
                 End With
                 FirstColumnEdges = Array(xlEdgeTop, xlEdgeBottom, xlEdgeLeft, xlInsideHorizontal)
                 For Each edge In FirstColumnEdges
                     With .Borders(edge)
-                        .ThemeColor = xlThemeColorDark1: .TintAndShade = 0: .Weight = xlThick: .LineStyle = xlNone
+                          .LineStyle = xlNone: .Weight = xlThick: .ThemeColor = xlThemeColorDark1: .TintAndShade = 0:
                     End With
                 Next edge
             End With
             
-            ' -------------------------------------------------------------
-            ' Lignes impaires
-            ' -------------------------------------------------------------
-            
             
             
             ' -------------------------------------------------------------
-            ' Lignes paires
+            ' Colonnes impaires
             ' -------------------------------------------------------------
             
-            With .TableStyleElements(xlColumnStripe2)
+            With .TableStyleElements(xlColumnStripe1)
                 With .Interior
                     .Pattern = xlSolid
                     .PatternColorIndex = 0
@@ -304,59 +338,30 @@ Add:
                 End With
             End With
             
+
             
-            With .TableStyleElements(xlFirstColumn).Font
-                .Bold = True '.FontStyle = "Gras"
-                .TintAndShade = 0
-                .ThemeColor = xlThemeColorDark1
-            End With
-            With .TableStyleElements(xlFirstColumn).Interior
-                .Color = 12419407
-                .TintAndShade = 0
-            End With
-            With .TableStyleElements(xlFirstColumn).Borders(xlEdgeTop)
-                .ThemeColor = xlThemeColorDark1
-                .TintAndShade = 0
-                .Weight = xlThick
-                .LineStyle = xlNone
-            End With
-            With .TableStyleElements(xlFirstColumn).Borders(xlEdgeBottom)
-                .ThemeColor = xlThemeColorDark1
-                .TintAndShade = 0
-                .Weight = xlThick
-                .LineStyle = xlNone
-            End With
-            With .TableStyleElements(xlFirstColumn).Borders(xlEdgeLeft)
-                .ThemeColor = xlThemeColorDark1
-                .TintAndShade = 0
-                .Weight = xlThick
-                .LineStyle = xlNone
-            End With
-            With .TableStyleElements(xlFirstColumn).Borders(xlInsideHorizontal)
-                .ThemeColor = xlThemeColorDark1
-                .TintAndShade = 0
-                .Weight = xlThick
-                .LineStyle = xlNone
-            End With
+            ' -------------------------------------------------------------
+            ' Lignes impaires
+            ' -------------------------------------------------------------
+            
             With .TableStyleElements(xlRowStripe1).Borders(xlEdgeTop)
-                .ThemeColor = xlThemeColorLight2
-                .TintAndShade = 0.599963377788629
                 .Weight = xlThin
                 .LineStyle = xlNone
-            End With
-            With .TableStyleElements(xlRowStripe2).Borders(xlEdgeTop)
                 .ThemeColor = xlThemeColorLight2
-                .TintAndShade = 0.599963377788629
-                .Weight = xlThin
-                .LineStyle = xlNone
+                .TintAndShade = 0.799981688894314 '0.599963377788629
             End With
             
-            With .TableStyleElements(xlColumnStripe2).Interior
-                .Pattern = xlNone
-                .TintAndShade = 0
-                .PatternTintAndShade = 0
+            ' -------------------------------------------------------------
+            ' Lignes paires
+            ' -------------------------------------------------------------
+            
+            
+            With .TableStyleElements(xlRowStripe2).Borders(xlEdgeTop)
+                .Weight = xlThin
+                .LineStyle = xlNone
+                .ThemeColor = xlThemeColorLight2
+                .TintAndShade = 0.799981688894314 '0.599963377788629
             End With
-        
             
             ' -------------------------------------------------------------
             ' Ligne des Totaux
@@ -375,7 +380,7 @@ Add:
             End With
             
         End With
-NoAdd:
+        End If
     End With
-End Sub
+End Function
 

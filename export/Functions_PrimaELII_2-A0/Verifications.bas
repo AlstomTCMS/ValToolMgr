@@ -35,7 +35,7 @@ Sub setVisible_VerifTestButton(control As IRibbonControl, ByRef visible)
 End Sub
 
 ' Vérifie si un onglet existe pour ce test
-' Vérifie l'ordre des types dans chaque étapes du test
+' ----Vérifie l'ordre des types dans chaque étapes du test--- N'EST PLUS A FAIRE
 ' Vérifie s'il y a des doublons
 ' Renvoie vrai si tout c'est bien passé
 Function checkTest(ByVal testSheet As String, Optional ByVal fromCheckButton As Boolean = False) As Boolean
@@ -43,7 +43,7 @@ Dim nNbLigne, nNbLigneT, nNbLigneTotal As Long
 Dim bErreur As Boolean
 
 Dim Etape_EnCours As range
-Dim nNbLigneEtape_Deb, nNbLigneEtape_Fin As Long 'Num Ligne Debut et Fin d'Etape
+Dim etape_deb, etape_fin As Long 'Num Ligne Debut et Fin d'Etape
 
 Dim TexteType_EnCours As String
 Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Type (AEn,CEn,ACc,CCc)
@@ -53,7 +53,8 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
     
     'Tester si l'onglet de test existe
     If Not WsExist(testSheet) Then
-        checkTypeOrder = False
+        Call AjoutErreur(testSheet, Nothing, ERROR_TYPE_NOTESTSHEET)
+        checkTest = False
         Exit Function
     End If
        
@@ -74,117 +75,38 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
     Call SetCellulesVidesRouges_TEST(testSheet)
     Call SetValidations_TEST(testSheet)
     
+    'Vérification des doublons de l'étape
     With Sheets(testSheet)
         
-        'on créé une colonne de comparaison par concaténation de type|section|Variable|chemin
         nNbLigneTotal = .range("A1").End(xlDown).row
+        'on créé une colonne de comparaison par concaténation de Mode|Type|Section|Variable|Chemin
         For nNbLigne = 2 To nNbLigneTotal
-            .Cells(nNbLigne, TEST_COLUMN_DOUBLON_COMPARE) = .Cells(nNbLigne, 7) & .Cells(nNbLigne, 8) & .Cells(nNbLigne, 9) & .Cells(nNbLigne, 10)
+            .Cells(nNbLigne, TEST_COLUMN_DOUBLON_COMPARE) = .Cells(nNbLigne, 2) & .Cells(nNbLigne, 7) & .Cells(nNbLigne, 8) & .Cells(nNbLigne, 9) & .Cells(nNbLigne, 10)
         Next
-         
-        nNbLigneEtape_Deb = 2
-        nNbLigne = 2
-        While (.Cells(nNbLigne, 1) <> "") And (nNbLigne <= nNbLigneTotal)
-            Set Etape_EnCours = .Cells(nNbLigneEtape_Deb, 1)
-            nNbLigneEtape_Deb = nNbLigne
+        
+        etape_deb = 2
+        
+        While (.Cells(etape_deb, 1) <> "") And (etape_deb <= nNbLigneTotal)
+            Set Etape_EnCours = .Cells(etape_deb, 1)
             
             'Trouve les bornes de l'Etape
-            For nNbLigne = nNbLigneEtape_Deb To nNbLigneTotal
-                If .Cells(nNbLigne, 1) <> Etape_EnCours Then ' Or (.Cells(nNbLigne, 1) = "") Then
-                    nNbLigneEtape_Fin = nNbLigne - 1
+            For nNbLigne = etape_deb To nNbLigneTotal
+                If .Cells(nNbLigne, 1) <> Etape_EnCours.Value Then
+                    etape_fin = nNbLigne - 1
                     Exit For
                 End If
             Next
-            
             If nNbLigne >= nNbLigneTotal Then
-                nNbLigneEtape_Fin = nNbLigneTotal
+                etape_fin = nNbLigneTotal
             End If
-            nNbLigneType_Deb = nNbLigneEtape_Deb
             
-        '-----------------------------------------------
-        '------------------------ACc
-            TexteType_EnCours = .Cells(nNbLigneType_Deb, TEST_COLUMN_TYPE_ACTION)
-            If (TexteType_EnCours = TYPE_VAR_ACTION_EMB) And (bErreur = False) Then
-                For nNbLigne = nNbLigneType_Deb To nNbLigneEtape_Fin + 1
-                    If (.Cells(nNbLigne, TEST_COLUMN_TYPE_ACTION) <> TexteType_EnCours) Or (nNbLigne > nNbLigneEtape_Fin) Then
-                        nNbLigneType_Fin = nNbLigne - 1
-                        Exit For
-                    End If
-                Next
-                bErreur = Doublon(testSheet, nNbLigneEtape_Deb, nNbLigneEtape_Fin)
-                nNbLigneType_Deb = nNbLigneType_Fin + 1
-            End If
-        '------------------------AEn
-            TexteType_EnCours = .Cells(nNbLigneType_Deb, TEST_COLUMN_TYPE_ACTION)
-            If (TexteType_EnCours = TYPE_VAR_ACTION_ENV) And (bErreur = False) Then
-                For nNbLigne = nNbLigneType_Deb To nNbLigneEtape_Fin + 1
-                    If (.Cells(nNbLigne, TEST_COLUMN_TYPE_ACTION) <> TexteType_EnCours) Or (nNbLigne > nNbLigneEtape_Fin) Then
-                        nNbLigneType_Fin = nNbLigne - 1
-                        Exit For
-                    End If
-                Next
-                bErreur = Doublon(testSheet, nNbLigneEtape_Deb, nNbLigneEtape_Fin)
-                nNbLigneType_Deb = nNbLigneType_Fin + 1
-            End If
-        '------------------------CCc
-            TexteType_EnCours = .Cells(nNbLigneType_Deb, TEST_COLUMN_TYPE_ACTION)
-            If (TexteType_EnCours = TYPE_VAR_CHECK_EMB) And (bErreur = False) Then
-                For nNbLigne = nNbLigneType_Deb To nNbLigneEtape_Fin + 1
-                    If (.Cells(nNbLigne, TEST_COLUMN_TYPE_ACTION) <> TexteType_EnCours) Or (nNbLigne > nNbLigneEtape_Fin) Then
-                        nNbLigneType_Fin = nNbLigne - 1
-                        Exit For
-                    End If
-                Next
-                bErreur = Doublon(testSheet, nNbLigneEtape_Deb, nNbLigneEtape_Fin)
-                nNbLigneType_Deb = nNbLigneType_Fin + 1
-            End If
-        '------------------------CEn
-            TexteType_EnCours = .Cells(nNbLigneType_Deb, TEST_COLUMN_TYPE_ACTION)
-            If (TexteType_EnCours = TYPE_VAR_CHECK_ENV) And (bErreur = False) Then
-                For nNbLigne = nNbLigneType_Deb To nNbLigneEtape_Fin + 1
-                    If (.Cells(nNbLigne, TEST_COLUMN_TYPE_ACTION) <> TexteType_EnCours) Or (nNbLigne > nNbLigneEtape_Fin) Then
-                        nNbLigneType_Fin = nNbLigne - 1
-                        Exit For
-                    End If
-                Next
-                bErreur = Doublon(testSheet, nNbLigneEtape_Deb, nNbLigneEtape_Fin)
-                nNbLigneType_Deb = nNbLigneType_Fin + 1
-            End If
-        '------------------------PGM
-            TexteType_EnCours = .Cells(nNbLigneType_Deb, TEST_COLUMN_TYPE_ACTION)
-            If (TexteType_EnCours = TYPE_VAR_PGM) And (bErreur = False) Then
-                For nNbLigne = nNbLigneType_Deb To nNbLigneEtape_Fin + 1
-                    If (.Cells(nNbLigne, TEST_COLUMN_TYPE_ACTION) <> TexteType_EnCours) Or (nNbLigne > nNbLigneEtape_Fin) Then
-                        nNbLigneType_Fin = nNbLigne - 1
-                        Exit For
-                    End If
-                Next
-                bErreur = False  'Doublon(testSheet, nNbLigneType_Deb, nNbLigneType_Fin)
-                nNbLigneType_Deb = nNbLigneType_Fin + 1
-            End If
-        '-----------------------------------------------
-        
-    
-            nNbLigne = nNbLigneEtape_Fin + 1
-            nNbLigneEtape_Deb = nNbLigneEtape_Fin + 1
-            
-            If bErreur = True Then
-                nNbLigne = nNbLigneTotal + 1
-                'MsgBox "Doublon dans l'Etape " & Etape_EnCours, vbOKOnly + vbCritical, "Erreur doublon !"
-                'Call AjoutErreur(testSheet, Etape_EnCours, StringFormat(ERROR_TYPE_DOUBLON, "TES3"))
+            If Doublon(testSheet, etape_deb, etape_fin) Then
                 If checkTest Then
                     checkTest = False
                 End If
             End If
-            If (nNbLigneType_Deb <= nNbLigneEtape_Fin) And (bErreur = False) Then
-                bErreur = True
-                nNbLigne = nNbLigneTotal + 1
-                'MsgBox "L'ordre des types de variables (ACc, AEn, CCc, CEn) n'a pas été respecté pour l'étape : " & Etape_EnCours, vbOKOnly + vbCritical, "Erreur !"
-                Call AjoutErreur(testSheet, Etape_EnCours, ERROR_TYPE_ORDER)
-                If checkTest Then
-                    checkTest = False
-                End If
-            End If
+            
+            etape_deb = etape_fin + 1
         Wend
         
         ' On efface la colonne qui a servit de tampon pour vérifier les doublons
@@ -335,7 +257,7 @@ verif_remplissage = True
                 
                 'MsgBox "La feuille de test " & sheetName & " n'est pas entièrement remplie." _
                    '& vbCrLf & "Le PR ne peut pas être généré.", vbExclamation, "Alerte !"
-                Call AjoutErreur(sheetName, Nothing, StringFormat(ERROR_TYPE_EMPTY, Right(errorColumns, Len(errorColumns) - 2)))
+                Call AjoutErreur(sheetName, Nothing, StringFormat(ERROR_TYPE_COLUMNS_EMPTY, Right(errorColumns, Len(errorColumns) - 2)))
             End If
         End If
     End With

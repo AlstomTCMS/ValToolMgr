@@ -5,7 +5,7 @@ Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
 Public Const macroVersion As String = "A7"
 Public Const refVersion As String = "A3"
-Public Const macroUpdateDate As String = "25/01/2013"
+Public Const macroUpdateDate As String = "08/02/2013"
 
 Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"
@@ -16,7 +16,8 @@ Public Const VALID_NAME As String = "Data Validation"
 Public Const ERROR_NAME As String = "Erreurs"
 
 Public Const ERROR_TYPE_DOUBLON As String = "{0} est en doublon."
-Public Const ERROR_TYPE_EMPTY As String = "Les colonnes {0} ne sont pas entièrement remplies."
+Public Const ERROR_TYPE_COLUMNS_EMPTY As String = "Les colonnes {0} ne sont pas entièrement remplies."
+Public Const ERROR_TYPE_NOTESTSHEET As String = "La feuille de test n'existe pas."
 Public Const ERROR_TYPE_ORDER As String = "L'ordre des types de variables (ACc, AEn, CCc, CEn) est non respecté."
 Public Const ERROR_TYPE_TARGET As String = "Chemin {0} incorrect."
 
