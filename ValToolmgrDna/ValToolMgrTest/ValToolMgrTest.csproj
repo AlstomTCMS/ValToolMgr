@@ -64,6 +64,10 @@
     <None Include="NUnit\nunit.core.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TestStandGen\TestStandGen.csproj">
+      <Project>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</Project>
+      <Name>TestStandGen</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
       <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
       <Name>ValToolMgrDna</Name>

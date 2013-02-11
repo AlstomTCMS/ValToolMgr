@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>e5c236e4-68e7-49a9-8f00-7f3bb0f35916</ProjectGuid>
+    <ProjectGuid>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestStandGen</RootNamespace>
@@ -31,17 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.StringTemplate">
+      <HintPath>lib\Antlr4.StringTemplate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Types\CTestStandInstr.cs" />
+    <Compile Include="Types\CTestStandSeq.cs" />
+    <Compile Include="Types\CTestStandSeqContainer.cs" />
+    <Compile Include="TestStandGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
+      <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
+      <Name>ValToolMgrDna</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

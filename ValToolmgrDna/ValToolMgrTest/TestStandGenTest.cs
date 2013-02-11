@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ValToolMgrDna.Interface;
+using TestStandGen;
 
 namespace ValToolMgrTest
 {
@@ -56,7 +57,9 @@ namespace ValToolMgrTest
                     container.Add(test);
                 }
 
-                Assert.IsTrue(false);
+                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+
+                Assert.IsTrue(true);
             }
         }
 }
