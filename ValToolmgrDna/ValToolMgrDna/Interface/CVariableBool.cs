@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    class CVariableBool : CVariable
+    public class CVariableBool : CVariable
     {
         private bool Value;
 

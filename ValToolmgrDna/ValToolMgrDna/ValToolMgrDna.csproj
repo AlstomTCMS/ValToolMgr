@@ -55,15 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelSpecific\CInstruction.cs" />
-    <Compile Include="ExcelSpecific\CVariableDateTime.cs" />
-    <Compile Include="ExcelSpecific\CVariableDouble.cs" />
-    <Compile Include="ExcelSpecific\CStep.cs" />
-    <Compile Include="ExcelSpecific\CTest.cs" />
-    <Compile Include="ExcelSpecific\CTestContainer.cs" />
-    <Compile Include="ExcelSpecific\CVariable.cs" />
-    <Compile Include="ExcelSpecific\CVariableBool.cs" />
-    <Compile Include="ExcelSpecific\CVariableInt.cs" />
+    <Compile Include="Interface\CInstruction.cs" />
+    <Compile Include="Interface\CVariableDateTime.cs" />
+    <Compile Include="Interface\CVariableDouble.cs" />
+    <Compile Include="Interface\CStep.cs" />
+    <Compile Include="Interface\CTest.cs" />
+    <Compile Include="Interface\CTestContainer.cs" />
+    <Compile Include="Interface\CVariable.cs" />
+    <Compile Include="Interface\CVariableBool.cs" />
+    <Compile Include="Interface\CVariableInt.cs" />
     <Compile Include="ExcelSpecific\TestSheetParser.cs" />
     <Compile Include="ExcelSpecific\WorkbookParser.cs" />
     <Compile Include="dna\ValtoolMgrDna.cs" />

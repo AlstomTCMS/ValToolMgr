@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    class CVariableInt : CVariable
+    class CVariableDouble : CVariable
     {
-        private int Value = 0;
+        private double Value = 0.0;
 
-        public override object value   // the Name property
+        public override object value   // the property
         {
             get
             {
@@ -20,11 +20,11 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 if (value == null)
                 {
-                    Value = 0;
+                    Value = 0.0;
                 }
                 else
                 {
-                    Value = Convert.ToInt32(value);
+                    Value = Convert.ToDouble(value);
                 }
             }
         }

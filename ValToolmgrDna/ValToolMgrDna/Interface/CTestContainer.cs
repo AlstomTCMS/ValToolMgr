@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    class CTestContainer : ArrayList
+    public class CTestContainer : ArrayList
     {
         public string title;
         public string description;

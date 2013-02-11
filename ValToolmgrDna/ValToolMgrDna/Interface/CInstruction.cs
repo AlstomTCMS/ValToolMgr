@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    class CInstruction
+    public class CInstruction
     {
         public enum actionList
         {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    abstract class CVariable
+    public abstract class CVariable
     {
         public string name { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using ExcelDna.Integration;
+using ValToolMgrDna.Interface;
+using ValToolMgrDna.ExcelSpecific;
 
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,7 +28,7 @@ namespace ValToolMgrDna
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
-            ExcelSpecific.CTestContainer t = ExcelSpecific.WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+            CTestContainer t = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
         } 

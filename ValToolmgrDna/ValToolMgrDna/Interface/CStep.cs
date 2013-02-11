@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.ExcelSpecific
+namespace ValToolMgrDna.Interface
 {
-    class CStep
+    public class CStep
     {
         public string DescCheck;
         public string title;
