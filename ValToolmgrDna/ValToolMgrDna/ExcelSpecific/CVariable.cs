@@ -5,24 +5,13 @@ using System.Text;
 
 namespace ValToolMgrDna.ExcelSpecific
 {
-    class CVariable
+    abstract class CVariable
     {
-        public enum E_varType
-        {
-            T_BOOLEAN,
-            T_REAL,
-            T_DATE_AND_TIME,
-            T_INTEGER,
-            UNKNOWN
-        }
-
         public string name { get; set; }
 
         public string path { get; set; }
 
-        public object value { get; set; }
-
-        public E_varType typeOfVar { get; set; }
+        public abstract object value { get; set; }
 
         public override string ToString()
         {

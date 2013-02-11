@@ -56,10 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelSpecific\CInstruction.cs" />
+    <Compile Include="ExcelSpecific\CVariableDateTime.cs" />
+    <Compile Include="ExcelSpecific\CVariableDouble.cs" />
     <Compile Include="ExcelSpecific\CStep.cs" />
     <Compile Include="ExcelSpecific\CTest.cs" />
     <Compile Include="ExcelSpecific\CTestContainer.cs" />
     <Compile Include="ExcelSpecific\CVariable.cs" />
+    <Compile Include="ExcelSpecific\CVariableBool.cs" />
+    <Compile Include="ExcelSpecific\CVariableInt.cs" />
     <Compile Include="ExcelSpecific\TestSheetParser.cs" />
     <Compile Include="ExcelSpecific\WorkbookParser.cs" />
     <Compile Include="dna\ValtoolMgrDna.cs" />
