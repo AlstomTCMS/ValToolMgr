@@ -23,6 +23,7 @@ Public Const PR_TEST_TABLE_CHECK_PREFIX As String = TABLE_PREFIX & PR_TEST_CHECK
 Public Const PR_TEST_TABLE_DESCRIPTION_PREFIX As String = TABLE_PREFIX & PR_TEST_DESCRIPTION & "_"
 
 Public Const PR_TEST_DESCRIPTION_TABLE_STYLE As String = "Description table"
+Public Const PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION As String = "V.01"
 
 Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"

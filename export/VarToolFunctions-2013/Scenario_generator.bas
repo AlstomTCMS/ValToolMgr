@@ -6,9 +6,13 @@ Private Enum tableType
     TABLE_CHECKS
 End Enum
 
-Public Sub Generate_scenario()
+Public Sub Generate_scenario(ByVal testNumber As String)
+'Public Sub Generate_scenario()
+'    Dim testNumber As String
+'    testNumber = "1.2"
 
     Dim wsCurrentTestSheet As Worksheet, _
+        wsResultSheet As Worksheet, _
         loActionsTable As ListObject, _
         loChecksTable As ListObject
 
@@ -22,33 +26,28 @@ Public Sub Generate_scenario()
     Application.CutCopyMode = False
     Application.DisplayAlerts = False
 
+    Set wsCurrentTestSheet = ActiveSheet 'Worksheets("Scenario")
+    'wsCurrentTestSheet.Activate
+
+    Set loActionsTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber)
+    Set loChecksTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_CHECK_PREFIX & testNumber)
+    
+      ' Pour l'instant on ne vérifie pas le formalisme
+    'If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
+
+    Dim o_test As CTest
+    Set o_test = parseSingleTest(wsCurrentTestSheet.name, loActionsTable, loChecksTable)
+    
     Dim o_testContainer As CTestContainer
     Set o_testContainer = New CTestContainer
-    For Each wsCurrentTestSheet In ActiveWorkbook.Windows(1).SelectedSheets
-        If is_sheet_a_PR_Test(wsCurrentTestSheet) Then
-            Dim testNumber As String
-            testNumber = getTestNumber(wsCurrentTestSheet)
     
-            Set loActionsTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_ACTION_PREFIX & testNumber)
-            Set loChecksTable = wsCurrentTestSheet.ListObjects(PR_TEST_TABLE_CHECK_PREFIX & testNumber)
-    
-            ' Pour l'instant on ne vérifie pas le formalisme
-            ' If Not checkingTestFormat(lcActionsTableColumns) Then GoTo fin
-
-            Dim o_test As CTest
-            Set o_test = parseSingleTest(wsCurrentTestSheet.name, loActionsTable, loChecksTable)
-        
-            o_testContainer.AddTest o_test
-            End If
-    Next
+    o_testContainer.AddTest o_test
     
     Dim genTs As GeneratorTs401
     Set genTs = New GeneratorTs401
     
-    Dim PathOfScenario As String
-    PathOfScenario = "C:\\macros_alstom\\test\\testGen.seq"
-    Call genTs.writeScenario(PathOfScenario, o_testContainer)
-    MsgBox ("Scenario has been generated in following path : " & vbCrLf & vbCrLf & PathOfScenario)
+    Call genTs.writeScenario("C:\\macros_alstom\\test\\testGen.seq", o_testContainer)
+    
     
 End_GenScenario:
     'optimisation excel
@@ -59,10 +58,6 @@ End_GenScenario:
     Application.DisplayAlerts = True
     Application.Calculation = xlCalculationAutomatic
 End Sub
-
-Private Function getTestsOfSheet()
-
-End Function
 
 Private Function parseSingleTest(title As String, loActionsTable As ListObject, loChecksTable As ListObject) As CTest
     Dim lcActionsTableColumns As ListColumns, _
