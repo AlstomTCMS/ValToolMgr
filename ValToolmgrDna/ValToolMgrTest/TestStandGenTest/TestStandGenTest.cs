@@ -6,6 +6,8 @@ using NUnit.Framework;
 using ValToolMgrDna.Interface;
 using TestStandGen;
 
+
+
 namespace ValToolMgrTest
 {
         [TestFixture]
@@ -16,7 +18,7 @@ namespace ValToolMgrTest
             {
                 CTestContainer container = new CTestContainer();
                 container.description = "Test container";
-                for (int testIndex = 1; testIndex < 20; testIndex++)
+                for (int testIndex = 1; testIndex < 3; testIndex++)
                 {
                     CTest test = new CTest();
                     test.description = "Test descriptor #" + testIndex;

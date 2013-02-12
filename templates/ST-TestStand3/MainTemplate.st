@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\macros_alstom\\test\\referential.seq"
+Path = "$filename$"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -63,7 +63,7 @@ ModelOption = Num
 %NAME = "Data"
 
 [SF]
-%HI: Seq = [2]
+%HI: Seq = [$nbOfSequences$]
 %FLG: Seq = 4194304
 %FLG: FileGlobalDefaults = 4194304
 %FLG: ModelFile = 4194312
@@ -80,9 +80,7 @@ BatchSync = 1
 %FLG: ModelOption = 4194312
 
 [DEF, SF.Seq]
-%[0] = Sequence
-%[1] = Sequence
-%[2] = Sequence
+$sequences:numberedInstructionList()$
 
 [DEF, SF.Seq[0]]
 Parameters = Obj
@@ -124,8 +122,8 @@ HARD = Str
 %NUMFMT = "%g"
 
 [SF.Seq[0].Locals]
-EACB_File = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\EACB.xml"
-HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\HARD.xml"
+EACB_File = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\EACB.xml"
+HARD = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\HARD.xml"
 
 [DEF, SF.Seq[0].Main]
 %[0] = Step
@@ -215,7 +213,7 @@ PreCond = "FileGlobals.Embedded1==true"
 NoResult = True
 
 [SF.Seq[0].Setup[1]]
-Executable = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\server.exe"
+Executable = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\server.exe"
 Arguments = "\"toto 1024\""
 InitialWindowState = "WINSTATE_SHOWMIN_A"
 
@@ -1377,7 +1375,7 @@ NoResult = True
 SData = "TYPE, DotNetStepAdditions"
 
 [SF.Seq[0].Setup[27].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH"
 ClassName = "TestHMI.TestHMI"
 CreateInstance = True
@@ -1448,7 +1446,7 @@ NoResult = True
 SData = "TYPE, DotNetStepAdditions"
 
 [SF.Seq[0].Setup[28].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH"
 ClassName = "TestHMI.TestHMI"
 Constructor = "TestHMI()"
@@ -1543,7 +1541,7 @@ TimeExpr = "2"
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[0].Cleanup[3].TS.SData]
-SFPath = "C:\\teststand\\kill.seq"
+SFPath = "C:\\\\teststand\\\\kill.seq"
 SeqName = "MainSequence"
 SpecifyHostByExpr = True
 RemoteExecution = True
@@ -1560,7 +1558,7 @@ NoResult = True
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[0].Cleanup[4].TS.SData]
-SFPath = "C:\\teststand\\kill.seq"
+SFPath = "C:\\\\teststand\\\\kill.seq"
 SeqName = "MainSequence"
 SpecifyHostByExpr = True
 RemoteExecution = True
@@ -2199,75 +2197,6 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
-[DEF, SF.Seq[2]]
-Parameters = Obj
-Locals = Obj
-Main = Objs
-Setup = Objs
-Cleanup = Objs
-GotoCleanupOnFail = Bool
-RecordResults = Bool
-RTS = Obj
-%NAME = "test"
-
-[SF.Seq[2]]
-%FLG: Parameters = 4456448
-%FLG: Locals = 4194304
-%FLG: Main = 4194304
-%FLG: Setup = 4194304
-%FLG: Cleanup = 4194304
-%FLG: GotoCleanupOnFail = 4194312
-RecordResults = True
-%FLG: RecordResults = 4194312
-%FLG: RTS = 4456456
-
-[DEF, SF.Seq[2].Locals]
-ResultList = Objs
-
-[DEF, SF.Seq[2].Locals.ResultList]
-%EPTYPE = TEResult
-
-[DEF, SF.Seq[2].RTS]
-Type = Num
-OptimizeNonReentrantCalls = Bool
-EPNameExpr = Str
-EPEnabledExpr = Str
-EPMenuHint = Str
-EPIgnoreClient = Bool
-EPInitiallyHidden = Bool
-EPCheckToSaveTitledFile = Bool
-ShowEPAlways = Bool
-ShowEPForFileWin = Bool
-ShowEPForExeWin = Bool
-ShowEPForEditorOnly = Bool
-AllowIntExeOfEP = Bool
-CopyStepsOnOverriding = Bool
-Priority = Num
-
-[SF.Seq[2].RTS]
-%FLG: Type = 4194304
-OptimizeNonReentrantCalls = True
-%FLG: OptimizeNonReentrantCalls = 4194304
-EPNameExpr = "\"Unnamed Entry Point\""
-%FLG: EPNameExpr = 4194304
-EPEnabledExpr = "True"
-%FLG: EPEnabledExpr = 4194304
-%FLG: EPMenuHint = 4194304
-%FLG: EPIgnoreClient = 4194304
-%FLG: EPInitiallyHidden = 4194304
-EPCheckToSaveTitledFile = True
-%FLG: EPCheckToSaveTitledFile = 4194304
-%FLG: ShowEPAlways = 4194304
-ShowEPForFileWin = True
-%FLG: ShowEPForFileWin = 4194304
-%FLG: ShowEPForExeWin = 4194304
-%FLG: ShowEPForEditorOnly = 4194304
-%FLG: AllowIntExeOfEP = 4194304
-CopyStepsOnOverriding = True
-%FLG: CopyStepsOnOverriding = 4194304
-Priority = 2953567917
-%FLG: Priority = 4194304
-
 [DEF, SF.FileGlobalDefaults]
 Perf = Ref
 FIP = Ref
@@ -2336,18 +2265,18 @@ Var11 = Str
 
 [SF.FileGlobalDefaults]
 Embedded = True
-CB_Path_Name = "C:\\2es5"
+CB_Path_Name = "C:\\\\2es5"
 CB_Project_Name = "Russian_2ES5.cbp"
 CB_Task_Name = "Russian_2ES5"
 CB_Application_Name = "Russian_2ES5"
 CB_Conf = "conf_banc"
-CB_Path_Name_Env = "C:\\Russian_2ES5_Env"
+CB_Path_Name_Env = "C:\\\\Russian_2ES5_Env"
 CB_Project_Name_Env = "Russian_2ES5_Env.cbp"
 CB_Task_Name_Env = "Russian_2ES5_Env"
 CB_Application_Name_Env = "Russian_2ES5_Env"
 CB_Conf_Env = "conf_banc"
-Teststand_directory = ".\\HMI_Test_C2"
-Shadow_Path_Name = "C:\\HMI_Test_C2\\shadow.ini"
+Teststand_directory = ".\\\\HMI_Test_C2"
+Shadow_Path_Name = "C:\\\\HMI_Test_C2\\\\shadow.ini"
 DDU_ScreenShot = True
 DDU_ip = "10.22.98.17"
 MPU_target = "target_mpu_SIL0"
@@ -2521,7 +2450,7 @@ ConnectionLifetime = 0
 
 [CB_Init.Menu]
 ItemName = "\"Initialize CB\""
-Group = "Start\\Stop CB"
+Group = "Start\\\\Stop CB"
 
 [CB_Init.TS]
 Icon = "ExprBrowse.ico"
@@ -3857,7 +3786,7 @@ ConnectionLifetime = 0
 
 [CB_Test.Menu]
 ItemName = "\"Test a variable\""
-Group = "Read\\Write\\Test CB variables"
+Group = "Read\\\\Write\\\\Test CB variables"
 
 [CB_Test.TS]
 Icon = "ExprBrowse.ico"
@@ -4837,7 +4766,7 @@ CodeTemplates = "PassFail_Template|PassFailMFC_Template"
 
 [RP_Init.Menu]
 ItemName = "\"Initialize calls to R/P servers\""
-Group = "Start\\Stop Testbench"
+Group = "Start\\\\Stop Testbench"
 
 [RP_Init.TS]
 Icon = "ni_ThreadPriority.ico"
@@ -4972,7 +4901,7 @@ CodeTemplates = "PassFail_Template|PassFailMFC_Template"
 
 [RP_Close.Menu]
 ItemName = "\"Terminate R/P calls\""
-Group = "Start\\Stop Testbench"
+Group = "Start\\\\Stop Testbench"
 
 [RP_Close.TS]
 Icon = "ni_ThreadPriority.ico"
@@ -5150,7 +5079,7 @@ ConnectionLifetime = 0
 
 [RP_StartServer.Menu]
 ItemName = "\"Start R/P Server\""
-Group = "Start\\Stop Testbench"
+Group = "Start\\\\Stop Testbench"
 
 [RP_StartServer.TS]
 Icon = "ni_ThreadPriority.ico"
@@ -5338,7 +5267,7 @@ ConnectionLifetime = 0
 
 [RP_StopServer.Menu]
 ItemName = "\"Stop R/P Server\""
-Group = "Start\\Stop Testbench"
+Group = "Start\\\\Stop Testbench"
 
 [RP_StopServer.TS]
 Icon = "ni_ThreadPriority.ico"
@@ -6251,7 +6180,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Init.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH_ED"
 ClassName = "TestHMI.TestHMI"
 CreateInstance = True
@@ -6312,7 +6241,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Init.TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH"
 ClassName = "TestHMI.TestHMI"
 CreateInstance = True
@@ -6482,7 +6411,7 @@ sRemoteEqtPassword = Str
 
 [TH_Start]
 DescriptionFormat Line0001 = "\"DDU\" + str(Step.num_DDU) + \", IP : \" + Step.sRemoteEqtAddress + (Step.sRemoteEqtPassword != \"\" ? \" Passwd : \" +"
-DescriptionFormat Line0002 = "\"\\\"\"+ Step.sRemoteEqtPassword+\"\\\"\" : \"\")"
+DescriptionFormat Line0002 = "\"\\\\\\"\"+ Step.sRemoteEqtPassword+\"\\\\\\"\" : \"\")"
 %FLG: DescriptionFormat = 4194328
 %INSTFLG: DescriptionFormat = 4718616
 %INSTOVRD: DescriptionFormat = 4718616
@@ -6520,7 +6449,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Start.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH_ED"
 ClassName = "TestHMI.TestHMI"
 Constructor = "TestHMI()"
@@ -6572,7 +6501,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Start.TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH"
 ClassName = "TestHMI.TestHMI"
 Constructor = "TestHMI()"
@@ -6691,7 +6620,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Stop.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH_ED"
 ClassName = "TestHMI.TestHMI"
 Constructor = "TestHMI()"
@@ -6727,7 +6656,7 @@ SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
 [TH_Stop.TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\TCMS Testbench\\TestHMI\\TestHMI.dll"
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
 ClassVariable = "FileGlobals.TH"
 ClassName = "TestHMI.TestHMI"
 Constructor = "TestHMI()"

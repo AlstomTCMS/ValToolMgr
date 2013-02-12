@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>lib\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
@@ -41,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestStandAdapter.cs" />
     <Compile Include="Types\CTestStandInstr.cs" />
     <Compile Include="Types\CTestStandSeq.cs" />
     <Compile Include="Types\CTestStandSeqContainer.cs" />

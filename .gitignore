@@ -10,3 +10,4 @@ Application_Settings_File.MIESET
 *.exe
 *.xls
 ~$*
+/test/genTest.seq

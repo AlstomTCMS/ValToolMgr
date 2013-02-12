@@ -1,9 +1,15 @@
 ﻿using System;
 
+
 using ValToolMgrDna.Interface;
 
 namespace TestStandGen
 {
+    using Antlr.Runtime;
+    using Antlr4.StringTemplate;
+    using Antlr4.StringTemplate.Compiler;
+    using System.IO;
+
     public class TestStandGen
     {
         private CTestContainer sequence;
@@ -14,6 +20,7 @@ namespace TestStandGen
         private CTestStandSeqContainer SeqList;
         private bool alreadyGenerated;
         private int idsalt;
+        private TemplateGroup group;
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
         {
@@ -27,12 +34,20 @@ namespace TestStandGen
             this.sequence = sequence;
             this.outFile = outFile;
             this.templatePath = templatePath;
+
+            
             initialize();
         }
 
         private void initialize()
         {
             MainSeq = new CTestStandSeq();
+
+            CTestStandInstr instr = new CTestStandInstr();
+            instr.category = CTestStandInstr.categoryList.TS_CALL;
+
+            MainSeq.Add(instr);
+
             SeqList = new CTestStandSeqContainer();
             alreadyGenerated = false;
             idsalt = 1;
@@ -44,17 +59,30 @@ namespace TestStandGen
 
             genTsStructFromTestContainer(sequence);
 
+            TemplateGroup group = new TemplateRawGroupDirectory(this.templatePath, '$', '$'); //, '@', '@');
+            try
+            {
+                Template st = group.GetInstanceOf("MainTemplate");
+                System.Collections.Generic.Dictionary<string, object> test = (System.Collections.Generic.Dictionary<string, object>)st.GetAttributes();
+                st.Add("filename", TestStandAdapter.protectBackslashes(this.outFile));
+                st.Add("nbOfSequences", this.SeqList.Count);
 
+                foreach (CTestStandInstr instr in this.MainSeq)
+                {
+                    st.Add("sequences", instr.category.ToString());
+                }
 
-            //    Call genTsStructFromTestContainer(o_testContainer)
-            //    Call OpenScenario
-            //    Call WriteFileHeader
-            //    Dim SequenceIdx As Integer
-            //    For SequenceIdx = 1 To SeqList.getCount
-            //        Call WriteSequence(SequenceIdx, SeqList.getSequence(SequenceIdx))
-            //    Next SequenceIdx
-            //    Call WriteFileFooter
-    
+                string result = st.Render();
+
+                StreamWriter output = new StreamWriter(this.outFile);
+
+                output.Write(result);
+                output.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
 
             this.alreadyGenerated = true;
 
