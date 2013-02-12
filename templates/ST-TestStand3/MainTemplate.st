@@ -1,3 +1,5 @@
+MainTemplate(filename, nbOfSequences, sequences) ::= <<
+
 [__Header__]
 ProductName = "TestStand"
 ProductVersion = 3.0.0.12373
@@ -80,8 +82,8 @@ BatchSync = 1
 %FLG: ModelOption = 4194312
 
 [DEF, SF.Seq]
-$sequences:numberedInstructionList()$
-
+$sequences:{s | %[$i0$] = Sequence
+}$
 [DEF, SF.Seq[0]]
 Parameters = Obj
 Locals = Obj
@@ -6704,4 +6706,4 @@ PassFail = Bool
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
 PassFail = True
-
+>>

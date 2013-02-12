@@ -59,7 +59,7 @@ namespace TestStandGen
 
             genTsStructFromTestContainer(sequence);
 
-            TemplateGroup group = new TemplateRawGroupDirectory(this.templatePath, '$', '$'); //, '@', '@');
+            TemplateGroup group = new TemplateGroupDirectory(this.templatePath, '$', '$');
             try
             {
                 Template st = group.GetInstanceOf("MainTemplate");
@@ -82,10 +82,10 @@ namespace TestStandGen
             catch (Exception ex)
             {
                 Console.Write(ex.ToString());
+                Console.ReadLine();
             }
 
             this.alreadyGenerated = true;
-
         }
 
         /// <summary>

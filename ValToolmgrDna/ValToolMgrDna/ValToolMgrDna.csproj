@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interface\CInstruction.cs" />
     <Compile Include="Interface\CVariableDateTime.cs" />
     <Compile Include="Interface\CVariableDouble.cs" />
