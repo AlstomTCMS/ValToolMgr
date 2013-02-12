@@ -338,7 +338,7 @@ Sub SetValidations_TEST(ByVal sheetName As String)
         With .range("H2:H" & fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
-            xlBetween, Formula1:="='" & VALID_NAME & "'!$C$2:$C$8"
+            xlBetween, Formula1:="='" & VALID_NAME & "'!$C$5:$C$6"  'autorisé seulement pour PRIMA : 1 et 2    KZH : "'!$C$2:$C$8"
             .IgnoreBlank = True
             .InCellDropdown = True
             .InputTitle = ""

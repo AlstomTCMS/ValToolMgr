@@ -79,18 +79,6 @@ Public Sub Generer_OngletsTests()
                     .Cells(i + 1, 1) = testRange.Value & "-" & Format(i, "00")
                 Next
                 
-                'Ajout du commentaire pour les Type de variables permis
-                With .range("F1")
-                    If .Comment Is Nothing Then
-                        .AddComment
-                        .Comment.visible = True
-                        .Comment.Text Text:= _
-                            "Types permis (dans l'ordre):" & Chr(10) & "AEn;CEn;ACc;CCc"
-                        .Comment.Shape.Left = 590
-                        .Comment.Shape.Top = 26
-                    End If
-                End With
-                
                 'Ajouter liens vers étapes
                 Call ajouteLiens(testRange.range("A1:A" & nbreEtape))
                 
