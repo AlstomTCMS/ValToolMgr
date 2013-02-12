@@ -18,7 +18,7 @@ End Sub
 
 ' Génère les onglets de test à partir de la synthèse
 Public Sub Generer_OngletsTests()
-    Dim testRange, debut, Fin, finSynthese As range
+    Dim testRange, debut, fin, finSynthese As range
     Dim testSheet As Worksheet
     Dim testTitle As Variant
     
@@ -26,11 +26,12 @@ Public Sub Generer_OngletsTests()
     
     If Not WsExist(SYNTHESE_NAME) Then
         MsgBox "L'onglet de synthèse n'existe pas ou n'est pas défini comme tel.", vbOKOnly + vbExclamation, "Fonctionnalité non utilisable !"
-        GoTo Fin
+        GoTo fin
     End If
     
     If SupprimerOngletsTests Then
         Call RedefineSyntheseArray
+        Call deleteExigencesFromSynth
     
         Set testRange = Sheets(SYNTHESE_NAME).range("A2")
         testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type_Var", "Vehicule", "Variable", "Chemin", "Valeur")
@@ -52,19 +53,19 @@ Public Sub Generer_OngletsTests()
                 
                 'Tester s'il n'y a qu'une ligne principale pour ce test
                 If testRange.range("A2") <> "" Then
-                    Set Fin = testRange.range("I1")
+                    Set fin = testRange.range("I1")
                 ' Si on atteind la fin du tableau de synthèse, on ne doit pas faire d'offset
                 ElseIf testRange.range("A2").End(xlDown).row = finSynthese.row Then
-                    Set Fin = testRange.range("A2").End(xlDown).range("I1")
+                    Set fin = testRange.range("A2").End(xlDown).range("I1")
                 Else
-                    Set Fin = testRange.range("A2").End(xlDown).range("I1").Offset(-1, 0)
+                    Set fin = testRange.range("A2").End(xlDown).range("I1").Offset(-1, 0)
                 End If
                 
-                If Fin.row > finSynthese.row Then
-                    Set Fin = finSynthese
+                If fin.row > finSynthese.row Then
+                    Set fin = finSynthese
                 End If
                 
-                Sheets(SYNTHESE_NAME).range(debut, Fin).Copy
+                Sheets(SYNTHESE_NAME).range(debut, fin).Copy
                 .range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
                 Application.CutCopyMode = False
     
@@ -73,7 +74,7 @@ Public Sub Generer_OngletsTests()
                 .Columns("C:D").WrapText = True
                 
                 'Num_Etape
-                nbreEtape = Fin.row - debut.row + 1
+                nbreEtape = fin.row - debut.row + 1
                 For i = 1 To nbreEtape
                     .Cells(i + 1, 1) = testRange.Value & "-" & Format(i, "00")
                 Next
@@ -117,7 +118,7 @@ Public Sub Generer_OngletsTests()
         Sheets(SYNTHESE_NAME).range("J1").Activate
     End If
     
-Fin:
+fin:
     Application.ScreenUpdating = True
 End Sub
 

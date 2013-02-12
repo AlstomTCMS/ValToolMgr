@@ -73,7 +73,8 @@ Public Sub AncienVersNouveau()
         .range("C4").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         'On intervertie la version MPU avec Ref_FRScc depuis la version A5
         versionMPU = .range("C7")
-        .range("C7") = .range("C9")
+        .range("C7") = .range("C8")
+        .range("C8") = .range("C9")
         .range("C9") = versionMPU
         .Activate
         .range("A1").Select
@@ -213,17 +214,17 @@ synthTitle = Array("Test", "Conf banc", "Exigence(s) associée(s)", "Description 
         
         'On enleve le filtre qu'il pourrait y avoir sur la colonne "Com_Etape"
         '.Columns(1).AutoFilter Field:=7
-        Fin = .Columns(1).Find(what:="END", MatchCase:=False).row
-        With .range("$A$9:$I" & Fin)
+        fin = .Columns(1).Find(what:="END", MatchCase:=False).row
+        With .range("$A$9:$I" & fin)
             .AutoFilter
             
-            .AutoFilter field:=7, Criteria1:="<>"
+            .AutoFilter Field:=7, Criteria1:="<>"
             Application.CutCopyMode = False
             .Copy
             'On copie dans la feuille de synthèse
             Sheets(SYNTHESE_NAME).range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
             Application.CutCopyMode = False
-            .AutoFilter field:=7
+            .AutoFilter Field:=7
             
             
         End With
@@ -240,13 +241,31 @@ synthTitle = Array("Test", "Conf banc", "Exigence(s) associée(s)", "Description 
     With Sheets(SYNTHESE_NAME)
         .range("C2:" & .range("C" & .Rows.Count).End(xlUp).Address).ClearContents
     End With
+    Call deleteExigencesFromSynth
 End Sub
 
+'Supprimer les exigences de la colonne commentaires
+Sub deleteExigencesFromSynth()
+    With Sheets(SYNTHESE_NAME)
+        With .range("E2:" & .range("E" & .Rows.Count).End(xlUp).Address)
+            ' filtrer tout ce qui est du type exigence Prima (PEL2_FRSCC*) et effacer
+            .AutoFilter Field:=5, Criteria1:="=PEL2_FRSCC*"
+            
+            'Ne fonctionne qui s'il y a au moins une exigence dedans
+            On Error GoTo fin
+            If .SpecialCells(xlCellTypeVisible).Areas.Count > 0 Then
+                .ClearContents
+            End If
+fin:
+            .AutoFilter Field:=5
+        End With
+    End With
+End Sub
 
 Public Sub formatageSynthese()
 Dim testRange, next_testRange As range
 Dim zoneLien As range
-Dim Fin As Integer
+Dim fin As Integer
 
     With Sheets(SYNTHESE_NAME)
         For Each Object In .ListObjects
@@ -257,7 +276,7 @@ Dim Fin As Integer
         
         'boucler par test
         Set testRange = .range("A2")
-        Fin = .UsedRange.Rows.Count
+        fin = .UsedRange.Rows.Count
         Do
             'on cherche le suivant
             If testRange.range("A2") <> "" Then
@@ -267,8 +286,8 @@ Dim Fin As Integer
             End If
             
             'formater à gauche et à droite
-            If next_testRange.row >= Fin Then
-                Set next_testRange = .range("A" & Fin)
+            If next_testRange.row >= fin Then
+                Set next_testRange = .range("A" & fin)
                 Call FormatSyntheseGauche(range(testRange, next_testRange.range("E1")))
                 Call FormatSyntheseDroite(range(testRange.range("F1"), next_testRange.range("I1")))
                 Set zoneLien = range(testRange.range("A1"), next_testRange.range("F1"))
@@ -281,7 +300,7 @@ Dim Fin As Integer
             Call MajLiensSynthese(zoneLien)
             
             Set testRange = next_testRange
-        Loop While testRange <> "" And testRange.row < Fin
+        Loop While testRange <> "" And testRange.row < fin
         
         
         .Move After:=Sheets(2)
@@ -423,7 +442,7 @@ Sub CreateAndFill_Tests()
 Dim anc_testRange As range
 Dim anc_nextTestRange As range
 Dim nvo_syntRange As range
-Dim debut As range: Dim Fin As range
+Dim debut As range: Dim fin As range
 Dim testSheet As Worksheet
 Dim testTitle As Variant
 
@@ -433,7 +452,7 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
     Set anc_testRange = PR_In_Sheet.range("A9")
     
     'On filtre Synthèse pour n'avoir que les lignes de test sans toutes les étapes
-    Sheets(SYNTHESE_NAME).UsedRange.AutoFilter field:=1, Criteria1:="<>"
+    Sheets(SYNTHESE_NAME).UsedRange.AutoFilter Field:=1, Criteria1:="<>"
     
     'Boucler sur Num_test
     Do
@@ -450,7 +469,7 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
             With PR_In_Sheet.range(anc_testRange, anc_nextTestRange.range("L1"))
                 .AutoFilter
                 '  filtrer véhicule colonne L par "X"
-                .AutoFilter field:=12, Criteria1:="X"
+                .AutoFilter Field:=12, Criteria1:="X"
                 '  remplacer tous les X par 1
                 ' Si la zone n'est pas vide il faut remplacer par 1 et conf_banc par B
                 On Error Resume Next
@@ -462,7 +481,7 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
                     anc_testRange.range("B1") = " B"
                 End With
                 On Error GoTo 0
-                .AutoFilter field:=12
+                .AutoFilter Field:=12
             End With
         End If
         
@@ -473,10 +492,10 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
         Set testSheet = InitSheet(anc_testRange.Value, True, , , testTitle)
         'connaitre les ranges des deux coins de la diagonale
         Set debut = anc_testRange.range("F1")
-        Set Fin = anc_nextTestRange.range("O1").Offset(-1, 0)
+        Set fin = anc_nextTestRange.range("O1").Offset(-1, 0)
         'Copier cet ensemble dans l'onglet de test
         Application.CutCopyMode = False
-        PR_In_Sheet.range(debut, Fin).Copy
+        PR_In_Sheet.range(debut, fin).Copy
         testSheet.range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         Application.CutCopyMode = False
         
@@ -486,8 +505,8 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
         testSheet.Columns(2).Insert Shift:=xlToRight
         testSheet.range("B1") = "Mode"
         Set debut = anc_testRange.range("C1")
-        Set Fin = anc_nextTestRange.range("C1").Offset(-1, 0)
-        PR_In_Sheet.range(debut, Fin).Copy
+        Set fin = anc_nextTestRange.range("C1").Offset(-1, 0)
+        PR_In_Sheet.range(debut, fin).Copy
         testSheet.range("B2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         Application.CutCopyMode = False
 
@@ -498,7 +517,7 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
         Set anc_testRange = anc_nextTestRange
     Loop While anc_testRange <> "END"
     
-    Sheets(SYNTHESE_NAME).UsedRange.AutoFilter field:=1
+    Sheets(SYNTHESE_NAME).UsedRange.AutoFilter Field:=1
 End Sub
 
 'Formatage final d'une feuille de test

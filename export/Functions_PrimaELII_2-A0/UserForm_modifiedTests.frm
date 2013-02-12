@@ -59,10 +59,10 @@ Private Sub UserForm_Initialize()
     ' faire la liste des tests
     With Sheets(SYNTHESE_NAME)
         With .range("A2:I" & .range("F1").End(xlDown).row)
-            .AutoFilter field:=1, Criteria1:="<>"
+            .AutoFilter Field:=1, Criteria1:="<>"
             Application.CutCopyMode = False
             .Columns(1).Copy Destination:=.range("K1")
-            .AutoFilter field:=1
+            .AutoFilter Field:=1
             
             testsList = .range("K1:" & .range("K1").End(xlDown).Offset(-1, 0).Address)
             Application.DisplayAlerts = False
