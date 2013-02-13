@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CF531399-F573-4CAF-8F74-39ADDED3A9AD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ValToolMgrTest</RootNamespace>
-    <AssemblyName>ValToolMgrTest</AssemblyName>
+    <RootNamespace>TestStandGen</RootNamespace>
+    <AssemblyName>TestStandGen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,40 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit-console-runner">
-      <HintPath>NUnit\nunit-console-runner.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>NUnit\nunit.framework.dll</HintPath>
+    <Reference Include="Antlr4.StringTemplate">
+      <HintPath>lib\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="TestStandAdapter.cs" />
+    <Compile Include="Types\CTestStandInstr.cs" />
+    <Compile Include="Types\CTestStandSeq.cs" />
+    <Compile Include="Types\CTestStandSeqContainer.cs" />
+    <Compile Include="TestStandGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestFixture.cs" />
-    <Compile Include="TestStandGenTest\TestStandGenTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NUnit\nunit-console-runner.dll" />
-    <None Include="NUnit\nunit.framework.dll" />
-    <None Include="NUnit\nunit.mocks.dll" />
-    <None Include="NUnit\nunit.util.dll" />
-    <None Include="NUnit\nunit.core.interfaces.dll" />
-    <None Include="NUnit\nunit.core.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestStandGen\TestStandGen.csproj">
-      <Project>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</Project>
-      <Name>TestStandGen</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
       <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
       <Name>ValToolMgrDna</Name>
