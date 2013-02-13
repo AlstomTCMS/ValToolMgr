@@ -41,7 +41,7 @@ namespace TestStandGen.Types.Instructions
         /// <summary>
         /// Static-like name of sequence
         /// </summary>
-        public override string InstrTsName
+        public override string InstructionName
         {
             get { return "Label"; }
             protected set { }

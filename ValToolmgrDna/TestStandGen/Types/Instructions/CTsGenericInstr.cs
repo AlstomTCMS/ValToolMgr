@@ -4,7 +4,7 @@ namespace TestStandGen
     abstract class CTsGenericInstr
     {
 
-        public abstract string InstrTsName { get; protected set; }
+        public abstract string InstructionName { get; protected set; }
 
         /// <summary>
         /// Parametrize instruction as skipped if true.

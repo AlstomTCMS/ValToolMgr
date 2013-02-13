@@ -1,4 +1,5 @@
 ﻿using System;
+using TestStandGen.Types;
 using TestStandGen.Types.Instructions;
 
 using ValToolMgrDna.Interface;

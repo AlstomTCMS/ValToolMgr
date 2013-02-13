@@ -21,7 +21,7 @@ namespace TestStandGen.Types.Instructions
             this.Text = text;
         }
 
-        public override string InstrTsName
+        public override string InstructionName
         {
             get { return "SequenceCall"; }
             protected set { }

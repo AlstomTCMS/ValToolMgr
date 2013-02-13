@@ -5,7 +5,7 @@ using System.Text;
 
 using TestStandGen.Types.Instructions;
 
-namespace TestStandGen
+namespace TestStandGen.Types
 {
     class TestStandFile
     {
@@ -25,7 +25,7 @@ namespace TestStandGen
 
         public CTestStandSeqContainer Sequences { get; set; }
 
-        public List<CTsSequenceCall> HeaderList = new List<CTsSequenceCall>();
+        public TestStandArray HeaderList = new TestStandArray();
 
         public TestStandFile(string Filename)
         {

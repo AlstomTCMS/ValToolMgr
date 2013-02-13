@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 
-namespace TestStandGen
+namespace TestStandGen.Types
 {
-    class CTestStandSeq : ArrayList
+    class CTestStandSeq : TestStandArray
     {
         public string identifier;
 

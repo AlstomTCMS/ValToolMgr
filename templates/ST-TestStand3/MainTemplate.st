@@ -99,7 +99,7 @@ RTS = Obj
 [SF.Seq[0]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [0]
+%HI: Main = [$TestStandFile.HeaderList.Max$]
 %FLG: Main = 4194304
 %HI: Setup = [28]
 %FLG: Setup = 4194304
@@ -129,9 +129,7 @@ EACB_File = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc
 HARD = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\HARD.xml"
 
 [DEF, SF.Seq[0].Main]
-%[0] = Step
-%TYPE: %[0] = "SequenceCall"
-
+$TestStandFile.HeaderList:{s |$InstructionsDeclaration(i0, s)$}$
 [SF.Seq[0].Main[0].TS]
 Id = "ID#:0000000000000000000001"
 

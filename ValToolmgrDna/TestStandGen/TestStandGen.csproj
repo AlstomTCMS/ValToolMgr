@@ -47,6 +47,7 @@
     <Compile Include="TestStandAdapter.cs" />
     <Compile Include="Types\Instructions\CTsLabel.cs" />
     <Compile Include="Types\Instructions\CTsSequenceCall.cs" />
+    <Compile Include="Types\TestStandArray.cs" />
     <Compile Include="Types\TestStandFile.cs" />
     <Compile Include="Types\Instructions\CTsGenericInstr.cs" />
     <Compile Include="Types\CTestStandSeq.cs" />
