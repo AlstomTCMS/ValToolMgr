@@ -17,9 +17,9 @@ set startupUpdateFileName=UpdateMacroOnStartup.exe
 
 :: Vérifie si on est en mode manuel
 echo argument de la fonction: %1 %2
-pause
+::pause
 IF %1 == manuel goto CallUpdate
-pause
+::pause
 IF %1 == onStartup goto ExistSettings
 
 IF %1 == checkStartup goto ExistSettings
@@ -28,29 +28,29 @@ exit
 :ExistSettings
 IF exist %settingsFileName% goto IsAutoUpdate
 echo Le fichier de configuration %settingsFileName% n'existe pas !
-pause
+::pause
 exit
 
 :IsAutoUpdate
 echo Le fichier de configuration %settingsFileName% existe
-pause
+::pause
 
 for /F "tokens=1,2 delims=|" %%a in ('findstr /I "AutoUpdate" %settingsFileName%') do set isAutoUpdate="%%b
 
-pause
+::pause
 echo Mise a jour automatique : %isAutoUpdate%
 
 IF %1 == checkStartup goto CheckStartup
 
-::pause
+::::pause
 if %isAutoUpdate% == "True" goto CallUpdate
 ::echo Pas de mise a jour automatique
-Pause
+::pause
 exit
 
 :CallUpdate
 echo Appel du fichier "%updateFileFullPath%%updateFileName%" avec parametres:%1 %2
-::pause
+::::pause
 call "%updateFileFullPath%%updateFileName%" %1 %2
 exit
 
@@ -99,10 +99,10 @@ echo dossier de demarrage: %startupPath%
 goto CopyOrDeleteFiles
 
 :CopyOrDeleteFiles
-pause
+::pause
 :: Si on passe en mode autoupdate, on ajoute le fichier .bat dans le startup
 if %isAutoUpdate% == "True" xcopy "%macroPath%%startupUpdateFileName%" "%startupPath%" /Y 
 
 :: Si on enleve le mode autoupdate, on supprime le fichier .bat dans le startup
 if %isAutoUpdate% == "False" echo y|del "%startupPath%\%startupUpdateFileName%">nul 
-pause
+::pause

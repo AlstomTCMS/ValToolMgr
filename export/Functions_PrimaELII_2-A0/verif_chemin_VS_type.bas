@@ -33,7 +33,7 @@ Dim erreurPossible As Boolean
             End With
             
         
-            .AutoFilter Field:=14, Criteria1:=listvar, Operator:=xlFilterValues
+            .AutoFilter field:=14, Criteria1:=listvar, Operator:=xlFilterValues
             
             'On les colorie en bleu
             With .Columns("N").Interior
@@ -46,7 +46,7 @@ Dim erreurPossible As Boolean
     
     
             ' on trie toutes celles qui ne sont pas bleu et on les met en rouge
-            .AutoFilter Field:=14, Operator:= _
+            .AutoFilter field:=14, Operator:= _
                 xlFilterNoFill
             On Error Resume Next
             'With .SpecialCells(xlCellTypeVisible)
@@ -62,14 +62,14 @@ Dim erreurPossible As Boolean
             'End With
             On Error GoTo 0
             
-            .AutoFilter Field:=14, Criteria1:=RGB(51, _
+            .AutoFilter field:=14, Criteria1:=RGB(51, _
                 204, 255), Operator:=xlFilterCellColor
             With .Columns("N").Interior
                 .Pattern = xlNone
                 .TintAndShade = 0
                 .PatternTintAndShade = 0
             End With
-            .AutoFilter Field:=14
+            .AutoFilter field:=14
             
             If Sheets(sheetName).visible = xlSheetVisible Then
                 Sheets(sheetName).Activate

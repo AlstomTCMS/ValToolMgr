@@ -63,13 +63,12 @@ Dim ws As Worksheet
         End If
     Next
     
-    Call deleteExigencesFromSynth
     
     'copier la synthèse filtrée pour que lignes principales de tests
     With Sheets(SYNTHESE_NAME)
-        fin = .range("F" & .Rows.Count).End(xlUp).row
-        With .range("$A$2:$I" & fin)
-            .AutoFilter Field:=1, Criteria1:="<>"
+        Fin = .range("F" & .Rows.Count).End(xlUp).row
+        With .range("$A$2:$I" & Fin)
+            .AutoFilter field:=1, Criteria1:="<>"
             
             ' ---------------------------------------------------------------------------------------------------------
             ' Spécifité Prima forme Kazak
@@ -96,7 +95,7 @@ Dim ws As Worksheet
             .Copy
             Sheets(PR_OUT_NAME).range("A9").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
             Application.CutCopyMode = False
-            .AutoFilter Field:=1
+            .AutoFilter field:=1
         End With
     End With
     
@@ -195,8 +194,7 @@ Dim ws As Worksheet
         .range("B1").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         'On intervertie la version MPU avec Ref_FRScc depuis la version A5
         versionMPU = .range("B6")
-        .range("B6") = .range("B5")
-        .range("B5") = .range("B4")
+        .range("B6") = .range("B4")
         .range("B4") = versionMPU
     End With
         
