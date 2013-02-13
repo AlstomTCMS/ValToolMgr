@@ -1,5 +1,5 @@
 ﻿using System;
-
+using TestStandGen.Types.Instructions;
 
 using ValToolMgrDna.Interface;
 
@@ -61,7 +61,7 @@ namespace TestStandGen
                 Template st = group.GetInstanceOf("MainTemplate");
                 System.Collections.Generic.Dictionary<string, object> test = (System.Collections.Generic.Dictionary<string, object>)st.GetAttributes();
 
-                TSFile.Sequences = genTsStructFromTestContainer(sequence);
+                this.TSFile = genTsStructFromTestContainer(this.outFile, sequence);
 
                 st.Add("TestStandFile", this.TSFile);
 
@@ -96,23 +96,20 @@ namespace TestStandGen
         /// </summary>
         /// <param name="sequence">Sequence to convert</param
         /// <returns>Sequence, in a format understandable to generate</returns>
-        private CTestStandSeqContainer genTsStructFromTestContainer(CTestContainer sequence)
+        private TestStandFile genTsStructFromTestContainer(string filename, CTestContainer sequence)
         {
-            CTestStandSeqContainer SeqList = new CTestStandSeqContainer();
+            TestStandFile ts = new TestStandFile(filename);
+
             foreach(CTest test in sequence)
             {
                 CTestStandSeq SubSeq = new CTestStandSeq();
 
                 genInstrListFromTest(SubSeq, test);
 
-                SeqList.Add(SubSeq);
+                ts.addSequence("Call to subsequence " + SubSeq.identifier, SubSeq);
 
-                CTestStandInstr TsInstr = new CTestStandInstr();
-
-                TsInstr.category = CTestStandInstr.categoryList.TS_CALL;
-                TsInstr.Data = SubSeq.identifier;
             }
-            return SeqList;
+            return ts;
         }
 
         private void genInstrListFromTest(CTestStandSeq SubSeq, CTest TestContainer)
@@ -122,7 +119,7 @@ namespace TestStandGen
 
             foreach (CStep step in TestContainer)
             {
-                //SubSeq.Add(genTsLabel("===================================="));
+                SubSeq.Add(new CTsLabel("===================================="));
             }
 
             //    SubSeq.identifier = TestContainer.title
@@ -150,15 +147,7 @@ namespace TestStandGen
             //    Next StepIdx
         }
 
-        private CTestStandInstr genTsLabel(string p)
-        {
-            CTestStandInstr label = new CTestStandInstr();
-            label.category = CTestStandInstr.categoryList.TS_LABEL;
-            label.Data = p;
-            return label;
-        }
-
-        private CTestStandInstr getTsEquivFromInstr(CInstruction o_inst)
+        private CTsGenericInstr getTsEquivFromInstr(CInstruction o_inst)
         {
             return null;
             //        Select Case o_inst.category
