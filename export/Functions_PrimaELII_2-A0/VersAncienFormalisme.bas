@@ -194,7 +194,8 @@ Dim ws As Worksheet
         .range("B1").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         'On intervertie la version MPU avec Ref_FRScc depuis la version A5
         versionMPU = .range("B6")
-        .range("B6") = .range("B4")
+        .range("B6") = .range("B5")
+        .range("B5") = .range("B4")
         .range("B4") = versionMPU
     End With
         

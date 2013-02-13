@@ -73,7 +73,8 @@ Public Sub AncienVersNouveau()
         .range("C4").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         'On intervertie la version MPU avec Ref_FRScc depuis la version A5
         versionMPU = .range("C7")
-        .range("C7") = .range("C9")
+        .range("C7") = .range("C8")
+        .range("C8") = .range("C9")
         .range("C9") = versionMPU
         .Activate
         .range("A1").Select
