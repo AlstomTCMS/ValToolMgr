@@ -9,6 +9,6 @@ namespace TestStandGen
     {
         public string identifier;
 
-        public string title { get; set; }
+        public string Title { get; set; }
     }
 }

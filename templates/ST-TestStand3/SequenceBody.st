@@ -1,4 +1,61 @@
 SequenceBody(SeqOffset, SequenceContent) ::= <<
+[DEF, SF.Seq[$SeqOffset$]]
+Parameters = Obj
+Locals = Obj
+Main = Objs
+Setup = Objs
+Cleanup = Objs
+GotoCleanupOnFail = Bool
+RecordResults = Bool
+RTS = Obj
+%NAME = "$SequenceContent.Title$"
+
+[SF.Seq[$SeqOffset$]]
+%FLG: Parameters = 4456448
+%FLG: Locals = 4194304
+$if(SequenceContent.Main)$%HI: Main = [$length(SequenceContent.Main)$]$endif$
+%FLG: Main = 4194304
+%FLG: Setup = 4194304
+%FLG: Cleanup = 4194304
+%FLG: GotoCleanupOnFail = 4194312
+RecordResults = True
+%FLG: RecordResults = 4194312
+%FLG: RTS = 4456456
+
+[DEF, SF.Seq[$SeqOffset$].Locals]
+ResultList = Objs
+
+[DEF, SF.Seq[$SeqOffset$].Locals.ResultList]
+%EPTYPE = TEResult
+
+$if(SequenceContent.Main)$
+[DEF, SF.Seq[$SeqOffset$].Main]
+%[0] = Step
+%TYPE: %[0] = "Label"
+
+[SF.Seq[3].Main[0].TS]
+Id = "ID#:nRhq9xdkXUm7Efc/O30njA"
+
+[DEF, SF.Seq[$SeqOffset$].Main[0]]
+%NAME = "===================================="
+$endif$
+
+[DEF, SF.Seq[$SeqOffset$].RTS]
+Type = Num
+OptimizeNonReentrantCalls = Bool
+EPNameExpr = Str
+EPEnabledExpr = Str
+EPMenuHint = Str
+EPIgnoreClient = Bool
+EPInitiallyHidden = Bool
+EPCheckToSaveTitledFile = Bool
+ShowEPAlways = Bool
+ShowEPForFileWin = Bool
+ShowEPForExeWin = Bool
+ShowEPForEditorOnly = Bool
+AllowIntExeOfEP = Bool
+CopyStepsOnOverriding = Bool
+Priority = Num
 
 [SF.Seq[$SeqOffset$].RTS]
 %FLG: Type = 4194304
@@ -24,48 +81,5 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
-[DEF, SF.Seq[$SeqOffset$]]
-Parameters = Obj
-Locals = Obj
-Main = Objs
-Setup = Objs
-Cleanup = Objs
-GotoCleanupOnFail = Bool
-RecordResults = Bool
-RTS = Obj
-%NAME = "test"
 
-[SF.Seq[$SeqOffset$]]
-%FLG: Parameters = 4456448
-%FLG: Locals = 4194304
-%FLG: Main = 4194304
-%FLG: Setup = 4194304
-%FLG: Cleanup = 4194304
-%FLG: GotoCleanupOnFail = 4194312
-RecordResults = True
-%FLG: RecordResults = 4194312
-%FLG: RTS = 4456456
-
-[DEF, SF.Seq[$SeqOffset$].Locals]
-ResultList = Objs
-
-[DEF, SF.Seq[$SeqOffset$].Locals.ResultList]
-%EPTYPE = TEResult
-
-[DEF, SF.Seq[$SeqOffset$].RTS]
-Type = Num
-OptimizeNonReentrantCalls = Bool
-EPNameExpr = Str
-EPEnabledExpr = Str
-EPMenuHint = Str
-EPIgnoreClient = Bool
-EPInitiallyHidden = Bool
-EPCheckToSaveTitledFile = Bool
-ShowEPAlways = Bool
-ShowEPForFileWin = Bool
-ShowEPForExeWin = Bool
-ShowEPForEditorOnly = Bool
-AllowIntExeOfEP = Bool
-CopyStepsOnOverriding = Bool
-Priority = Num
 >>

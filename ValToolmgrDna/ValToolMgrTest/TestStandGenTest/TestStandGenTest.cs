@@ -18,11 +18,11 @@ namespace ValToolMgrTest
             {
                 CTestContainer container = new CTestContainer();
                 container.description = "Test container";
-                for (int testIndex = 1; testIndex < 3; testIndex++)
+                for (int testIndex = 1; testIndex <= 3; testIndex++)
                 {
                     CTest test = new CTest();
                     test.description = "Test descriptor #" + testIndex;
-                    test.title = "TEST_" + testIndex;
+                    test.title = "Test_1." + testIndex;
 
                     for (int stepIndex = 1; stepIndex < 20; stepIndex++)
                     {

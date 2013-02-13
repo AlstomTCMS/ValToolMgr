@@ -1614,9 +1614,7 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
-$SequenceList:{s |$SequenceBody(i, s)$}$
-
-[DEF, SF.FileGlobalDefaults]
+$SequenceList:{s |$SequenceBody(i, s)$}$[DEF, SF.FileGlobalDefaults]
 Perf = Ref
 FIP = Ref
 TH = Ref

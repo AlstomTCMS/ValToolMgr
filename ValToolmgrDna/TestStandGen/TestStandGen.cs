@@ -8,6 +8,7 @@ namespace TestStandGen
     using Antlr.Runtime;
     using Antlr4.StringTemplate;
     using Antlr4.StringTemplate.Compiler;
+    using Antlr4.StringTemplate.Misc;
     using System.IO;
 
     public class TestStandGen
@@ -62,17 +63,29 @@ namespace TestStandGen
             TemplateGroup group = new TemplateGroupDirectory(this.templatePath, '$', '$');
             try
             {
+                ErrorBuffer errors = new ErrorBuffer();
+                group.Listener = errors;
+                group.Load();
+
                 Template st = group.GetInstanceOf("MainTemplate");
                 System.Collections.Generic.Dictionary<string, object> test = (System.Collections.Generic.Dictionary<string, object>)st.GetAttributes();
                 st.Add("filename", TestStandAdapter.protectBackslashes(this.outFile));
                 st.Add("nbOfSequences", this.SeqList.Count);
 
-                foreach (CTestStandInstr instr in this.MainSeq)
-                {
-                    st.Add("sequences", instr.category.ToString());
-                }
+                st.Add("SequenceDeclare", this.MainSeq.ToArray());
+
+                st.Add("SequenceList", this.SeqList.ToArray());
 
                 string result = st.Render();
+
+                if (errors.Errors.Count > 0)
+                {
+                    foreach (TemplateMessage m in errors.Errors)
+                    {
+                        Console.WriteLine(m.ToString());
+                    }
+                    Console.ReadLine();
+                }
 
                 StreamWriter output = new StreamWriter(this.outFile);
 
@@ -115,7 +128,7 @@ namespace TestStandGen
         private void genInstrListFromTest(CTestStandSeq SubSeq, CTest TestContainer)
         {
             SubSeq.identifier = TestContainer.title;
-            SubSeq.title = TestContainer.title;
+            SubSeq.Title = TestContainer.title;
 
             foreach (CStep step in TestContainer)
             {
