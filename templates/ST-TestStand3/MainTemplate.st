@@ -1,4 +1,4 @@
-MainTemplate(filename, nbOfSequences, SequenceDeclare, SequenceList) ::= <<
+MainTemplate(TestStandFile) ::= <<
 
 [__Header__]
 ProductName = "TestStand"
@@ -6,7 +6,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "$filename$"
+Path = "$TestStandFile.Filename$"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -65,7 +65,7 @@ ModelOption = Num
 %NAME = "Data"
 
 [SF]
-%HI: Seq = [$nbOfSequences$]
+%HI: Seq = [$length(TestStandFile.Sequences)$]
 %FLG: Seq = 4194304
 %FLG: FileGlobalDefaults = 4194304
 %FLG: ModelFile = 4194312
@@ -82,7 +82,8 @@ BatchSync = 1
 %FLG: ModelOption = 4194312
 
 [DEF, SF.Seq]
-$SequenceDeclare:{s | %[$i0$] = Sequence
+%[0] = Sequence
+$TestStandFile.Sequences:{s | %[$i$] = Sequence
 }$
 [DEF, SF.Seq[0]]
 Parameters = Obj
@@ -1614,7 +1615,7 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
-$SequenceList:{s |$SequenceBody(i, s)$}$[DEF, SF.FileGlobalDefaults]
+$TestStandFile.Sequences:{s |$SequenceBody(i, s)$}$[DEF, SF.FileGlobalDefaults]
 Perf = Ref
 FIP = Ref
 TH = Ref

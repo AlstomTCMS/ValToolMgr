@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
+    <Compile Include="Types\TestStandFile.cs" />
     <Compile Include="Types\CTestStandInstr.cs" />
     <Compile Include="Types\CTestStandSeq.cs" />
     <Compile Include="Types\CTestStandSeqContainer.cs" />

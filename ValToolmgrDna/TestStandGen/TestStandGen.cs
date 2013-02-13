@@ -17,11 +17,11 @@ namespace TestStandGen
         private string outFile;
         private string templatePath;
 
-        private CTestStandSeq MainSeq;
-        private CTestStandSeqContainer SeqList;
+
         private bool alreadyGenerated;
         private int idsalt;
         private TemplateGroup group;
+        private TestStandFile TSFile;
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
         {
@@ -35,21 +35,12 @@ namespace TestStandGen
             this.sequence = sequence;
             this.outFile = outFile;
             this.templatePath = templatePath;
-
-            
             initialize();
         }
 
         private void initialize()
         {
-            MainSeq = new CTestStandSeq();
-
-            CTestStandInstr instr = new CTestStandInstr();
-            instr.category = CTestStandInstr.categoryList.TS_CALL;
-
-            MainSeq.Add(instr);
-
-            SeqList = new CTestStandSeqContainer();
+            TSFile = new TestStandFile(outFile);
             alreadyGenerated = false;
             idsalt = 1;
         }
@@ -58,7 +49,7 @@ namespace TestStandGen
         {
             if (alreadyGenerated) initialize();
 
-            genTsStructFromTestContainer(sequence);
+            
 
             TemplateGroup group = new TemplateGroupDirectory(this.templatePath, '$', '$');
             try
@@ -69,12 +60,10 @@ namespace TestStandGen
 
                 Template st = group.GetInstanceOf("MainTemplate");
                 System.Collections.Generic.Dictionary<string, object> test = (System.Collections.Generic.Dictionary<string, object>)st.GetAttributes();
-                st.Add("filename", TestStandAdapter.protectBackslashes(this.outFile));
-                st.Add("nbOfSequences", this.SeqList.Count);
 
-                st.Add("SequenceDeclare", this.MainSeq.ToArray());
+                TSFile.Sequences = genTsStructFromTestContainer(sequence);
 
-                st.Add("SequenceList", this.SeqList.ToArray());
+                st.Add("TestStandFile", this.TSFile);
 
                 string result = st.Render();
 
@@ -101,12 +90,15 @@ namespace TestStandGen
             this.alreadyGenerated = true;
         }
 
+
         /// <summary>
         /// Converts a potentially complex tree structure to a standardized, linear TestStand sequence list
         /// </summary>
-        /// <param name="sequence">Sequence to convert</param>
-        private void genTsStructFromTestContainer(CTestContainer sequence)
+        /// <param name="sequence">Sequence to convert</param
+        /// <returns>Sequence, in a format understandable to generate</returns>
+        private CTestStandSeqContainer genTsStructFromTestContainer(CTestContainer sequence)
         {
+            CTestStandSeqContainer SeqList = new CTestStandSeqContainer();
             foreach(CTest test in sequence)
             {
                 CTestStandSeq SubSeq = new CTestStandSeq();
@@ -119,10 +111,8 @@ namespace TestStandGen
 
                 TsInstr.category = CTestStandInstr.categoryList.TS_CALL;
                 TsInstr.Data = SubSeq.identifier;
-
-                MainSeq.Add(TsInstr);
-
             }
+            return SeqList;
         }
 
         private void genInstrListFromTest(CTestStandSeq SubSeq, CTest TestContainer)
