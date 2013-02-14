@@ -66,9 +66,9 @@ Dim ws As Worksheet
     
     'copier la synthèse filtrée pour que lignes principales de tests
     With Sheets(SYNTHESE_NAME)
-        Fin = .range("F" & .Rows.Count).End(xlUp).row
-        With .range("$A$2:$I" & Fin)
-            .AutoFilter field:=1, Criteria1:="<>"
+        fin = .range("F" & .Rows.Count).End(xlUp).row
+        With .range("$A$2:$I" & fin)
+            .AutoFilter Field:=1, Criteria1:="<>"
             
             ' ---------------------------------------------------------------------------------------------------------
             ' Spécifité Prima forme Kazak
@@ -95,14 +95,25 @@ Dim ws As Worksheet
             .Copy
             Sheets(PR_OUT_NAME).range("A9").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
             Application.CutCopyMode = False
-            .AutoFilter field:=1
+            .AutoFilter Field:=1
         End With
     End With
     
+    finPROUT = Sheets(PR_OUT_NAME).range("A" & Sheets(PR_OUT_NAME).Rows.Count).End(xlUp).row
+    
+    With Sheets(PR_OUT_NAME).range("A9:E" & finPROUT).Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorAccent5
+        .TintAndShade = 0.799981688894314
+        .PatternTintAndShade = 0
+    End With
+    'on marque la fin
+    Sheets(PR_OUT_NAME).range("A" & finPROUT + 1) = "END"
+    
+    
     '---------------------------------------------------------------------------
     ' Copie des tests
-    'on marque la fin
-    Sheets(PR_OUT_NAME).range("A" & Sheets(2).Rows.Count).End(xlUp).range("A2") = "END"
     
     'boucler sur les numéros de test et chercher l'onglet correspondant
     Set testRange = Sheets(PR_OUT_NAME).range("A9")
@@ -219,6 +230,8 @@ Dim ws As Worksheet
         
         Message = "Des tests n'ont pas été rajoutés dans " & PR_OUT_NAME & " !"
         Call MsgBox(Message, vbCritical, "Alerte")
+    Else
+        Call MsgBox("La création du PR Out s'est bien déroulé.", vbInformation, "")
     End If
 Finally:
     Application.ScreenUpdating = True
@@ -229,6 +242,10 @@ End Sub
 Sub formatagePR_OUT()
     'Formatage
     With Sheets(PR_OUT_NAME)
+        'Enleve les conditions de formatage de toute la feuille
+        .Cells.FormatConditions.Delete
+        
+        'Enleve les ajouts de couleurs foireux depuis la colonne Num Etape
         With .range("F9", .range("O" & .Rows.Count).End(xlUp))
         
             With .Interior
@@ -245,6 +262,21 @@ Sub formatagePR_OUT()
             .Borders(xlInsideVertical).LineStyle = xlNone
             .Borders(xlInsideHorizontal).LineStyle = xlNone
         End With
+        
+        ' Colorie en bleu tous les tests et étapes
+        
+        With .range("F9", .range("O" & .Rows.Count).End(xlUp))
+            .AutoFilter Field:=7, Criteria1:="<>"
+            With .Interior
+                .Pattern = xlSolid
+                .PatternColorIndex = xlAutomatic
+                .ThemeColor = xlThemeColorAccent5
+                .TintAndShade = 0.799981688894314
+                .PatternTintAndShade = 0
+            End With
+            .AutoFilter Field:=7
+        End With
+    
         .Columns("F").EntireColumn.AutoFit 'taille auto num_etape
         .Columns("H:I").WrapText = True
     End With
