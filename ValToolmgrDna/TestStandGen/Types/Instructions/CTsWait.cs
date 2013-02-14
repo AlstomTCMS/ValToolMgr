@@ -8,15 +8,15 @@ namespace TestStandGen.Types.Instructions
     /// <summary>
     /// Class that handles Label type.
     /// </summary>
-    class CTsLabel : CTsGenericInstr
+    class CTsWait : CTsGenericInstr
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="text">Text to be displayed</param>
-        public CTsLabel(string text)
+        /// <param name="duration">to wait (in seconds)</param>
+        public CTsWait(int duration)
         {
-            this.Text = text;
+            this.Text = "Pause during "+duration+"s";
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace TestStandGen.Types.Instructions
         /// </summary>
         public override string InstructionName
         {
-            get { return "Label"; }
+            get { return "NI_Wait"; }
             protected set { }
         }
     }

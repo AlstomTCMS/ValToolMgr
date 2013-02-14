@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
+    <Compile Include="Types\Instructions\CTsTest.cs" />
+    <Compile Include="Types\Instructions\CTsWait.cs" />
+    <Compile Include="Types\Instructions\CTsPopup.cs" />
+    <Compile Include="Types\Instructions\CTsUnforce.cs" />
+    <Compile Include="Types\Instructions\CTsForceBool.cs" />
+    <Compile Include="Types\Instructions\CTsForce.cs" />
     <Compile Include="Types\Instructions\CTsLabel.cs" />
     <Compile Include="Types\Instructions\CTsSequenceCall.cs" />
     <Compile Include="Types\TestStandArray.cs" />

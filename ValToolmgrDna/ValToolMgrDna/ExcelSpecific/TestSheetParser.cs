@@ -122,28 +122,31 @@ namespace ValToolMgrDna.ExcelSpecific
 
         private CInstruction detectAndBuildInstruction(string Target, string Location, object CellValue, TableTypes typeOfTable)
         {
-                CInstruction detectAndBuildInstruction = new CInstruction();
-                detectAndBuildInstruction.category = CInstruction.actionList.UNIMPLEMENTED;
-                detectAndBuildInstruction.data = null;
+            CInstruction detectAndBuildInstruction;
 
                 if (typeOfTable == TableTypes.TABLE_ACTIONS)
                 {
                     if (CellValue is String && CellValue.ToString().Equals("U"))
                     {
-                        detectAndBuildInstruction.category = CInstruction.actionList.A_UNFORCE;
+                        detectAndBuildInstruction = new CInstrUnforce();
                         detectAndBuildInstruction.data = buildVariable(Target, Location, null);
                     }
                     else
                     {
-                        detectAndBuildInstruction.category = CInstruction.actionList.A_FORCE;
+                        detectAndBuildInstruction = new CInstrForce();
                         detectAndBuildInstruction.data = buildVariable(Target, Location, CellValue);
                     }
                 }
                 else if (typeOfTable == TableTypes.TABLE_CHECKS)
                 {
-                    detectAndBuildInstruction.category = CInstruction.actionList.A_TEST;
+                    detectAndBuildInstruction = new CInstrTest();
                     detectAndBuildInstruction.data = buildVariable(Target, Location, CellValue);
                 }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+
                 return detectAndBuildInstruction;
         }
 
@@ -156,8 +159,7 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 try
                 {
-                    CInstruction o_tempo = new CInstruction();
-                    o_tempo.category = CInstruction.actionList.A_WAIT;
+                    CInstrWait o_tempo = new CInstrWait();
                     o_tempo.data = Convert.ToInt32(delay);
                     o_step.actions.Add(o_tempo);
                 }

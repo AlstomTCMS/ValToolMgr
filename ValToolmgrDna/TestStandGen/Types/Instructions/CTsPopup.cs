@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ValToolMgrDna.Interface;
+
+namespace TestStandGen.Types.Instructions
+{
+    class CTsPopup : CTsGenericInstr
+    {
+
+
+        public CTsPopup(string text)
+        {
+            this.Text = text;
+        }
+
+        public override string InstructionName
+        {
+            get { return "MessagePopup"; }
+            protected set { }
+        }
+        
+
+    }
+}

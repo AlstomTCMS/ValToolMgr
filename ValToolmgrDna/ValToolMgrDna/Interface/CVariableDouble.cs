@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ValToolMgrDna.Interface
 {
-    class CVariableDouble : CVariable
+    public class CVariableDouble : CVariable
     {
         private double Value = 0.0;
 

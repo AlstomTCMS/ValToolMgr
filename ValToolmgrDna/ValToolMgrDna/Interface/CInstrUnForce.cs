@@ -5,9 +5,7 @@ using System.Text;
 
 namespace ValToolMgrDna.Interface
 {
-    public abstract class CInstruction
+    public class CInstrUnforce : CInstruction
     {
-        public object data { get; set; }
-        //public actionList category { get; set; }
     }
 }

@@ -33,8 +33,7 @@ namespace ValToolMgrTest
 
                         for (int actionIndex = 1; actionIndex < 20; actionIndex++)
                         {
-                            CInstruction action = new CInstruction();
-                            action.category = CInstruction.actionList.A_FORCE;
+                            CInstruction action = new CInstrForce();
                             CVariableBool var = new CVariableBool();
                             var.value = "true";
                             var.name = "Var" + actionIndex;
@@ -45,8 +44,7 @@ namespace ValToolMgrTest
 
                         for (int checkIndex = 1; checkIndex < 20; checkIndex++)
                         {
-                            CInstruction action = new CInstruction();
-                            action.category = CInstruction.actionList.A_TEST;
+                            CInstruction action = new CInstrTest();
                             CVariableBool var = new CVariableBool();
                             var.value = "true";
                             var.name = "Var" + checkIndex;
