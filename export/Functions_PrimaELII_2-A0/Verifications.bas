@@ -68,12 +68,15 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
         End If
         'Verifier si le test est entièrement completé
         Call verif_remplissage(testSheet, True)
-        'Voir s'il faut sortir ou pas si c'est pas bon
+        
         Call initValidationSheet
     End If
     
+    'Formatage de validation
     Call SetCellulesVidesRouges_TEST(testSheet)
     Call SetValidations_TEST(testSheet)
+    
+    If Not checkPimaValidVehiculs(testSheet) Then Exit Function
     
     'Vérification des doublons de l'étape
     With Sheets(testSheet)
@@ -139,16 +142,16 @@ End Sub
 
 
 ' Vérifie si c'est en doublon dans l'étape courante (entre début et fin)
-Private Function Doublon(ByVal testSheetName As String, ByVal Deb As Integer, ByVal Fin As Integer) As Boolean
+Private Function Doublon(ByVal testSheetName As String, ByVal Deb As Integer, ByVal fin As Integer) As Boolean
 Dim Resultat As Boolean
 Dim ligne1, ligne2 As Integer
 Dim a, b
 Doublon = False
 
     With Sheets(testSheetName)
-    For ligne1 = Deb To Fin
+    For ligne1 = Deb To fin
         b = .Cells(ligne1, TEST_COLUMN_DOUBLON_COMPARE)
-        a = Application.WorksheetFunction.CountIf(.range(.Cells(Deb, TEST_COLUMN_DOUBLON_COMPARE), .Cells(Fin, TEST_COLUMN_DOUBLON_COMPARE)), b)
+        a = Application.WorksheetFunction.CountIf(.range(.Cells(Deb, TEST_COLUMN_DOUBLON_COMPARE), .Cells(fin, TEST_COLUMN_DOUBLON_COMPARE)), b)
         ' S'il y a plus qu'une occurence, alors on a un doublon
         If a > 1 Then
             Doublon = True
@@ -190,7 +193,33 @@ Dim nouvelleLigne As range
     End With
 End Sub
 
+Sub test_unit_checkPimaValidVehiculs()
+    rslt = checkPimaValidVehiculs("B2_037_102")
+End Sub
 
+'SPECIFICITE PRIMA : verifier que les vehicules choisis sont soit 1 soit 2
+Function checkPimaValidVehiculs(testSheetName As String) As Boolean
+    checkPimaValidVehiculs = True
+    
+    With Sheets(testSheetName).ListObjects("Tableau" & testSheetName).range
+        'filtrer sur la colonne Vehicule
+        .AutoFilter Field:=8, Criteria1:="=1", Operator:=xlOr, Criteria2:="=2"
+        
+        'Si le nombre de cellules visibles est inférieur au nombre de cellules totales c'est qu'il n'y a pas que des 1 et 2
+        On Error GoTo fin
+        If .SpecialCells(xlCellTypeVisible).Rows.Count < .Rows.Count Then
+            checkPimaValidVehiculs = False
+        End If
+        On Error GoTo 0
+fin:
+        .AutoFilter Field:=8
+    End With
+    
+    'Si ce n'est pas bon, on ajoute l'erreur dans la fiche d'erreur
+    If Not checkPimaValidVehiculs Then
+        Call AjoutErreur(testSheetName, Nothing, ERROR_TYPE_PRIMA_VEHICULS)
+    End If
+End Function
 
 ' Vérifie que les colonnes soient remplies jusqu'au bout
 ' Renvoie Vrai si toutes les colonnes sont bien remplies
@@ -300,8 +329,8 @@ Public Sub SetCellulesVidesRouges_TEST(ByVal sheetName As String)
 Dim formatAlreadyExist As Boolean
 
     With Sheets(sheetName)
-        Fin = .range("A1").End(xlDown).row
-        With .range("G2:K" & Fin)
+        fin = .range("A1").End(xlDown).row
+        With .range("G2:K" & fin)
     
             'Voir si le formatage existe deja
             For Each formatCond In .FormatConditions
@@ -326,16 +355,61 @@ Dim formatAlreadyExist As Boolean
             
         End With
     End With
+    
+    Call SetVehiculesRouges_TEST(sheetName)
+End Sub
+
+Sub unit_Test_SetVehiculesRouges_TEST()
+    Call SetVehiculesRouges_TEST("B2_037_112")
+End Sub
+
+'Ajoute la formatage conditionnel sur les vehicules PRIMA
+Public Sub SetVehiculesRouges_TEST(ByVal sheetName As String)
+Dim formatAlreadyExist As Boolean
+
+    With Sheets(sheetName)
+        fin = .range("A1").End(xlDown).row
+        With .range("H2:H" & fin)
+    
+            'Voir si le formatage existe deja
+            On Error GoTo NextformatCond
+            For Each formatCond In .FormatConditions
+                With formatCond
+                    If .Operator = xlNotBetween And .Formula1 = "=1" And .Formula2 = "=2" Then
+                        formatAlreadyExist = True
+                        Exit For
+                    End If
+                End With
+NextformatCond:
+            Next formatCond
+            On Error GoTo 0
+            
+            If Not formatAlreadyExist Then
+                .FormatConditions.Add xlCellValue, xlNotBetween, 1, 2
+                
+                With .FormatConditions(.FormatConditions.Count)
+                    .SetFirstPriority
+                    With .Interior
+                        .PatternColorIndex = xlAutomatic
+                        .Color = 255
+                        .TintAndShade = 0
+                    End With
+                    .StopIfTrue = True
+                End With
+            End If
+            
+        End With
+    End With
 End Sub
 
 ' Ajoute les validations automatiques des données de tests
 Sub SetValidations_TEST(ByVal sheetName As String)
 
     With Sheets(sheetName)
-        Fin = .range("A1").End(xlDown).row
+        fin = .range("A1").End(xlDown).row
         
         'Types de Véhicules permis
-        With .range("H2:H" & Fin).Validation
+        With .range("H2:H" & fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
             xlBetween, Formula1:="='" & VALID_NAME & "'!$C$5:$C$6" 'Spécificité PRIMA véhicules permis :1 ou 2      "'!$C$2:$C$8"
@@ -350,7 +424,7 @@ Sub SetValidations_TEST(ByVal sheetName As String)
         End With
         
         'Types de variable permis
-        With .range("G2:G" & Fin).Validation
+        With .range("G2:G" & fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
             xlBetween, Formula1:="='" & VALID_NAME & "'!$B$2:$B$6"
@@ -368,12 +442,13 @@ End Sub
 
 ' Ajoute les validations automatiques des données de tests
 Sub SetValidations_SYNTH()
+    Call initValidationSheet
 
     With Sheets(SYNTHESE_NAME)
-        Fin = .range("F1").End(xlDown).row
+        fin = .range("F1").End(xlDown).row
         
         'Types de Conf banc permis
-        With .range("B2:B" & Fin).Validation
+        With .range("B2:B" & fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
             xlBetween, Formula1:="='" & VALID_NAME & "'!$A$2:$A$6"

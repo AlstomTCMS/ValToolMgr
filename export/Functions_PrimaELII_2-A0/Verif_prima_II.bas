@@ -166,15 +166,15 @@ End Sub
 
 ' Vérifie si c'est en doublon dans l'étape courante (entre début et fin)
 '
-Private Function Doublon(ByVal Deb As Integer, ByVal Fin As Integer) As Boolean
+Private Function Doublon(ByVal Deb As Integer, ByVal fin As Integer) As Boolean
 Dim Resultat As Boolean
 Dim ligne1, ligne2 As Integer
 Dim a, b
 Doublon = False
 
-    For ligne1 = Deb To Fin
+    For ligne1 = Deb To fin
         b = Cells(ligne1, 17)
-        a = Application.WorksheetFunction.CountIf(range(Cells(Deb, 17), Cells(Fin, 17)), b)
+        a = Application.WorksheetFunction.CountIf(range(Cells(Deb, 17), Cells(fin, 17)), b)
         ' S'il y a plus qu'une occurence, alors on a un doublon
         If a > 1 Then
             Doublon = True

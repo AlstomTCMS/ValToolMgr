@@ -1,11 +1,12 @@
 Attribute VB_Name = "Constantes"
 Public Const SETTING_FILE_NAME As String = "Application_Settings_File.MIESET"
 Public Const MacroPath As String = "C:\macros_alstom"
+Public Const serverPath As String = "\\dom2.ad.sys\dfsbor1root\BOR1_FLO\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\13_Macros"
 Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
-Public Const macroVersion As String = "A8"
+Public Const macroVersion As String = "A9"
 Public Const refVersion As String = "A3"
-Public Const macroUpdateDate As String = "12/02/2013"
+Public Const macroUpdateDate As String = "13/02/2013"
 
 Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"
@@ -15,6 +16,7 @@ Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"
 Public Const ERROR_NAME As String = "Erreurs"
 
+Public Const ERROR_TYPE_PRIMA_VEHICULS As String = "Seuls les véhicules 1 et 2 sont permis pour PRIMA."
 Public Const ERROR_TYPE_DOUBLON As String = "{0} est en doublon."
 Public Const ERROR_TYPE_COLUMNS_EMPTY As String = "Les colonnes {0} ne sont pas entièrement remplies."
 Public Const ERROR_TYPE_NOTESTSHEET As String = "La feuille de test n'existe pas."

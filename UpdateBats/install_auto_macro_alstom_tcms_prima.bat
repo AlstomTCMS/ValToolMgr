@@ -1,3 +1,19 @@
+@ECHO OFF
+REM BFCPEOPTIONSTART
+REM Advanced BAT to EXE Converter www.BatToExeConverter.com
+REM BFCPEEXE=C:\macros_alstom\UpdateBats\exe\install_auto_macro_alstom_tcms_prima.exe
+REM BFCPEICON=
+REM BFCPEICONINDEX=0
+REM BFCPEEMBEDDISPLAY=0
+REM BFCPEEMBEDDELETE=1
+REM BFCPEVERINCLUDE=0
+REM BFCPEVERVERSION=1.0.0.0
+REM BFCPEVERPRODUCT=Product Name
+REM BFCPEVERDESC=Product Description
+REM BFCPEVERCOMPANY=Your Company
+REM BFCPEVERCOPYRIGHT=Copyright Info
+REM BFCPEOPTIONEND
+@ECHO ON
 @echo off
 cls
 :: met l'encodage qui permet aux chemins avec accents de passer (D:\Documents and Settings\e_dleona\Menu Démarrer\Programmes\Démarrage)
@@ -10,8 +26,11 @@ rem install_auto_macro_alstom_tcms_prima.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
 rem version : A8 08.02.2013
-set versionServeur=A8
+set versionServeur=A9
 
+
+:: si on force l'installation
+if "%1" == "" goto initPath
 
 :checkIsToUpdate
 echo. Version installee: %2		Version serveur: %versionServeur%
@@ -43,9 +62,27 @@ set networkPath=I:\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\
 set localPath=C:\macros_alstom\
 
 :deleteBat
-rem Efface les anciens .bat
+echo Efface les anciens .bat
 echo y|del "%localPath%\UpdateMacroTCMS.bat">nul
 echo y|del "%localPath%\UpdateMacroOnStartup.bat">nul
+
+:TestExcelIsLaunched
+set ExcelIsRunning=0
+tasklist /FI "IMAGENAME eq EXCEL.EXE" 2>NUL | find /I /N "EXCEL.EXE">NUL
+if "%ERRORLEVEL%"=="0" set ExcelIsRunning=1
+::echo Excel is running
+echo ExcelIsRunning %ExcelIsRunning%
+::pause
+
+:: Si Excel n'est pas lancé, on peut copier les fichiers et installer la macro
+:: sinon on a un risque que la copie de la macro ne puisse pas se faire puisqu'elle peut être utilisée
+if %ExcelIsRunning% == 0 goto CopyFiles
+
+:KillExcel
+echo kill Excel
+::pause
+TASKKILL /IM EXCEL.EXE
+::pause
 
 :CopyFiles
 echo.
@@ -57,17 +94,6 @@ rem Copie du .bat appelé pour la MAJ
 xcopy "%networkPath%UpdateMacroTCMS.exe" %localPath% /Y 
 rem Copie de sauvegarde du .bat pour une mise à jour auto en début de session utilisateur
 xcopy "%networkPath%UpdateMacroOnStartup.exe" %localPath% /Y 
-
-if NOT "%1" == "onStartup" goto TestExcelIsLaunched
-goto Install
-
-:TestExcelIsLaunched
-set ExcelIsRunning=0
-tasklist /FI "IMAGENAME eq EXCEL.EXE" 2>NUL | find /I /N "EXCEL.EXE">NUL
-if "%ERRORLEVEL%"=="0" set ExcelIsRunning=1
-::echo Excel is running
-echo ExcelIsRunning %ExcelIsRunning%
-::pause
 
 :Install
 rem Lancement de l'installation de la macro par le fichier Excel et attend la fermeture d'Excel 
@@ -93,5 +119,5 @@ exit
 
 :warn_and_exit
 echo Machine OS cannot be determined.
-pause
+if %1 == manuel pause
 exit

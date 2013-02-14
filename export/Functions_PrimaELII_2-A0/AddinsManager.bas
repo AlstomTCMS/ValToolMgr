@@ -53,7 +53,26 @@ Sub UpdateManual(control As IRibbonControl)
     End If
     'Si l'utilisateur n'a pas annulé, on lance le .bat qui appelle la MAJ
     If Not choice = vbCancel Then
-        Call Shell("cmd /c " & MacroPath & "\UpdateMacroTCMS.exe manuel " & macroVersion, vbNormalFocus)
+        Call Shell("cmd /c " & Chr(34) & MacroPath & "\UpdateMacroTCMS.exe" & Chr(34) & " manuel " & macroVersion, vbNormalFocus)
+    End If
+    
+End Sub
+
+' MAJ forcée depuis la version sur le serveur
+Sub ForceUpdate(control As IRibbonControl)
+    'demande à l'utilisateur s'il veut sauvegarder ou pas
+    choice = MsgBox("Cette action va fermer Excel !" & vbCrLf & "Voulez vous enregistrer tous les fichiers ouverts ?", vbExclamation + vbYesNoCancel, "Attention")
+    If choice = vbYes Then
+        'Enregistrer tous les fichiers
+        On Error Resume Next
+        For Each Wbk In Workbooks
+          Wbk.Save
+        Next Wbk
+        On Error GoTo 0
+    End If
+    'Si l'utilisateur n'a pas annulé, on lance le .bat qui appelle la MAJ
+    If Not choice = vbCancel Then
+        Call Shell("cmd /c " & Chr(34) & serverPath & "\install_auto_macro_alstom_tcms_prima.exe" & Chr(34), vbHide) ' Chr(34) = quote
     End If
     
 End Sub
