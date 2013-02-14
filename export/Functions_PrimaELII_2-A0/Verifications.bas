@@ -76,7 +76,7 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
     Call SetCellulesVidesRouges_TEST(testSheet)
     Call SetValidations_TEST(testSheet)
     
-    If Not checkPimaValidVehiculs(testSheet) Then Exit Function
+    If Not checkPrimaValidVehiculs(testSheet) Then Exit Function
     
     'Vérification des doublons de l'étape
     With Sheets(testSheet)
@@ -198,10 +198,11 @@ Sub test_unit_checkPimaValidVehiculs()
 End Sub
 
 'SPECIFICITE PRIMA : verifier que les vehicules choisis sont soit 1 soit 2
-Function checkPimaValidVehiculs(testSheetName As String) As Boolean
-    checkPimaValidVehiculs = True
+Function checkPrimaValidVehiculs(testSheetName As String) As Boolean
+    checkPrimaValidVehiculs = True
     
-    With Sheets(testSheetName).ListObjects("Tableau" & testSheetName).range
+    With Sheets(testSheetName)
+        With .range("A2", .Cells(.range("A2").End(xlDown).row, .range("A1").End(xlToRight).Column))
         'filtrer sur la colonne Vehicule
         .AutoFilter Field:=8, Criteria1:="=1", Operator:=xlOr, Criteria2:="=2"
         
@@ -213,10 +214,11 @@ Function checkPimaValidVehiculs(testSheetName As String) As Boolean
         On Error GoTo 0
 fin:
         .AutoFilter Field:=8
+        End With
     End With
     
     'Si ce n'est pas bon, on ajoute l'erreur dans la fiche d'erreur
-    If Not checkPimaValidVehiculs Then
+    If Not checkPrimaValidVehiculs Then
         Call AjoutErreur(testSheetName, Nothing, ERROR_TYPE_PRIMA_VEHICULS)
     End If
 End Function
@@ -371,8 +373,8 @@ Dim formatAlreadyExist As Boolean
         fin = .range("A1").End(xlDown).row
         With .range("H2:H" & fin)
     
-            'Voir si le formatage existe deja
             On Error GoTo NextformatCond
+            'Voir si le formatage existe deja
             For Each formatCond In .FormatConditions
                 With formatCond
                     If .Operator = xlNotBetween And .Formula1 = "=1" And .Formula2 = "=2" Then
@@ -380,8 +382,10 @@ Dim formatAlreadyExist As Boolean
                         Exit For
                     End If
                 End With
-NextformatCond:
+                
             Next formatCond
+            
+NextformatCond:
             On Error GoTo 0
             
             If Not formatAlreadyExist Then

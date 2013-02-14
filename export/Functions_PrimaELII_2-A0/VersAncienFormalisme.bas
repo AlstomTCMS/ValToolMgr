@@ -178,6 +178,9 @@ Dim ws As Worksheet
                 .range("B2:B" & tailleColle).Copy
                 testRange.range("C1").PasteSpecial Paste:=xlValue
             End With
+            
+            'Après ces manipulations, il faut reformater les onglets de tests
+            Call formatageFicheTest(testRange.Value)
         
             Set testRange = testRange.range("A2").End(xlDown)
             

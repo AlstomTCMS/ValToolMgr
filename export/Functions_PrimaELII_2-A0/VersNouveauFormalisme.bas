@@ -174,6 +174,12 @@ checkIsPrimaOldVersion = True
                 End With
             End If
             
+            'Si fichiers venant de chez ASSYSTEM
+            If .range("D8") = "Des_Etape" Then
+                .range("D8") = "Des_Test"
+            End If
+            
+            
             If Not Numerotation_Automatique Then
                 checkIsPrimaOldVersion = False
             End If
@@ -500,6 +506,10 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
     Loop While anc_testRange <> "END"
     
     Sheets(SYNTHESE_NAME).UsedRange.AutoFilter Field:=1
+End Sub
+
+Sub test_Unit_formatageFicheTest()
+    Call formatageFicheTest("B2_041_101")
 End Sub
 
 'Formatage final d'une feuille de test
