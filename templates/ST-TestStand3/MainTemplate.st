@@ -128,22 +128,7 @@ HARD = Str
 EACB_File = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\EACB.xml"
 HARD = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\HARD.xml"
 
-[DEF, SF.Seq[0].Main]
-$TestStandFile.HeaderList:{s |$InstructionsDeclaration(i0, s)$}$
-[SF.Seq[0].Main[0].TS]
-Id = "ID#:0000000000000000000001"
-
-[DEF, SF.Seq[0].Main[0].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Main[0].TS.SData]
-SeqName = "Test_1.2"
-UseCurFile = True
-
-[DEF, SF.Seq[0].Main[0]]
-%NAME = "Test_1.2"
-
-[DEF, SF.Seq[0].Setup]
+$SequenceContent("0", TestStandFile.HeaderList)$[DEF, SF.Seq[0].Setup]
 %[0] = Step
 %TYPE: %[0] = "Label"
 %[1] = Step

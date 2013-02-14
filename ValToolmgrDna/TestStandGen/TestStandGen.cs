@@ -20,8 +20,6 @@ namespace TestStandGen
 
 
         private bool alreadyGenerated;
-        private int idsalt;
-        private TemplateGroup group;
         private TestStandFile TSFile;
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
@@ -43,7 +41,6 @@ namespace TestStandGen
         {
             TSFile = new TestStandFile(outFile);
             alreadyGenerated = false;
-            idsalt = 1;
         }
 
         private void writeScenario()
@@ -60,7 +57,7 @@ namespace TestStandGen
                 group.Load();
 
                 Template st = group.GetInstanceOf("MainTemplate");
-                System.Collections.Generic.Dictionary<string, object> test = (System.Collections.Generic.Dictionary<string, object>)st.GetAttributes();
+                Console.WriteLine("==========================");
 
                 this.TSFile = genTsStructFromTestContainer(this.outFile, sequence);
 
@@ -103,9 +100,7 @@ namespace TestStandGen
 
             foreach(CTest test in sequence)
             {
-                CTestStandSeq SubSeq = new CTestStandSeq();
-
-                genInstrListFromTest(SubSeq, test);
+                CTestStandSeq SubSeq = genInstrListFromTest(test);
 
                 ts.addSequence("Call to subsequence " + SubSeq.identifier, SubSeq);
 
@@ -113,8 +108,9 @@ namespace TestStandGen
             return ts;
         }
 
-        private void genInstrListFromTest(CTestStandSeq SubSeq, CTest TestContainer)
+        private CTestStandSeq genInstrListFromTest(CTest TestContainer)
         {
+            CTestStandSeq SubSeq = new CTestStandSeq();
             SubSeq.identifier = TestContainer.title;
             SubSeq.Title = TestContainer.title;
 
@@ -122,6 +118,8 @@ namespace TestStandGen
             {
                 SubSeq.Add(new CTsLabel("===================================="));
             }
+
+            return SubSeq;
 
             //    SubSeq.identifier = TestContainer.title
             //    SubSeq.title = TestContainer.title

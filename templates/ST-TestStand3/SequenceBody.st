@@ -13,7 +13,7 @@ RTS = Obj
 [SF.Seq[$SeqOffset$]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-$if(SequenceContent.Main)$%HI: Main = [$length(SequenceContent.Main)$]$endif$
+$if(SequenceContent)$%HI: Main = [$length(SequenceContent)$]$endif$
 %FLG: Main = 4194304
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
@@ -28,18 +28,7 @@ ResultList = Objs
 [DEF, SF.Seq[$SeqOffset$].Locals.ResultList]
 %EPTYPE = TEResult
 
-$if(SequenceContent.Main)$
-[DEF, SF.Seq[$SeqOffset$].Main]
-%[0] = Step
-%TYPE: %[0] = "Label"
-
-[SF.Seq[3].Main[0].TS]
-Id = "ID#:nRhq9xdkXUm7Efc/O30njA"
-
-[DEF, SF.Seq[$SeqOffset$].Main[0]]
-%NAME = "===================================="
-$endif$
-
+$SequenceContent(SeqOffset, SequenceContent)$
 [DEF, SF.Seq[$SeqOffset$].RTS]
 Type = Num
 OptimizeNonReentrantCalls = Bool
