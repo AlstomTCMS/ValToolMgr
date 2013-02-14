@@ -1,0 +1,11 @@
+MainSequence(items) ::= "<items.keys:{item |<(item.InstructionName)(i0, item)>}>"
+
+Woman(i, item) ::= <<
+<i> I am a woman, and my name is <item.Name>
+
+>>
+
+Man(i, item) ::= <<
+<i> I am a man, and my name is <item.Name>
+
+>>

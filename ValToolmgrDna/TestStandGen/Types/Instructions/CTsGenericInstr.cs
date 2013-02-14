@@ -1,5 +1,5 @@
 ﻿
-namespace TestStandGen
+namespace TestStandGen.Types.Instructions
 {
     abstract class CTsGenericInstr
     {

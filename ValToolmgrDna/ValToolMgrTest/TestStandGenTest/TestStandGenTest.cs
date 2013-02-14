@@ -13,7 +13,7 @@ namespace ValToolMgrTest
         [TestFixture]
         public class TestStandGenTest
         {
-            [Test]
+            //[Test]
             public void GenerateScenario()
             {
                 CTestContainer container = new CTestContainer();
