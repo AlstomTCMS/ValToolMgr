@@ -18,7 +18,7 @@ End Sub
 
 ' Génère les onglets de test à partir de la synthèse
 Public Sub Generer_OngletsTests()
-    Dim testRange, debut, fin, finSynthese As range
+    Dim testRange, debut, Fin, finSynthese As range
     Dim testSheet As Worksheet
     Dim testTitle As Variant
     
@@ -26,7 +26,7 @@ Public Sub Generer_OngletsTests()
     
     If Not WsExist(SYNTHESE_NAME) Then
         MsgBox "L'onglet de synthèse n'existe pas ou n'est pas défini comme tel.", vbOKOnly + vbExclamation, "Fonctionnalité non utilisable !"
-        GoTo fin
+        GoTo Fin
     End If
     
     If SupprimerOngletsTests Then
@@ -42,71 +42,71 @@ Public Sub Generer_OngletsTests()
             ' Créer une feuille du nom du test
             
             'Si l'onglet de test n'existe pas déjà
-            If Not WsExist(testRange.Value) Then
-                Set testSheet = InitSheet(testRange.Value, True, , , testTitle)
-                
-                With testSheet
-                    
-                    'coller la zone Synthèse 3 dernières colonnes dans B2
-                    Set debut = testRange.range("F1")
-                    
-                    'Tester s'il n'y a qu'une ligne principale pour ce test
-                    If testRange.range("A2") <> "" Then
-                        Set fin = testRange.range("I1")
-                    ' Si on atteind la fin du tableau de synthèse, on ne doit pas faire d'offset
-                    ElseIf testRange.range("A2").End(xlDown).row = finSynthese.row Then
-                        Set fin = testRange.range("A2").End(xlDown).range("I1")
-                    Else
-                        Set fin = testRange.range("A2").End(xlDown).range("I1").Offset(-1, 0)
-                    End If
-                    
-                    If fin.row > finSynthese.row Then
-                        Set fin = finSynthese
-                    End If
-                    
-                    Sheets(SYNTHESE_NAME).range(debut, fin).Copy
-                    .range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
-                    Application.CutCopyMode = False
-        
-                    .Columns("A:B").EntireColumn.AutoFit
-                    .Columns("C:D").ColumnWidth = 24
-                    .Columns("C:D").WrapText = True
-                    
-                    'Num_Etape
-                    nbreEtape = fin.row - debut.row + 1
-                    For i = 1 To nbreEtape
-                        .Cells(i + 1, 1) = testRange.Value & "-" & Format(i, "00")
-                    Next
-                    
-                    'Ajout du commentaire pour les Type de variables permis
-                    'With .range("F1")
-                        'If .Comment Is Nothing Then
-                            '.AddComment
-                            '.Comment.visible = True
-                            '.Comment.Text Text:= _
-                            '    "Types permis (dans l'ordre):" & Chr(10) & "AEn;CEn;ACc;CCc"
-                            '.Comment.Shape.Left = 590
-                            '.Comment.Shape.Top = 26
-                        'End If
-                    'End With
-                    
-                    'Ajouter liens vers étapes
-                    Call ajouteLiens(testRange.range("A1:A" & nbreEtape))
-                    
-                    ' Insérer la colonne "Modes"
-                    testSheet.Columns(2).Insert Shift:=xlToRight
-                    testSheet.range("B1") = "Mode"
-        
-                    Call formatageFicheTest(testSheet.Name)
-                End With
-            End If
+        If Not WsExist(testRange.Value) Then
+            Set testSheet = InitSheet(testRange.Value, True, , , testTitle)
             
-            'S'il n'y a qu'une ligne principale pour ce test
-            If testRange.range("A2") <> "" Then
-                Set testRange = testRange.range("A2")
-            Else
-                Set testRange = testRange.range("A2").End(xlDown)
-            End If
+            With testSheet
+                
+                'coller la zone Synthèse 3 dernières colonnes dans B2
+                Set debut = testRange.range("F1")
+                
+                'Tester s'il n'y a qu'une ligne principale pour ce test
+                If testRange.range("A2") <> "" Then
+                    Set Fin = testRange.range("I1")
+                ' Si on atteind la fin du tableau de synthèse, on ne doit pas faire d'offset
+                ElseIf testRange.range("A2").End(xlDown).row = finSynthese.row Then
+                    Set Fin = testRange.range("A2").End(xlDown).range("I1")
+                Else
+                    Set Fin = testRange.range("A2").End(xlDown).range("I1").Offset(-1, 0)
+                End If
+                
+                If Fin.row > finSynthese.row Then
+                    Set Fin = finSynthese
+                End If
+                
+                Sheets(SYNTHESE_NAME).range(debut, Fin).Copy
+                .range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+                Application.CutCopyMode = False
+    
+                .Columns("A:B").EntireColumn.AutoFit
+                .Columns("C:D").ColumnWidth = 24
+                .Columns("C:D").WrapText = True
+                
+                'Num_Etape
+                nbreEtape = Fin.row - debut.row + 1
+                For i = 1 To nbreEtape
+                    .Cells(i + 1, 1) = testRange.Value & "-" & Format(i, "00")
+                Next
+                
+                'Ajout du commentaire pour les Type de variables permis
+                With .range("F1")
+                    If .Comment Is Nothing Then
+                        .AddComment
+                        .Comment.visible = True
+                        .Comment.Text Text:= _
+                            "Types permis (dans l'ordre):" & Chr(10) & "AEn;CEn;ACc;CCc"
+                        .Comment.Shape.Left = 590
+                        .Comment.Shape.Top = 26
+                    End If
+                End With
+                
+                'Ajouter liens vers étapes
+                Call ajouteLiens(testRange.range("A1:A" & nbreEtape))
+                
+                ' Insérer la colonne "Modes"
+                testSheet.Columns(2).Insert Shift:=xlToRight
+                testSheet.range("B1") = "Mode"
+    
+                Call formatageFicheTest(testSheet.Name)
+            End With
+        End If
+        
+        'S'il n'y a qu'une ligne principale pour ce test
+        If testRange.range("A2") <> "" Then
+            Set testRange = testRange.range("A2")
+        Else
+            Set testRange = testRange.range("A2").End(xlDown)
+        End If
             
         Loop While testRange <> ""
         
@@ -117,7 +117,7 @@ Public Sub Generer_OngletsTests()
         Sheets(SYNTHESE_NAME).range("J1").Activate
     End If
     
-fin:
+Fin:
     Application.ScreenUpdating = True
 End Sub
 
