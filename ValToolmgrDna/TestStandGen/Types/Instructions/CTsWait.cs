@@ -10,13 +10,15 @@ namespace TestStandGen.Types.Instructions
     /// </summary>
     class CTsWait : CTsGenericInstr
     {
+        public string Value;
+
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="duration">to wait (in seconds)</param>
+        /// <param name="duration">to wait (in milliseconds)</param>
         public CTsWait(int duration)
         {
-            this.Text = "Pause during "+duration+"s";
+            Value = System.Convert.ToString((float)duration/1000).ToString().Replace(',', '.');
         }
 
         /// <summary>

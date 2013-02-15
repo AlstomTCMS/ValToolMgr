@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 
 using NetOffice;
 using Excel = NetOffice.ExcelApi;
@@ -66,7 +66,7 @@ namespace ValToolMgrDna.ExcelSpecific
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             for (int CurrentColumn = 3; CurrentColumn <= lcActionsTableColumns.Count; CurrentColumn++)
             {
-                CStep o_step = new CStep(getComment(), getComment(), getComment());
+                CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
 
                 fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, CurrentColumn);
                 addTempoIfExists(o_step, loActionsTable, CurrentColumn);
@@ -170,23 +170,24 @@ namespace ValToolMgrDna.ExcelSpecific
             if(Target.IndexOf("I:") == 0) 
             {
                 buildVariable = new CVariableInt();
-                Target = Target.Substring(3);
+                Target = Target.Substring(2);
             }
             else if(Target.IndexOf("R:") == 0) 
             {
                 buildVariable = new CVariableDouble();
-                Target = Target.Substring(3);
+                Target = Target.Substring(2);
             }
             else if(Target.IndexOf("DT:") == 0)
             {
                 buildVariable = new CVariableDateTime();
-                Target = Target.Substring(4);
+                Target = Target.Substring(3);
             }
             else
             {
                 buildVariable = new CVariableBool();
             }
 
+            buildVariable.name = Target;
             buildVariable.path = Location;
 
             try

@@ -1732,6 +1732,8 @@ DotNetStepAdditions = "DotNetStepAdditions"
 DotNetParameter = "DotNetParameter"
 TH_Start = "TH_Start"
 TH_Stop = "TH_Stop"
+CB_TestAna = "CB_TestAna"
+CB_UnForce = "CB_UnForce"
 
 [DEF, Path]
 %LOCATION = "StdTypes"
@@ -6107,4 +6109,417 @@ PassFail = Bool
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
 PassFail = True
+
+[DEF, CB_TestAna]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+InBuf = Str
+DataSource = Str
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[CB_TestAna]
+%HI: Substeps = [0]
+DescriptionFormat Line0001 = "\"Test the variable \"+ Step.TS.SData.Call.Parameters[1].ArgVal + \" of instance \" + Step.TS.SData.Call.Parameters[0].A"
+DescriptionFormat Line0002 = "rgVal + \" at \" + Step.TS.SData.Call.Parameters[2].ArgVal"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"Test an anological variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: TS = 4194304
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+DataSource = "Step.Result.PassFail"
+CodeTemplates = "PassFail_Template|PassFailMFC_Template"
+%FLG: CodeTemplates = 24
+%COMMENT = "\n  "
+%TIMESTAMP = 1201268994
+%VERSION = "0.0.0.5"
+%TYPELASTMOD = "3.0.0.12373"
+%FLG = 9216
+%TYPE_FLG = 2
+
+[DEF, CB_TestAna.Substeps]
+%[0] = Step
+%TYPE: %[0] = "EditSubstep"
+
+[DEF, CB_TestAna.Substeps[0].TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_TestAna.Substeps[0].TS.SData.Call]
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CreateObject = 0
+CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
+CoClassName = "affichage"
+Interface = "{676C74FE-186D-496D-A3B8-2819E8C6E7E4}"
+InterfaceName = "_affichage"
+MemberType = 1
+Member = 1610809345
+MemberName = "editionCB"
+HasMemberInfo = True
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+VTableOffset = 32
+%HI: Parameters = [0]
+
+[DEF, CB_TestAna.Substeps[0].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+
+[CB_TestAna.Substeps[0].TS.SData.Call.Parameters[0]]
+Name = "SeqContext"
+ArgVal = "ThisContext"
+ArgDisplayVal = "ThisContext"
+Type = 9
+DisplayType = "SequenceContext (Object Reference)"
+TypeValid = True
+Direction = 3
+IsByRef = True
+IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
+
+[CB_TestAna.Substeps[0].TS]
+%INSTOVRD: SData = 7274520
+ConnectionLifetime = 0
+
+[CB_TestAna.Substeps[0]]
+%INSTFLG: TS = 0
+
+[CB_TestAna.Substeps[0].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+
+[DEF, CB_TestAna.Substeps[0]]
+%NAME = "Edit_Parameters"
+
+[CB_TestAna.Menu]
+ItemName = "\"Test a an anological variable\""
+Group = "Read\\\\Write\\\\Test CB variables"
+
+[CB_TestAna.TS]
+Icon = "ExprBrowse.ico"
+ConnectionLifetime = 0
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
+StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
+%INSTFLG: StatusExpr = 1
+%INSTOVRD: StatusExpr = 5046297
+
+[DEF, CB_TestAna.TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_TestAna.TS.SData.Call]
+ObjectVariable = "FileGlobals.cb"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809352
+MemberName = "CB_TestAna"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+VTableOffset = 100
+%HI: Parameters = [7]
+
+[DEF, CB_TestAna.TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+%[5] = "TYPE, AutomationParameter"
+%[6] = "TYPE, AutomationParameter"
+%[7] = "TYPE, AutomationParameter"
+
+[CB_TestAna.TS.SData.Call.Parameters[0]]
+Name = "strInstanceName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_TestAna.TS.SData.Call.Parameters[1]]
+Name = "strVariableName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_TestAna.TS.SData.Call.Parameters[2]]
+Name = "awaitedValue"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_TestAna.TS.SData.Call.Parameters[3]]
+Name = "maxValue"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_TestAna.TS.SData.Call.Parameters[4]]
+Name = "nTolerance"
+ArgVal = "0"
+ArgDisplayVal = "0"
+Type = 4
+DisplayType = "Number (32-bit Floating Point)"
+TypeValid = True
+Direction = 1
+
+[CB_TestAna.TS.SData.Call.Parameters[5]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[CB_TestAna.TS.SData.Call.Parameters[6]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[CB_TestAna.TS.SData.Call.Parameters[7]]
+Name = "lTimeout_ms"
+Type = 3
+DisplayType = "Number (Signed 32-bit Integer)"
+TypeValid = True
+Direction = 1
+IsUserOptional = True
+IsServerOptional = True
+
+[DEF, CB_TestAna.Result]
+Error = "TYPE, Error"
+Status = Str
+PassFail = Bool
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[CB_TestAna.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+PassFail = True
+%INSTOVRD: Common = 4194304
+
+[DEF, CB_UnForce]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+InBuf = Str
+DataSource = Str
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[CB_UnForce]
+%HI: Substeps = [0]
+DescriptionFormat Line0001 = "\"UnForce the variable \" + Step.TS.SData.Call.Parameters[1].ArgVal+ \" of instance \" + Step.TS.SData.Call.Parameters[0"
+DescriptionFormat Line0002 = "].ArgVal "
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"UnForce a variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: TS = 4194304
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+DataSource = "Step.Result.PassFail"
+CodeTemplates = "PassFail_Template|PassFailMFC_Template"
+%FLG: CodeTemplates = 24
+%COMMENT = "\n  "
+%TIMESTAMP = 1201268994
+%VERSION = "0.0.0.6"
+%TYPELASTMOD = "3.0.0.12373"
+%TYPE_FLG = 2
+
+[DEF, CB_UnForce.Substeps]
+%[0] = Step
+%TYPE: %[0] = "EditSubstep"
+
+[DEF, CB_UnForce.Substeps[0].TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_UnForce.Substeps[0].TS.SData.Call]
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3 et CB3.0.1."
+CreateObject = 0
+CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
+CoClassName = "affichage"
+Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
+InterfaceName = "_affichage"
+MemberType = 1
+Member = 1610809345
+MemberName = "editionCB"
+HasMemberInfo = True
+TypeLibVersion = "2f1.0"
+InterfaceType = 1
+VTableOffset = 32
+%HI: Parameters = [0]
+
+[DEF, CB_UnForce.Substeps[0].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+
+[CB_UnForce.Substeps[0].TS.SData.Call.Parameters[0]]
+Name = "SeqContext"
+ArgVal = "ThisContext"
+ArgDisplayVal = "ThisContext"
+Type = 9
+DisplayType = "SequenceContext (Object Reference)"
+TypeValid = True
+Direction = 3
+IsByRef = True
+IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
+
+[CB_UnForce.Substeps[0].TS]
+%INSTOVRD: SData = 7274520
+ConnectionLifetime = 0
+
+[CB_UnForce.Substeps[0]]
+%INSTFLG: TS = 0
+
+[CB_UnForce.Substeps[0].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+
+[DEF, CB_UnForce.Substeps[0]]
+%NAME = "Edit_Parameters"
+
+[CB_UnForce.Menu]
+ItemName = "\"UnForce a variable\""
+Group = "Forcing variables"
+
+[CB_UnForce.TS]
+Icon = "ExprBrowse.ico"
+ConnectionLifetime = 0
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
+StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
+%INSTFLG: StatusExpr = 1
+%INSTOVRD: StatusExpr = 5046297
+
+[DEF, CB_UnForce.TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_UnForce.TS.SData.Call]
+ObjectVariable = "FileGlobals.cb"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809365
+MemberName = "CB_UnForce"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+VTableOffset = 140
+%HI: Parameters = [3]
+
+[DEF, CB_UnForce.TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+
+[CB_UnForce.TS.SData.Call.Parameters[0]]
+Name = "strInstanceName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_UnForce.TS.SData.Call.Parameters[1]]
+Name = "strVariableName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_UnForce.TS.SData.Call.Parameters[2]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[CB_UnForce.TS.SData.Call.Parameters[3]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, CB_UnForce.Result]
+Error = "TYPE, Error"
+Status = Str
+PassFail = Bool
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[CB_UnForce.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+PassFail = True
+%INSTOVRD: Common = 4194304
 >>

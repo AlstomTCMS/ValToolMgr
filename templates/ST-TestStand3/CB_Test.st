@@ -1,6 +1,8 @@
 CB_Test(SeqIdx, InstrIdx, Instruction) ::= <<
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
 Id = "ID#:$Instruction.GUID$"
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
+StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -50,7 +52,7 @@ TypeValid = True
 Direction = 1
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS.SData.Call.Parameters[2]]
-Name = "AwaitedValue"
+Name = "awaitedValue"
 ArgVal = "$Instruction.Value$"
 ArgDisplayVal = "$Instruction.Value$"
 Type = 12
@@ -80,6 +82,8 @@ IsByRef = True
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS.SData.Call.Parameters[5]]
 Name = "lTimeout_ms"
+ArgVal = "FileGlobals.TimeOut"
+ArgDisplayVal = "FileGlobals.TimeOut"
 Type = 3
 DisplayType = "Number (Signed 32-bit Integer)"
 TypeValid = True
@@ -87,6 +91,10 @@ Direction = 1
 IsUserOptional = True
 IsServerOptional = True
 
+[SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
+InBuf = "\"$Instruction.Path$\""
+
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "$Instruction.Text$"
+%NAME = "Test $Instruction.Name$ at $Instruction.Value$"
+
 >>

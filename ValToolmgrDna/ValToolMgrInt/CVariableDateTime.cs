@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.Interface
+namespace ValToolMgrInt
 {
-    public class CVariableBool : CVariable
+    public class CVariableDateTime : CVariable
     {
-        private bool Value;
+        private DateTime Value;
 
         public override object value   // the property
         {
@@ -18,7 +18,7 @@ namespace ValToolMgrDna.Interface
 
             set
             {
-                Value = Convert.ToBoolean(value);
+                Value = Convert.ToDateTime(value);
             }
         }
     }

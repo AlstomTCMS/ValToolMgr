@@ -13,7 +13,7 @@ RTS = Obj
 [SF.Seq[$SeqOffset$]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-$if(SequenceContent)$%HI: Main = [$length(SequenceContent)$]$endif$
+$if(SequenceContent)$%HI: Main = [$SequenceContent.Max$]$endif$
 %FLG: Main = 4194304
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
@@ -69,6 +69,5 @@ CopyStepsOnOverriding = True
 %FLG: CopyStepsOnOverriding = 4194304
 Priority = 2953567917
 %FLG: Priority = 4194304
-
 
 >>

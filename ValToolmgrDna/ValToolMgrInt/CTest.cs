@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.Interface
+namespace ValToolMgrInt
 {
     public class CTest : ArrayList
     {

@@ -6,7 +6,7 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsTest : CTsGenericInstr
+    class CTsTestAna : CTsGenericInstr
     {
         public string Name;
         public string Value;
@@ -14,16 +14,15 @@ namespace TestStandGen.Types.Instructions
 
         public override string InstructionName
         {
-            get { return "CB_Test"; }
+            get { return "CB_TestAna"; }
             protected set { }
         }
 
-        public CTsTest(CVariable var)
+        public CTsTestAna(CVariable var)
         {
             Name = var.name;
-            Value = var.value.ToString();
+            Value = var.value.ToString().Replace(',', '.');
             Path = var.path;
-            this.Text = "Force " + Name + " at " + Value;
         }
     }
 }

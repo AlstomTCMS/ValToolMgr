@@ -50,6 +50,7 @@ SeqCallStepAdditions = SeqCallModule
 CB_TestBool = StepType
 CB_Test = StepType
 CB_TestNN = StepType
+CB_Force = StepType
 
 [DEF, SF]
 Seq = Objs
@@ -104,7 +105,7 @@ blnDep = Bool
 [SF.Seq[0]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [44]
+%HI: Main = [45]
 %FLG: Main = 4194304
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
@@ -156,7 +157,7 @@ numRetLect = Num
 %[16] = Step
 %TYPE: %[16] = "CB_Test"
 %[17] = Step
-%TYPE: %[17] = "CB_Test"
+%TYPE: %[17] = "CB_Force"
 %[18] = Step
 %TYPE: %[18] = "CB_Test"
 %[19] = Step
@@ -168,7 +169,7 @@ numRetLect = Num
 %[22] = Step
 %TYPE: %[22] = "CB_Test"
 %[23] = Step
-%TYPE: %[23] = "CB_TestBool"
+%TYPE: %[23] = "CB_Test"
 %[24] = Step
 %TYPE: %[24] = "CB_TestBool"
 %[25] = Step
@@ -176,17 +177,17 @@ numRetLect = Num
 %[26] = Step
 %TYPE: %[26] = "CB_TestBool"
 %[27] = Step
-%TYPE: %[27] = "Label"
+%TYPE: %[27] = "CB_TestBool"
 %[28] = Step
 %TYPE: %[28] = "Label"
 %[29] = Step
 %TYPE: %[29] = "Label"
 %[30] = Step
-%TYPE: %[30] = "NI_Wait"
+%TYPE: %[30] = "Label"
 %[31] = Step
-%TYPE: %[31] = "CB_TestNN"
+%TYPE: %[31] = "NI_Wait"
 %[32] = Step
-%TYPE: %[32] = "CB_TestBool"
+%TYPE: %[32] = "CB_TestNN"
 %[33] = Step
 %TYPE: %[33] = "CB_TestBool"
 %[34] = Step
@@ -194,23 +195,25 @@ numRetLect = Num
 %[35] = Step
 %TYPE: %[35] = "CB_TestBool"
 %[36] = Step
-%TYPE: %[36] = "Label"
+%TYPE: %[36] = "CB_TestBool"
 %[37] = Step
 %TYPE: %[37] = "Label"
 %[38] = Step
 %TYPE: %[38] = "Label"
 %[39] = Step
-%TYPE: %[39] = "CB_SetNN"
+%TYPE: %[39] = "Label"
 %[40] = Step
-%TYPE: %[40] = "NI_Wait"
+%TYPE: %[40] = "CB_SetNN"
 %[41] = Step
-%TYPE: %[41] = "CB_TestBool"
+%TYPE: %[41] = "NI_Wait"
 %[42] = Step
 %TYPE: %[42] = "CB_TestBool"
 %[43] = Step
 %TYPE: %[43] = "CB_TestBool"
 %[44] = Step
 %TYPE: %[44] = "CB_TestBool"
+%[45] = Step
+%TYPE: %[45] = "CB_TestBool"
 
 [SF.Seq[0].Main[0].TS]
 Id = "ID#:jVPEc3CSL0yvWDMx0Ey09C"
@@ -591,13 +594,13 @@ IsServerOptional = True
 %NAME = "2 Loco=2 ; Fonction=EXPL-CDT-F01.2 ;  Comparaison : N_ModeLoco à 104"
 
 [SF.Seq[0].Main[17].TS]
-Id = "ID#:NyqtbkerdEyVCQCGBzQpaC"
+Id = "ID#:sS0rZYINAEuBSBEgMgqYcD"
 
 [DEF, SF.Seq[0].Main[17].TS]
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[0].Main[17].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_2"
+ObjectVariable = "FileGlobals.cb"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -606,12 +609,13 @@ Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
 Member = 1610809363
-MemberName = "CB_Test"
+MemberName = "CB_Force"
 HasMemberInfo = True
 Locale = 1036
 TypeLibVersion = "22b.0"
 InterfaceType = 1
-%HI: Parameters = [5]
+VTableOffset = 132
+%HI: Parameters = [4]
 
 [DEF, SF.Seq[0].Main[17].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
@@ -619,14 +623,11 @@ InterfaceType = 1
 %[2] = "TYPE, AutomationParameter"
 %[3] = "TYPE, AutomationParameter"
 %[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
 
 [SF.Seq[0].Main[17].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_CC_Alerte_"
-ArgVal Line0002 = "Sonore\""
-ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_CC_Alerte_"
-ArgDisplayVal Line0002 = "Sonore\""
+ArgVal = "\"path\""
+ArgDisplayVal = "\"path\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -634,17 +635,17 @@ Direction = 1
 
 [SF.Seq[0].Main[17].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"BY_Activation\""
-ArgDisplayVal = "\"BY_Activation\""
+ArgVal = "\"variable\""
+ArgDisplayVal = "\"variable\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
 [SF.Seq[0].Main[17].TS.SData.Call.Parameters[2]]
-Name = "AwaitedValue"
-ArgVal = "1"
-ArgDisplayVal = "1"
+Name = "vForcedValue"
+ArgVal = "\"10\""
+ArgDisplayVal = "\"10\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -670,20 +671,11 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Main[17].TS.SData.Call.Parameters[5]]
-Name = "lTimeout_ms"
-Type = 3
-DisplayType = "Number (Signed 32-bit Integer)"
-TypeValid = True
-Direction = 1
-IsUserOptional = True
-IsServerOptional = True
-
 [DEF, SF.Seq[0].Main[17]]
-%NAME = "3 Loco=2 ; Fonction=EXPL-CDT-F01.2/conf_modes_CC_Alerte_Sonore ;  Comparaison : BY_Activation à 1"
+%NAME = "Force a variable"
 
 [SF.Seq[0].Main[18].TS]
-Id = "ID#:0AJ+v4peqEev9Vu09ZL4rC"
+Id = "ID#:NyqtbkerdEyVCQCGBzQpaC"
 
 [DEF, SF.Seq[0].Main[18].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -715,10 +707,10 @@ InterfaceType = 1
 
 [SF.Seq[0].Main[18].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_Seq_Aigu_G"
-ArgVal Line0002 = "rave\""
-ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_Seq_Aigu_G"
-ArgDisplayVal Line0002 = "rave\""
+ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_CC_Alerte_"
+ArgVal Line0002 = "Sonore\""
+ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_CC_Alerte_"
+ArgDisplayVal Line0002 = "Sonore\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -735,8 +727,8 @@ Direction = 1
 
 [SF.Seq[0].Main[18].TS.SData.Call.Parameters[2]]
 Name = "AwaitedValue"
-ArgVal = "0"
-ArgDisplayVal = "0"
+ArgVal = "1"
+ArgDisplayVal = "1"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -772,10 +764,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[18]]
-%NAME = "4 Loco=2 ; Fonction=EXPL-CDT-F01.2/conf_modes_Seq_Aigu_Grave ;  Comparaison : BY_Activation à 0"
+%NAME = "3 Loco=2 ; Fonction=EXPL-CDT-F01.2/conf_modes_CC_Alerte_Sonore ;  Comparaison : BY_Activation à 1"
 
 [SF.Seq[0].Main[19].TS]
-Id = "ID#:b0xi4T6ZVUagzjoOZ2CM1C"
+Id = "ID#:0AJ+v4peqEev9Vu09ZL4rC"
 
 [DEF, SF.Seq[0].Main[19].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -807,10 +799,10 @@ InterfaceType = 1
 
 [SF.Seq[0].Main[19].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgVal Line0002 = "iere_sonore/Relecture_Cmd_Avertisseur\""
-ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgDisplayVal Line0002 = "iere_sonore/Relecture_Cmd_Avertisseur\""
+ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_Seq_Aigu_G"
+ArgVal Line0002 = "rave\""
+ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/conf_modes_Seq_Aigu_G"
+ArgDisplayVal Line0002 = "rave\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -827,8 +819,8 @@ Direction = 1
 
 [SF.Seq[0].Main[19].TS.SData.Call.Parameters[2]]
 Name = "AwaitedValue"
-ArgVal = "1"
-ArgDisplayVal = "1"
+ArgVal = "0"
+ArgDisplayVal = "0"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -864,11 +856,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[19]]
-%NAME Line0001 = "5 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Relecture_Cmd_Avertisseur ;  Comparaison : BY_Activa"
-%NAME Line0002 = "tion à 1"
+%NAME = "4 Loco=2 ; Fonction=EXPL-CDT-F01.2/conf_modes_Seq_Aigu_Grave ;  Comparaison : BY_Activation à 0"
 
 [SF.Seq[0].Main[20].TS]
-Id = "ID#:ogVk9LaC2ESQqk0EKp9AeC"
+Id = "ID#:b0xi4T6ZVUagzjoOZ2CM1C"
 
 [DEF, SF.Seq[0].Main[20].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -901,9 +892,9 @@ InterfaceType = 1
 [SF.Seq[0].Main[20].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
 ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgVal Line0002 = "iere_sonore/Seq_Aigu_Grave\""
+ArgVal Line0002 = "iere_sonore/Relecture_Cmd_Avertisseur\""
 ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgDisplayVal Line0002 = "iere_sonore/Seq_Aigu_Grave\""
+ArgDisplayVal Line0002 = "iere_sonore/Relecture_Cmd_Avertisseur\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -920,8 +911,8 @@ Direction = 1
 
 [SF.Seq[0].Main[20].TS.SData.Call.Parameters[2]]
 Name = "AwaitedValue"
-ArgVal = "0"
-ArgDisplayVal = "0"
+ArgVal = "1"
+ArgDisplayVal = "1"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -957,10 +948,11 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[20]]
-%NAME = "6 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Seq_Aigu_Grave ;  Comparaison : BY_Activation à 0"
+%NAME Line0001 = "5 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Relecture_Cmd_Avertisseur ;  Comparaison : BY_Activa"
+%NAME Line0002 = "tion à 1"
 
 [SF.Seq[0].Main[21].TS]
-Id = "ID#:6IqolA/xkkmBm2CQ/2ltrB"
+Id = "ID#:ogVk9LaC2ESQqk0EKp9AeC"
 
 [DEF, SF.Seq[0].Main[21].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -993,9 +985,9 @@ InterfaceType = 1
 [SF.Seq[0].Main[21].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
 ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgVal Line0002 = "iere_sonore/Sirene_Inc\""
+ArgVal Line0002 = "iere_sonore/Seq_Aigu_Grave\""
 ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgDisplayVal Line0002 = "iere_sonore/Sirene_Inc\""
+ArgDisplayVal Line0002 = "iere_sonore/Seq_Aigu_Grave\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1012,8 +1004,8 @@ Direction = 1
 
 [SF.Seq[0].Main[21].TS.SData.Call.Parameters[2]]
 Name = "AwaitedValue"
-ArgVal = "1"
-ArgDisplayVal = "1"
+ArgVal = "0"
+ArgDisplayVal = "0"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1049,10 +1041,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[21]]
-%NAME = "7 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Sirene_Inc ;  Comparaison : BY_Activation à 1"
+%NAME = "6 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Seq_Aigu_Grave ;  Comparaison : BY_Activation à 0"
 
 [SF.Seq[0].Main[22].TS]
-Id = "ID#:iS9kkr6fKkCS+G0ajbVYqD"
+Id = "ID#:6IqolA/xkkmBm2CQ/2ltrB"
 
 [DEF, SF.Seq[0].Main[22].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1085,9 +1077,9 @@ InterfaceType = 1
 [SF.Seq[0].Main[22].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
 ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgVal Line0002 = "iere_sonore/Surv_CC_Alerte_Sonore\""
+ArgVal Line0002 = "iere_sonore/Sirene_Inc\""
 ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
-ArgDisplayVal Line0002 = "iere_sonore/Surv_CC_Alerte_Sonore\""
+ArgDisplayVal Line0002 = "iere_sonore/Sirene_Inc\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1141,17 +1133,16 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[22]]
-%NAME Line0001 = "8 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Surv_CC_Alerte_Sonore ;  Comparaison : BY_Activation"
-%NAME Line0002 = " à 1"
+%NAME = "7 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Sirene_Inc ;  Comparaison : BY_Activation à 1"
 
 [SF.Seq[0].Main[23].TS]
-Id = "ID#:WRm7w/Z9YUKG0QqLkTEWNA"
+Id = "ID#:iS9kkr6fKkCS+G0ajbVYqD"
 
 [DEF, SF.Seq[0].Main[23].TS]
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[0].Main[23].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
+ObjectVariable = "FileGlobals.cb_2"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -1160,7 +1151,7 @@ Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
 Member = 1610809363
-MemberName = "CB_TestBool"
+MemberName = "CB_Test"
 HasMemberInfo = True
 Locale = 1036
 TypeLibVersion = "22b.0"
@@ -1177,8 +1168,10 @@ InterfaceType = 1
 
 [SF.Seq[0].Main[23].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
-ArgDisplayVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
+ArgVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
+ArgVal Line0002 = "iere_sonore/Surv_CC_Alerte_Sonore\""
+ArgDisplayVal Line0001 = "\"Embarquee/Controle_Commande/FBS/Exploitation/Conduite/Signaler_Presence_Train/Avertisseur_sonore/Signaler_presence_man"
+ArgDisplayVal Line0002 = "iere_sonore/Surv_CC_Alerte_Sonore\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1186,19 +1179,19 @@ Direction = 1
 
 [SF.Seq[0].Main[23].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB1\""
-ArgDisplayVal = "\"VE_AVA_CAB1\""
+ArgVal = "\"BY_Activation\""
+ArgDisplayVal = "\"BY_Activation\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
 [SF.Seq[0].Main[23].TS.SData.Call.Parameters[2]]
-Name = "bAwaitedValue"
-ArgVal = "True"
-ArgDisplayVal = "True"
-Type = 11
-DisplayType = "Boolean"
+Name = "AwaitedValue"
+ArgVal = "1"
+ArgDisplayVal = "1"
+Type = 12
+DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
@@ -1232,10 +1225,11 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[23]]
-%NAME = "9 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 1"
+%NAME Line0001 = "8 Loco=2 ; Fonction=EXPL-CDT-F01.2/Signaler_presence_maniere_sonore/Surv_CC_Alerte_Sonore ;  Comparaison : BY_Activation"
+%NAME Line0002 = " à 1"
 
 [SF.Seq[0].Main[24].TS]
-Id = "ID#:SfO1EXG3XU2wkmqBb4MfwB"
+Id = "ID#:WRm7w/Z9YUKG0QqLkTEWNA"
 
 [DEF, SF.Seq[0].Main[24].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1276,8 +1270,8 @@ Direction = 1
 
 [SF.Seq[0].Main[24].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB1\""
-ArgDisplayVal = "\"VE_AVG_CAB1\""
+ArgVal = "\"VE_AVA_CAB1\""
+ArgDisplayVal = "\"VE_AVA_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1285,8 +1279,8 @@ Direction = 1
 
 [SF.Seq[0].Main[24].TS.SData.Call.Parameters[2]]
 Name = "bAwaitedValue"
-ArgVal = "False"
-ArgDisplayVal = "False"
+ArgVal = "True"
+ArgDisplayVal = "True"
 Type = 11
 DisplayType = "Boolean"
 TypeValid = True
@@ -1322,10 +1316,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[24]]
-%NAME = "10 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 0"
+%NAME = "9 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 1"
 
 [SF.Seq[0].Main[25].TS]
-Id = "ID#:cTvqaE0UVkG0uWtznaSDgB"
+Id = "ID#:SfO1EXG3XU2wkmqBb4MfwB"
 
 [DEF, SF.Seq[0].Main[25].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1366,8 +1360,8 @@ Direction = 1
 
 [SF.Seq[0].Main[25].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB2\""
-ArgDisplayVal = "\"VE_AVA_CAB2\""
+ArgVal = "\"VE_AVG_CAB1\""
+ArgDisplayVal = "\"VE_AVG_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1412,10 +1406,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[25]]
-%NAME = "11 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
+%NAME = "10 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 0"
 
 [SF.Seq[0].Main[26].TS]
-Id = "ID#:qLoXKnZhrUCjs/gTKl3xLB"
+Id = "ID#:cTvqaE0UVkG0uWtznaSDgB"
 
 [DEF, SF.Seq[0].Main[26].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1456,8 +1450,8 @@ Direction = 1
 
 [SF.Seq[0].Main[26].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB2\""
-ArgDisplayVal = "\"VE_AVG_CAB2\""
+ArgVal = "\"VE_AVA_CAB2\""
+ArgDisplayVal = "\"VE_AVA_CAB2\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1502,133 +1496,15 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[26]]
-%NAME = "12 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB2 à 0"
+%NAME = "11 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
 
 [SF.Seq[0].Main[27].TS]
-Id = "ID#:/JYNAxk/k0STVnN0i5MUND"
-NoResult = True
+Id = "ID#:qLoXKnZhrUCjs/gTKl3xLB"
 
-[SF.Seq[0].Main[27]]
-Description = "-------------------------------------------------"
-
-[DEF, SF.Seq[0].Main[27]]
-%NAME = "------------"
-
-[SF.Seq[0].Main[28].TS]
-Id = "ID#:D36GVXyAJUCQEfv40qgGLA"
-
-[SF.Seq[0].Main[28]]
-Description = "2_Etape : C7987-01-02"
-
-[DEF, SF.Seq[0].Main[28]]
-%NAME = "2_Etape : C7987-01-02"
-
-[SF.Seq[0].Main[29].TS]
-Id = "ID#:7OT7vjvsTECZqkokNhTYCD"
-NoResult = True
-
-[SF.Seq[0].Main[29]]
-Description = "-------------------------------------------------"
-
-[DEF, SF.Seq[0].Main[29]]
-%NAME = "------------"
-
-[SF.Seq[0].Main[30].TS]
-Id = "ID#:jPhZD0DaTUuxk2WV+H17tB"
-
-[SF.Seq[0].Main[30]]
-TimeExpr = "3"
-
-[DEF, SF.Seq[0].Main[30]]
-%NAME = "Pause de : 3 secondes"
-
-[SF.Seq[0].Main[31].TS]
-Id = "ID#:puBriRZUY0W9xh7FmfwJqC"
-
-[DEF, SF.Seq[0].Main[31].TS]
+[DEF, SF.Seq[0].Main[27].TS]
 SData = "TYPE, AutomationStepAdditions"
 
-[SF.Seq[0].Main[31].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809369
-MemberName = "CB_TestNN"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-%HI: Parameters = [4]
-
-[DEF, SF.Seq[0].Main[31].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Main[31].TS.SData.Call.Parameters[0]]
-Name = "strNickName"
-ArgVal = "\"Z_AVER_CAB1\""
-ArgDisplayVal = "\"Z_AVER_CAB1\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Main[31].TS.SData.Call.Parameters[1]]
-Name = "AwaitedValue"
-ArgVal = "2"
-ArgDisplayVal = "2"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Main[31].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Main[31].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Main[31].TS.SData.Call.Parameters[4]]
-Name = "lTimeout_ms"
-Type = 3
-DisplayType = "Number (Signed 32-bit Integer)"
-TypeValid = True
-Direction = 1
-IsUserOptional = True
-IsServerOptional = True
-
-[DEF, SF.Seq[0].Main[31]]
-%NAME = "1 Loco=1 ; Equipement=DESK1 ;  Compare NickName MODEL : Z_AVER_CAB1 à 2"
-
-[SF.Seq[0].Main[32].TS]
-Id = "ID#:kznYUrQJik6OTKcuk4mZ4C"
-
-[DEF, SF.Seq[0].Main[32].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Main[32].TS.SData.Call]
+[SF.Seq[0].Main[27].TS.SData.Call]
 ObjectVariable = "FileGlobals.cb_1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
@@ -1645,7 +1521,7 @@ TypeLibVersion = "22b.0"
 InterfaceType = 1
 %HI: Parameters = [5]
 
-[DEF, SF.Seq[0].Main[32].TS.SData.Call.Parameters]
+[DEF, SF.Seq[0].Main[27].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
@@ -1653,7 +1529,7 @@ InterfaceType = 1
 %[4] = "TYPE, AutomationParameter"
 %[5] = "TYPE, AutomationParameter"
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[0]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
 ArgVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
 ArgDisplayVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
@@ -1662,16 +1538,16 @@ DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[1]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB1\""
-ArgDisplayVal = "\"VE_AVA_CAB1\""
+ArgVal = "\"VE_AVG_CAB2\""
+ArgDisplayVal = "\"VE_AVG_CAB2\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[2]]
 Name = "bAwaitedValue"
 ArgVal = "False"
 ArgDisplayVal = "False"
@@ -1680,7 +1556,7 @@ DisplayType = "Boolean"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[3]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[3]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -1690,7 +1566,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[4]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[4]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -1700,7 +1576,125 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Main[32].TS.SData.Call.Parameters[5]]
+[SF.Seq[0].Main[27].TS.SData.Call.Parameters[5]]
+Name = "lTimeout_ms"
+Type = 3
+DisplayType = "Number (Signed 32-bit Integer)"
+TypeValid = True
+Direction = 1
+IsUserOptional = True
+IsServerOptional = True
+
+[DEF, SF.Seq[0].Main[27]]
+%NAME = "12 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB2 à 0"
+
+[SF.Seq[0].Main[28].TS]
+Id = "ID#:/JYNAxk/k0STVnN0i5MUND"
+NoResult = True
+
+[SF.Seq[0].Main[28]]
+Description = "-------------------------------------------------"
+
+[DEF, SF.Seq[0].Main[28]]
+%NAME = "------------"
+
+[SF.Seq[0].Main[29].TS]
+Id = "ID#:D36GVXyAJUCQEfv40qgGLA"
+
+[SF.Seq[0].Main[29]]
+Description = "2_Etape : C7987-01-02"
+
+[DEF, SF.Seq[0].Main[29]]
+%NAME = "2_Etape : C7987-01-02"
+
+[SF.Seq[0].Main[30].TS]
+Id = "ID#:7OT7vjvsTECZqkokNhTYCD"
+NoResult = True
+
+[SF.Seq[0].Main[30]]
+Description = "-------------------------------------------------"
+
+[DEF, SF.Seq[0].Main[30]]
+%NAME = "------------"
+
+[SF.Seq[0].Main[31].TS]
+Id = "ID#:jPhZD0DaTUuxk2WV+H17tB"
+
+[SF.Seq[0].Main[31]]
+TimeExpr = "3"
+
+[DEF, SF.Seq[0].Main[31]]
+%NAME = "Pause de : 3 secondes"
+
+[SF.Seq[0].Main[32].TS]
+Id = "ID#:puBriRZUY0W9xh7FmfwJqC"
+
+[DEF, SF.Seq[0].Main[32].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Main[32].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809369
+MemberName = "CB_TestNN"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+%HI: Parameters = [4]
+
+[DEF, SF.Seq[0].Main[32].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Main[32].TS.SData.Call.Parameters[0]]
+Name = "strNickName"
+ArgVal = "\"Z_AVER_CAB1\""
+ArgDisplayVal = "\"Z_AVER_CAB1\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[32].TS.SData.Call.Parameters[1]]
+Name = "AwaitedValue"
+ArgVal = "2"
+ArgDisplayVal = "2"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[32].TS.SData.Call.Parameters[2]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Main[32].TS.SData.Call.Parameters[3]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Main[32].TS.SData.Call.Parameters[4]]
 Name = "lTimeout_ms"
 Type = 3
 DisplayType = "Number (Signed 32-bit Integer)"
@@ -1710,10 +1704,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[32]]
-%NAME = "2 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 0"
+%NAME = "1 Loco=1 ; Equipement=DESK1 ;  Compare NickName MODEL : Z_AVER_CAB1 à 2"
 
 [SF.Seq[0].Main[33].TS]
-Id = "ID#:d6wqm/Y/sEGT00fhe0p3TD"
+Id = "ID#:kznYUrQJik6OTKcuk4mZ4C"
 
 [DEF, SF.Seq[0].Main[33].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1754,8 +1748,8 @@ Direction = 1
 
 [SF.Seq[0].Main[33].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB1\""
-ArgDisplayVal = "\"VE_AVG_CAB1\""
+ArgVal = "\"VE_AVA_CAB1\""
+ArgDisplayVal = "\"VE_AVA_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1800,10 +1794,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[33]]
-%NAME = "3 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 0"
+%NAME = "2 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 0"
 
 [SF.Seq[0].Main[34].TS]
-Id = "ID#:EYtrExgTiEKQXa9IJlA5aB"
+Id = "ID#:d6wqm/Y/sEGT00fhe0p3TD"
 
 [DEF, SF.Seq[0].Main[34].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1844,8 +1838,8 @@ Direction = 1
 
 [SF.Seq[0].Main[34].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB2\""
-ArgDisplayVal = "\"VE_AVA_CAB2\""
+ArgVal = "\"VE_AVG_CAB1\""
+ArgDisplayVal = "\"VE_AVG_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1890,10 +1884,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[34]]
-%NAME = "4 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
+%NAME = "3 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 0"
 
 [SF.Seq[0].Main[35].TS]
-Id = "ID#:jS5RtTXoyEOvBFnnI0IewB"
+Id = "ID#:EYtrExgTiEKQXa9IJlA5aB"
 
 [DEF, SF.Seq[0].Main[35].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1934,8 +1928,8 @@ Direction = 1
 
 [SF.Seq[0].Main[35].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB2\""
-ArgDisplayVal = "\"VE_AVG_CAB2\""
+ArgVal = "\"VE_AVA_CAB2\""
+ArgDisplayVal = "\"VE_AVA_CAB2\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -1980,123 +1974,15 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[35]]
-%NAME = "5 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB2 à 0"
+%NAME = "4 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
 
 [SF.Seq[0].Main[36].TS]
-Id = "ID#:FlrpCh2330yH4KiTOBPibB"
-NoResult = True
+Id = "ID#:jS5RtTXoyEOvBFnnI0IewB"
 
-[SF.Seq[0].Main[36]]
-Description = "-------------------------------------------------"
-
-[DEF, SF.Seq[0].Main[36]]
-%NAME = "------------"
-
-[SF.Seq[0].Main[37].TS]
-Id = "ID#:2AoIZ0Yf9keHTlwqNN6fpA"
-
-[SF.Seq[0].Main[37]]
-Description = "3_Etape : C7987-01-03"
-
-[DEF, SF.Seq[0].Main[37]]
-%NAME = "3_Etape : C7987-01-03"
-
-[SF.Seq[0].Main[38].TS]
-Id = "ID#:fmMuzvMmKUOcNucMJYaXGD"
-NoResult = True
-
-[SF.Seq[0].Main[38]]
-Description = "-------------------------------------------------"
-
-[DEF, SF.Seq[0].Main[38]]
-%NAME = "------------"
-
-[SF.Seq[0].Main[39].TS]
-Id = "ID#:yxNDRMLngUuudzVR+RJFfC"
-
-[DEF, SF.Seq[0].Main[39].TS]
+[DEF, SF.Seq[0].Main[36].TS]
 SData = "TYPE, AutomationStepAdditions"
 
-[SF.Seq[0].Main[39].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809368
-MemberName = "CB_WriteNN"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Main[39].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Main[39].TS.SData.Call.Parameters[0]]
-Name = "strNickName"
-ArgVal = "\"Z_AVER_CAB1\""
-ArgDisplayVal = "\"Z_AVER_CAB1\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Main[39].TS.SData.Call.Parameters[1]]
-Name = "nValue"
-ArgVal = "3"
-ArgDisplayVal = "3"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Main[39].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Main[39].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[0].Main[39]]
-%NAME = "1 Loco=1 ; Equipement=DESK1 ;  Ecriture NickName MODEL : Z_AVER_CAB1 à 3"
-
-[SF.Seq[0].Main[40].TS]
-Id = "ID#:ya52rC4y+kG3dxRQBWqlYD"
-
-[SF.Seq[0].Main[40]]
-TimeExpr = "1"
-
-[DEF, SF.Seq[0].Main[40]]
-%NAME = "Pause de : 1 secondes"
-
-[SF.Seq[0].Main[41].TS]
-Id = "ID#:EMbCBqbcqk2dZYTpLWVcdC"
-
-[DEF, SF.Seq[0].Main[41].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Main[41].TS.SData.Call]
+[SF.Seq[0].Main[36].TS.SData.Call]
 ObjectVariable = "FileGlobals.cb_1"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
@@ -2113,7 +1999,7 @@ TypeLibVersion = "22b.0"
 InterfaceType = 1
 %HI: Parameters = [5]
 
-[DEF, SF.Seq[0].Main[41].TS.SData.Call.Parameters]
+[DEF, SF.Seq[0].Main[36].TS.SData.Call.Parameters]
 %[0] = "TYPE, AutomationParameter"
 %[1] = "TYPE, AutomationParameter"
 %[2] = "TYPE, AutomationParameter"
@@ -2121,7 +2007,7 @@ InterfaceType = 1
 %[4] = "TYPE, AutomationParameter"
 %[5] = "TYPE, AutomationParameter"
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[0]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
 ArgVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
 ArgDisplayVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
@@ -2130,16 +2016,16 @@ DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[1]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB1\""
-ArgDisplayVal = "\"VE_AVA_CAB1\""
+ArgVal = "\"VE_AVG_CAB2\""
+ArgDisplayVal = "\"VE_AVG_CAB2\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[2]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[2]]
 Name = "bAwaitedValue"
 ArgVal = "False"
 ArgDisplayVal = "False"
@@ -2148,7 +2034,7 @@ DisplayType = "Boolean"
 TypeValid = True
 Direction = 1
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[3]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[3]]
 Name = "passFail"
 ArgVal = "Step.Result.PassFail"
 ArgDisplayVal = "Step.Result.PassFail"
@@ -2158,7 +2044,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[4]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[4]]
 Name = "errorMsg"
 ArgVal = "Step.Result.ReportText"
 ArgDisplayVal = "Step.Result.ReportText"
@@ -2168,7 +2054,7 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[SF.Seq[0].Main[41].TS.SData.Call.Parameters[5]]
+[SF.Seq[0].Main[36].TS.SData.Call.Parameters[5]]
 Name = "lTimeout_ms"
 Type = 3
 DisplayType = "Number (Signed 32-bit Integer)"
@@ -2177,11 +2063,119 @@ Direction = 1
 IsUserOptional = True
 IsServerOptional = True
 
+[DEF, SF.Seq[0].Main[36]]
+%NAME = "5 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB2 à 0"
+
+[SF.Seq[0].Main[37].TS]
+Id = "ID#:FlrpCh2330yH4KiTOBPibB"
+NoResult = True
+
+[SF.Seq[0].Main[37]]
+Description = "-------------------------------------------------"
+
+[DEF, SF.Seq[0].Main[37]]
+%NAME = "------------"
+
+[SF.Seq[0].Main[38].TS]
+Id = "ID#:2AoIZ0Yf9keHTlwqNN6fpA"
+
+[SF.Seq[0].Main[38]]
+Description = "3_Etape : C7987-01-03"
+
+[DEF, SF.Seq[0].Main[38]]
+%NAME = "3_Etape : C7987-01-03"
+
+[SF.Seq[0].Main[39].TS]
+Id = "ID#:fmMuzvMmKUOcNucMJYaXGD"
+NoResult = True
+
+[SF.Seq[0].Main[39]]
+Description = "-------------------------------------------------"
+
+[DEF, SF.Seq[0].Main[39]]
+%NAME = "------------"
+
+[SF.Seq[0].Main[40].TS]
+Id = "ID#:yxNDRMLngUuudzVR+RJFfC"
+
+[DEF, SF.Seq[0].Main[40].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Main[40].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809368
+MemberName = "CB_WriteNN"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+%HI: Parameters = [3]
+
+[DEF, SF.Seq[0].Main[40].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Main[40].TS.SData.Call.Parameters[0]]
+Name = "strNickName"
+ArgVal = "\"Z_AVER_CAB1\""
+ArgDisplayVal = "\"Z_AVER_CAB1\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[40].TS.SData.Call.Parameters[1]]
+Name = "nValue"
+ArgVal = "3"
+ArgDisplayVal = "3"
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[40].TS.SData.Call.Parameters[2]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Main[40].TS.SData.Call.Parameters[3]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, SF.Seq[0].Main[40]]
+%NAME = "1 Loco=1 ; Equipement=DESK1 ;  Ecriture NickName MODEL : Z_AVER_CAB1 à 3"
+
+[SF.Seq[0].Main[41].TS]
+Id = "ID#:ya52rC4y+kG3dxRQBWqlYD"
+
+[SF.Seq[0].Main[41]]
+TimeExpr = "1"
+
 [DEF, SF.Seq[0].Main[41]]
-%NAME = "1 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 0"
+%NAME = "Pause de : 1 secondes"
 
 [SF.Seq[0].Main[42].TS]
-Id = "ID#:i/RmJYYl/E6+SYJ3uBH3RD"
+Id = "ID#:EMbCBqbcqk2dZYTpLWVcdC"
 
 [DEF, SF.Seq[0].Main[42].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -2222,8 +2216,8 @@ Direction = 1
 
 [SF.Seq[0].Main[42].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB1\""
-ArgDisplayVal = "\"VE_AVG_CAB1\""
+ArgVal = "\"VE_AVA_CAB1\""
+ArgDisplayVal = "\"VE_AVA_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -2231,8 +2225,8 @@ Direction = 1
 
 [SF.Seq[0].Main[42].TS.SData.Call.Parameters[2]]
 Name = "bAwaitedValue"
-ArgVal = "True"
-ArgDisplayVal = "True"
+ArgVal = "False"
+ArgDisplayVal = "False"
 Type = 11
 DisplayType = "Boolean"
 TypeValid = True
@@ -2268,10 +2262,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[42]]
-%NAME = "2 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 1"
+%NAME = "1 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB1 à 0"
 
 [SF.Seq[0].Main[43].TS]
-Id = "ID#:Xo3QHGMtb0GQKHLvF/TLmB"
+Id = "ID#:i/RmJYYl/E6+SYJ3uBH3RD"
 
 [DEF, SF.Seq[0].Main[43].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -2312,8 +2306,8 @@ Direction = 1
 
 [SF.Seq[0].Main[43].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVA_CAB2\""
-ArgDisplayVal = "\"VE_AVA_CAB2\""
+ArgVal = "\"VE_AVG_CAB1\""
+ArgDisplayVal = "\"VE_AVG_CAB1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -2321,8 +2315,8 @@ Direction = 1
 
 [SF.Seq[0].Main[43].TS.SData.Call.Parameters[2]]
 Name = "bAwaitedValue"
-ArgVal = "False"
-ArgDisplayVal = "False"
+ArgVal = "True"
+ArgDisplayVal = "True"
 Type = 11
 DisplayType = "Boolean"
 TypeValid = True
@@ -2358,10 +2352,10 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[43]]
-%NAME = "3 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
+%NAME = "2 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB1 à 1"
 
 [SF.Seq[0].Main[44].TS]
-Id = "ID#:0qvwwjZ70ESNnwQM56j4AC"
+Id = "ID#:Xo3QHGMtb0GQKHLvF/TLmB"
 
 [DEF, SF.Seq[0].Main[44].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -2402,8 +2396,8 @@ Direction = 1
 
 [SF.Seq[0].Main[44].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"VE_AVG_CAB2\""
-ArgDisplayVal = "\"VE_AVG_CAB2\""
+ArgVal = "\"VE_AVA_CAB2\""
+ArgDisplayVal = "\"VE_AVA_CAB2\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -2448,6 +2442,96 @@ IsUserOptional = True
 IsServerOptional = True
 
 [DEF, SF.Seq[0].Main[44]]
+%NAME = "3 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVA_CAB2 à 0"
+
+[SF.Seq[0].Main[45].TS]
+Id = "ID#:0qvwwjZ70ESNnwQM56j4AC"
+
+[DEF, SF.Seq[0].Main[45].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[0].Main[45].TS.SData.Call]
+ObjectVariable = "FileGlobals.cb_1"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809363
+MemberName = "CB_TestBool"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+%HI: Parameters = [5]
+
+[DEF, SF.Seq[0].Main[45].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+%[5] = "TYPE, AutomationParameter"
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[0]]
+Name = "strInstanceName"
+ArgVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
+ArgDisplayVal = "\"Environnement/Loco_maroc/lv_loco_maroc\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[1]]
+Name = "strVariableName"
+ArgVal = "\"VE_AVG_CAB2\""
+ArgDisplayVal = "\"VE_AVG_CAB2\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[2]]
+Name = "bAwaitedValue"
+ArgVal = "False"
+ArgDisplayVal = "False"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[3]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[4]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[0].Main[45].TS.SData.Call.Parameters[5]]
+Name = "lTimeout_ms"
+Type = 3
+DisplayType = "Number (Signed 32-bit Integer)"
+TypeValid = True
+Direction = 1
+IsUserOptional = True
+IsServerOptional = True
+
+[DEF, SF.Seq[0].Main[45]]
 %NAME = "4 Loco=1 ; Equipement=LV_LOCO ;  Comparaison : VE_AVG_CAB2 à 0"
 
 [DEF, SF.Seq[0].RTS]
@@ -5677,6 +5761,7 @@ SeqCallStepAdditions = "SeqCallStepAdditions"
 CB_TestBool = "CB_TestBool"
 CB_Test = "CB_Test"
 CB_TestNN = "CB_TestNN"
+CB_Force = "CB_Force"
 
 [DEF, Path]
 %LOCATION = "StdTypes"
@@ -10865,6 +10950,202 @@ ReportText = Str
 Common = "TYPE, CommonResults"
 
 [CB_TestNN.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+PassFail = True
+%INSTOVRD: Common = 4194304
+
+[DEF, CB_Force]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+InBuf = Str
+DataSource = Str
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[CB_Force]
+%HI: Substeps = [0]
+DescriptionFormat Line0001 = "\"Force the variable \" + Step.TS.SData.Call.Parameters[1].ArgVal + \" of instance \" + Step.TS.SData.Call.Parameters[0]"
+DescriptionFormat Line0002 = ".ArgVal + \" at \" + Step.TS.SData.Call.Parameters[2].ArgVal"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"Force a variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: TS = 4194304
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+DataSource = "Step.Result.PassFail"
+CodeTemplates = "PassFail_Template|PassFailMFC_Template"
+%FLG: CodeTemplates = 24
+%COMMENT = "\n  "
+%TIMESTAMP = 1201268994
+%VERSION = "0.0.0.6"
+%TYPELASTMOD = "3.0.0.12373"
+%TYPE_FLG = 2
+
+[DEF, CB_Force.Substeps]
+%[0] = Step
+%TYPE: %[0] = "EditSubstep"
+
+[DEF, CB_Force.Substeps[0].TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_Force.Substeps[0].TS.SData.Call]
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3 et CB3.0.1."
+CreateObject = 0
+CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
+CoClassName = "affichage"
+Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
+InterfaceName = "_affichage"
+MemberType = 1
+Member = 1610809345
+MemberName = "editionCB"
+HasMemberInfo = True
+TypeLibVersion = "2f1.0"
+InterfaceType = 1
+VTableOffset = 32
+%HI: Parameters = [0]
+
+[DEF, CB_Force.Substeps[0].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+
+[CB_Force.Substeps[0].TS.SData.Call.Parameters[0]]
+Name = "SeqContext"
+ArgVal = "ThisContext"
+ArgDisplayVal = "ThisContext"
+Type = 9
+DisplayType = "SequenceContext (Object Reference)"
+TypeValid = True
+Direction = 3
+IsByRef = True
+IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
+
+[CB_Force.Substeps[0].TS]
+%INSTOVRD: SData = 7274520
+ConnectionLifetime = 0
+
+[CB_Force.Substeps[0]]
+%INSTFLG: TS = 0
+
+[CB_Force.Substeps[0].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+
+[DEF, CB_Force.Substeps[0]]
+%NAME = "Edit_Parameters"
+
+[CB_Force.Menu]
+ItemName = "\"Force a variable\""
+Group = "Forcing variables"
+
+[CB_Force.TS]
+Icon = "ExprBrowse.ico"
+ConnectionLifetime = 0
+StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
+StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
+%INSTFLG: StatusExpr = 1
+%INSTOVRD: StatusExpr = 5046297
+
+[DEF, CB_Force.TS]
+SData = "TYPE, AutomationStepAdditions"
+%FLG: SData = 2097152
+
+[CB_Force.TS.SData.Call]
+ObjectVariable = "FileGlobals.cb"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
+CoClassName = "ControlBuild"
+Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
+InterfaceName = "_ControlBuild"
+MemberType = 1
+Member = 1610809363
+MemberName = "CB_Force"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "22b.0"
+InterfaceType = 1
+VTableOffset = 132
+%HI: Parameters = [4]
+
+[DEF, CB_Force.TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+%[4] = "TYPE, AutomationParameter"
+
+[CB_Force.TS.SData.Call.Parameters[0]]
+Name = "strInstanceName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_Force.TS.SData.Call.Parameters[1]]
+Name = "strVariableName"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_Force.TS.SData.Call.Parameters[2]]
+Name = "vForcedValue"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 12
+DisplayType = "Variant"
+TypeValid = True
+Direction = 1
+
+[CB_Force.TS.SData.Call.Parameters[3]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[CB_Force.TS.SData.Call.Parameters[4]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, CB_Force.Result]
+Error = "TYPE, Error"
+Status = Str
+PassFail = Bool
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[CB_Force.Result]
 %FLG: Error = 4194304
 %INSTFLG: Error = 4194304
 %INSTOVRD: Error = 4194304

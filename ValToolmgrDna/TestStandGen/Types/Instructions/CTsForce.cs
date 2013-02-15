@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
@@ -23,7 +23,6 @@ namespace TestStandGen.Types.Instructions
             Name = var.name;
             Value = var.value.ToString();
             Path = var.path;
-            this.Text = "Force " + Name + " at " + Value;
         }
     }
 }

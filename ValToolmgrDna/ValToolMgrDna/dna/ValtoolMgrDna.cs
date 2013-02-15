@@ -1,6 +1,6 @@
 ﻿using System;
 using ExcelDna.Integration;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 using ValToolMgrDna.ExcelSpecific;
 
 using System.Collections.Generic;
@@ -28,7 +28,16 @@ namespace ValToolMgrDna
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
-            CTestContainer t = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+            CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+
+            try
+            {
+                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+            }
+            catch (Exception ex)
+            {
+                XlCall.Excel(XlCall.xlcAlert, ex.ToString()); 
+            }
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
         } 

@@ -30,5 +30,10 @@ namespace TestStandGen.Types.Instructions
         /// Text to display
         /// </summary>
         public string Text;
+
+        public static void resetIdCounter()
+        {
+            idSalt = 0;
+        }
     }
 }

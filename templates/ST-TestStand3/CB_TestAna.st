@@ -56,7 +56,7 @@ Direction = 1
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS.SData.Call.Parameters[2]]
 Name = "awaitedValue"
 ArgVal = "$Instruction.Value$"
-ArgDisplayVal = "$Instruction.Value$"
+ArgDisplayVal = "\"$Instruction.Value$\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -116,4 +116,5 @@ InBuf = "\"$Instruction.Path$\""
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
 %NAME = "Test $Instruction.Name$ (analog.) at $Instruction.Value$"
+
 >>

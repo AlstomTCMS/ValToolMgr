@@ -9,7 +9,7 @@ using Excel = NetOffice.ExcelApi;
 using NetOffice.ExcelApi.Enums;
 using Office = NetOffice.OfficeApi;
 using NetOffice.ExcelApi.GlobalHelperModules;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 
 namespace ValToolMgrDna.ExcelSpecific
 {

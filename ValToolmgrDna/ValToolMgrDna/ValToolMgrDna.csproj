@@ -55,20 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\CInstrForce.cs" />
-    <Compile Include="Interface\CInstruction.cs" />
-    <Compile Include="Interface\CInstrUnForce.cs" />
-    <Compile Include="Interface\CInstrWait.cs" />
-    <Compile Include="Interface\CInstrTest.cs" />
-    <Compile Include="Interface\CInstrPopup.cs" />
-    <Compile Include="Interface\CVariableDateTime.cs" />
-    <Compile Include="Interface\CVariableDouble.cs" />
-    <Compile Include="Interface\CStep.cs" />
-    <Compile Include="Interface\CTest.cs" />
-    <Compile Include="Interface\CTestContainer.cs" />
-    <Compile Include="Interface\CVariable.cs" />
-    <Compile Include="Interface\CVariableBool.cs" />
-    <Compile Include="Interface\CVariableInt.cs" />
     <Compile Include="ExcelSpecific\TestSheetParser.cs" />
     <Compile Include="ExcelSpecific\WorkbookParser.cs" />
     <Compile Include="dna\ValtoolMgrDna.cs" />
@@ -102,6 +88,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestStandGen\TestStandGen.csproj">
+      <Project>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</Project>
+      <Name>TestStandGen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValToolMgrInt\ValToolMgrInt.csproj">
+      <Project>{20FCA3CC-FBBE-4634-8356-2740027EC27C}</Project>
+      <Name>ValToolMgrInt</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

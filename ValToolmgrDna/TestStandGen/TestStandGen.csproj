@@ -45,11 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
+    <Compile Include="Types\Instructions\CTsTestAna.cs" />
     <Compile Include="Types\Instructions\CTsTest.cs" />
     <Compile Include="Types\Instructions\CTsWait.cs" />
     <Compile Include="Types\Instructions\CTsPopup.cs" />
     <Compile Include="Types\Instructions\CTsUnforce.cs" />
-    <Compile Include="Types\Instructions\CTsForceBool.cs" />
     <Compile Include="Types\Instructions\CTsForce.cs" />
     <Compile Include="Types\Instructions\CTsLabel.cs" />
     <Compile Include="Types\Instructions\CTsSequenceCall.cs" />
@@ -62,9 +62,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
-      <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
-      <Name>ValToolMgrDna</Name>
+    <ProjectReference Include="..\ValToolMgrInt\ValToolMgrInt.csproj">
+      <Project>{20FCA3CC-FBBE-4634-8356-2740027EC27C}</Project>
+      <Name>ValToolMgrInt</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

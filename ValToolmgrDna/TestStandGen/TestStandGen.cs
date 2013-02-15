@@ -2,7 +2,7 @@
 using TestStandGen.Types;
 using TestStandGen.Types.Instructions;
 
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 
 namespace TestStandGen
 {
@@ -47,11 +47,8 @@ namespace TestStandGen
         {
             if (alreadyGenerated) initialize();
 
-            
-
             TemplateGroup group = new TemplateGroupDirectory(this.templatePath, '$', '$');
-            try
-            {
+
                 ErrorBuffer errors = new ErrorBuffer();
                 group.Listener = errors;
                 group.Load();
@@ -69,22 +66,16 @@ namespace TestStandGen
                 {
                     foreach (TemplateMessage m in errors.Errors)
                     {
-                        Console.WriteLine(m.ToString());
+                        throw new Exception(m.ToString());
                     }
-                    Console.ReadLine();
                 }
 
                 StreamWriter output = new StreamWriter(this.outFile);
 
                 output.Write(result);
                 output.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.ToString());
-                Console.ReadLine();
-            }
 
+                CTsGenericInstr.resetIdCounter();
             this.alreadyGenerated = true;
         }
 
@@ -160,6 +151,9 @@ namespace TestStandGen
             {
                 if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName))
                     return new CTsTest((CVariable)inst.data);
+
+                if(String.Equals(typeOfData, typeof(CVariableDouble).FullName))
+                    return new CTsTestAna((CVariable)inst.data);
             }
 
             Console.WriteLine(typeof(CInstrForce));

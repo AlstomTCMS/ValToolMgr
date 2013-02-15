@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolMgrDna.Interface
+namespace ValToolMgrInt
 {
-    public class CInstrPopup : CInstruction
+    public class CInstrTest : CInstruction
     {
     }
 }
