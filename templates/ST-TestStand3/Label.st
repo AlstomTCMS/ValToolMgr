@@ -5,4 +5,5 @@ Id = "ID#:$Instruction.GUID$"
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
 %NAME = "$Instruction.Text$"
+
 >>

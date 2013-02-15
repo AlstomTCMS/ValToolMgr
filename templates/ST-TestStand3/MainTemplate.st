@@ -50,6 +50,8 @@ DotNetStepAdditions = DotNetModule
 DotNetParameter = DotNetParameter
 TH_Start = StepType
 TH_Stop = StepType
+CB_TestAna = StepType
+CB_UnForce = StepType
 
 [DEF, SF]
 Seq = Objs
@@ -1683,10 +1685,10 @@ DDU_ip = "10.22.98.17"
 MPU_target = "target_mpu_SIL0"
 PC_Env1_ip = "192.168.1.102"
 PC_Env2_ip = "192.168.1.101"
-PC_Emb1_ip = "192.168.1.103"
-PC_Emb2_ip = "192.168.1.104"
-PC_Emb3_ip = "192.168.1.105"
-PC_Emb4_ip = "192.168.1.106"
+PC_Emb1_ip = "127.0.0.1"
+PC_Emb2_ip = "127.0.0.1"
+PC_Emb3_ip = "127.0.0.1"
+PC_Emb4_ip = "127.0.0.1"
 TestBench_target = "target_TB"
 cycle_CB = 0.05
 TimeOut = 5000
