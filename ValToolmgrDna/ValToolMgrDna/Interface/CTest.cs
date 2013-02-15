@@ -7,7 +7,14 @@ namespace ValToolMgrDna.Interface
 {
     public class CTest : ArrayList
     {
-        public string title;
-        public string description;
+        public string Title;
+        public string Description;
+
+        public CTest(string title, string description)
+        {
+            // TODO: Complete member initialization
+            this.Title = title;
+            this.Description = description;
+        }
     }
 }

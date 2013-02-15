@@ -12,5 +12,12 @@ namespace ValToolMgrDna.Interface
         public string DescAction;
         public ArrayList actions = new ArrayList();
         public ArrayList checks = new ArrayList();
+
+        public CStep(string title, string descAction, string descCheck)
+        {
+            this.title = title;
+            this.DescAction = descAction;
+            this.DescCheck = descCheck;
+        }
     }
 }

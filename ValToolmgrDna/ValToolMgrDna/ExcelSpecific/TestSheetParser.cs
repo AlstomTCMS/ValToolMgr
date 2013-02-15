@@ -59,21 +59,14 @@ namespace ValToolMgrDna.ExcelSpecific
             Excel.ListColumns lcActionsTableColumns = loActionsTable.ListColumns;
             Excel.ListColumns lcChecksTableColumns = loChecksTable.ListColumns;
 
-            CTest parseSingleTest = new CTest();
-
-            parseSingleTest.title = title;
+            CTest parseSingleTest = new CTest(title, "Description");
 
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             //' Writing inputs
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             for (int CurrentColumn = 3; CurrentColumn <= lcActionsTableColumns.Count; CurrentColumn++)
             {
-                // Writing header
-                // Debug.Print "Processing Step : " & lcActionsTableColumns.Item(CurrentColumn)
-                CStep o_step = new CStep();
-                o_step.title = getComment();
-                o_step.DescAction = getComment();
-                o_step.DescCheck = getComment();
+                CStep o_step = new CStep(getComment(), getComment(), getComment());
 
                 fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, CurrentColumn);
                 addTempoIfExists(o_step, loActionsTable, CurrentColumn);

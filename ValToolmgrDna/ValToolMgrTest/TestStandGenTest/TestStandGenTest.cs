@@ -14,24 +14,34 @@ namespace ValToolMgrTest
         public class TestStandGenTest
         {
             [Test]
+            public void GenerateAllSteps()
+            {
+                CTestContainer container = new CTestContainer();
+
+                CTest test = new CTest("Test_1", "This is my description");
+
+                CStep step = new CStep("Step 1", null, null);
+            }
+
+            [Test]
             public void GenerateScenario()
             {
                 CTestContainer container = new CTestContainer();
                 container.description = "Test container";
                 for (int testIndex = 1; testIndex <= 3; testIndex++)
                 {
-                    CTest test = new CTest();
-                    test.description = "Test descriptor #" + testIndex;
-                    test.title = "Test_1." + testIndex;
+                    CTest test = new CTest("Test_1." + testIndex, "Test descriptor #" + testIndex);
 
-                    for (int stepIndex = 1; stepIndex < 20; stepIndex++)
+                    for (int stepIndex = 1; stepIndex < 2; stepIndex++)
                     {
-                        CStep step = new CStep();
-                        step.title = "Step " + testIndex + "." + stepIndex;
-                        step.DescAction = "Action description for " + step.title;
-                        step.DescCheck = "Check description for " + step.title;
+                        string title = "Step " + testIndex + "." + stepIndex;
+                        CStep step = new CStep(
+                            title, 
+                             "Action description for " + title,
+                             "Check description for " + title
+                            );
 
-                        for (int actionIndex = 1; actionIndex < 20; actionIndex++)
+                        for (int actionIndex = 1; actionIndex < 10; actionIndex++)
                         {
                             CInstruction action = new CInstrForce();
                             CVariableBool var = new CVariableBool();
@@ -42,7 +52,7 @@ namespace ValToolMgrTest
                             step.actions.Add(action);
                         }
 
-                        for (int checkIndex = 1; checkIndex < 20; checkIndex++)
+                        for (int checkIndex = 1; checkIndex < 10; checkIndex++)
                         {
                             CInstruction action = new CInstrTest();
                             CVariableBool var = new CVariableBool();

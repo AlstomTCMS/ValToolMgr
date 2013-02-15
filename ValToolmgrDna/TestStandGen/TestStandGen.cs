@@ -111,8 +111,8 @@ namespace TestStandGen
         private CTestStandSeq genInstrListFromTest(CTest TestContainer)
         {
             CTestStandSeq SubSeq = new CTestStandSeq();
-            SubSeq.identifier = TestContainer.title;
-            SubSeq.Title = TestContainer.title;
+            SubSeq.identifier = TestContainer.Title;
+            SubSeq.Title = TestContainer.Title;
 
             foreach (CStep step in TestContainer)
             {
@@ -124,6 +124,7 @@ namespace TestStandGen
                 foreach(CInstruction instr in step.actions)
                 {
                      SubSeq.Add(getTsEquivFromInstr(instr));
+                     Console.Write("*");
                 }
 
                 if (step.DescCheck.Length > 0) SubSeq.Add(new CTsLabel("= Checks : " + step.DescCheck));
