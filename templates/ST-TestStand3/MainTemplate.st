@@ -52,6 +52,8 @@ TH_Start = StepType
 TH_Stop = StepType
 CB_TestAna = StepType
 CB_UnForce = StepType
+CB_ForceArrayElement = StepType
+CB_TestArrayElement = StepType
 
 [DEF, SF]
 Seq = Objs

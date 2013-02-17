@@ -1,6 +1,6 @@
 CB_TestAna(SeqIdx, InstrIdx, Instruction) ::= <<
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
-Id = "ID#:0000000000000000000014"
+Id = "ID#:$Instruction.GUID$"
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 

@@ -2,36 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ValToolMgrInt
 {
     public abstract class CVariable
     {
-        public string name { get; set; }
+        private string Name;
+
+        public string name
+        {
+            get
+            {
+                return Name;
+            }
+
+            set
+            {
+                if (Regex.IsMatch(value, "^[a-zA-Z]+[a-zA-Z0-9_]*$"))
+                {
+                    Name = value;
+                }
+                else
+                {
+                    throw new FormatException(String.Format("\"{0}\" is invalid for variable name.", value));
+                 }
+            }
+        }
 
         public string path { get; set; }
 
         public abstract object value { get; set; }
-
-        public override string ToString()
-        {
-            return base.ToString();
-            //Public Function getStringValue() As String
-            //    Select Case typeOfVar
-            //    Case T_BOOLEAN
-            //         If varType(value) = vbInteger Or varType(value) = vbDouble Then
-            //            If (value = 0) Then
-            //                getStringValue = "False"
-            //            Else
-            //                getStringValue = "True"
-            //            End If
-            //        Else
-            //            MsgBox "Variable value is not managed : " & TypeName(value)
-            //        End If
-            //    Case Else
-            //        getStringValue = value
-            //    End Select
-            //End Function
-        }
     }
 }

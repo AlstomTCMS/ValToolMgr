@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using ValToolMgrInt;
 
 namespace ValToolMgrDna.ExcelSpecific
@@ -18,6 +18,22 @@ namespace ValToolMgrDna.ExcelSpecific
 
         public static CVariable parseAsVariable(string VariableName, string Path, string Value, SupportedTypes expectedType)
         {
+
+	        // Here we call Regex.Match.
+	        Match match = Regex.Match(VariableName, @"^(.*)\[(\d)*\]$");
+
+	        // Here we check the Match instance.
+	        if (match.Success)
+	        {
+	            // Finally, we get the Group value and display it.
+	            VariableName = match.Groups[1].Value;
+                uint Index = Convert.ToUInt32(match.Groups[2].Value);
+
+                CVariable Var = parseAsVariable(VariableName, Path, Value, expectedType);
+                CVariableArray array = new CVariableArray(Var, Index);
+                return array;
+	        }
+
             switch (expectedType)
             {
                 case SupportedTypes.BOOLEAN:
@@ -35,7 +51,6 @@ namespace ValToolMgrDna.ExcelSpecific
 
         public static CVariable parseAsVariable(string VariableName, string Path, string Value)
         {
-
             string[] explodedValue = VariableName.Split(':');
 
             if(explodedValue.Length > 2)
@@ -58,50 +73,5 @@ namespace ValToolMgrDna.ExcelSpecific
                 }
             }
         }
-
-        //private CVariable buildVariable(string Target, string Location, object CellValue)
-        //{
-        //    CVariable buildVariable;
-        //    string typeExpected = "UNDEF";
-
-        //    try
-        //    {
-        //        if (Target.IndexOf("I:") == 0)
-        //        {
-        //            typeExpected = "INT";
-        //            buildVariable = new CVariableInt();
-        //            Target = Target.Substring(2);
-        //            buildVariable.value = Convert.ToInt32(CellValue);
-
-        //        }
-        //        else if (Target.IndexOf("R:") == 0)
-        //        {
-        //            typeExpected = "REAL";
-        //            buildVariable = new CVariableDouble();
-        //            Target = Target.Substring(2);
-        //            buildVariable.value = Convert.ToDouble(CellValue);
-        //        }
-        //        else if (Target.IndexOf("DT:") == 0)
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-        //        else
-        //        {
-        //            typeExpected = "BOOL";
-        //            buildVariable = new CVariableBool();
-        //            buildVariable.value = Convert.ToBoolean(Convert.ToInt32(CellValue));
-        //        }
-
-        //        buildVariable.name = Target;
-        //        buildVariable.path = Location;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw new InvalidCastException("Invalid value, expected : " + typeExpected + ", have : " + CellValue.ToString());
-        //    }
-
-        //    return buildVariable;
-        //}
-
     }
 }
