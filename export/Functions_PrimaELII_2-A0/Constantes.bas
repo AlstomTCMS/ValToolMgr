@@ -3,9 +3,9 @@ Public Const SETTING_FILE_NAME As String = "Application_Settings_File.MIESET"
 Public Const MacroPath As String = "C:\macros_alstom"
 Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
-Public Const macroVersion As String = "A7"
+Public Const macroVersion As String = "A8"
 Public Const refVersion As String = "A3"
-Public Const macroUpdateDate As String = "08/02/2013"
+Public Const macroUpdateDate As String = "12/02/2013"
 
 Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"

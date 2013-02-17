@@ -8,8 +8,8 @@ rem UpdateMacroOnStartup.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
 
-set version=A7
-echo Version : %version% 08.02.2013
+set version=A8
+echo Version : %version% 12.02.2013
 
 set updateMacroFileName=C:\macros_alstom\UpdateMacroTCMS.exe
 

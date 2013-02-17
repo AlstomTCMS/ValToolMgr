@@ -9,8 +9,8 @@ rem ****************************************
 rem install_auto_macro_alstom_tcms_prima.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
-rem version : A7 08.02.2013
-set versionServeur=A7
+rem version : A8 08.02.2013
+set versionServeur=A8
 
 
 :checkIsToUpdate

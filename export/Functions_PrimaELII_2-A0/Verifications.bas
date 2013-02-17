@@ -139,16 +139,16 @@ End Sub
 
 
 ' Vérifie si c'est en doublon dans l'étape courante (entre début et fin)
-Private Function Doublon(ByVal testSheetName As String, ByVal Deb As Integer, ByVal fin As Integer) As Boolean
+Private Function Doublon(ByVal testSheetName As String, ByVal Deb As Integer, ByVal Fin As Integer) As Boolean
 Dim Resultat As Boolean
 Dim ligne1, ligne2 As Integer
 Dim a, b
 Doublon = False
 
     With Sheets(testSheetName)
-    For ligne1 = Deb To fin
+    For ligne1 = Deb To Fin
         b = .Cells(ligne1, TEST_COLUMN_DOUBLON_COMPARE)
-        a = Application.WorksheetFunction.CountIf(.range(.Cells(Deb, TEST_COLUMN_DOUBLON_COMPARE), .Cells(fin, TEST_COLUMN_DOUBLON_COMPARE)), b)
+        a = Application.WorksheetFunction.CountIf(.range(.Cells(Deb, TEST_COLUMN_DOUBLON_COMPARE), .Cells(Fin, TEST_COLUMN_DOUBLON_COMPARE)), b)
         ' S'il y a plus qu'une occurence, alors on a un doublon
         If a > 1 Then
             Doublon = True
@@ -300,8 +300,8 @@ Public Sub SetCellulesVidesRouges_TEST(ByVal sheetName As String)
 Dim formatAlreadyExist As Boolean
 
     With Sheets(sheetName)
-        fin = .range("A1").End(xlDown).row
-        With .range("G2:K" & fin)
+        Fin = .range("A1").End(xlDown).row
+        With .range("G2:K" & Fin)
     
             'Voir si le formatage existe deja
             For Each formatCond In .FormatConditions
@@ -332,13 +332,13 @@ End Sub
 Sub SetValidations_TEST(ByVal sheetName As String)
 
     With Sheets(sheetName)
-        fin = .range("A1").End(xlDown).row
+        Fin = .range("A1").End(xlDown).row
         
         'Types de Véhicules permis
-        With .range("H2:H" & fin).Validation
+        With .range("H2:H" & Fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
-            xlBetween, Formula1:="='" & VALID_NAME & "'!$C$5:$C$6"  'autorisé seulement pour PRIMA : 1 et 2    KZH : "'!$C$2:$C$8"
+            xlBetween, Formula1:="='" & VALID_NAME & "'!$C$2:$C$8"
             .IgnoreBlank = True
             .InCellDropdown = True
             .InputTitle = ""
@@ -350,7 +350,7 @@ Sub SetValidations_TEST(ByVal sheetName As String)
         End With
         
         'Types de variable permis
-        With .range("G2:G" & fin).Validation
+        With .range("G2:G" & Fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
             xlBetween, Formula1:="='" & VALID_NAME & "'!$B$2:$B$6"
@@ -370,10 +370,10 @@ End Sub
 Sub SetValidations_SYNTH()
 
     With Sheets(SYNTHESE_NAME)
-        fin = .range("F1").End(xlDown).row
+        Fin = .range("F1").End(xlDown).row
         
         'Types de Conf banc permis
-        With .range("B2:B" & fin).Validation
+        With .range("B2:B" & Fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
             xlBetween, Formula1:="='" & VALID_NAME & "'!$A$2:$A$6"
