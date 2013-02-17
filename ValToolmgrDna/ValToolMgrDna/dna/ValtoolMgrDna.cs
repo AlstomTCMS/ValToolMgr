@@ -23,8 +23,8 @@ namespace ValToolMgrDna
             return "Hello " + name;
         }
         
-        [ExcelCommand(MenuText = "Say Hello")] 
-        public static void SayHello() 
+        [ExcelCommand(MenuText = "Generate sequence")] 
+        public static void GenerateSequence() 
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 

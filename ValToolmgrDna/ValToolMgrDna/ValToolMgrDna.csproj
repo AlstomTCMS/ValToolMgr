@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelSpecific\TestSheetParser.cs" />
+    <Compile Include="ExcelSpecific\VariableParser.cs" />
     <Compile Include="ExcelSpecific\WorkbookParser.cs" />
     <Compile Include="dna\ValtoolMgrDna.cs" />
     <Compile Include="dna\Addin.cs" />

@@ -101,9 +101,9 @@ namespace ValToolMgrDna.ExcelSpecific
                             o_step.checks.Add(o_instruction);
                         }
                     }
-                    catch(InvalidCastException)
+                    catch(InvalidCastException ex)
                     {
-                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + rangeToRetrieve.Address + ", expected : (int), have : " + CellValue.ToString());
+                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + rangeToRetrieve.Address + " : "+ex.ToString());
                     }
                     catch (Exception ex)
                     {
@@ -117,23 +117,30 @@ namespace ValToolMgrDna.ExcelSpecific
         {
             CInstruction detectAndBuildInstruction;
 
+            string CellValueStr = Convert.ToString(CellValue);
+
+            List<char> detectedChars =extractSpecialProperties(ref Target, ref CellValueStr);
+            bool instrSkipped = detectedChars.Contains('S');
+            bool instrFailed = detectedChars.Contains('F');
+            bool instrPaused = detectedChars.Contains('P');
+
                 if (typeOfTable == TableTypes.TABLE_ACTIONS)
                 {
-                    if (CellValue is String && CellValue.ToString().Equals("U"))
+                    if (CellValueStr.Equals("U"))
                     {
                         detectAndBuildInstruction = new CInstrUnforce();
-                        detectAndBuildInstruction.data = buildVariable(Target, Location, null);
+                        detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, null);
                     }
                     else
                     {
                         detectAndBuildInstruction = new CInstrForce();
-                        detectAndBuildInstruction.data = buildVariable(Target, Location, CellValue);
+                        detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
                     }
                 }
                 else if (typeOfTable == TableTypes.TABLE_CHECKS)
                 {
                     detectAndBuildInstruction = new CInstrTest();
-                    detectAndBuildInstruction.data = buildVariable(Target, Location, CellValue);
+                    detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
                 }
                 else
                 {
@@ -141,6 +148,41 @@ namespace ValToolMgrDna.ExcelSpecific
                 }
 
                 return detectAndBuildInstruction;
+        }
+
+        private List<char> extractSpecialProperties(ref string TargetTotest, ref string valueToTest)
+        {
+            List<char> table = new List<char>();
+
+            // Here we call Regex.Match.
+            Match match = Regex.Match(valueToTest, @"^{([SPF]+)}(.*)",
+                RegexOptions.IgnoreCase);
+
+            // Here we check the Match instance.
+            if (match.Success)
+            {
+                // Finally, we get the Group value and display it.
+                string key = match.Groups[1].Value;
+                valueToTest = match.Groups[2].Value;
+                char[] tab = key.ToCharArray();
+                table.AddRange(tab);
+
+            }
+
+            // Here we call Regex.Match.
+            match = Regex.Match(TargetTotest, @"^{([SPF]+)}(.*)",
+                RegexOptions.IgnoreCase);
+
+            // Here we check the Match instance.
+            if (match.Success)
+            {
+                // Finally, we get the Group value and display it.
+                string key = match.Groups[1].Value;
+                TargetTotest = match.Groups[2].Value;
+                char[] tab = key.ToCharArray();
+                table.AddRange(tab);
+            }
+            return table;
         }
 
         private void addTempoIfExists(CStep o_step, Excel.ListObject loSourceFiles, int ColumnIndex) 
@@ -163,44 +205,6 @@ namespace ValToolMgrDna.ExcelSpecific
             }
         }
 
-        private CVariable buildVariable(string Target, string Location, object CellValue)
-        {
-            CVariable buildVariable;
-
-            if(Target.IndexOf("I:") == 0) 
-            {
-                buildVariable = new CVariableInt();
-                Target = Target.Substring(2);
-            }
-            else if(Target.IndexOf("R:") == 0) 
-            {
-                buildVariable = new CVariableDouble();
-                Target = Target.Substring(2);
-            }
-            else if(Target.IndexOf("DT:") == 0)
-            {
-                buildVariable = new CVariableDateTime();
-                Target = Target.Substring(3);
-            }
-            else
-            {
-                buildVariable = new CVariableBool();
-            }
-
-            buildVariable.name = Target;
-            buildVariable.path = Location;
-
-            try
-            {
-                buildVariable.value = CellValue;
-            }
-            catch(Exception)
-            {
-                throw new InvalidCastException("Invalid value, expected : " + buildVariable.GetType().ToString() + ", have : " + CellValue.ToString());
-            }
-
-            return buildVariable;
-        }
 
         private bool isSheetValid() 
         {

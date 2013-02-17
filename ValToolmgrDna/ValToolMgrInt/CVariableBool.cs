@@ -9,6 +9,13 @@ namespace ValToolMgrInt
     {
         private bool Value;
 
+        public CVariableBool(string VariableName, string Path, string Value)
+        {
+            this.name = VariableName;
+            this.path = Path;
+            this.value = Value;
+        }
+
         public override object value   // the property
         {
             get
@@ -18,6 +25,8 @@ namespace ValToolMgrInt
 
             set
             {
+                if (value.ToString() == "0") value = false;
+                else if(value.ToString() == "1") value = true;
                 Value = Convert.ToBoolean(value);
             }
         }

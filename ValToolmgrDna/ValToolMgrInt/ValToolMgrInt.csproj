@@ -43,12 +43,13 @@
     <Compile Include="CInstruction.cs" />
     <Compile Include="CInstrUnForce.cs" />
     <Compile Include="CInstrWait.cs" />
+    <Compile Include="CVariableUInt.cs" />
+    <Compile Include="CVariableArray.cs" />
     <Compile Include="CStep.cs" />
     <Compile Include="CTest.cs" />
     <Compile Include="CTestContainer.cs" />
     <Compile Include="CVariable.cs" />
     <Compile Include="CVariableBool.cs" />
-    <Compile Include="CVariableDateTime.cs" />
     <Compile Include="CVariableDouble.cs" />
     <Compile Include="CVariableInt.cs" />
   </ItemGroup>

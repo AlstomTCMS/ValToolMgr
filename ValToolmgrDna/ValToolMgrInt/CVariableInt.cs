@@ -9,6 +9,13 @@ namespace ValToolMgrInt
     {
         private int Value = 0;
 
+        public CVariableInt(string VariableName, string Path, string Value)
+        {
+            this.name = VariableName;
+            this.path = Path;
+            this.value = Value;
+        }
+
         public override object value   // the Name property
         {
             get

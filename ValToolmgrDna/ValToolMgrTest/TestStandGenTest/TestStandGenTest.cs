@@ -44,10 +44,7 @@ namespace ValToolMgrTest
                         for (int actionIndex = 1; actionIndex < 10; actionIndex++)
                         {
                             CInstruction action = new CInstrForce();
-                            CVariableBool var = new CVariableBool();
-                            var.value = "true";
-                            var.name = "Var" + actionIndex;
-                            var.path = "/path/to/application" + actionIndex;
+                            CVariableBool var = new CVariableBool("Var" + actionIndex, "/path/to/application" + actionIndex, "true");
                             action.data = var;
                             step.actions.Add(action);
                         }
@@ -55,10 +52,7 @@ namespace ValToolMgrTest
                         for (int checkIndex = 1; checkIndex < 10; checkIndex++)
                         {
                             CInstruction action = new CInstrTest();
-                            CVariableBool var = new CVariableBool();
-                            var.value = "true";
-                            var.name = "Var" + checkIndex;
-                            var.path = "/path/to/application" + checkIndex;
+                            CVariableBool var = new CVariableBool("Var" + checkIndex, "/path/to/application" + checkIndex, "true");
                             action.data = var;
                             step.checks.Add(action);
                         }

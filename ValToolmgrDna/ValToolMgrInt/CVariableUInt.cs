@@ -5,18 +5,18 @@ using System.Text;
 
 namespace ValToolMgrInt
 {
-    public class CVariableDouble : CVariable
+    public class CVariableUInt : CVariable
     {
-        private double Value = 0.0;
+        private UInt32 Value = 0;
 
-        public CVariableDouble(string VariableName, string Path, string Value)
+        public CVariableUInt(string VariableName, string Path, string Value)
         {
             this.name = VariableName;
             this.path = Path;
             this.value = Value;
         }
 
-        public override object value   // the property
+        public override object value   // the Name property
         {
             get
             {
@@ -27,12 +27,11 @@ namespace ValToolMgrInt
             {
                 if (value == null)
                 {
-                    Value = 0.0;
+                    Value = 0;
                 }
                 else
                 {
-                    if (value is string) value = ((string)value).Replace('.', ',');
-                    Value = Convert.ToDouble(value);
+                    Value = Convert.ToUInt32(value);
                 }
             }
         }
