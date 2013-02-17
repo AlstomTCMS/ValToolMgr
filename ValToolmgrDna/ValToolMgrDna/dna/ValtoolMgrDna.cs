@@ -36,7 +36,7 @@ namespace ValToolMgrDna
             }
             catch (Exception ex)
             {
-                XlCall.Excel(XlCall.xlcAlert, ex.ToString()); 
+                XlCall.Excel(XlCall.xlcAlert, ex.Message); 
             }
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 

@@ -1,6 +1,5 @@
 CB_UnForce(SeqIdx, InstrIdx, Instruction) ::= <<
-[SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
-Id = "ID#:0000000000000000000032"
+$InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 

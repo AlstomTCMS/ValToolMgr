@@ -103,11 +103,11 @@ namespace ValToolMgrDna.ExcelSpecific
                     }
                     catch(InvalidCastException ex)
                     {
-                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + rangeToRetrieve.Address + " : "+ex.ToString());
+                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + rangeToRetrieve.Address + " : "+ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        XlCall.Excel(XlCall.xlcAlert, ex.Message);
+                        XlCall.Excel(XlCall.xlcAlert, "Cell problem " + rangeToRetrieve.Address + " : " + ex.Message);
                     }
                 }
             }
@@ -115,39 +115,40 @@ namespace ValToolMgrDna.ExcelSpecific
 
         private CInstruction detectAndBuildInstruction(string Target, string Location, object CellValue, TableTypes typeOfTable)
         {
-            CInstruction detectAndBuildInstruction;
+            CInstruction Instruction;
 
             string CellValueStr = Convert.ToString(CellValue);
 
-            List<char> detectedChars =extractSpecialProperties(ref Target, ref CellValueStr);
-            bool instrSkipped = detectedChars.Contains('S');
-            bool instrFailed = detectedChars.Contains('F');
-            bool instrPaused = detectedChars.Contains('P');
+            List<char> detectedChars = extractSpecialProperties(ref Target, ref CellValueStr);
 
                 if (typeOfTable == TableTypes.TABLE_ACTIONS)
                 {
                     if (CellValueStr.Equals("U"))
                     {
-                        detectAndBuildInstruction = new CInstrUnforce();
-                        detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, null);
+                        Instruction = new CInstrUnforce();
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, null);
                     }
                     else
                     {
-                        detectAndBuildInstruction = new CInstrForce();
-                        detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                        Instruction = new CInstrForce();
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
                     }
                 }
                 else if (typeOfTable == TableTypes.TABLE_CHECKS)
                 {
-                    detectAndBuildInstruction = new CInstrTest();
-                    detectAndBuildInstruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                    Instruction = new CInstrTest();
+                    Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
                 }
                 else
                 {
                     throw new NotImplementedException();
                 }
 
-                return detectAndBuildInstruction;
+                
+                Instruction.ForceFailed = detectedChars.Contains('F');
+                Instruction.ForcePassed = detectedChars.Contains('P');
+                Instruction.Skipped = detectedChars.Contains('S');
+                return Instruction;
         }
 
         private List<char> extractSpecialProperties(ref string TargetTotest, ref string valueToTest)

@@ -1,6 +1,5 @@
 NI_Wait(SeqIdx, InstrIdx, Instruction) ::= <<
-[SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
-Id = "ID#:$Instruction.GUID$"
+$InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 NoResult = True
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$]]

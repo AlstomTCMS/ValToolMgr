@@ -4,6 +4,11 @@ namespace TestStandGen.Types.Instructions
     abstract class CTsGenericInstr
     {
         private static int idSalt = 0;
+        private string guid;
+
+        public bool Skipped;
+        public bool ForceFailed;
+        public bool ForcePassed;
 
         public abstract string InstructionName { get; protected set; }
 
@@ -11,8 +16,7 @@ namespace TestStandGen.Types.Instructions
         { 
             get
             {
-                idSalt++;
-                return idSalt.ToString("0000000000000000000000");
+                return guid;
             }
 
             protected set
@@ -21,10 +25,11 @@ namespace TestStandGen.Types.Instructions
             }
         }
 
-        /// <summary>
-        /// Parametrize instruction as skipped if true.
-        /// </summary>
-        public bool SkipInstruction;
+        protected CTsGenericInstr()
+        {
+            idSalt++;
+            this.guid = idSalt.ToString("0000000000000000000000");
+        }
 
         /// <summary>
         /// Text to display
@@ -35,5 +40,7 @@ namespace TestStandGen.Types.Instructions
         {
             idSalt = 0;
         }
+
+
     }
 }

@@ -54,7 +54,6 @@ namespace TestStandGen
                 group.Load();
 
                 Template st = group.GetInstanceOf("MainTemplate");
-                Console.WriteLine("==========================");
 
                 this.TSFile = genTsStructFromTestContainer(this.outFile, sequence);
 
@@ -115,7 +114,6 @@ namespace TestStandGen
                 foreach(CInstruction instr in step.actions)
                 {
                      SubSeq.Add(getTsEquivFromInstr(instr));
-                     Console.Write("*");
                 }
 
                 if (step.DescCheck.Length > 0) SubSeq.Add(new CTsLabel("= Checks : " + step.DescCheck));
@@ -132,31 +130,46 @@ namespace TestStandGen
             string typeOfStep = inst.GetType().ToString();
             string typeOfData = inst.data.GetType().ToString();
 
+            CTsGenericInstr instr = null;
+
             if (String.Equals(typeOfStep, typeof(CInstrPopup).FullName))
-                return new CTsPopup(inst.data.ToString());
+                instr = new CTsPopup(inst.data.ToString());
 
             if (String.Equals(typeOfStep, typeof(CInstrWait).FullName))
-                return new CTsWait(Convert.ToInt32(inst.data));
+                instr = new CTsWait(Convert.ToInt32(inst.data));
 
-            if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName))
-                return new CTsUnforce((CVariable)inst.data);
+            if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName) && !String.Equals(typeOfData, typeof(CVariableArray).FullName))
+                instr = new CTsUnforce((CVariable)inst.data);
 
             if (String.Equals(typeOfStep, typeof(CInstrForce).FullName))
             {
-                if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName) || String.Equals(typeOfData, typeof(CVariableDouble).FullName))
-                    return new CTsForce((CVariable)inst.data);
+                if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName) || String.Equals(typeOfData, typeof(CVariableUInt).FullName) || String.Equals(typeOfData, typeof(CVariableDouble).FullName))
+                    instr = new CTsForce((CVariable)inst.data);
+
+                if (String.Equals(typeOfData, typeof(CVariableArray).FullName))
+                    instr = new CTsForceArray((CVariableArray)inst.data);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrTest).FullName))
             {
-                if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName))
-                    return new CTsTest((CVariable)inst.data);
+                if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName)  || String.Equals(typeOfData, typeof(CVariableUInt).FullName))
+                    instr = new CTsTest((CVariable)inst.data);
 
                 if(String.Equals(typeOfData, typeof(CVariableDouble).FullName))
-                    return new CTsTestAna((CVariable)inst.data);
+                    instr = new CTsTestAna((CVariable)inst.data);
+
+                if (String.Equals(typeOfData, typeof(CVariableArray).FullName))
+                    instr = new CTsTestArray((CVariableArray)inst.data);
             }
 
-            Console.WriteLine(typeof(CInstrForce));
+            if(instr != null)
+            {
+                instr.Skipped = inst.Skipped;
+                instr.ForceFailed = inst.ForceFailed;
+                instr.ForcePassed = inst.ForcePassed;
+                return instr;
+            }
+
             throw new NotImplementedException(String.Format("Data not handled : [{0}, {1}]", typeOfStep, typeOfData));
         }
     }

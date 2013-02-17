@@ -25,6 +25,7 @@ namespace ValToolMgrInt
 
             set
             {
+                if (value == null) value = false;
                 if (value.ToString() == "0") value = false;
                 else if(value.ToString() == "1") value = true;
                 Value = Convert.ToBoolean(value);
