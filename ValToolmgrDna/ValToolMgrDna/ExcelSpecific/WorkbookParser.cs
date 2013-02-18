@@ -1,37 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using NetOffice;
 using ExcelDna.Integration;
-using Excel = NetOffice.ExcelApi;
-using NetOffice.ExcelApi.Enums;
-using Office = NetOffice.OfficeApi;
-using NetOffice.ExcelApi.GlobalHelperModules;
 using ValToolMgrInt;
+using Excel = NetOffice.ExcelApi;
 
 namespace ValToolMgrDna.ExcelSpecific
 {
     class WorkbookParser
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static CTestContainer parseTestsOfWorkbook(Excel.Sheets sheets)
         {
+            logger.Info("Begin Analysis of selected sheets");
             CTestContainer listOfTests = new CTestContainer();
             foreach (Excel.Worksheet wsCurrentTestSheet in sheets)
             {
                 try
                 {
+                    logger.Debug(String.Format("Processing sheet \"{0}\".", wsCurrentTestSheet.Name));
                     string testNumber = getTestNumber(wsCurrentTestSheet.Name);
-                    Excel.ListObject loActionsTable = wsCurrentTestSheet.ListObjects[TestSheetParser.PR_TEST_TABLE_ACTION_PREFIX + testNumber];
-                    Excel.ListObject loChecksTable = wsCurrentTestSheet.ListObjects[TestSheetParser.PR_TEST_TABLE_CHECK_PREFIX + testNumber];
 
-                    CTest result = TestSheetParser.parseTest(wsCurrentTestSheet.Name, wsCurrentTestSheet, null, loActionsTable, loChecksTable);
+                    CTest result = TestSheetParser.parseTest(wsCurrentTestSheet.Name, wsCurrentTestSheet, null, TestSheetParser.PR_TEST_TABLE_ACTION_PREFIX + testNumber, TestSheetParser.PR_TEST_TABLE_CHECK_PREFIX + testNumber);
+
+                    logger.Debug("Adding sheet to result list");
                     listOfTests.Add(result);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    XlCall.Excel(XlCall.xlcAlert, "Sheet \"" + wsCurrentTestSheet.Name + " was not analysed."); 
+                    logger.Error("Sheet cannot be parsed : ", ex);
+                    XlCall.Excel(XlCall.xlcAlert, "Sheet \"" + wsCurrentTestSheet.Name + " was not analysed. Message is : "+ ex.Message); 
                 }
             }
             return listOfTests;
@@ -39,8 +36,18 @@ namespace ValToolMgrDna.ExcelSpecific
 
         private static string getTestNumber(string TestText)
         {
-            return TestText.Split('_')[1];
+            try
+            {
+                logger.Debug(String.Format("Analysing \"{0}\".", TestText));
+                string result = TestText.Split('_')[1];
+                logger.Debug(String.Format("Found key \"{0}\".", result));
+                return result;
+            }
+            catch (Exception)
+            {
+                throw new FormatException(String.Format("Sheet \"{0}\" has to begin with \"{1}\"", TestText, TestSheetParser.PR_TEST_PREFIX));
+            }
+            
         }
-
     }
 }
