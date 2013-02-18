@@ -1,4 +1,4 @@
-﻿<DnaLibrary Name="ValToolMgr" RuntimeVersion="v4.0">
+﻿<DnaLibrary Name="ValToolMgr_DNA" RuntimeVersion="v4.0">
   <ExternalLibrary Path="ValToolMgrDna.dll" />
   <CustomUI>
     <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="ValToolMgr.xlam!Ribbon_OnLoad">

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolMgrTest", "ValToolMg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStandGen", "TestStandGen\TestStandGen.csproj", "{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolMgrRibbon", "ValToolMgrRibbon\ValToolMgrRibbon.csproj", "{C062810D-D9D0-45E5-9167-0E27E146D046}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}.Release|x86.ActiveCfg = Release|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C062810D-D9D0-45E5-9167-0E27E146D046}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

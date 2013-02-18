@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ribbon.cs" />
     <Compile Include="Interface\CInstruction.cs" />
     <Compile Include="Interface\CVariableDateTime.cs" />
     <Compile Include="Interface\CVariableDouble.cs" />
@@ -74,9 +73,10 @@
   <ItemGroup>
     <None Include="ValToolMgrDna.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="ValToolMgrDna.xll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

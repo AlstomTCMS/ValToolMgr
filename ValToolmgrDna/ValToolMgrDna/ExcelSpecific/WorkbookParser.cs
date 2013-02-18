@@ -13,7 +13,7 @@ using ValToolMgrDna.Interface;
 
 namespace ValToolMgrDna.ExcelSpecific
 {
-    class WorkbookParser
+    public class WorkbookParser
     {
         public static CTestContainer parseTestsOfWorkbook(Excel.Sheets sheets)
         {
