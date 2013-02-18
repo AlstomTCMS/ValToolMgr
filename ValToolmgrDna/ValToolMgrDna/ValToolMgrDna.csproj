@@ -42,6 +42,9 @@
       <HintPath>lib\ExcelDna\ExcelDna.Integration.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NetOffice">
       <HintPath>lib\NetOffice\NetOffice.dll</HintPath>
     </Reference>
@@ -63,6 +66,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Log4Net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ValToolMgrDna.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
