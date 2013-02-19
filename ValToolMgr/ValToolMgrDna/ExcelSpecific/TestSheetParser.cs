@@ -190,6 +190,12 @@ namespace ValToolMgrDna.ExcelSpecific
                         logger.Debug(String.Format("Detected Unforce step."));
                         Instruction.data = VariableParser.parseAsVariable(Target, Location, null);
                     }
+                    else if (String.Compare(Target, "@POPUP@") == 0)
+                    {
+                        Instruction = new CInstrPopup();
+                        logger.Debug(String.Format("Detected Popup."));
+                        Instruction.data = CellValueStr;
+                    }
                     else
                     {
                         Instruction = new CInstrForce();
@@ -275,8 +281,23 @@ namespace ValToolMgrDna.ExcelSpecific
             }
         }
 
-        private void repairSheet() 
+        public void repairSheet() 
         {
+            Excel.ListObjects ListOfRanges = this.sheet.ListObjects;
+            List<Excel.ListObject> listActionsTable = new List<Excel.ListObject>();
+            List<Excel.ListObject> listChecksTable = new List<Excel.ListObject>();
+            List<Excel.ListObject> listDescriptionTable = new List<Excel.ListObject>();
+            List<Excel.ListObject> listSpecialActionsTable = new List<Excel.ListObject>();
+
+            foreach(Excel.ListObject obj in ListOfRanges)
+            {
+                string range = obj.Range.AddressLocal;
+                logger.Debug(String.Format("Analysing Range {0}", range));
+                if()s                                                                                                                                                   
+                //public const string PR_TEST_TABLE_ACTION_PREFIX = TABLE_PREFIX + PR_TEST_ACTION + "_";
+                //public const string PR_TEST_TABLE_CHECK_PREFIX = TABLE_PREFIX + PR_TEST_CHECK + "_";
+                //public const string PR_TEST_TABLE_DESCRIPTION_PREFIX = TABLE_PREFIX + PR_TEST_DESCRIPTION + "_";
+            }
             throw new NotImplementedException();
         }
 
