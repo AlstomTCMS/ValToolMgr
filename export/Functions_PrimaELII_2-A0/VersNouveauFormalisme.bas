@@ -531,7 +531,7 @@ Sub formatageFicheTest(ByVal testSheetName As String)
     End With
     
     Call initValidationSheet
-    Call SetConditionalFormat_TEST(testSheetName)
+    Call SetCellulesVidesRouges_TEST(testSheetName)
     Call SetValidations_TEST(testSheetName)
 End Sub
 

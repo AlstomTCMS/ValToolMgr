@@ -1,5 +1,5 @@
 Attribute VB_Name = "Verifications"
-Private firstError As Boolean
+Public isFirstError As Boolean
 
 'Rend visible l'onglet des vérifications en fonction de ses éléments
 Sub getVisibleVerifTab(control As IRibbonControl, ByRef visible)
@@ -49,7 +49,6 @@ Dim TexteType_EnCours As String
 Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Type (AEn,CEn,ACc,CCc)
     
     checkTest = True
-    firstError = True
     
     'Tester si l'onglet de test existe
     If Not WsExist(testSheet) Then
@@ -73,12 +72,10 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
     End If
     
     'Formatage de validation
-    Call SetConditionalFormat_TEST(testSheet)
+    Call SetCellulesVidesRouges_TEST(testSheet)
     Call SetValidations_TEST(testSheet)
     
     If Not checkPrimaValidVehiculs(testSheet) Then Exit Function
-    
-    Call ChckEmpty_TEST(testSheet)
     
     'Vérification des doublons de l'étape
     With Sheets(testSheet)
@@ -123,14 +120,15 @@ End Function
 'Si la fiche de Doublons n'existe pas, la créer
 Sub initErrorSheet()
 
-    If firstError Then
-        firstError = False
+    If isFirstError Then
+        isFirstError = False
         
         If Not WsExist(ERROR_NAME) Then
-            Call InitSheet(ERROR_NAME, True, , , Array("Test", "Etape", "Erreur"))
+            Call InitSheet(ERROR_NAME, , , , Array("Test", "Etape", "Erreur"))
             
             'On colorie l'onglet en rouge
             With Sheets(ERROR_NAME)
+                .Activate
                 .ListObjects("TableauErreurs").TableStyle = "TableStyleMedium3"
                 .Move After:=Sheets("Conf Banc")
                 With .Tab
@@ -298,83 +296,101 @@ verif_remplissage = True
 End Function
 
 
-Sub ChckEmpty_TEST(sheetName As String)
+Sub testChckEmpty()
 Dim emptyList As Variant
-Dim tableau As ListObject
 
-    With Sheets(sheetName)
-        
-        'Ne prendre que le tableau
-        For Each object_ In .ListObjects
-            If object_.Name Like "Tableau*" Then
-                Set tableau = object_
-            End If
-        Next
-        If Not tableau Is Nothing Then
-            emptyList = checkEmpty(tableau.DataBodyRange.Columns("G:K")) '.range(tableau.Name & "[[#All],[Type_Var]:[Valeur]]")
-        End If
-    End With
+    emptyList = checkEmpty(ActiveSheet.range("G2:K126"))
     
-    If emptyList = "" Then
+    If UBound(emptyList) = -1 Then
         trs = "pas de cellule vide"
-    Else
-        Call AjoutErreur(sheetName, Sheets(sheetName).Cells(Mid(emptyList, 2, 1), 1), StringFormat(ERROR_TYPE_CELLS_EMPTY, emptyList))
     End If
 End Sub
 
 ' Donne la table des cellules vides d'une zone
-Function checkEmpty(range2Check) As String
+Function checkEmpty(range2Check) As Variant
     Dim emptyCellsStr As String
     Dim cell As range
 
-    For Each cell In range2Check.Cells
+
+    For Each cell In range2Check
         If cell.Value = vbNullString Then
-            If checkEmpty = "" Then
-                checkEmpty = Replace(cell.Address, "$", "")
+            If emptyCellsStr = "" Then
+                emptyCellsStr = Replace(cell.Address, "$", "")
             Else
-                checkEmpty = checkEmpty & ", " & Replace(cell.Address, "$", "")
+                emptyCellsStr = emptyCellsStr & ";" & Replace(cell.Address, "$", "")
             End If
         End If
     Next cell
+    
+    checkEmpty = Split(emptyCellsStr, ";")
 End Function
 
 
 'Ajoute la formatage conditionnel sur cellules vides
-Public Sub SetConditionalFormat_TEST(ByVal sheetName As String)
-Dim tableau As ListObject
+Public Sub SetCellulesVidesRouges_TEST(ByVal sheetName As String)
+Dim formatAlreadyExist As Boolean
 
     With Sheets(sheetName)
-        'enlève tous les anciens formatages
-        On Error Resume Next
-        .Cells.FormatConditions.Delete
-        
-        'Ne prendre que le tableau
-        For Each object_ In .ListObjects
-            If object_.Name Like "Tableau*" Then
-                Set tableau = object_
+        fin = .range("A1").End(xlDown).row
+        With .range("G2:K" & fin)
+    
+            'Voir si le formatage existe deja
+            For Each formatCond In .FormatConditions
+                If formatCond.Formula1 = "=NBCAR(SUPPRESPACE(G2))=0" Then
+                    formatAlreadyExist = True
+                End If
+            Next formatCond
+            
+            If Not formatAlreadyExist Then
+                .FormatConditions.Add Type:=xlExpression, Formula1:="=NBCAR(SUPPRESPACE(G2))=0"
+                
+                With .FormatConditions(.FormatConditions.Count)
+                    .SetFirstPriority
+                    With .Interior
+                        .PatternColorIndex = xlAutomatic
+                        .Color = 255
+                        .TintAndShade = 0
+                    End With
+                    .StopIfTrue = True
+                End With
             End If
-        Next
-        On Error GoTo 0
-    
-    
-        If Not tableau Is Nothing Then
-            'Type de variable
-            With tableau.ListColumns("Type_Var").DataBodyRange
-                .FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, Formula1:="="""""
-                With .FormatConditions(.FormatConditions.Count)
-                    .SetFirstPriority
-                    With .Interior
-                        .PatternColorIndex = xlAutomatic
-                        .Color = 255
-                        .TintAndShade = 0
-                    End With
-                    .StopIfTrue = True
-                End With
-            End With
             
-            'Type de Vehicule PRIMA
-            With tableau.ListColumns("Vehicule").DataBodyRange
+        End With
+    End With
+    
+    Call SetVehiculesRouges_TEST(sheetName)
+End Sub
+
+Sub unit_Test_SetVehiculesRouges_TEST()
+    Call SetVehiculesRouges_TEST("B2_037_112")
+End Sub
+
+'Ajoute la formatage conditionnel sur les vehicules PRIMA
+Public Sub SetVehiculesRouges_TEST(ByVal sheetName As String)
+Dim formatAlreadyExist As Boolean
+
+    With Sheets(sheetName)
+        fin = .range("A1").End(xlDown).row
+        With .range("H2:H" & fin)
+    
+            On Error GoTo NextformatCond
+            'Voir si le formatage existe deja
+            For Each formatCond In .FormatConditions
+                With formatCond
+                    If .Operator = xlNotBetween And .Formula1 = "=1" And .Formula2 = "=2" Then
+                        formatAlreadyExist = True
+                        Exit For
+                    End If
+                End With
+                
+            Next formatCond
+            
+NextformatCond:
+            On Error GoTo 0
+            
+            If Not formatAlreadyExist Then
                 .FormatConditions.Add xlCellValue, xlNotBetween, 1, 2
+                
                 With .FormatConditions(.FormatConditions.Count)
                     .SetFirstPriority
                     With .Interior
@@ -384,26 +400,9 @@ Dim tableau As ListObject
                     End With
                     .StopIfTrue = True
                 End With
-            End With
+            End If
             
-            'Variable, chemin et valeur non nuls
-            'On Error GoTo derniereValeurs
-'derniereValeurs:
-            With tableau.DataBodyRange.Columns("I:K") '.range(tableau.Name & "[[#Data],[Variable]:[Valeur]]") ' Data, header, all
-                .FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, Formula1:="="""""
-                With .FormatConditions(.FormatConditions.Count)
-                    .SetFirstPriority
-                    With .Interior
-                        .PatternColorIndex = xlAutomatic
-                        .Color = 255
-                        .TintAndShade = 0
-                    End With
-                    .StopIfTrue = True
-                End With
-            End With
-            
-            'On Error GoTo 0
-        End If
+        End With
     End With
 End Sub
 
@@ -471,14 +470,14 @@ End Sub
 
 Public Sub FormatErrorSheet()
     With Sheets(ERROR_NAME)
-        .Columns("A:C").AutoFit
-        .UsedRange.RemoveDuplicates Columns:=Array(1, 2, 3), Header:=xlYes
         .Activate
+        .UsedRange.RemoveDuplicates Columns:=Array(1, 2, 3), Header:=xlYes
+        .Columns("A:C").AutoFit
     End With
 End Sub
 
 Sub test()
-    Call SetConditionalFormat_TEST(ActiveSheet.Name)
+    Call SetCellulesVidesRouges_TEST(ActiveSheet.Name)
     Call SetValidations_TEST(ActiveSheet.Name)
 End Sub
 

@@ -11,6 +11,8 @@ Public Sub Reverse_NvoVersAncien()
 Dim ws As Worksheet
     Application.ScreenUpdating = False
     
+    isFirstError = True
+    
     'On test si la fiche de synthèse et les onglets de tests existent sinon on fait pas le test
     If Not WsExist(SYNTHESE_NAME) Then
         Call MsgBox("La fiche de Synthèse n'existe pas !" _
@@ -21,13 +23,21 @@ Dim ws As Worksheet
     Call initValidationSheet
     Call SetValidations_SYNTH
     
+    'Si la feuille d'erreur existait déjà on la supprime
+    If WsExist(ERROR_NAME) Then
+        Application.DisplayAlerts = False
+        Sheets(ERROR_NAME).Delete
+        Application.DisplayAlerts = True
+    End If
+    
     ' Vérifier si les dernières colonnes sont renseignées en bouclant sur les onglets de tests
     anyTestSheet = False
     For Each ws In Sheets
         'Si c'est un onglet de test
         If ws.Name Like "B2_???_???" Then
             anyTestSheet = True
-            If Not verif_remplissage(ws.Name, True) Then GoTo Finally
+            'If Not  Then GoTo Finally
+            Call verif_remplissage(ws.Name, True)
         End If
     Next
     If Not anyTestSheet Then
@@ -40,13 +50,6 @@ Dim ws As Worksheet
     If WsExist(PR_OUT_NAME) Then
         Application.DisplayAlerts = False
         Sheets(PR_OUT_NAME).Delete
-        Application.DisplayAlerts = True
-    End If
-    
-    'Si la feuille d'erreur existait déjà on la supprime
-    If WsExist(ERROR_NAME) Then
-        Application.DisplayAlerts = False
-        Sheets(ERROR_NAME).Delete
         Application.DisplayAlerts = True
     End If
     
@@ -117,6 +120,7 @@ Dim ws As Worksheet
     
     'boucler sur les numéros de test et chercher l'onglet correspondant
     Set testRange = Sheets(PR_OUT_NAME).range("A9")
+    
     
     Do
         'If next_testRange <> "END" Then
