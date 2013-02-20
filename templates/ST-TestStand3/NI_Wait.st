@@ -1,6 +1,5 @@
 NI_Wait(SeqIdx, InstrIdx, Instruction) ::= <<
 $InstructionHeader(SeqIdx, InstrIdx, Instruction)$
-NoResult = True
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
 SeqCallStepGroupIdx = -1

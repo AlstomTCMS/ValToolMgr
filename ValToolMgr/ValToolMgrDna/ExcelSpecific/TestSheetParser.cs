@@ -292,8 +292,7 @@ namespace ValToolMgrDna.ExcelSpecific
             foreach(Excel.ListObject obj in ListOfRanges)
             {
                 string range = obj.Range.AddressLocal;
-                logger.Debug(String.Format("Analysing Range {0}", range));
-                if()s                                                                                                                                                   
+                logger.Debug(String.Format("Analysing Range {0}", range));                                                                                                                                                 
                 //public const string PR_TEST_TABLE_ACTION_PREFIX = TABLE_PREFIX + PR_TEST_ACTION + "_";
                 //public const string PR_TEST_TABLE_CHECK_PREFIX = TABLE_PREFIX + PR_TEST_CHECK + "_";
                 //public const string PR_TEST_TABLE_DESCRIPTION_PREFIX = TABLE_PREFIX + PR_TEST_DESCRIPTION + "_";
