@@ -9,8 +9,8 @@ rem ****************************************
 rem install_auto_macro_alstom_tcms_prima.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
-rem version : A10 20.02.2013
-set versionServeur=A10
+rem version : v1.0.00 20.02.2013
+set versionServeur=v1.0.00
 
 
 :: si on force l'installation

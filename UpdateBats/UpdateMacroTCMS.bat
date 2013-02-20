@@ -6,7 +6,7 @@ rem ************************************************************
 rem UpdateMacroTCMS.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
-rem Version : A10 20.02.2013
+rem Version : v1.0.00 20.02.2013
 
 set macroPath=C:\macros_alstom\
 set settingsFileName=%macroPath%Application_Settings_File.MIESET

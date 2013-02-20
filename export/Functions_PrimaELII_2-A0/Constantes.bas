@@ -4,7 +4,7 @@ Public Const MacroPath As String = "C:\macros_alstom"
 Public Const serverPath As String = "\\dom2.ad.sys\dfsbor1root\BOR1_FLO\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\13_Macros"
 Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
-Public Const macroVersion As String = "A10"
+Public Const macroVersion As String = "v1.0.00"
 Public Const refVersion As String = "A4"
 Public Const macroUpdateDate As String = "20/02/2013"
 

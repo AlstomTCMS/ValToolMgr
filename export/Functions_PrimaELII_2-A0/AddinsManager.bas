@@ -4,12 +4,11 @@ Public AutoUpdate As Boolean
 Dim barreMacro As IRibbonUI
 
 
-
-'Ajoute les fonctionnalitées en fonctions des versions à l'installe
-Sub AjoutFonctionnalitesVersions()
-    Select Case macroVersion:
-        Case "A7"
-    End Select
+' Ouvre le fichier de l'historique des évolutions
+Sub ShowHistory(control As IRibbonControl)
+    Dim myShell As Object
+    Set myShell = CreateObject("WScript.Shell")
+    myShell.Run Chr(34) & serverPath & "\Historique_evolutions_macro.pdf" & Chr(34)
 End Sub
 
 
