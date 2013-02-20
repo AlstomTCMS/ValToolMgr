@@ -1,19 +1,3 @@
-@ECHO OFF
-REM BFCPEOPTIONSTART
-REM Advanced BAT to EXE Converter www.BatToExeConverter.com
-REM BFCPEEXE=C:\macros_alstom\UpdateBats\exe\install_auto_macro_alstom_tcms_prima.exe
-REM BFCPEICON=
-REM BFCPEICONINDEX=0
-REM BFCPEEMBEDDISPLAY=0
-REM BFCPEEMBEDDELETE=1
-REM BFCPEVERINCLUDE=0
-REM BFCPEVERVERSION=1.0.0.0
-REM BFCPEVERPRODUCT=Product Name
-REM BFCPEVERDESC=Product Description
-REM BFCPEVERCOMPANY=Your Company
-REM BFCPEVERCOPYRIGHT=Copyright Info
-REM BFCPEOPTIONEND
-@ECHO ON
 @echo off
 cls
 :: met l'encodage qui permet aux chemins avec accents de passer (D:\Documents and Settings\e_dleona\Menu Démarrer\Programmes\Démarrage)
@@ -25,8 +9,8 @@ rem ****************************************
 rem install_auto_macro_alstom_tcms_prima.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
-rem version : A8 08.02.2013
-set versionServeur=A9
+rem version : A10 20.02.2013
+set versionServeur=A10
 
 
 :: si on force l'installation
@@ -89,7 +73,7 @@ echo.
 rem Installation de la macro (copie le fichier sur le réseau vers un dossier en local)
 xcopy "%networkPath%Functions_PrimaELII_2-A0.xlam" %localPath% /Y
 rem Copie du fichier des references (source de données pour la macro)
-xcopy "%networkPath%Ref_PrimaELII_2-A3.xls" %localPath% /Y 
+xcopy "%networkPath%Ref_PrimaELII_2-A4.xls" %localPath% /Y 
 rem Copie du .bat appelé pour la MAJ
 xcopy "%networkPath%UpdateMacroTCMS.exe" %localPath% /Y 
 rem Copie de sauvegarde du .bat pour une mise à jour auto en début de session utilisateur
