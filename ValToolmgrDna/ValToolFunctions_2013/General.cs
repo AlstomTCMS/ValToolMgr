@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Excel =Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace ValToolFunctions_2013
 {
@@ -18,9 +19,9 @@ namespace ValToolFunctions_2013
         /// <param name="sheetAlreadyExist"></param>
         /// <param name="titles"></param>
         /// <returns></returns>
-        public static Excel.Worksheet InitSheet(string sheetName, Boolean eraseContent = false, Boolean visible = true, Boolean sheetAlreadyExist = false , Array titles  = null)
+        public static Worksheet InitSheet(string sheetName, Boolean eraseContent = false, Boolean visible = true, Boolean sheetAlreadyExist = false , Array titles  = null)
         {
-            Excel.Sheets sheets = (Excel.Sheets)ExcelApplication.getInstance().ActiveWorkbook.Worksheets;
+            Sheets sheets = (Sheets)ExcelApplication.getInstance().ActiveWorkbook.Worksheets;
 
             //Si la feuille n'existe pas, on l'ajoute
             if (! WsExist(sheetName)){
@@ -29,40 +30,44 @@ namespace ValToolFunctions_2013
             }else{
                 sheetAlreadyExist = true;
             }
-    
-            //On Error Resume Next
-            // On efface le contenu de la feuille
-            //Sheets(sheetName).Cells.ClearContents
-            if (eraseContent)
+            Worksheet newSheet = sheets[sheetName];
+
+            try
             {
-                sheets[sheetName].Cells.ClearContents();
-            }
-    
-            //On ajoute les titres s//il y en a
-            if (titles !=null){
-                Excel.Range endTitle = sheets[sheetName].Cells(1, titles.Length + 1);
-                Excel.Range titleRange = sheets[sheetName].Range("A1", endTitle);
-                titleRange.Value=titles;
-                string tableLiens = "Tableau" + sheetName;
+                // On efface le contenu de la feuille
+                //Sheets(sheetName).Cells.ClearContents
+                if (eraseContent)
+                {
+                    newSheet.Cells.ClearContents();
+                }
 
-                sheets[sheetName].ListObjects.Add(Excel.XlListObjectSourceType.xlSrcRange, titleRange, Excel.XlYesNoGuess.xlYes).name = tableLiens;
-                sheets[sheetName].ListObjects(tableLiens).TableStyle = "tableau de test";
-            
-                //enlève l'affichage grille
-                sheets[sheetName].Activate();
-                ExcelApplication.getInstance().ActiveWindow.DisplayGridlines = false;
+                //On ajoute les titres s'il y en a
+                if (titles != null)
+                {
+                    Range endTitle = sheets[sheetName].Cells(1, titles.Length + 1);
+                    Range titleRange = sheets[sheetName].Range("A1", endTitle);
+                    titleRange.Value = titles;
+                    string tableLiens = "Tableau" + sheetName;
 
+                    newSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, titleRange, XlYesNoGuess.xlYes).Name = tableLiens;
+                    newSheet.ListObjects[tableLiens].TableStyle = "tableau de test";
+
+                    //enlève l'affichage grille
+                    newSheet.Activate();
+                    ExcelApplication.getInstance().ActiveWindow.DisplayGridlines = false;
+
+                }
             }
-            //On Error GoTo 0
+            catch { }
            
             if(! visible){
-                sheets[sheetName].visible = Excel.XlSheetVisibility.xlSheetHidden;
+                newSheet.Visible = XlSheetVisibility.xlSheetHidden;
             }else{
-                sheets[sheetName].visible = Excel.XlSheetVisibility.xlSheetVisible;
+                newSheet.Visible = XlSheetVisibility.xlSheetVisible;
             }
     
             //feuille renvoyée
-            return sheets[sheetName];
+            return newSheet;
     
         }
 

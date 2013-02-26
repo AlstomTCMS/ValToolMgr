@@ -88,7 +88,9 @@ namespace ValToolFunctions_2013
         public const string STEP_PATERN = "STEP 1";
         public const string TABLE_PREFIX = "Table_";
         
-
+        /// <summary>
+        /// "Description table"
+        /// </summary>
         public const string DESCRIPTION_TABLE_STYLE = "Description table";
         public const string DESCRIPTION_TABLE_STYLE_VERSION = "V.01";
     }

@@ -85,6 +85,7 @@
             // 
             // LayoutVersion_DD
             // 
+            this.LayoutVersion_DD.Enabled = false;
             ribbonDropDownItemImpl1.Label = "2013";
             ribbonDropDownItemImpl2.Label = "2012";
             this.LayoutVersion_DD.Items.Add(ribbonDropDownItemImpl1);
@@ -113,6 +114,7 @@
             // plan2Tests
             // 
             this.plan2Tests.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.plan2Tests.Enabled = false;
             this.plan2Tests.Image = ((System.Drawing.Image)(resources.GetObject("plan2Tests.Image")));
             this.plan2Tests.Label = "Plan to Tests";
             this.plan2Tests.Name = "plan2Tests";
@@ -121,6 +123,7 @@
             // AddStep
             // 
             this.AddStep.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.AddStep.Enabled = false;
             this.AddStep.Image = ((System.Drawing.Image)(resources.GetObject("AddStep.Image")));
             this.AddStep.Label = "Add Step";
             this.AddStep.Name = "AddStep";
@@ -135,6 +138,7 @@
             // testCheck
             // 
             this.testCheck.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.testCheck.Enabled = false;
             this.testCheck.Image = ((System.Drawing.Image)(resources.GetObject("testCheck.Image")));
             this.testCheck.Label = "Check Test";
             this.testCheck.Name = "testCheck";
@@ -149,6 +153,7 @@
             // testStand
             // 
             this.testStand.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.testStand.Enabled = false;
             this.testStand.Image = ((System.Drawing.Image)(resources.GetObject("testStand.Image")));
             this.testStand.Label = "To TestStand";
             this.testStand.Name = "testStand";
