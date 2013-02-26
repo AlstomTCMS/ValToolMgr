@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctions_2013", "Va
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctions_2012", "ValToolFunctions_2012\ValToolFunctions_2012.csproj", "{E7F6BAF7-5C3C-4450-84C3-E0408E369FFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctionsStub", "ValToolFunctionsStub\ValToolFunctionsStub.csproj", "{6ACDB451-673C-48F3-8B3F-661658017FCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,16 @@ Global
 		{E7F6BAF7-5C3C-4450-84C3-E0408E369FFE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E7F6BAF7-5C3C-4450-84C3-E0408E369FFE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E7F6BAF7-5C3C-4450-84C3-E0408E369FFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

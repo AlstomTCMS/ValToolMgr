@@ -80,6 +80,15 @@ namespace ValToolFunctions_2013
             AddTestTitle(testSheet);
             AddActionLabel(testSheet);
             AddCheckLabel(testSheet);
+            FormatTestSheet(testSheet);
+        }
+
+        public static void FormatTestSheet(Worksheet testSheet)
+        {
+            testSheet.Rows["1:2"].Group();
+            testSheet.Range[TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name) + "["+ TEST.STEP_PATERN + "]"].Select();
+            testSheet.Application.ActiveWindow.FreezePanes = true;
+            testSheet.Range["A1"].Select();
         }
 
         ////Ajoute la table de description en haut
@@ -87,7 +96,7 @@ namespace ValToolFunctions_2013
     
             //on insert une ligne supplémentaire pour les titres (qu'il n'y a pas)
             testSheet.Rows["1:1"].Insert(XlDirection.xlDown);
-            string tableName = TEST.TABLE.PREFIX.DESC + testSheet.Name;
+            string tableName = TEST.TABLE.PREFIX.DESC + General.getTestNumber(testSheet.Name);
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$C$1:$D$4"], XlYesNoGuess.xlYes).Name = tableName;
                 
             AddDescTableFormat();
@@ -134,7 +143,7 @@ namespace ValToolFunctions_2013
             
             testSheet.Columns["A:A"].ColumnWidth = 5.5;
         
-            string tableAddress = testSheet.ListObjects[TEST.TABLE_PREFIX + label + "_" + testSheet.Name].Range.Address;
+            string tableAddress = testSheet.ListObjects[TEST.TABLE_PREFIX + label + "_" + General.getTestNumber(testSheet.Name)].Range.Address;
             tableAddress = "A" + tableAddress.Substring(3, 2) + "A" + tableAddress.Substring(8, 1);            
 
             Range LabelRange = testSheet.Range[tableAddress];                
@@ -166,7 +175,7 @@ namespace ValToolFunctions_2013
 
         public static void AddTestTitle(Worksheet testSheet){
             Range titleRange = testSheet.Range["B3"];
-            titleRange.Value = Regex.Replace(TEST.TABLE.PREFIX.TEST , "_", " ") + testSheet.Name;
+            titleRange.Value = Regex.Replace(testSheet.Name , "_", " ") ;
                 //TODO: Donner un nom
             Font font = titleRange.Font;
             font.Name = "Calibri";
@@ -204,7 +213,7 @@ namespace ValToolFunctions_2013
         }
 
         public static void AddTableCheck(Worksheet testSheet){
-            string tableName = TEST.TABLE.PREFIX.CHECK + testSheet.Name;
+            string tableName = TEST.TABLE.PREFIX.CHECK + General.getTestNumber(testSheet.Name);
 
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$B$8"], XlYesNoGuess.xlYes).Name = tableName;
                 
@@ -230,7 +239,7 @@ namespace ValToolFunctions_2013
         }
 
         public static void AddTableAction(Worksheet testSheet){
-            string tableName = TEST.TABLE.PREFIX.ACTION + testSheet.Name;
+            string tableName = TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name);
 
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$B$5"], XlYesNoGuess.xlYes).Name = tableName;
                 
@@ -340,9 +349,9 @@ namespace ValToolFunctions_2013
                 }
 
                 // -------------------------------------------------------------
-                // Colonnes impaires
+                // Colonnes paires
                 // -------------------------------------------------------------
-                Interior oddsColInterior = ts.TableStyleElements[XlTableStyleElementType.xlColumnStripe1].Interior;
+                Interior oddsColInterior = ts.TableStyleElements[XlTableStyleElementType.xlColumnStripe2].Interior;
                 oddsColInterior.Pattern = XlPattern.xlPatternSolid;
                 oddsColInterior.PatternColorIndex = 0;
                 oddsColInterior.Color = 15853276;
@@ -361,7 +370,7 @@ namespace ValToolFunctions_2013
                 // -------------------------------------------------------------
                 // Lignes paires
                 // -------------------------------------------------------------
-                Border evenLinesBorder = ts.TableStyleElements[XlTableStyleElementType.xlRowStripe1].Borders[XlBordersIndex.xlEdgeTop];
+                Border evenLinesBorder = ts.TableStyleElements[XlTableStyleElementType.xlRowStripe2].Borders[XlBordersIndex.xlEdgeTop];
                 evenLinesBorder.LineStyle = XlLineStyle.xlLineStyleNone;
                 evenLinesBorder.Weight = XlBorderWeight.xlThin;
                 evenLinesBorder.ThemeColor = XlThemeColor.xlThemeColorLight2;

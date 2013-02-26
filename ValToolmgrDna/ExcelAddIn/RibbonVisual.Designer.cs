@@ -53,18 +53,22 @@
             this.macroVersion = this.Factory.CreateRibbonLabel();
             this.UpdateDate = this.Factory.CreateRibbonLabel();
             this.autoUpdate = this.Factory.CreateRibbonCheckBox();
+            this.RemoveStep = this.Factory.CreateRibbonButton();
+            this.TestEditGroup = this.Factory.CreateRibbonGroup();
             this.ValToolMgrTab.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.checks.SuspendLayout();
             this.Outputs.SuspendLayout();
             this.macroInfos.SuspendLayout();
+            this.TestEditGroup.SuspendLayout();
             // 
             // ValToolMgrTab
             // 
             this.ValToolMgrTab.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.ValToolMgrTab.Groups.Add(this.group1);
             this.ValToolMgrTab.Groups.Add(this.group2);
+            this.ValToolMgrTab.Groups.Add(this.TestEditGroup);
             this.ValToolMgrTab.Groups.Add(this.checks);
             this.ValToolMgrTab.Groups.Add(this.Outputs);
             this.ValToolMgrTab.Groups.Add(this.macroInfos);
@@ -98,7 +102,6 @@
             // 
             this.group2.Items.Add(this.button_NewPR);
             this.group2.Items.Add(this.plan2Tests);
-            this.group2.Items.Add(this.AddStep);
             this.group2.Label = "Editing";
             this.group2.Name = "group2";
             // 
@@ -123,11 +126,11 @@
             // AddStep
             // 
             this.AddStep.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.AddStep.Enabled = false;
             this.AddStep.Image = ((System.Drawing.Image)(resources.GetObject("AddStep.Image")));
             this.AddStep.Label = "Add Step";
             this.AddStep.Name = "AddStep";
             this.AddStep.ShowImage = true;
+            this.AddStep.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddStep_Click);
             // 
             // checks
             // 
@@ -184,6 +187,22 @@
             this.autoUpdate.Name = "autoUpdate";
             this.autoUpdate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.autoUpdate_Click);
             // 
+            // RemoveStep
+            // 
+            this.RemoveStep.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RemoveStep.Image = ((System.Drawing.Image)(resources.GetObject("RemoveStep.Image")));
+            this.RemoveStep.Label = "Remove Step";
+            this.RemoveStep.Name = "RemoveStep";
+            this.RemoveStep.ShowImage = true;
+            this.RemoveStep.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RemoveStep_Click);
+            // 
+            // TestEditGroup
+            // 
+            this.TestEditGroup.Items.Add(this.AddStep);
+            this.TestEditGroup.Items.Add(this.RemoveStep);
+            this.TestEditGroup.Label = "Test Editing";
+            this.TestEditGroup.Name = "TestEditGroup";
+            // 
             // RibbonVisual
             // 
             this.Name = "RibbonVisual";
@@ -202,6 +221,8 @@
             this.Outputs.PerformLayout();
             this.macroInfos.ResumeLayout(false);
             this.macroInfos.PerformLayout();
+            this.TestEditGroup.ResumeLayout(false);
+            this.TestEditGroup.PerformLayout();
 
         }
 
@@ -223,6 +244,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel macroVersion;
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel UpdateDate;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox autoUpdate;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton RemoveStep;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup TestEditGroup;
     }
 
     partial class ThisRibbonCollection

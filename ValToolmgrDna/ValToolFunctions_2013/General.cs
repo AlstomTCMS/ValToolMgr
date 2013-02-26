@@ -5,6 +5,7 @@ using System.Text;
 using Excel =Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
+using System.Text.RegularExpressions;
 
 namespace ValToolFunctions_2013
 {
@@ -51,12 +52,10 @@ namespace ValToolFunctions_2013
 
                     newSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, titleRange, XlYesNoGuess.xlYes).Name = tableLiens;
                     newSheet.ListObjects[tableLiens].TableStyle = "tableau de test";
-
-                    //enlève l'affichage grille
-                    newSheet.Activate();
-                    ExcelApplication.getInstance().ActiveWindow.DisplayGridlines = false;
-
                 }
+                //enlève l'affichage grille
+                newSheet.Activate();
+                ExcelApplication.getInstance().ActiveWindow.DisplayGridlines = false;
             }
             catch { }
            
@@ -115,7 +114,51 @@ namespace ValToolFunctions_2013
             return hasActiveBook;
         }
 
+        /// <summary>
+        /// Détecter si c'est bien un onglet de test au bon format
+        /// </summary>
+        /// <param name="displayMsg">Sortir avec message sinon. Vrai par défaut</param>
+        /// <returns></returns>
+        public static Boolean isActivesheet_a_PR_Test( Boolean displayMsg  = true)
+        {
+            Boolean isActivesheet_a_PR_Test;
 
+            if(Regex.IsMatch(ExcelApplication.getInstance().ActiveSheet.name, TEST.TABLE.PREFIX.TEST + "*"))
+            {
+                isActivesheet_a_PR_Test = true;
+            }else
+            {
+                isActivesheet_a_PR_Test = false;
+                if (displayMsg){
+                    MessageBox.Show("This sheet is not a PR test. You cannot use this function on this sheet.");
+                }
+            }
+            return isActivesheet_a_PR_Test;
+        }
+
+        public static string getTestNumber()
+        {
+            string getTestNumber="";
+            string shName = "";
+            try
+            {
+                shName = ExcelApplication.getInstance().ActiveSheet.Name;
+                getTestNumber = Regex.Split(shName, "_")[1];
+            }
+            catch { }
+            return getTestNumber;
+        }
+
+        public static string getTestNumber(string sheetName)
+        {
+            string getTestNumber = "";
+            try
+            {
+                getTestNumber = Regex.Split(sheetName, "_")[1];
+            }
+            catch { }
+            return getTestNumber;
+        }
         ////Réecri un String avec des parametres entre crochet {} remplacés par la liste de paramètres mis en argument
         //Public Function StringFormat(ByVal forFormat As String, ParamArray params() As Variant) As String
         //    Dim i As Integer

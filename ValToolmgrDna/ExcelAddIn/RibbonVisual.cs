@@ -28,5 +28,15 @@ namespace ExcelAddIn
         {
 
         }
+
+        private void AddStep_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.AddNewStep(Globals.ThisAddIn.Application);
+        }
+
+        private void RemoveStep_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.RemoveStep(Globals.ThisAddIn.Application,EditingZone.NONE);
+        }
     }
 }

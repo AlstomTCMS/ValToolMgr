@@ -32,6 +32,16 @@ namespace ValToolFunctions_2013
         TYPE_VAR_PGM  = 5
     }
 
+    public enum EditingZone
+    {
+        [StringValue("Not specified")]
+        NONE = 0,
+        [StringValue("Last")]
+        LAST = 1,
+        [StringValue("Current")]
+        CURRENT = 2
+    }
+
     public enum SheetsNames
     {
         [StringValue("PR In")]
