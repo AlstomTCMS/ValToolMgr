@@ -6,10 +6,6 @@ Public Const exportFolder As String = "\export\VarToolFunctions-2013\"
 Public Const macroVersion As String = "A0"
 Public Const macroUpdateDate As String = "30/01/2013"
 
-Public Const PR_IN_NAME As String = "PR In"
-Public Const PR_OUT_NAME As String = "PR Out"
-Public Const PR_MODEL_NAME As String = "PR Model"
-
 Public Const TABLE_PREFIX As String = "Table_"
 
 Public Const PR_TEST_ACTION As String = "Action"
@@ -25,6 +21,9 @@ Public Const PR_TEST_TABLE_DESCRIPTION_PREFIX As String = TABLE_PREFIX & PR_TEST
 Public Const PR_TEST_DESCRIPTION_TABLE_STYLE As String = "Description table"
 Public Const PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION As String = "V.01"
 
+Public Const PR_IN_NAME As String = "PR In"
+Public Const PR_OUT_NAME As String = "PR Out"
+Public Const PR_MODEL_NAME As String = "PR Model"
 Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"

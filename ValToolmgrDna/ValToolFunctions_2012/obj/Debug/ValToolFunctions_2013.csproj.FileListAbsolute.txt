@@ -1,0 +1,7 @@
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\bin\Debug\ValToolFunctions_2013.dll
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\bin\Debug\ValToolFunctions_2013.pdb
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ResolveAssemblyReference.cache
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ValToolFunctions_2013.dll
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ValToolFunctions_2013.pdb
