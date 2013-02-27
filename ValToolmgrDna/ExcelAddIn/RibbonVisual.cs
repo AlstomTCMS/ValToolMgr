@@ -38,5 +38,25 @@ namespace ExcelAddIn
         {
             TestManager.RemoveStep(Globals.ThisAddIn.Application,EditingZone.NONE);
         }
+
+        private void AddActionVar_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.AddVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.ACTION, EditingZone.NONE);
+        }
+
+        private void AddCheckVar_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.AddVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.CHECK, EditingZone.NONE);
+        }
+
+        private void RemoveActionVar_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.RemoveVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.ACTION, EditingZone.NONE);
+        }
+
+        private void RemoveCheckVar_Click(object sender, RibbonControlEventArgs e)
+        {
+            TestManager.RemoveVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.CHECK, EditingZone.NONE);
+        }
     }
 }

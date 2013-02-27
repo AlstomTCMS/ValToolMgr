@@ -173,6 +173,32 @@ namespace ValToolFunctions_2013
                 font.Bold = true;
         }
 
+        public static void UpdateVerticalLabel(Worksheet testSheet, ListObject table, Boolean addMode)
+        {
+            string tableAddress = null;
+
+            if (table != null)
+            {
+                tableAddress = table.Range.Address;
+            }
+
+            if (tableAddress != null)
+            {
+                string[] tArray = Regex.Split(tableAddress, @"\$");
+
+                //Unmerge current merged zone
+                if (!addMode)
+                {
+                    tableAddress = "A" + tArray[2] + "A" + (int.Parse(tArray[4]) +1);
+                    testSheet.Range[tableAddress].UnMerge();
+                }
+
+                //merge the new one
+                tableAddress = "A" + tArray[2] + "A" + tArray[4];
+                testSheet.Range[tableAddress].Merge();
+            }
+        }
+
         public static void AddTestTitle(Worksheet testSheet){
             Range titleRange = testSheet.Range["B3"];
             titleRange.Value = Regex.Replace(testSheet.Name , "_", " ") ;

@@ -80,39 +80,102 @@ namespace ValToolFunctions_2013
     {
         public static class TABLE
         {
-            public const string ACTION="Action";
-            public const string CHECK="Check";
+            /// <summary>
+            /// Action
+            /// </summary>
+            public const string ACTION = "Action";
+            /// <summary>
+            /// Check
+            /// </summary>
+            public const string CHECK = "Check";
+            /// <summary>
+            /// Desc
+            /// </summary>
             public const string DESCRIPTION="Desc";
+
+            public enum TYPE
+            {
+                ACTION,
+                CHECK,
+                DESC
+            }
 
             public static class PREFIX
             {
+                /// <summary>
+                /// Test_
+                /// </summary>
                 public const string TEST = "Test_";
+
+                /// <summary>
+                /// TS_
+                /// </summary>
                 public const string SCENARIO = "TS_";
+
+                /// <summary>
+                /// Table_Action_
+                /// </summary>
                 public const string ACTION= TABLE_PREFIX + TABLE.ACTION + "_";
+
+                /// <summary>
+                /// Table_Check_
+                /// </summary>
                 public const string CHECK = TABLE_PREFIX + TABLE.CHECK + "_";
+
+                /// <summary>
+                /// Table_Desc_
+                /// </summary>
                 public const string DESC = TABLE_PREFIX + TABLE.DESCRIPTION + "_";
             }
             
         }
 
+        /// <summary>
+        /// STEP 1
+        /// </summary>
         public const string STEP_PATERN = "STEP 1";
+
+        /// <summary>
+        /// Table_
+        /// </summary>
         public const string TABLE_PREFIX = "Table_";
         
         /// <summary>
         /// "Description table"
         /// </summary>
         public const string DESCRIPTION_TABLE_STYLE = "Description table";
-        public const string DESCRIPTION_TABLE_STYLE_VERSION = "V.01";
+        /// <summary>
+        /// V.02
+        /// </summary>
+        public const string DESCRIPTION_TABLE_STYLE_VERSION = "V.02";
     }
         
     public static class Constants
     {
+        /// <summary>
+        /// Application_Settings_File.MIESET
+        /// </summary>
         public const String SETTING_FILE_NAME  = "Application_Settings_File.MIESET";
+        /// <summary>
+        /// C:\macros_alstom
+        /// </summary>
         public const String MacroPath = "C:\\macros_alstom";
+        /// <summary>
+        /// \export\ValToolMgr\
+        /// </summary>
         public const String exportFolder  = "\\export\\ValToolMgr\\";
 
+        /// <summary>
+        /// A0
+        /// </summary>
         public const String macroVersion = "A0";
+        /// <summary>
+        /// 29/01/2013
+        /// </summary>
         public const String macroUpdateDate  = "29/01/2013";
+        /// <summary>
+        /// Function not implemented
+        /// </summary>
         public const String ERROR_NOT_IMPLEMENTED_FUNCTION = "Function not implemented";
 
     }
