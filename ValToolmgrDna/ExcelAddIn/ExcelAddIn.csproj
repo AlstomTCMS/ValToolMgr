@@ -238,11 +238,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\2TestStand.png" />
+    <Content Include="img\AddActionVar.png" />
+    <Content Include="img\AddCheckVar.png" />
     <Content Include="img\AddStep.png" />
     <Content Include="img\CheckTest.png" />
     <Content Include="img\forceUpgrade.png" />
     <Content Include="img\NewPR.png" />
     <Content Include="img\Plan2Tests.png" />
+    <Content Include="img\RemoveActionVar.png" />
+    <Content Include="img\RemoveCheckVar.png" />
+    <Content Include="img\RemoveStep.png" />
     <Content Include="img\Upgrade.png" />
   </ItemGroup>
   <ItemGroup>
