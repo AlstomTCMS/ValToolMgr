@@ -186,16 +186,20 @@ namespace ValToolFunctions_2013
             {
                 string[] tArray = Regex.Split(tableAddress, @"\$");
 
-                //Unmerge current merged zone
-                if (!addMode)
+                try
                 {
-                    tableAddress = "A" + tArray[2] + "A" + (int.Parse(tArray[4]) +1);
-                    testSheet.Range[tableAddress].UnMerge();
-                }
+                    //Unmerge current merged zone
+                    tableAddress = "A" + tArray[2] + "A" + (int.Parse(tArray[4]) + (addMode ? -1 : 1));
+                    if (testSheet.Range[tableAddress].MergeCells)
+                    {
+                        testSheet.Range[tableAddress].UnMerge();
+                    }
 
-                //merge the new one
-                tableAddress = "A" + tArray[2] + "A" + tArray[4];
-                testSheet.Range[tableAddress].Merge();
+                    //merge the new one
+                    tableAddress = "A" + tArray[2] + "A" + tArray[4];
+                    testSheet.Range[tableAddress].Merge();
+                }
+                catch { }
             }
         }
 

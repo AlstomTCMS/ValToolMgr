@@ -38,8 +38,10 @@ namespace ValToolFunctions_2013
         NONE = 0,
         [StringValue("Last")]
         LAST = 1,
-        [StringValue("Current")]
-        CURRENT = 2
+        [StringValue("Current Up")]
+        CURRENT_UP = 2,
+        [StringValue("Current Down")]
+        CURRENT_DOWN = 3
     }
 
     public enum SheetsNames
