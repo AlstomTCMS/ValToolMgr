@@ -61,8 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="StringValueAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ValToolFunctionsStub\ValToolFunctionsStub.csproj">
+      <Project>{6ACDB451-673C-48F3-8B3F-661658017FCC}</Project>
+      <Name>ValToolFunctionsStub</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,3 +5,5 @@ C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\bin\Debug\Microsoft.Office.
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\obj\Debug\ResolveAssemblyReference.cache
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\obj\Debug\ValToolFunctions_2013.dll
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\obj\Debug\ValToolFunctions_2013.pdb
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\bin\Debug\ValToolFunctionsStub.dll
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2012\bin\Debug\ValToolFunctionsStub.pdb

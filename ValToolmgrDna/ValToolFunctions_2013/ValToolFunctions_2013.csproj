@@ -61,16 +61,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="ExcelApplication.cs" />
-    <Compile Include="ExcelApplicationMissingException.cs" />
-    <Compile Include="General.cs" />
     <Compile Include="RibbonHandler.cs" />
-    <Compile Include="StringValueAttribute.cs" />
-    <Compile Include="CreateTest.cs" />
-    <Compile Include="InputBox.cs" />
-    <Compile Include="LayoutVersion_DropDown.cs" />
+    <Compile Include="SwVTP\SwVTP_Creation.cs" />
+    <Compile Include="Utils\General.cs" />
+    <Compile Include="PR_Test\CreateTest.cs" />
+    <Compile Include="UI\InputBox.cs" />
+    <Compile Include="UI\LayoutVersion_DropDown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestManager.cs" />
+    <Compile Include="PR_Test\TestManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ValToolFunctionsStub\ValToolFunctionsStub.csproj">
+      <Project>{6ACDB451-673C-48F3-8B3F-661658017FCC}</Project>
+      <Name>ValToolFunctionsStub</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

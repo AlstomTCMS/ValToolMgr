@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2013
 {
@@ -30,18 +31,6 @@ namespace ValToolFunctions_2013
         TYPE_VAR_CHECK_ENV = 4,
         [StringValue("PGM")]
         TYPE_VAR_PGM  = 5
-    }
-
-    public enum EditingZone
-    {
-        [StringValue("Not specified")]
-        NONE = 0,
-        [StringValue("Last")]
-        LAST = 1,
-        [StringValue("Current Up")]
-        CURRENT_UP = 2,
-        [StringValue("Current Down")]
-        CURRENT_DOWN = 3
     }
 
     public enum SheetsNames

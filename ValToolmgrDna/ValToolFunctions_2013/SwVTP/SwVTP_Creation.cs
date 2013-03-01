@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolFunctionsStub
+namespace ValToolFunctions_2013
 {
-    public abstract class RibbonHandler
+    class SwVTP_Creation
     {
     }
 }

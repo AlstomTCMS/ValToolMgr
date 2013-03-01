@@ -6,15 +6,33 @@ using Microsoft.Office.Tools.Ribbon;
 using ValToolFunctions_2013;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using ValToolFunctionsStub;
 
 namespace ExcelAddIn
 {
     public partial class RibbonVisual
     {
+        internal RibbonHandler ribbonHandler_2013 = new RibbonHandler();
+        #region Internal ribbon management
+
         private void RibbonVisual_Load(object sender, RibbonUIEventArgs e)
         {
 
         }
+
+        private void LayoutVersion_DD_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void autoUpdate_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region Interactions with the RibbonHandler interface
 
         private void button_NewPR_Click(object sender, RibbonControlEventArgs e)
         {
@@ -24,7 +42,19 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            CreateTest.NewPR(Globals.ThisAddIn.Application);
+                ribbonHandler_2013.NewPR(xlsApp);
+            }
+            catch (NotImplementedException ex)
+            {
+
+            }
+            catch (ExcelApplicationNotAvailableException ex)
+            {
+                MessageBox.Show("A functionality is already running on this workbook. Please, wait it finished before trying to use an other function.");
+            }
+            catch (ExcelApplicationMissingException ex)
+            {
+                MessageBox.Show("");
             }
             catch (Exception ex)
             {
@@ -43,19 +73,10 @@ namespace ExcelAddIn
             }
         }
 
-        private void LayoutVersion_DD_SelectionChanged(object sender, RibbonControlEventArgs e)
-        {
-
-        }
-
-        private void autoUpdate_Click(object sender, RibbonControlEventArgs e)
-        {
-
-        }
 
         private void AddStep_Click(object sender, RibbonControlEventArgs e)
         {
-            TestManager.AddNewStep(Globals.ThisAddIn.Application);
+            ribbonHandler_2013.AddStep(Globals.ThisAddIn.Application);
         }
 
         private void RemoveStep_Click(object sender, RibbonControlEventArgs e)
@@ -66,7 +87,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            TestManager.RemoveStep(Globals.ThisAddIn.Application,EditingZone.NONE);
+                ribbonHandler_2013.RemoveStep(xlsApp, EditingZone.NONE);
             }
             catch (Exception ex)
             {
@@ -93,7 +114,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            TestManager.AddVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.ACTION, EditingZone.NONE);
+                ribbonHandler_2013.AddActionVar(Globals.ThisAddIn.Application, EditingZone.NONE);
             }
             catch (Exception ex)
             {
@@ -120,7 +141,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            TestManager.AddVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.CHECK, EditingZone.NONE);
+                ribbonHandler_2013.AddCheckVar(Globals.ThisAddIn.Application, EditingZone.NONE);
             }
             catch (Exception ex)
             {
@@ -147,7 +168,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            TestManager.RemoveVariable(Globals.ThisAddIn.Application, TEST.TABLE.TYPE.ACTION, EditingZone.NONE);
+                ribbonHandler_2013.RemoveActionVar(Globals.ThisAddIn.Application, EditingZone.NONE);
             }
             catch (Exception ex)
             {
@@ -174,7 +195,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-                TestManager.RemoveVariable(xlsApp, TEST.TABLE.TYPE.CHECK, EditingZone.NONE);
+                ribbonHandler_2013.RemoveCheckVar(xlsApp, EditingZone.NONE);
             }
             catch (Exception ex)
             {
@@ -192,5 +213,6 @@ namespace ExcelAddIn
                 }
             }
         }
+        #endregion
     }
 }

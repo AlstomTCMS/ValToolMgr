@@ -13,3 +13,5 @@ C:\macros_alstom\ValToolmgrDna\ExcelAddIn\obj\Debug\ExcelAddIn.dll
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\obj\Debug\ExcelAddIn.pdb
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolFunctions_2013.dll
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolFunctions_2013.pdb
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolFunctionsStub.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolFunctionsStub.pdb

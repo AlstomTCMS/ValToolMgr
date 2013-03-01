@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2012
 {

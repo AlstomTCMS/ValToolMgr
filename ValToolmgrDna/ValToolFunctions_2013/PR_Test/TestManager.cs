@@ -6,89 +6,90 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2013
 {
-    public static class TestManager
+    internal static class TestManager
     {
-        public static void AddNewStep(Excel.Application xlsApp)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="editingMode"></param>
+        internal static void AddNewStep(EditingZone editingMode = EditingZone.NONE)
         {
-                ExcelApplication.setInstance(xlsApp);
-                if (General.isActivesheet_a_PR_Test())
-                {
-                    Worksheet ws = ExcelApplication.getInstance().ActiveSheet;
-                    string testNumber = General.getTestNumber();
-                    // Ajouter une colonne à chaque tableau
-                    ListColumns actionT = ws.ListObjects[TEST.TABLE.PREFIX.ACTION + testNumber].ListColumns;
-                    ListColumns checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber].ListColumns;
-                    ListColumns descT = ws.ListObjects[TEST.TABLE.PREFIX.DESC + testNumber].ListColumns;
+            if (General.isActivesheet_a_PR_Test())
+            {
+                Worksheet ws = RibbonHandler.ExcelApplication.ActiveSheet;
+                string testNumber = General.getTestNumber();
+                // Ajouter une colonne à chaque tableau
+                ListColumns actionT = ws.ListObjects[TEST.TABLE.PREFIX.ACTION + testNumber].ListColumns;
+                ListColumns checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber].ListColumns;
+                ListColumns descT = ws.ListObjects[TEST.TABLE.PREFIX.DESC + testNumber].ListColumns;
             
             
-                    // Si tous les tableaux ont la meme taille
-                    if ( actionT.Count == checkT.Count && actionT.Count == descT.Count + 1){
-                        actionT.Add();
+                // Si tous les tableaux ont la meme taille
+                if ( actionT.Count == checkT.Count && actionT.Count == descT.Count + 1){
+                    actionT.Add();
+                    checkT.Add();
+                    descT.Add();
+                }else if ( false){
+                    int stepNumber = actionT.Count;
+                    if ( stepNumber == checkT.Count){
                         checkT.Add();
-                        descT.Add();
-                    }else if ( false){
-                        int stepNumber = actionT.Count;
-                        if ( stepNumber == checkT.Count){
-                            checkT.Add();
-                        }else{
-                            //checkT.Resize Range("$B$15:$U$15")
-                        }
-                
-                        if ( stepNumber == descT.Count + 1){
-                            descT.Add();
-                        }else{
-                            //descT.Resize Range("$B$15:$U$15")
-                        }
                     }else{
-                        MessageBox.Show("All tables are not at the same size");
+                        //checkT.Resize Range("$B$15:$U$15")
                     }
+                
+                    if ( stepNumber == descT.Count + 1){
+                        descT.Add();
+                    }else{
+                        //descT.Resize Range("$B$15:$U$15")
+                    }
+                }else{
+                    MessageBox.Show("All tables are not at the same size");
                 }
+            }
         }
 
-        public static void RemoveStep(Excel.Application xlsApp, EditingZone editingMode)
+        internal static void RemoveStep(EditingZone editingMode = EditingZone.NONE)
         {
+            if (General.isActivesheet_a_PR_Test())
+            {
+                Worksheet ws = RibbonHandler.ExcelApplication.ActiveSheet;
+                string testNumber = General.getTestNumber();
+                // Ajouter une colonne à chaque tableau
+                ListColumns descT = ws.ListObjects[TEST.TABLE.PREFIX.DESC + testNumber].ListColumns;
+                ListColumns actionT = ws.ListObjects[TEST.TABLE.PREFIX.ACTION + testNumber].ListColumns;
+                ListColumns checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber].ListColumns;
 
-                ExcelApplication.setInstance(xlsApp);
-                if (General.isActivesheet_a_PR_Test())
+
+                // If all tables have the same size
+                if (actionT.Count == checkT.Count && actionT.Count == descT.Count + 1)
                 {
-                    Worksheet ws = ExcelApplication.getInstance().ActiveSheet;
-                    string testNumber = General.getTestNumber();
-                    // Ajouter une colonne à chaque tableau
-                    ListColumns descT = ws.ListObjects[TEST.TABLE.PREFIX.DESC + testNumber].ListColumns;
-                    ListColumns actionT = ws.ListObjects[TEST.TABLE.PREFIX.ACTION + testNumber].ListColumns;
-                    ListColumns checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber].ListColumns;
-
-
-                    // If all tables have the same size
-                    if (actionT.Count == checkT.Count && actionT.Count == descT.Count + 1)
+                    //Delete until first step
+                    if (actionT.Count > 3)
                     {
-                        //Delete until first step
-                        if (actionT.Count > 3)
-                        {
-                            descT[descT.Count].Delete();
-                            actionT[actionT.Count].Delete();
-                            checkT[checkT.Count].Delete();
-                        }
-                        else if (actionT.Count == 3)
-                        {
-                            descT[2].DataBodyRange.ClearContents();
-                            actionT[3].DataBodyRange.ClearContents();
-                            actionT[3].Total.ClearContents();
-                            checkT[3].DataBodyRange.ClearContents();
-                        }
+                        descT[descT.Count].Delete();
+                        actionT[actionT.Count].Delete();
+                        checkT[checkT.Count].Delete();
+                    }
+                    else if (actionT.Count == 3)
+                    {
+                        descT[2].DataBodyRange.ClearContents();
+                        actionT[3].DataBodyRange.ClearContents();
+                        actionT[3].Total.ClearContents();
+                        checkT[3].DataBodyRange.ClearContents();
                     }
                 }
+            }
         }
 
-        public static void AddVariable(Excel.Application xlsApp, TEST.TABLE.TYPE type ,EditingZone editingMode)
+        internal static void AddVariable(TEST.TABLE.TYPE type ,EditingZone editingMode=EditingZone.NONE)
         {
-                ExcelApplication.setInstance(xlsApp);
                 if (General.isActivesheet_a_PR_Test())
                 {
-                    Worksheet ws = ExcelApplication.getInstance().ActiveSheet;
+                    Worksheet ws = RibbonHandler.ExcelApplication.ActiveSheet;
                     string testNumber = General.getTestNumber();
                     ListObject checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber];
 
@@ -149,12 +150,11 @@ namespace ValToolFunctions_2013
                 }
         }
 
-        public static void RemoveVariable(Excel.Application xlsApp, TEST.TABLE.TYPE type, EditingZone editingMode)
+        internal static void RemoveVariable(TEST.TABLE.TYPE type, EditingZone editingMode = EditingZone.NONE)
         {
-                ExcelApplication.setInstance(xlsApp);
                 if (General.isActivesheet_a_PR_Test())
                 {
-                    Worksheet ws = ExcelApplication.getInstance().ActiveSheet;
+                    Worksheet ws = RibbonHandler.ExcelApplication.ActiveSheet;
                     string testNumber = General.getTestNumber();
                     ListObject checkT = ws.ListObjects[TEST.TABLE.PREFIX.CHECK + testNumber];
 
@@ -208,7 +208,9 @@ namespace ValToolFunctions_2013
         /// <summary>
         /// Move check title up or down
         /// </summary>
-        static void MoveCheckList(ListObject checkT, Boolean downDirection)
+        /// <param name="checkT"></param>
+        /// <param name="downDirection"></param>
+        private static void MoveCheckList(ListObject checkT, Boolean downDirection)
         {
             // down
             if (downDirection)
@@ -261,7 +263,7 @@ namespace ValToolFunctions_2013
             UpdateCheckListHeight(checkT);
         }
 
-        static void UpdateCheckListHeight(ListObject checkT)
+        private static void UpdateCheckListHeight(ListObject checkT)
         {
             try
             {

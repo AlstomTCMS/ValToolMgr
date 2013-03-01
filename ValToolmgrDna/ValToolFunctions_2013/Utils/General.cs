@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace ValToolFunctions_2013
 {
-    class General
+    internal class General
     {
         /// <summary>
         /// Init a sheet by his name
@@ -20,9 +20,9 @@ namespace ValToolFunctions_2013
         /// <param name="sheetAlreadyExist"></param>
         /// <param name="titles"></param>
         /// <returns></returns>
-        public static Worksheet InitSheet(string sheetName, Boolean eraseContent = false, Boolean visible = true, Boolean sheetAlreadyExist = false , Array titles  = null)
+        internal static Worksheet InitSheet(string sheetName, Boolean eraseContent = false, Boolean visible = true, Boolean sheetAlreadyExist = false , Array titles  = null)
         {
-            Sheets sheets = (Sheets)ExcelApplication.getInstance().ActiveWorkbook.Worksheets;
+            Sheets sheets = (Sheets)RibbonHandler.ExcelApplication.ActiveWorkbook.Worksheets;
 
             //Si la feuille n'existe pas, on l'ajoute
             if (! WsExist(sheetName)){
@@ -55,7 +55,7 @@ namespace ValToolFunctions_2013
                 }
                 //enlève l'affichage grille
                 newSheet.Activate();
-                ExcelApplication.getInstance().ActiveWindow.DisplayGridlines = false;
+                RibbonHandler.ExcelApplication.ActiveWindow.DisplayGridlines = false;
             }
             catch { }
            
@@ -75,11 +75,11 @@ namespace ValToolFunctions_2013
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Boolean WsExist(string name)
+        internal static Boolean WsExist(string name)
         {            
             //Nous dit si la feuille mis en paramètre existe
             try{
-                int exist = ExcelApplication.getInstance().ActiveWorkbook.Worksheets[name].index;
+                int exist = RibbonHandler.ExcelApplication.ActiveWorkbook.Worksheets[name].index;
                 if (exist > 0){
                     return true;
                 }
@@ -92,7 +92,7 @@ namespace ValToolFunctions_2013
 
         ////Fonction à appeler depuis toute macro appelée par un bouton de barre de macro externe
         ////return vrai si il y a un fichier d//ouvert
-        public static Boolean HasActiveBook(Boolean displayMsg = true)
+        internal static Boolean HasActiveBook(Boolean displayMsg = true)
         {
             Boolean hasActiveBook = false;
             try{
@@ -100,7 +100,7 @@ namespace ValToolFunctions_2013
                 //If ActiveWorkbook.Name Like "Classeur*" Or ActiveWorkbook.Name Like "Book*" Then
                     //GoTo NoActiveWorkBook
                 //End If
-                if (ExcelApplication.getInstance().Workbooks.Count > 0)
+                if (RibbonHandler.ExcelApplication.Workbooks.Count > 0)
                 {
                     hasActiveBook = true;
                 }
@@ -119,11 +119,11 @@ namespace ValToolFunctions_2013
         /// </summary>
         /// <param name="displayMsg">Sortir avec message sinon. Vrai par défaut</param>
         /// <returns></returns>
-        public static Boolean isActivesheet_a_PR_Test( Boolean displayMsg  = true)
+        internal static Boolean isActivesheet_a_PR_Test( Boolean displayMsg  = true)
         {
             Boolean isActivesheet_a_PR_Test;
 
-            if(Regex.IsMatch(ExcelApplication.getInstance().ActiveSheet.name, TEST.TABLE.PREFIX.TEST + "*"))
+            if (Regex.IsMatch(RibbonHandler.ExcelApplication.ActiveSheet.name, TEST.TABLE.PREFIX.TEST + "*"))
             {
                 isActivesheet_a_PR_Test = true;
             }else
@@ -136,20 +136,20 @@ namespace ValToolFunctions_2013
             return isActivesheet_a_PR_Test;
         }
 
-        public static string getTestNumber()
+        internal static string getTestNumber()
         {
             string getTestNumber="";
             string shName = "";
             try
             {
-                shName = ExcelApplication.getInstance().ActiveSheet.Name;
+                shName = RibbonHandler.ExcelApplication.ActiveSheet.Name;
                 getTestNumber = Regex.Split(shName, "_")[1];
             }
             catch { }
             return getTestNumber;
         }
 
-        public static string getTestNumber(string sheetName)
+        internal static string getTestNumber(string sheetName)
         {
             string getTestNumber = "";
             try
@@ -159,17 +159,6 @@ namespace ValToolFunctions_2013
             catch { }
             return getTestNumber;
         }
-        ////Réecri un String avec des parametres entre crochet {} remplacés par la liste de paramètres mis en argument
-        //Public Function StringFormat(ByVal forFormat As String, ParamArray params() As Variant) As String
-        //    Dim i As Integer
-        //    Dim formatted As String
-
-        //    formatted = forFormat
-        //    For i = LBound(params()) To UBound(params())
-        //        formatted = Replace(formatted, "{" & CStr(i) & "}", CStr(params(i)))
-        //    Next
-        //    StringFormat = formatted
-        //End Function
 
     }
 }

@@ -12,20 +12,18 @@ namespace ValToolFunctions_2013
     /// <summary>
     /// This class create a test from scratch
     /// </summary>
-    public class CreateTest
+    internal class CreateTest
     {
-
-        public static void NewPR(Excel.Application xlsApp){
+        internal static void NewPR()
+        {
             try
             {
-                xlsApp.ScreenUpdating = false;
-
-                ExcelApplication.setInstance(xlsApp);
+                RibbonHandler.ExcelApplication.ScreenUpdating = false;
                 //MessageBox.Show(Constants.ERROR_NOT_IMPLEMENTED_FUNCTION);
 
                 //Microsoft.Office.Interop.Excel.Range range = (Microsoft.Office.Interop.Excel.Range)excelSheet.Cells[1, 1];
                 //string cellValue = range.Value.ToString();
-                
+
                 //demander à l//utilisateur le nom qu//il veut mettre
                 ////filesavefullname = application.getsaveasfilename(initialfilename:="b2_xxx_y_a0", _
                 ////filefilter:="xls files (*.xls), *.xls")
@@ -37,40 +35,38 @@ namespace ValToolFunctions_2013
                     if ((testname != "") && (testname != defaultvalue))
                     {
                         //todo: tester si le test existe deja...
-                        createWholeTestFormat(xlsApp,testname);
+                        createWholeTestFormat(testname);
                     }
                 }
                 ////Sauvegarder    
             }
-            finally
-            {
-                xlsApp.ScreenUpdating = true;
-            }  
+            catch { }
         }
 
         // Créé l//ensemble des éléments du format de test 2013
-        public static void createWholeTestFormat(Excel.Application xlsApp, string testName){
+        private static void createWholeTestFormat(string testName)
+        {
             string sheetName = TEST.TABLE.PREFIX.TEST + testName;
 
             try
             {
                 if (General.WsExist(sheetName))
                 {
-                    xlsApp.DisplayAlerts = false;
-                    xlsApp.ActiveWorkbook.Worksheets[sheetName].Delete();
-                    xlsApp.DisplayAlerts = true;
+                    RibbonHandler.ExcelApplication.DisplayAlerts = false;
+                    RibbonHandler.ExcelApplication.ActiveWorkbook.Worksheets[sheetName].Delete();
+                    RibbonHandler.ExcelApplication.DisplayAlerts = true;
                 }
             }
             catch { }
     
             //Ajout TEMPORAIRE d//un workbook s//il n//en n//existe pas
             if (! General.HasActiveBook(false)) {
-                xlsApp.Workbooks.Add();
+                RibbonHandler.ExcelApplication.Workbooks.Add();
             }
     
             General.InitSheet(sheetName).Activate();
 
-            Worksheet testSheet = (Worksheet)xlsApp.ActiveWorkbook.Worksheets[sheetName];
+            Worksheet testSheet = (Worksheet)RibbonHandler.ExcelApplication.ActiveWorkbook.Worksheets[sheetName];
             testSheet.Tab.ThemeColor = XlThemeColor.xlThemeColorLight2;
             testSheet.Tab.TintAndShade = 0;
 
@@ -83,7 +79,7 @@ namespace ValToolFunctions_2013
             FormatTestSheet(testSheet);
         }
 
-        public static void FormatTestSheet(Worksheet testSheet)
+        private static void FormatTestSheet(Worksheet testSheet)
         {
             testSheet.Rows["1:2"].Group();
             testSheet.Range[TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name) + "["+ TEST.STEP_PATERN + "]"].Select();
@@ -92,7 +88,8 @@ namespace ValToolFunctions_2013
         }
 
         ////Ajoute la table de description en haut
-        public static void AddTableDescription(Worksheet testSheet){
+        private static void AddTableDescription(Worksheet testSheet)
+        {
     
             //on insert une ligne supplémentaire pour les titres (qu'il n'y a pas)
             testSheet.Rows["1:1"].Insert(XlDirection.xlDown);
@@ -131,15 +128,18 @@ namespace ValToolFunctions_2013
             font.Bold = true;
         }
 
-        public static void AddCheckLabel(Worksheet testSheet){
+        private static void AddCheckLabel(Worksheet testSheet)
+        {
             DefineVerticalLabel(testSheet, TEST.TABLE.CHECK);
         }
 
-        public static void AddActionLabel(Worksheet testSheet){
+        private static void AddActionLabel(Worksheet testSheet)
+        {
             DefineVerticalLabel(testSheet, TEST.TABLE.ACTION);
         }
 
-        public static void DefineVerticalLabel(Worksheet testSheet, String label){
+        private static void DefineVerticalLabel(Worksheet testSheet, String label)
+        {
             
             testSheet.Columns["A:A"].ColumnWidth = 5.5;
         
@@ -173,7 +173,7 @@ namespace ValToolFunctions_2013
                 font.Bold = true;
         }
 
-        public static void UpdateVerticalLabel(Worksheet testSheet, ListObject table, Boolean addMode)
+        internal static void UpdateVerticalLabel(Worksheet testSheet, ListObject table, Boolean addMode)
         {
             string tableAddress = null;
 
@@ -203,7 +203,8 @@ namespace ValToolFunctions_2013
             }
         }
 
-        public static void AddTestTitle(Worksheet testSheet){
+        private static void AddTestTitle(Worksheet testSheet)
+        {
             Range titleRange = testSheet.Range["B3"];
             titleRange.Value = Regex.Replace(testSheet.Name , "_", " ") ;
                 //TODO: Donner un nom
@@ -242,7 +243,8 @@ namespace ValToolFunctions_2013
             testSheet.Rows["3:3"].RowHeight = 30;
         }
 
-        public static void AddTableCheck(Worksheet testSheet){
+        private static void AddTableCheck(Worksheet testSheet)
+        {
             string tableName = TEST.TABLE.PREFIX.CHECK + General.getTestNumber(testSheet.Name);
 
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$B$8"], XlYesNoGuess.xlYes).Name = tableName;
@@ -268,7 +270,8 @@ namespace ValToolFunctions_2013
             font.Bold = true;
         }
 
-        public static void AddTableAction(Worksheet testSheet){
+        private static void AddTableAction(Worksheet testSheet)
+        {
             string tableName = TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name);
 
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$B$5"], XlYesNoGuess.xlYes).Name = tableName;
@@ -315,14 +318,15 @@ namespace ValToolFunctions_2013
         /// Ajoute au workbook le style de tableau pour la partie descriptive s'il n'existe pas déjà
         /// </summary>
         /// <returns>vrai s'il faut mettre à jour le style du tableau</returns>
-        public static Boolean AddDescTableFormat(){
+        private static Boolean AddDescTableFormat()
+        {
             Boolean updateTable=false;
             Boolean addTable=true;
             string[] tableName;
             TableStyle ts;
             Boolean addDescTableFormat=false;
 
-            Workbook wb =ExcelApplication.getInstance().ActiveWorkbook;
+            Workbook wb =RibbonHandler.ExcelApplication.ActiveWorkbook;
 
             // Vérifie que le style existe déjà et à quelle version
             foreach (TableStyle style in wb.TableStyles)

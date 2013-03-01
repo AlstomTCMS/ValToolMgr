@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ValToolFunctions_2012
+namespace ValToolFunctionsStub
 {
     public class StringValueAttribute : System.Attribute
     {
