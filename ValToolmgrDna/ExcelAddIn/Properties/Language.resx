@@ -117,41 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AddActionVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addactionvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddActionVar_label" xml:space="preserve">
+    <value>Add Action Var</value>
   </data>
-  <data name="AddCheckVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addcheckvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddCheckVar_label" xml:space="preserve">
+    <value>Add Check Var</value>
   </data>
-  <data name="AddStep" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addstep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddStep_label" xml:space="preserve">
+    <value>Add Step</value>
   </data>
-  <data name="CheckTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\checktest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AutoUpdate_CB_label" xml:space="preserve">
+    <value>Auto Update</value>
   </data>
-  <data name="forceUpgrade" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\forceupgrade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CheckTest_label" xml:space="preserve">
+    <value>Check Test</value>
   </data>
-  <data name="NewPR" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\newpr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="macro_update_date_label" xml:space="preserve">
+    <value>Update date: {0}</value>
   </data>
-  <data name="Plan2Tests" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\plan2tests.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="macro_version_label" xml:space="preserve">
+    <value>Version: {0}</value>
   </data>
-  <data name="RemoveActionVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removeactionvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="NewPR_label" xml:space="preserve">
+    <value>New PR</value>
   </data>
-  <data name="RemoveCheckVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removecheckvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PlanToTests_label" xml:space="preserve">
+    <value>Plan to Tests</value>
   </data>
-  <data name="RemoveStep" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removestep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RemoveActionVar_label" xml:space="preserve">
+    <value>Remove Action Var</value>
   </data>
-  <data name="Upgrade" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\upgrade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RemoveCheckVar_label" xml:space="preserve">
+    <value>Remove Check Var</value>
   </data>
-  <data name="_2TestStand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\2teststand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RemoveStep_label" xml:space="preserve">
+    <value>Remove Step</value>
+  </data>
+  <data name="ToTestStand" xml:space="preserve">
+    <value>To TestStand</value>
+  </data>
+  <data name="NotPublished" xml:space="preserve">
+    <value>Not Published</value>
   </data>
 </root>

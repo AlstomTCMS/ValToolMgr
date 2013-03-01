@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace ExcelAddIn.Properties {
+    using System;
     
     
     /// <summary>
@@ -56,6 +57,90 @@ namespace ExcelAddIn.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _2TestStand {
+            get {
+                object obj = ResourceManager.GetObject("_2TestStand", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap AddActionVar {
+            get {
+                object obj = ResourceManager.GetObject("AddActionVar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap AddCheckVar {
+            get {
+                object obj = ResourceManager.GetObject("AddCheckVar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap AddStep {
+            get {
+                object obj = ResourceManager.GetObject("AddStep", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap CheckTest {
+            get {
+                object obj = ResourceManager.GetObject("CheckTest", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap forceUpgrade {
+            get {
+                object obj = ResourceManager.GetObject("forceUpgrade", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NewPR {
+            get {
+                object obj = ResourceManager.GetObject("NewPR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Plan2Tests {
+            get {
+                object obj = ResourceManager.GetObject("Plan2Tests", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveActionVar {
+            get {
+                object obj = ResourceManager.GetObject("RemoveActionVar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveCheckVar {
+            get {
+                object obj = ResourceManager.GetObject("RemoveCheckVar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveStep {
+            get {
+                object obj = ResourceManager.GetObject("RemoveStep", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Upgrade {
+            get {
+                object obj = ResourceManager.GetObject("Upgrade", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

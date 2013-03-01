@@ -251,6 +251,7 @@
             // 
             this.UpdateDate.Label = "Update date: 25/01/2013";
             this.UpdateDate.Name = "UpdateDate";
+            this.UpdateDate.Visible = false;
             // 
             // autoUpdate
             // 
