@@ -14,7 +14,10 @@ namespace ExcelAddIn
 {
     public partial class RibbonVisual
     {
+        internal const string EXCEPTION_USER_EDITING = "Void set_Interactive(Boolean)";
         internal RibbonHandler ribbonHandler_2013 = new RibbonHandler();
+
+
         #region Internal ribbon management
 
         private void RibbonVisual_Load(object sender, RibbonUIEventArgs e)
@@ -71,40 +74,40 @@ namespace ExcelAddIn
         private void button_NewPR_Click(object sender, RibbonControlEventArgs e)
         {
             Excel.Application xlsApp = Globals.ThisAddIn.Application;
-            try
-            {
-                xlsApp.ScreenUpdating = false;
-                xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
+            //try
+            //{
+                //xlsApp.ScreenUpdating = false;
+                //xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
                 ribbonHandler_2013.NewPR(xlsApp);
-            }
-            catch (NotImplementedException ex)
-            {
-
-            }
-            catch (ExcelApplicationNotAvailableException ex)
-            {
-                MessageBox.Show("A functionality is already running on this workbook. Please, wait it finished before trying to use an other function.");
-            }
-            catch (ExcelApplicationMissingException ex)
-            {
-                MessageBox.Show("");
-            }
-            catch (Exception ex)
-            {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
-                {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
-                }
-            }
-            finally
-            {
-                xlsApp.ScreenUpdating = true;
-                if (!xlsApp.Interactive)
-                {
-                    xlsApp.Interactive = true;
-                }
-            }
+            //}
+            //catch (NotImplementedException ex)
+            //{
+            //    MessageBox.Show(Language.Exception_NotImplemented);
+            //}
+            //catch (ExcelApplicationNotAvailableException ex)
+            //{
+            //    MessageBox.Show(Language.Exception_ExcelApplication_NotAvailable);
+            //}
+            //catch (ExcelApplicationMissingException ex)
+            //{
+            //    MessageBox.Show(Language.Exception_ExcelApplication_Missing);
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
+            //    {
+            //        MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
+            //    }
+            //}
+            //finally
+            //{
+            //    xlsApp.ScreenUpdating = true;
+            //    if (!xlsApp.Interactive)
+            //    {
+            //        xlsApp.Interactive = true;
+            //    }
+            //}
         }
 
 
@@ -125,9 +128,9 @@ namespace ExcelAddIn
             }
             catch (Exception ex)
             {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
                 {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
                 }
             }
             finally
@@ -152,9 +155,9 @@ namespace ExcelAddIn
             }
             catch (Exception ex)
             {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
                 {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
                 }
             }
             finally
@@ -179,9 +182,9 @@ namespace ExcelAddIn
             }
             catch (Exception ex)
             {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
                 {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
                 }
             }
             finally
@@ -206,9 +209,9 @@ namespace ExcelAddIn
             }
             catch (Exception ex)
             {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
                 {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
                 }
             }
             finally
@@ -233,9 +236,9 @@ namespace ExcelAddIn
             }
             catch (Exception ex)
             {
-                if (ex.TargetSite.ToString() == "Void set_Interactive(Boolean)")
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
                 {
-                    MessageBox.Show("Please, unselect the cell you are editing. This may cause unexecepted behaviours", "Warning !");
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
                 }
             }
             finally

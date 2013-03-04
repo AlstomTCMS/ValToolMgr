@@ -159,4 +159,21 @@
   <data name="NotPublished" xml:space="preserve">
     <value>Not Published</value>
   </data>
+  <data name="Error_Excel_User_Editing" xml:space="preserve">
+    <value>Please, unselect the cell you are editing. This may cause unexecepted behaviours.</value>
+  </data>
+  <data name="Exception_ExcelApplication_Missing" xml:space="preserve">
+    <value>No Excel application has been detected.
+Please, open a PR Excel file to use the TCMS Validation Tool Manager.</value>
+  </data>
+  <data name="Exception_ExcelApplication_NotAvailable" xml:space="preserve">
+    <value>A functionality is already running on this workbook.
+Please, wait it finished before trying to use an other function.</value>
+  </data>
+  <data name="Exception_NotImplemented" xml:space="preserve">
+    <value>This function has not been implemented yet for this version.</value>
+  </data>
+  <data name="Warning_title" xml:space="preserve">
+    <value>Warning !</value>
+  </data>
 </root>

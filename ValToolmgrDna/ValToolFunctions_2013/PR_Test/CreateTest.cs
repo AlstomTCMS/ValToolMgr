@@ -14,13 +14,11 @@ namespace ValToolFunctions_2013
     /// </summary>
     internal class CreateTest
     {
+        [System.Obsolete("Use createWholeTestFormat instead")]
         internal static void NewPR()
         {
             try
             {
-                RibbonHandler.ExcelApplication.ScreenUpdating = false;
-                //MessageBox.Show(Constants.ERROR_NOT_IMPLEMENTED_FUNCTION);
-
                 //Microsoft.Office.Interop.Excel.Range range = (Microsoft.Office.Interop.Excel.Range)excelSheet.Cells[1, 1];
                 //string cellValue = range.Value.ToString();
 

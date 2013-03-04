@@ -106,6 +106,44 @@ namespace ExcelAddIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please, unselect the cell you are editing. This may cause unexecepted behaviours..
+        /// </summary>
+        internal static string Error_Excel_User_Editing {
+            get {
+                return ResourceManager.GetString("Error_Excel_User_Editing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Excel application has been detected.
+        ///Please, open a PR Excel file to use the TCMS Validation Tool Manager..
+        /// </summary>
+        internal static string Exception_ExcelApplication_Missing {
+            get {
+                return ResourceManager.GetString("Exception_ExcelApplication_Missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A functionality is already running on this workbook.
+        ///Please, wait it finished before trying to use an other function..
+        /// </summary>
+        internal static string Exception_ExcelApplication_NotAvailable {
+            get {
+                return ResourceManager.GetString("Exception_ExcelApplication_NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This function has not been implemented yet for this version..
+        /// </summary>
+        internal static string Exception_NotImplemented {
+            get {
+                return ResourceManager.GetString("Exception_NotImplemented", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update date: {0}.
         /// </summary>
         internal static string macro_update_date_label {
@@ -183,6 +221,15 @@ namespace ExcelAddIn.Properties {
         internal static string ToTestStand {
             get {
                 return ResourceManager.GetString("ToTestStand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning !.
+        /// </summary>
+        internal static string Warning_title {
+            get {
+                return ResourceManager.GetString("Warning_title", resourceCulture);
             }
         }
     }

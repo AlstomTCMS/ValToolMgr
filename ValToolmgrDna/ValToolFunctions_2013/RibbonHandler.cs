@@ -65,7 +65,7 @@ namespace ValToolFunctions_2013
         public void NewPR(Excel.Application exelApp)
         {
             SetExcelApplication(exelApp);
-            CreateTest.NewPR();
+            SwVTP_Creation.NewPR();
             IsAFunctionalityRunning = false;
         }
 
