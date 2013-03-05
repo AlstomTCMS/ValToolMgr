@@ -23,7 +23,10 @@ namespace TestStandGen.Types.Instructions
         {
             CVariable variable = (CVariable)var.value;
             Name = variable.name;
-            Value = variable.value.ToString();
+            if (String.Equals(variable.GetType().FullName, typeof(CVariableDouble).FullName))
+                Value = variable.value.ToString().Replace(',', '.');
+            else
+                Value = variable.value.ToString();
             Path = variable.path;
             Index = var.Index;
         }

@@ -18,7 +18,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsTestAna(CVariable var)
+        public CTsTestAna(CVariableDouble var)
         {
             Name = var.name;
             Value = var.value.ToString().Replace(',', '.');

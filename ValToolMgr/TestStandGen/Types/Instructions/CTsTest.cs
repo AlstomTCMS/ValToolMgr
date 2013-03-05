@@ -21,7 +21,11 @@ namespace TestStandGen.Types.Instructions
         public CTsTest(CVariable var)
         {
             Name = var.name;
-            Value = var.value.ToString();
+
+            if (String.Equals(var.GetType().FullName, typeof(CVariableDouble).FullName))
+                Value = var.value.ToString().Replace(',','.');
+            else
+                Value = var.value.ToString();
             Path = var.path;
             this.Text = "Force " + Name + " at " + Value;
         }

@@ -156,7 +156,7 @@ namespace TestStandGen
                     instr = new CTsTest((CVariable)inst.data);
 
                 if(String.Equals(typeOfData, typeof(CVariableDouble).FullName))
-                    instr = new CTsTestAna((CVariable)inst.data);
+                    instr = new CTsTestAna((CVariableDouble)inst.data);
 
                 if (String.Equals(typeOfData, typeof(CVariableArray).FullName))
                     instr = new CTsTestArray((CVariableArray)inst.data);
