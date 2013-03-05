@@ -137,6 +137,20 @@ namespace ExcelAddIn.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Tests2SwVTD {
+            get {
+                object obj = ResourceManager.GetObject("Tests2SwVTD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap TestStand2swVTDR {
+            get {
+                object obj = ResourceManager.GetObject("TestStand2swVTDR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Upgrade {
             get {
                 object obj = ResourceManager.GetObject("Upgrade", resourceCulture);

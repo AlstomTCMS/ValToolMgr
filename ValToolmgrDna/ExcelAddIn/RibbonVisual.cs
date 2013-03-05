@@ -290,5 +290,15 @@ namespace ExcelAddIn
                 }
             }
         }
+
+        private void toSwVTD_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void toSwVTDR_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }

@@ -122,9 +122,7 @@ namespace ValToolFunctions_2013
 
             testsTable.TableStyle = "TableStyleMedium2";
             testsTable.Range.EntireColumn.AutoFit();
-            testsTable.ListColumns[2].Range.ColumnWidth = 26; //Requirements
-            testsTable.ListColumns[3].Range.ColumnWidth = 24; //Description
-            testsTable.ListColumns[4].Range.ColumnWidth = 20; //Comment
+            formatColumnsSwVTP();
 
             Interior cat_int = SwvtpS.Range["A1:E2"].Interior;
             cat_int.Pattern = XlPattern.xlPatternNone;
@@ -145,6 +143,16 @@ namespace ValToolFunctions_2013
             SwvtpS.Rows["1:1"].VerticalAlignment = XlVAlign.xlVAlignCenter;
 
             //DebugFillingSwVTP(wb);
+        }
+
+
+        internal static void formatColumnsSwVTP()
+        {
+            Worksheet ws = RibbonHandler.ExcelApplication.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTP)];
+            ListObject testsTable = ws.ListObjects[1];
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT)].Range.ColumnWidth = 26; //Requirements
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.DESC)].Range.ColumnWidth = 24; //Description
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.COMMENT)].Range.ColumnWidth = 20; //Comment
         }
 
         private static void DebugFillingSwVTP(Workbook wb)

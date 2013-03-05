@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
+using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2013
 {
@@ -106,8 +107,8 @@ namespace ValToolFunctions_2013
             testSheet.Rows["1:1"].Delete (XlDirection.xlUp);
         
             //Ajoute les labels des titres verticaux
-            testSheet.Range["C1"].Value = TEST.TABLE.ACTION;
-            testSheet.Range["C2"].Value = TEST.TABLE.CHECK;
+            testSheet.Range["C1"].Value = StringEnum.GetStringValue(TEST.TABLE.TYPE.ACTION);
+            testSheet.Range["C2"].Value = StringEnum.GetStringValue(TEST.TABLE.TYPE.CHECK);
             testSheet.Range["C3"].Value = "Name";
         
             // Efface la mise en forme de la première case de la ligne des totaux
@@ -129,12 +130,12 @@ namespace ValToolFunctions_2013
 
         private static void AddCheckLabel(Worksheet testSheet)
         {
-            DefineVerticalLabel(testSheet, TEST.TABLE.CHECK);
+            DefineVerticalLabel(testSheet, StringEnum.GetStringValue(TEST.TABLE.TYPE.CHECK));
         }
 
         private static void AddActionLabel(Worksheet testSheet)
         {
-            DefineVerticalLabel(testSheet, TEST.TABLE.ACTION);
+            DefineVerticalLabel(testSheet, StringEnum.GetStringValue(TEST.TABLE.TYPE.ACTION));
         }
 
         private static void DefineVerticalLabel(Worksheet testSheet, String label)

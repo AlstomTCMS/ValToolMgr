@@ -154,4 +154,10 @@
   <data name="_2TestStand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\img\2teststand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Tests2SwVTD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\tests2swvtd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TestStand2swVTDR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\img\teststand2swvtdr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

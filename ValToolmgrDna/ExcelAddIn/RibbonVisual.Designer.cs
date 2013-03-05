@@ -56,7 +56,9 @@
             this.checks = this.Factory.CreateRibbonGroup();
             this.testCheck = this.Factory.CreateRibbonButton();
             this.Outputs = this.Factory.CreateRibbonGroup();
+            this.toSwVTD = this.Factory.CreateRibbonButton();
             this.testStand = this.Factory.CreateRibbonButton();
+            this.toSwVTDR = this.Factory.CreateRibbonButton();
             this.macroInfos = this.Factory.CreateRibbonGroup();
             this.macroVersion = this.Factory.CreateRibbonLabel();
             this.UpdateDate = this.Factory.CreateRibbonLabel();
@@ -87,6 +89,7 @@
             this.group1.Items.Add(this.LayoutVersion_DD);
             this.group1.Label = "Layout Version";
             this.group1.Name = "group1";
+            this.group1.Visible = false;
             // 
             // label1
             // 
@@ -114,7 +117,7 @@
             // button_NewPR
             // 
             this.button_NewPR.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button_NewPR.Image = ((System.Drawing.Image)(resources.GetObject("button_NewPR.Image")));
+            this.button_NewPR.Image = global::ExcelAddIn.Properties.Resources.NewPR;
             this.button_NewPR.Label = "New PR";
             this.button_NewPR.Name = "button_NewPR";
             this.button_NewPR.ShowImage = true;
@@ -145,7 +148,7 @@
             // AddStep
             // 
             this.AddStep.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.AddStep.Image = ((System.Drawing.Image)(resources.GetObject("AddStep.Image")));
+            this.AddStep.Image = global::ExcelAddIn.Properties.Resources.AddStep;
             this.AddStep.Label = "Add Step";
             this.AddStep.Name = "AddStep";
             this.AddStep.ShowImage = true;
@@ -221,18 +224,40 @@
             // 
             // Outputs
             // 
+            this.Outputs.Items.Add(this.toSwVTD);
             this.Outputs.Items.Add(this.testStand);
+            this.Outputs.Items.Add(this.toSwVTDR);
             this.Outputs.Label = "Outputs";
             this.Outputs.Name = "Outputs";
+            // 
+            // toSwVTD
+            // 
+            this.toSwVTD.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.toSwVTD.Enabled = false;
+            this.toSwVTD.Image = global::ExcelAddIn.Properties.Resources.Tests2SwVTD;
+            this.toSwVTD.Label = "To SwVTD";
+            this.toSwVTD.Name = "toSwVTD";
+            this.toSwVTD.ShowImage = true;
+            this.toSwVTD.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toSwVTD_Click);
             // 
             // testStand
             // 
             this.testStand.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.testStand.Enabled = false;
-            this.testStand.Image = ((System.Drawing.Image)(resources.GetObject("testStand.Image")));
+            this.testStand.Image = global::ExcelAddIn.Properties.Resources._2TestStand;
             this.testStand.Label = "To TestStand";
             this.testStand.Name = "testStand";
             this.testStand.ShowImage = true;
+            // 
+            // toSwVTDR
+            // 
+            this.toSwVTDR.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.toSwVTDR.Enabled = false;
+            this.toSwVTDR.Image = global::ExcelAddIn.Properties.Resources.TestStand2swVTDR;
+            this.toSwVTDR.Label = "To SwVTDR";
+            this.toSwVTDR.Name = "toSwVTDR";
+            this.toSwVTDR.ShowImage = true;
+            this.toSwVTDR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toSwVTDR_Click);
             // 
             // macroInfos
             // 
@@ -309,6 +334,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton RemoveActionVar;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton RemoveCheckVar;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTD;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTDR;
     }
 
     partial class ThisRibbonCollection

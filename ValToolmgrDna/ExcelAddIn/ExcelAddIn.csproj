@@ -277,6 +277,8 @@
     <Content Include="img\RemoveActionVar.png" />
     <Content Include="img\RemoveCheckVar.png" />
     <Content Include="img\RemoveStep.png" />
+    <Content Include="img\Tests2SwVTD.png" />
+    <Content Include="img\TestStand2swVTDR.png" />
     <Content Include="img\Upgrade.png" />
   </ItemGroup>
   <ItemGroup>

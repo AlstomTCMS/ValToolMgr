@@ -89,23 +89,13 @@ namespace ValToolFunctions_2013
     {
         public static class TABLE
         {
-            /// <summary>
-            /// Action
-            /// </summary>
-            public const string ACTION = "Action";
-            /// <summary>
-            /// Check
-            /// </summary>
-            public const string CHECK = "Check";
-            /// <summary>
-            /// Desc
-            /// </summary>
-            public const string DESCRIPTION="Desc";
-
             public enum TYPE
             {
+                [StringValue("Action")]
                 ACTION,
+                [StringValue("Check")]
                 CHECK,
+                [StringValue("Desc")]
                 DESC
             }
 
@@ -124,17 +114,17 @@ namespace ValToolFunctions_2013
                 /// <summary>
                 /// Table_Action_
                 /// </summary>
-                public const string ACTION= TABLE_PREFIX + TABLE.ACTION + "_";
+                public const string ACTION = TABLE_PREFIX + "Action_";
 
                 /// <summary>
                 /// Table_Check_
                 /// </summary>
-                public const string CHECK = TABLE_PREFIX + TABLE.CHECK + "_";
+                public const string CHECK = TABLE_PREFIX + "Check_";
 
                 /// <summary>
                 /// Table_Desc_
                 /// </summary>
-                public const string DESC = TABLE_PREFIX + TABLE.DESCRIPTION + "_";
+                public const string DESC = TABLE_PREFIX + "Desc_";
             }
             
         }
@@ -161,27 +151,6 @@ namespace ValToolFunctions_2013
         
     public static class Constants
     {
-        /// <summary>
-        /// Application_Settings_File.MIESET
-        /// </summary>
-        public const String SETTING_FILE_NAME  = "Application_Settings_File.MIESET";
-        /// <summary>
-        /// C:\macros_alstom
-        /// </summary>
-        public const String MacroPath = "C:\\macros_alstom";
-        /// <summary>
-        /// \export\ValToolMgr\
-        /// </summary>
-        public const String exportFolder  = "\\export\\ValToolMgr\\";
-
-        /// <summary>
-        /// A0
-        /// </summary>
-        public const String macroVersion = "A0";
-        /// <summary>
-        /// 29/01/2013
-        /// </summary>
-        public const String macroUpdateDate  = "29/01/2013";
         /// <summary>
         /// Function not implemented
         /// </summary>
