@@ -205,9 +205,18 @@ namespace ValToolMgrDna.ExcelSpecific
                 }
                 else if (typeOfTable == TableTypes.TABLE_CHECKS)
                 {
-                    Instruction = new CInstrTest();
-                    logger.Debug(String.Format("Detected Test step."));
-                    Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                    if (String.Compare(Target, "@POPUP@") == 0)
+                    {
+                        Instruction = new CInstrPopup();
+                        logger.Debug(String.Format("Detected Popup."));
+                        Instruction.data = CellValueStr;
+                    }
+                    else
+                    {
+                        Instruction = new CInstrTest();
+                        logger.Debug(String.Format("Detected Test step."));
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                    }
                 }
                 else
                 {
