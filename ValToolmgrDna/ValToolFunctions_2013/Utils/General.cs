@@ -6,6 +6,8 @@ using Excel =Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
+using System.Reflection;
+using System.IO;
 
 namespace ValToolFunctions_2013
 {
@@ -26,8 +28,7 @@ namespace ValToolFunctions_2013
 
             //Si la feuille n'existe pas, on l'ajoute
             if (! WsExist(sheetName)){
-                sheets.Add();
-                sheets[sheets.Count].name = sheetName;
+                sheets.Add(After: sheets[sheets.Count]).Name = sheetName;
             }else{
                 sheetAlreadyExist = true;
             }
@@ -160,5 +161,16 @@ namespace ValToolFunctions_2013
             return getTestNumber;
         }
 
+        internal static string GetFromResources(string resourceName)
+        {
+            Assembly assem = RibbonHandler.ExcelApplication.GetType().Assembly;
+            using (Stream stream = assem.GetManifestResourceStream(resourceName))
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
     }
 }

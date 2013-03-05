@@ -5,3 +5,6 @@ C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\bin\Debug\Microsoft.Office.
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ResolveAssemblyReference.cache
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ValToolFunctions_2013.dll
 C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ValToolFunctions_2013.pdb
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\ValToolFunctions_2013.Properties.Resources.resources
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\GenerateResource.read.1.tlog
+C:\macros_alstom\ValToolmgrDna\ValToolFunctions_2013\obj\Debug\GenerateResource.write.1.tlog

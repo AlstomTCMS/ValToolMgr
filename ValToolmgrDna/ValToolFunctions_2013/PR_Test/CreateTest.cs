@@ -14,7 +14,7 @@ namespace ValToolFunctions_2013
     /// </summary>
     internal class CreateTest
     {
-        [System.Obsolete("Use createWholeTestFormat instead")]
+        [System.Obsolete("Use createWholeTestFormat instead", true)]
         internal static void NewPR()
         {
             try
@@ -41,11 +41,12 @@ namespace ValToolFunctions_2013
             catch { }
         }
 
-        // Créé l//ensemble des éléments du format de test 2013
-        private static void createWholeTestFormat(string testName)
+        /// <summary>
+        /// Create a whole PR test sheet in 2013 format
+        /// </summary>
+        /// <param name="testName"></param>
+        internal static void createWholeTestFormat(string sheetName)
         {
-            string sheetName = TEST.TABLE.PREFIX.TEST + testName;
-
             try
             {
                 if (General.WsExist(sheetName))
@@ -57,7 +58,7 @@ namespace ValToolFunctions_2013
             }
             catch { }
     
-            //Ajout TEMPORAIRE d//un workbook s//il n//en n//existe pas
+            //Ajout TEMPORAIRE d'un workbook s'il n'en existe pas
             if (! General.HasActiveBook(false)) {
                 RibbonHandler.ExcelApplication.Workbooks.Add();
             }

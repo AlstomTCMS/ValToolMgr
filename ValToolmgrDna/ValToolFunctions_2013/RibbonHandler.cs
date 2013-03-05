@@ -103,7 +103,9 @@ namespace ValToolFunctions_2013
 
         public void PlanToTests(Excel.Application exelApp)
         {
-            throw new NotImplementedException();
+            SetExcelApplication(exelApp);
+            TestsGenerator.FromSwVTP2Tests();
+            IsAFunctionalityRunning = false;
         }
 
 

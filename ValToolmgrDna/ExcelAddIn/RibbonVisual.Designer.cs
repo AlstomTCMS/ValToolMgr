@@ -123,11 +123,11 @@
             // plan2Tests
             // 
             this.plan2Tests.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.plan2Tests.Enabled = false;
             this.plan2Tests.Image = ((System.Drawing.Image)(resources.GetObject("plan2Tests.Image")));
             this.plan2Tests.Label = "Plan to Tests";
             this.plan2Tests.Name = "plan2Tests";
             this.plan2Tests.ShowImage = true;
+            this.plan2Tests.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.plan2Tests_Click);
             // 
             // TestEditGroup
             // 

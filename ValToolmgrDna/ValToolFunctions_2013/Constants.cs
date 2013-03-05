@@ -35,20 +35,38 @@ namespace ValToolFunctions_2013
 
     public enum SheetsNames
     {
-        [StringValue("PR In")]
-        PR_IN_NAME = 1,
-        [StringValue("PR Out")]
-        PR_OUT_NAME = 2,
-        [StringValue("PR Model")]
-        PR_MODEL_NAME = 3,
-        [StringValue("Synthèse Model")]
-        SYNTHESE_MODEL_NAME = 4,
-        [StringValue("Synthèse")]
-        SYNTHESE_NAME = 5,
+        [StringValue("Endpaper")]
+        ENDPAPER,
+        [StringValue("Evol")]
+        EVOLUTION,
+        [StringValue("Bench Conf")]
+        BENCH_CONF,
+        [StringValue("SwVTP")]
+        SW_VTP,
+        [StringValue("SwVTD")]
+        SW_VTD,
+        [StringValue("SwVTDR")]
+        SW_VTDR,
         [StringValue("Data Validation")]
-        VALID_NAME = 6,
-        [StringValue("Erreurs")]
-        ERROR_NAME  = 7
+        VALID,
+        [StringValue("Errors")]
+        ERROR
+    }
+
+    public enum SwVTP_Columns
+    {
+        [StringValue("Category")]
+        CATEGORY,
+        [StringValue("Test")]
+        TEST,
+        [StringValue("Bench Conf")]
+        BENCH_CONF,
+        [StringValue("Associated requirement(s)")]
+        REQUIREMENT,
+        [StringValue("Description")]
+        DESC,
+        [StringValue("Comment")]
+        COMMENT
     }
 
     public enum LAYOUT

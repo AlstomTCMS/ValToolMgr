@@ -63,6 +63,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9A8E4B7445D6CCFAFBEC382559C0B7FD"
+        "OwnerKey" = "8:_DF47B573E24F4FB5AA2DF4E08832F679"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9E9D60271C284AB5B36A523A8C175DA9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -93,14 +99,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DF47B573E24F4FB5AA2DF4E08832F679"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C67C25EC16D0BEAF6580C54E299CEED9"
+        "OwnerKey" = "8:_DF47B573E24F4FB5AA2DF4E08832F679"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_793978792E797E3779B8E03AD92D86C9"
+        "MsmKey" = "8:_C67C25EC16D0BEAF6580C54E299CEED9"
+        "OwnerKey" = "8:_9A8E4B7445D6CCFAFBEC382559C0B7FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DF47B573E24F4FB5AA2DF4E08832F679"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -145,6 +157,24 @@
         "OwnerKey" = "8:_3C76B8933B7A718406A569F7FCF53334"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_793978792E797E3779B8E03AD92D86C9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9A8E4B7445D6CCFAFBEC382559C0B7FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C67C25EC16D0BEAF6580C54E299CEED9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -163,6 +193,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -179,6 +230,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -332,6 +391,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A8E4B7445D6CCFAFBEC382559C0B7FD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ValToolFunctions_2013, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9A8E4B7445D6CCFAFBEC382559C0B7FD"
+                    {
+                    "Name" = "8:ValToolFunctions_2013.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ValToolFunctions_2013.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D19F7C5EBA4A4C05A9A3DA2653A2A879"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9E9D60271C284AB5B36A523A8C175DA9"
             {
             "SourcePath" = "8:..\\ExcelAddIn\\bin\\Debug\\ExcelAddIn.vsto"
@@ -465,6 +555,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C67C25EC16D0BEAF6580C54E299CEED9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ValToolFunctionsStub, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C67C25EC16D0BEAF6580C54E299CEED9"
+                    {
+                    "Name" = "8:ValToolFunctionsStub.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ValToolFunctionsStub.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D19F7C5EBA4A4C05A9A3DA2653A2A879"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -522,7 +643,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ValToolMgr"
         "ProductCode" = "8:{9807C791-296F-4F9A-BA9D-621379E4E12F}"
-        "PackageCode" = "8:{CFAE6C3E-F91E-44DC-B93E-5C8FF6ED1247}"
+        "PackageCode" = "8:{86EE4893-9434-4C28-AB73-846640538C63}"
         "UpgradeCode" = "8:{9AD155CD-BC09-42EB-99D8-73F17951BAF0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -530,12 +651,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Alstom France Ltd."
+        "Manufacturer" = "8:Alstom"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:ValToolMgr Setup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Alstom"
+        "ARPCONTACT" = "8:Alstom France Ltd."
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:TCMS Validation Tools Manager for Excel 2010"
         "ARPURLINFOABOUT" = "8:"
