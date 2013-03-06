@@ -34,8 +34,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonVisual));
             this.ValToolMgrTab = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
@@ -60,6 +58,7 @@
             this.testStand = this.Factory.CreateRibbonButton();
             this.toSwVTDR = this.Factory.CreateRibbonButton();
             this.macroInfos = this.Factory.CreateRibbonGroup();
+            this.help = this.Factory.CreateRibbonButton();
             this.macroVersion = this.Factory.CreateRibbonLabel();
             this.UpdateDate = this.Factory.CreateRibbonLabel();
             this.autoUpdate = this.Factory.CreateRibbonCheckBox();
@@ -99,10 +98,6 @@
             // LayoutVersion_DD
             // 
             this.LayoutVersion_DD.Enabled = false;
-            ribbonDropDownItemImpl1.Label = "2013";
-            ribbonDropDownItemImpl2.Label = "2012";
-            this.LayoutVersion_DD.Items.Add(ribbonDropDownItemImpl1);
-            this.LayoutVersion_DD.Items.Add(ribbonDropDownItemImpl2);
             this.LayoutVersion_DD.Label = " ";
             this.LayoutVersion_DD.Name = "LayoutVersion_DD";
             this.LayoutVersion_DD.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.LayoutVersion_DD_SelectionChanged);
@@ -261,11 +256,21 @@
             // 
             // macroInfos
             // 
+            this.macroInfos.Items.Add(this.help);
             this.macroInfos.Items.Add(this.macroVersion);
             this.macroInfos.Items.Add(this.UpdateDate);
             this.macroInfos.Items.Add(this.autoUpdate);
             this.macroInfos.Label = "Informations";
             this.macroInfos.Name = "macroInfos";
+            // 
+            // help
+            // 
+            this.help.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.help.Enabled = false;
+            this.help.Image = global::ExcelAddIn.Properties.Resources.Help;
+            this.help.Label = "Help";
+            this.help.Name = "help";
+            this.help.ShowImage = true;
             // 
             // macroVersion
             // 
@@ -281,6 +286,7 @@
             // autoUpdate
             // 
             this.autoUpdate.Checked = true;
+            this.autoUpdate.Enabled = false;
             this.autoUpdate.Label = "Auto update";
             this.autoUpdate.Name = "autoUpdate";
             this.autoUpdate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.autoUpdate_Click);
@@ -336,6 +342,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton RemoveCheckVar;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTD;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTDR;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton help;
     }
 
     partial class ThisRibbonCollection

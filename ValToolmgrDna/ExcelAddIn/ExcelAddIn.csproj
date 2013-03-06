@@ -272,6 +272,7 @@
     <Content Include="img\AddStep.png" />
     <Content Include="img\CheckTest.png" />
     <Content Include="img\forceUpgrade.png" />
+    <Content Include="img\Help.png" />
     <Content Include="img\NewPR.png" />
     <Content Include="img\Plan2Tests.png" />
     <Content Include="img\RemoveActionVar.png" />

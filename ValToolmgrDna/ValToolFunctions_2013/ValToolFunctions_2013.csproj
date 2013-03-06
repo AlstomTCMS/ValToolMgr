@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="PR_Test\TestsGenerator.cs" />
     <Compile Include="RibbonHandler.cs" />
+    <Compile Include="SwVTD.cs" />
     <Compile Include="SwVTP\SwVTP_Creation.cs" />
     <Compile Include="Utils\General.cs" />
     <Compile Include="PR_Test\CreateTest.cs" />

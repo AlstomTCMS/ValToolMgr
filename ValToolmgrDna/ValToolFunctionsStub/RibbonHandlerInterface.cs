@@ -74,5 +74,7 @@ namespace ValToolFunctionsStub
         void RemoveCheckVar(Application exelApp, EditingZone editingMode = EditingZone.NONE);
 
         #endregion
+
+        void extractTests2SwVTD(Application exelApp);
     }
 }

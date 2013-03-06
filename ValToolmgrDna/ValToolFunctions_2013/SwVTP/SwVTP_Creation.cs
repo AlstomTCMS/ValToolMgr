@@ -63,7 +63,8 @@ namespace ValToolFunctions_2013
         private static void CreateEndpaperSheet(Workbook wb)
         {
             Worksheet eps = wb.Sheets[1];
-            eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER);
+            eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER); 
+            TabColorLightBlue(eps.Tab);
 
             eps.Range["B3:B10"].Value = new String[] { "Function", "Num_PR", "Indice_PR", "Date_PR", 
                                     "Ref_FRScc", "Ind_FRScc", "Versions MPU", "Aim of the function"};
@@ -76,8 +77,8 @@ namespace ValToolFunctions_2013
         {
             Worksheet es = wb.Sheets[2];
             es.Name = StringEnum.GetStringValue(SheetsNames.EVOLUTION);
-
-            SetSheetFormatPattern(es);
+            TabColorLightBlue(es.Tab);
+            General.SetGreySheetPattern(es);
 
             ListObject evolTable = es.ListObjects.Add(XlListObjectSourceType.xlSrcRange, es.Range["A1:D1"], XlYesNoGuess.xlYes);
 
@@ -102,33 +103,33 @@ namespace ValToolFunctions_2013
         {
             Worksheet bcs = wb.Sheets[3];
             bcs.Name = StringEnum.GetStringValue(SheetsNames.BENCH_CONF);
-
-
+            bcs.Tab.ThemeColor = XlThemeColor.xlThemeColorDark2;
+            bcs.Tab.TintAndShade = -9.99786370433668E-02;
         }
 
         private static void CreateSwVTPSheet(Workbook wb)
         {
             Worksheet SwvtpS = wb.Sheets.Add(After: wb.Sheets[wb.Sheets.Count]);
             SwvtpS.Name = StringEnum.GetStringValue(SheetsNames.SW_VTP);
-            SetSheetFormatPattern(SwvtpS);
+            TabColorLightBlue(SwvtpS.Tab);
+            General.SetGreySheetPattern(SwvtpS);
 
-            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B1:E1"], XlYesNoGuess.xlYes);
-            testsTable.Name = "TestsList_0"; 
-            SwvtpS.Range["A1:E1"].Value = new String[] { StringEnum.GetStringValue(SwVTP_Columns.CATEGORY), 
+            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B1:F1"], XlYesNoGuess.xlYes);
+            testsTable.Name = "TestsList_0";
+            SwvtpS.Range["A1:F1"].Value = new String[] { StringEnum.GetStringValue(SwVTP_Columns.CATEGORY), 
+                                                        StringEnum.GetStringValue(SwVTP_Columns.TEST), 
                                                         StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF), 
                                                         StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT),
                                                         StringEnum.GetStringValue(SwVTP_Columns.DESC),
                                                         StringEnum.GetStringValue(SwVTP_Columns.COMMENT) };
 
             testsTable.TableStyle = "TableStyleMedium2";
-            testsTable.Range.EntireColumn.AutoFit();
-            formatColumnsSwVTP();
+            //testsTable.Range.EntireColumn.AutoFit();
 
-            Interior cat_int = SwvtpS.Range["A1:E2"].Interior;
-            cat_int.Pattern = XlPattern.xlPatternNone;
-            cat_int.TintAndShade = 0;
-            cat_int.PatternTintAndShade = 0;
+            General.UnformatGrey(testsTable.Range);
+            General.UnformatGrey(SwvtpS.Range["A1:A2"]);
 
+            //Category Style
             Interior cat_title_int = SwvtpS.Range["A1"].Interior;
             cat_title_int.Pattern = XlPattern.xlPatternSolid;
             cat_title_int.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
@@ -140,8 +141,15 @@ namespace ValToolFunctions_2013
             font.ThemeColor = XlThemeColor.xlThemeColorDark1;
             font.TintAndShade = 0;
 
-            SwvtpS.Rows["1:1"].VerticalAlignment = XlVAlign.xlVAlignCenter;
+            Range titleRow = SwvtpS.Rows["1:1"];
+            titleRow.VerticalAlignment = XlVAlign.xlVAlignCenter;
+            titleRow.EntireRow.RowHeight = 35;
+            //titleRow.WrapText = true;
 
+            formatColumnsSwVTP();
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.TEST)].Range.EntireColumn.Hidden = true;
+
+            SetBenchConfValidation(testsTable);
             //DebugFillingSwVTP(wb);
         }
 
@@ -150,9 +158,12 @@ namespace ValToolFunctions_2013
         {
             Worksheet ws = RibbonHandler.ExcelApplication.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTP)];
             ListObject testsTable = ws.ListObjects[1];
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT)].Range.ColumnWidth = 26; //Requirements
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.DESC)].Range.ColumnWidth = 24; //Description
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.COMMENT)].Range.ColumnWidth = 20; //Comment
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.TEST)].Range.ColumnWidth = 4;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF)].Range.ColumnWidth = 6.57;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT)].Range.ColumnWidth = 16;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.DESC)].Range.ColumnWidth = 25;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.COMMENT)].Range.ColumnWidth = 25;
+            testsTable.Range.WrapText = true;
         }
 
         private static void DebugFillingSwVTP(Workbook wb)
@@ -170,21 +181,32 @@ namespace ValToolFunctions_2013
             SwvtpS.Range["B2:C3"].Value = text;
         }
 
-        /// <summary>
-        /// Format the sheet with grey background and no visible lines
-        /// </summary>
-        /// <param name="ws">The sheet to format</param>
-        internal static void SetSheetFormatPattern(Worksheet ws)
+        private static void TabColorLightBlue(Tab tab)
         {
-            Interior int_all = ws.Cells.Interior;
-            int_all.Pattern = XlPattern.xlPatternSolid;
-            int_all.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
-            int_all.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            int_all.TintAndShade = -0.349986266670736;
-            int_all.PatternTintAndShade = 0;
+            tab.ThemeColor = XlThemeColor.xlThemeColorLight2;
+            tab.TintAndShade = 0.599993896298105;
+        }
 
-            ws.Activate();
-            RibbonHandler.ExcelApplication.ActiveWindow.DisplayGridlines = false;
+        private static void SetBenchConfValidation(ListObject testsTable)
+        {
+            ListColumn lc = testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF)];
+            //List<string> validConfs = new List<string>() { "A1", "A2", "B", "C", "D" };
+            //string[] validConfs = new string[] { "A1", "A2", "B", "C", "D" };
+            //string validConfs = "\"A1\",\"A2\",\"B\",\"C\",\"D\"";
+            string validConfs = "A1;A2;B;C;D";
+
+            Validation valid = lc.Range.Cells[2,1].Validation;
+            valid.Delete();
+            valid.Add(XlDVType.xlValidateList, XlDVAlertStyle.xlValidAlertStop, 
+                XlFormatConditionOperator.xlBetween, validConfs);
+            valid.IgnoreBlank = true;
+            valid.InCellDropdown = true;
+            valid.InputTitle = "";
+            valid.ErrorTitle = "";
+            valid.InputMessage = "";
+            valid.ErrorMessage = "";
+            valid.ShowInput = true;
+            valid.ShowError = true;
         }
     }
 }

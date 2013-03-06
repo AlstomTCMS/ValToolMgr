@@ -118,49 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AddActionVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addactionvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AddCheckVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addcheckvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AddStep" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\addstep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CheckTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\checktest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="forceUpgrade" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\forceupgrade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NewPR" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\newpr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Plan2Tests" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\plan2tests.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RemoveActionVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removeactionvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RemoveCheckVar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removecheckvar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RemoveStep" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\removestep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Upgrade" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\upgrade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2TestStand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\2teststand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tests2SwVTD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\tests2swvtd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TestStand2swVTDR" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\teststand2swvtdr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Help" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\help.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SwVTP_stub" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Stubs\SwVTP_stub.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

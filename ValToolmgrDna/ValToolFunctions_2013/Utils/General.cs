@@ -172,5 +172,36 @@ namespace ValToolFunctions_2013
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// Format the sheet with grey background and no visible lines
+        /// </summary>
+        /// <param name="ws">The sheet to format</param>
+        internal static void SetGreySheetPattern(Worksheet ws)
+        {
+            Interior int_all = ws.Cells.Interior;
+            int_all.Pattern = XlPattern.xlPatternSolid;
+            int_all.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
+            int_all.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            int_all.TintAndShade = -0.349986266670736;
+            int_all.PatternTintAndShade = 0;
+
+            ws.Activate();
+            RibbonHandler.ExcelApplication.ActiveWindow.DisplayGridlines = false;
+        }
+
+        /// <summary>
+        /// Reveal data from tinted empty sheet
+        /// </summary>
+        /// <param name="range">the range to reveal</param>
+        internal static void UnformatGrey(Range range)
+        {
+            Interior interior = range.Interior;
+            interior.Pattern = XlPattern.xlPatternNone;
+            interior.TintAndShade = 0;
+            interior.PatternTintAndShade = 0;
+        }
     }
 }

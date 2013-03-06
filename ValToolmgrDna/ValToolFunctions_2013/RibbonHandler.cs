@@ -154,5 +154,13 @@ namespace ValToolFunctions_2013
         }
 
         #endregion
+
+
+        public void extractTests2SwVTD(Excel.Application exelApp)
+        {
+            SetExcelApplication(exelApp);
+            SwVTD.GenerateSwVTD();
+            IsAFunctionalityRunning = false;
+        }
     }
 }

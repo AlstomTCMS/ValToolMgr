@@ -102,6 +102,13 @@ namespace ExcelAddIn.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Help {
+            get {
+                object obj = ResourceManager.GetObject("Help", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NewPR {
             get {
                 object obj = ResourceManager.GetObject("NewPR", resourceCulture);

@@ -64,27 +64,33 @@ namespace ValToolFunctions_2013
                 RibbonHandler.ExcelApplication.Workbooks.Add();
             }
     
-            General.InitSheet(sheetName).Activate();
 
-            Worksheet testSheet = (Worksheet)RibbonHandler.ExcelApplication.ActiveWorkbook.Worksheets[sheetName];
+            Worksheet testSheet = General.InitSheet(sheetName);
+            testSheet.Activate();
             testSheet.Tab.ThemeColor = XlThemeColor.xlThemeColorLight2;
             testSheet.Tab.TintAndShade = 0;
+            General.SetGreySheetPattern(testSheet);
+            testSheet.Cells.ColumnWidth = 25;
 
             AddTableDescription(testSheet);
             AddTableAction(testSheet);
             AddTableCheck(testSheet);
-            AddTestTitle(testSheet);
             AddActionLabel(testSheet);
             AddCheckLabel(testSheet);
             FormatTestSheet(testSheet);
+            AddTestTitle(testSheet);
         }
 
         private static void FormatTestSheet(Worksheet testSheet)
         {
+            testSheet.Columns["C:C"].ColumnWidth = 25;
             testSheet.Rows["1:2"].Group();
             testSheet.Range[TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name) + "["+ TEST.STEP_PATERN + "]"].Select();
             testSheet.Application.ActiveWindow.FreezePanes = true;
             testSheet.Range["A1"].Select();
+
+            Range bottomRightCorner = testSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);//testSheet.Range[TEST.TABLE.PREFIX.CHECK + General.getTestNumber(testSheet.Name)].End(XlDirection.xlDown);
+            General.UnformatGrey(testSheet.Range["A1", bottomRightCorner.Offset[1,1]]);
         }
 
         ////Ajoute la table de description en haut
@@ -102,6 +108,8 @@ namespace ValToolFunctions_2013
             descTable.ShowHeaders = false;
             descTable.ShowTableStyleFirstColumn = true;
             descTable.ShowTableStyleColumnStripes = true;
+            descTable.Range.VerticalAlignment = XlVAlign.xlVAlignTop;
+            descTable.Range.WrapText = true;
 
             //On réefface cette ligne qui ne sert plus
             testSheet.Rows["1:1"].Delete (XlDirection.xlUp);
