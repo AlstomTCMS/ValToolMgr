@@ -23,7 +23,14 @@ namespace ValToolFunctionsStub
         /// <summary>
         /// Create a new PR from scratch
         /// </summary>
+        [System.Obsolete("Use NewPR(Application , ApplicationFactory) instead")]
         void NewPR(Application exelApp);
+
+        /// <summary>
+        /// Create a new PR from scratch
+        /// </summary>
+        void NewPR(Application exelApp, Microsoft.Office.Tools.Excel.ApplicationFactory factory);
+
 
         #region SwVTP
 

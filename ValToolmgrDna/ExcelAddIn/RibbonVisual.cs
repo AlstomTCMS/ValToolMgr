@@ -79,7 +79,7 @@ namespace ExcelAddIn
             //    xlsApp.ScreenUpdating = false;
             //    xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-                ribbonHandler_2013.NewPR(xlsApp);
+                ribbonHandler_2013.NewPR(xlsApp, Globals.Factory);
             //}
             //catch (NotImplementedException ex)
             //{

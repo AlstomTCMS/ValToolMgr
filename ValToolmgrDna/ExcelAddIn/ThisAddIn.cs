@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
+using ValToolFunctionsStub;
 
 namespace ExcelAddIn
 {
@@ -15,18 +16,6 @@ namespace ExcelAddIn
         //{
         //    return new Ribbon();
         //}
-
-
-        public Worksheet ListObject_Change()
-        {
-            Worksheet vstoWorksheet =
-        Globals.Factory.GetVstoObject(this.Application.ActiveWorkbook.Worksheets[1]);
-            //ListObject list1 =
-            //    vstoWorksheet.Controls.AddListObject(
-            //    vstoWorksheet.Range["A1", "C4"], "list1");
-            //list1.Change += new ListObjectChangeHandler(list1_Change);
-            return vstoWorksheet;
-        }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {

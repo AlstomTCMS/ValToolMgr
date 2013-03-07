@@ -13,6 +13,8 @@ namespace ValToolFunctions_2013
 {
     internal class SwVTP_Creation
     {
+        static ExcelTools.ListObject testsTableT;
+
         /// <summary>
         /// Ask user for an PR name and create a new PR file with an empty SwVTP, the Bench conf sheet and 
         /// </summary>
@@ -172,9 +174,9 @@ namespace ValToolFunctions_2013
 
 
             // Add Tests's list event handler
-            //ExcelTools.Worksheet SwvtpT = SwvtpS as ExcelTools.Worksheet;
-            //ExcelTools.ListObject testsTableT = testsTable as ExcelTools.ListObject;
-            //(testsTable as ExcelTools.ListObject).Change += new Microsoft.Office.Tools.Excel.ListObjectChangeHandler(list1_Change);
+            testsTableT = RibbonHandler.Factory.GetVstoObject(testsTable);
+            //testsTableT.Change += new Microsoft.Office.Tools.Excel.ListObjectChangeHandler(TestsList_Change);
+
             //DebugFillingSwVTP(wb);
         }
 
@@ -234,10 +236,11 @@ namespace ValToolFunctions_2013
             valid.ShowError = true;
         }
 
-        private static void list1_Change(Range targetRange, ExcelTools.ListRanges changedRanges)
+        internal static void TestsList_Change(Range targetRange, ExcelTools.ListRanges changedRanges)
         {
             string cellAddress = targetRange.get_Address(Excel.XlReferenceStyle.xlA1);
-
+            //testsTableT.
+            
             switch (changedRanges)
             {
                 case ExcelTools.ListRanges.DataBodyRange:

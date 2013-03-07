@@ -12,12 +12,14 @@ namespace ValToolFunctions_2013
     {
         private static bool _isAFunctionalityRunning;
         private static Excel.Application _excelApplication;
+        private static Microsoft.Office.Tools.Excel.ApplicationFactory _factory;
 
         private void SetExcelApplication(Excel.Application exelApp)
         {
             if (!IsAFunctionalityRunning)
             {
                 _excelApplication= exelApp;
+                IsAFunctionalityRunning = true;
             }
             else
             {
@@ -29,21 +31,34 @@ namespace ValToolFunctions_2013
         internal static Excel.Application ExcelApplication
         {
             get {
-                if (!IsAFunctionalityRunning)
+                if (_excelApplication == null)
                 {
-                    if (_excelApplication == null)
-                    {
-                        throw new ExcelApplicationMissingException();
-                    }
-                    else
-                    {
-                        return _excelApplication;
-                    }
+                    throw new ExcelApplicationMissingException();
                 }
                 else
                 {
-                    //System.Windows.Forms.throw new NotImplementedException();
-                    throw new ExcelApplicationNotAvailableException();
+                    return _excelApplication;
+                }
+            }
+        }
+
+
+        private void SetFactory(Microsoft.Office.Tools.Excel.ApplicationFactory factory)
+        {
+            _factory = factory;
+        }
+
+        internal static Microsoft.Office.Tools.Excel.ApplicationFactory Factory
+        {
+            get
+            {
+                if (_factory == null)
+                {
+                    throw new ExcelApplicationMissingException();
+                }
+                else
+                {
+                    return _factory;
                 }
             }
         }
@@ -62,8 +77,17 @@ namespace ValToolFunctions_2013
 
         #region SwVTP
 
+        [System.Obsolete("Use createWholeTestFormat instead", true)]
         public void NewPR(Excel.Application exelApp)
         {
+            SetExcelApplication(exelApp);
+            SwVTP_Creation.NewPR();
+            IsAFunctionalityRunning = false;
+        }
+
+        public void NewPR(Excel.Application exelApp, Microsoft.Office.Tools.Excel.ApplicationFactory factory)
+        {
+            SetFactory(factory);
             SetExcelApplication(exelApp);
             SwVTP_Creation.NewPR();
             IsAFunctionalityRunning = false;
