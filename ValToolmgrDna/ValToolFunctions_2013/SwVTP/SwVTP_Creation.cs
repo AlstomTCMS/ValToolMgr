@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
+using ExcelTools = Microsoft.Office.Tools.Excel;
 using ValToolFunctionsStub;
 using System.Text.RegularExpressions;
 
@@ -114,9 +115,9 @@ namespace ValToolFunctions_2013
             TabColorLightBlue(SwvtpS.Tab);
             General.SetGreySheetPattern(SwvtpS);
 
-            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B1:F1"], XlYesNoGuess.xlYes);
+            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B2:F2"], XlYesNoGuess.xlYes);
             testsTable.Name = "TestsList_0";
-            SwvtpS.Range["A1:F1"].Value = new String[] { StringEnum.GetStringValue(SwVTP_Columns.CATEGORY), 
+            SwvtpS.Range["A2:F2"].Value = new String[] { StringEnum.GetStringValue(SwVTP_Columns.CATEGORY), 
                                                         StringEnum.GetStringValue(SwVTP_Columns.TEST), 
                                                         StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF), 
                                                         StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT),
@@ -126,22 +127,40 @@ namespace ValToolFunctions_2013
             testsTable.TableStyle = "TableStyleMedium2";
             //testsTable.Range.EntireColumn.AutoFit();
 
-            General.UnformatGrey(testsTable.Range);
-            General.UnformatGrey(SwvtpS.Range["A1:A2"]);
+            General.UnformatGrey(SwvtpS.Range["A1", testsTable.Range.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing)]);
+            
+            // Tests title
+            Range testsTitleRange = testsTable.Range.Offset[-1, 0].Rows[1];
+            testsTitleRange.MergeCells = true;
+            testsTitleRange.Value = "Tests";
+            testsTitleRange.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+            testsTitleRange.VerticalAlignment = XlVAlign.xlVAlignCenter;
+
+            testsTitleRange.Font.Bold = true;
+            testsTitleRange.EntireRow.RowHeight = 20;
+
+            Border leftTestsBorder = testsTitleRange.Offset[0,-1].Cells[1,1].Borders[XlBordersIndex.xlEdgeRight];
+            Border testsTableBorder = testsTable.TableStyle.TableStyleElements[XlTableStyleElementType.xlWholeTable].Borders[XlBordersIndex.xlEdgeLeft];
+            //leftTestsBorder = testsTableBorder;
+            leftTestsBorder.LineStyle = testsTableBorder.LineStyle;
+            leftTestsBorder.Weight = testsTableBorder.Weight;
+            leftTestsBorder.ThemeColor = testsTableBorder.ThemeColor;
+            leftTestsBorder.TintAndShade = testsTableBorder.TintAndShade;
 
             //Category Style
-            Interior cat_title_int = SwvtpS.Range["A1"].Interior;
+            Range catRange = SwvtpS.Range["A2"];
+            Interior cat_title_int = catRange.Interior;
             cat_title_int.Pattern = XlPattern.xlPatternSolid;
             cat_title_int.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
             cat_title_int.ThemeColor = XlThemeColor.xlThemeColorAccent1;
             cat_title_int.TintAndShade = 0;
             cat_title_int.PatternTintAndShade = 0;
-            Font font = SwvtpS.Range["A1"].Font;
+            Font font = catRange.Font;
             font.Bold = true;
             font.ThemeColor = XlThemeColor.xlThemeColorDark1;
             font.TintAndShade = 0;
 
-            Range titleRow = SwvtpS.Rows["1:1"];
+            Range titleRow = SwvtpS.Rows["2:2"];
             titleRow.VerticalAlignment = XlVAlign.xlVAlignCenter;
             titleRow.EntireRow.RowHeight = 35;
             //titleRow.WrapText = true;
@@ -150,6 +169,12 @@ namespace ValToolFunctions_2013
             testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.TEST)].Range.EntireColumn.Hidden = true;
 
             SetBenchConfValidation(testsTable);
+
+
+            // Add Tests's list event handler
+            //ExcelTools.Worksheet SwvtpT = SwvtpS as ExcelTools.Worksheet;
+            //ExcelTools.ListObject testsTableT = testsTable as ExcelTools.ListObject;
+            //(testsTable as ExcelTools.ListObject).Change += new Microsoft.Office.Tools.Excel.ListObjectChangeHandler(list1_Change);
             //DebugFillingSwVTP(wb);
         }
 
@@ -207,6 +232,31 @@ namespace ValToolFunctions_2013
             valid.ErrorMessage = "";
             valid.ShowInput = true;
             valid.ShowError = true;
+        }
+
+        private static void list1_Change(Range targetRange, ExcelTools.ListRanges changedRanges)
+        {
+            string cellAddress = targetRange.get_Address(Excel.XlReferenceStyle.xlA1);
+
+            switch (changedRanges)
+            {
+                case ExcelTools.ListRanges.DataBodyRange:
+                    MessageBox.Show("The cells at range " + cellAddress +
+                        " in the data body changed.");
+                    break;
+                case ExcelTools.ListRanges.HeaderRowRange:
+                    MessageBox.Show("The cells at range " + cellAddress +
+                        " in the header row changed.");
+                    break;
+                case ExcelTools.ListRanges.TotalsRowRange:
+                    MessageBox.Show("The cells at range " + cellAddress +
+                        " in the totals row changed.");
+                    break;
+                default:
+                    MessageBox.Show("The cells at range " + cellAddress +
+                        " changed.");
+                    break;
+            }
         }
     }
 }
