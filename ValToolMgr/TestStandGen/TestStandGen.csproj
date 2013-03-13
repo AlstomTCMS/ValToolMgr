@@ -12,6 +12,7 @@
     <AssemblyName>TestStandGen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,9 @@
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>lib\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\ValToolMgrDna\lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
+    <Compile Include="Types\CTestStandLocatorAdapter.cs" />
+    <Compile Include="Types\Instructions\CTsCbVariable.cs" />
     <Compile Include="Types\Instructions\CTsTestArray.cs" />
     <Compile Include="Types\Instructions\CTsForceArray.cs" />
     <Compile Include="Types\Instructions\CTsTestAna.cs" />

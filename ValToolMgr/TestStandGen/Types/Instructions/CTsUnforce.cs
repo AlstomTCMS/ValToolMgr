@@ -6,11 +6,8 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsUnforce : CTsGenericInstr
+    class CTsUnforce : CTsCbVariable
     {
-        public string Name;
-        public string Path;
-
         public override string InstructionName
         {
             get { return "CB_UnForce"; }
@@ -18,10 +15,8 @@ namespace TestStandGen.Types.Instructions
         }
 
         public CTsUnforce(CVariable var)
+            : base(var)
         {
-            Name = var.name;
-            Path = var.path;
-            this.Text = "Unforce " + Name;
         }
     }
 }

@@ -9,11 +9,12 @@ namespace ValToolMgrInt
     {
         private double Value = 0.0;
 
-        public CVariableDouble(string VariableName, string Path, string Value)
+        public CVariableDouble(string VariableName, string Location, string Path, string Value)
         {
             this.name = VariableName;
             this.path = Path;
             this.value = Value;
+            this.Location = Location;
         }
 
         public override object value   // the property

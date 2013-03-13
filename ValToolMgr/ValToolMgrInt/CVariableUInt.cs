@@ -9,11 +9,12 @@ namespace ValToolMgrInt
     {
         private UInt32 Value = 0;
 
-        public CVariableUInt(string VariableName, string Path, string Value)
+        public CVariableUInt(string VariableName, string Location, string Path, string Value)
         {
             this.name = VariableName;
             this.path = Path;
             this.value = Value;
+            this.Location = Location;
         }
 
         public override object value   // the Name property

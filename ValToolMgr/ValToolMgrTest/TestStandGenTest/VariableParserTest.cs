@@ -109,7 +109,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsBoolean(string Variable, string Path, string Value, bool expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
             testIfVariableAsBoolean(var, expectedValue);
         }
 
@@ -124,7 +124,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsInteger(string Variable, string Path, string Value, int expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
             testIfVariableAsInteger(var, expectedValue);
 
         }
@@ -139,7 +139,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsReal(string Variable, string Path, string Value, double expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
             testIfVariableAsReal(var, expectedValue);
         }
 
@@ -153,7 +153,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsBooleanArray(string Variable, string Path, string Value, uint index, bool expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
 
             Assert.IsNotNull(var);
             Assert.IsInstanceOf<CVariableArray>(var);
@@ -167,7 +167,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsIntegerArray(string Variable, string Path, string Value, uint index, int expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
 
             Assert.IsNotNull(var);
             Assert.IsInstanceOf<CVariableArray>(var);
@@ -181,7 +181,7 @@ namespace ValToolMgrTest
 
         private void testIfVariableAsRealArray(string Variable, string Path, string Value, uint index, double expectedValue)
         {
-            CVariable var = VariableParser.parseAsVariable(Variable, Path, Value);
+            CVariable var = VariableParser.parseAsVariable(Variable, "SECTION1/ENV", Path, Value);
 
             Assert.IsNotNull(var);
             Assert.IsInstanceOf<CVariableArray>(var);

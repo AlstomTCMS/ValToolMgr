@@ -40,7 +40,5 @@ namespace TestStandGen.Types.Instructions
         {
             idSalt = 0;
         }
-
-
     }
 }

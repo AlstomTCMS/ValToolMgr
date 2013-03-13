@@ -16,6 +16,7 @@ namespace ValToolMgrTest
             [Test]
             public void GenerateAllSteps()
             {
+                CTestStandLocatorAdapter.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
                 CTestContainer container = new CTestContainer();
 
                 CTest test = new CTest("Test_1", "This is my description");
@@ -44,7 +45,7 @@ namespace ValToolMgrTest
                         for (int actionIndex = 1; actionIndex < 10; actionIndex++)
                         {
                             CInstruction action = new CInstrForce();
-                            CVariableBool var = new CVariableBool("Var" + actionIndex, "/path/to/application" + actionIndex, "true");
+                            CVariableBool var = new CVariableBool("Var" + actionIndex, "Section1/ENV", "/path/to/application" + actionIndex, "true");
                             action.data = var;
                             step.actions.Add(action);
                         }
@@ -52,7 +53,7 @@ namespace ValToolMgrTest
                         for (int checkIndex = 1; checkIndex < 10; checkIndex++)
                         {
                             CInstruction action = new CInstrTest();
-                            CVariableBool var = new CVariableBool("Var" + checkIndex, "/path/to/application" + checkIndex, "true");
+                            CVariableBool var = new CVariableBool("Var" + checkIndex, "Section2/ENV", "/path/to/application" + checkIndex, "true");
                             action.data = var;
                             step.checks.Add(action);
                         }

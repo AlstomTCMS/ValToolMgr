@@ -6,12 +6,8 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsForce : CTsGenericInstr
+    class CTsForce : CTsCbVariable
     {
-        public string Name;
-        public string Value;
-        public string Path;
-
         public override string InstructionName
         {
             get { return "CB_Force"; }
@@ -19,13 +15,8 @@ namespace TestStandGen.Types.Instructions
         }
 
         public CTsForce(CVariable var)
+            : base(var)
         {
-            Name = var.name;
-            if (String.Equals(var.GetType().FullName, typeof(CVariableDouble).FullName))
-                Value = var.value.ToString().Replace(',', '.');
-            else
-                Value = var.value.ToString();
-            Path = var.path;
         }
     }
 }

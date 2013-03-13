@@ -17,13 +17,15 @@ namespace TestStandGen
         private CTestContainer sequence;
         private string outFile;
         private string templatePath;
-
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool alreadyGenerated;
         private TestStandFile TSFile;
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
         {
+            CTestStandLocatorAdapter.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+
             TestStandGen test = new TestStandGen(sequence, outFile, templatePath);
             
             test.writeScenario();
@@ -65,6 +67,7 @@ namespace TestStandGen
                 {
                     foreach (TemplateMessage m in errors.Errors)
                     {
+                        logger.Error(m);
                         throw new Exception(m.ToString());
                     }
                 }
@@ -90,10 +93,11 @@ namespace TestStandGen
 
             foreach(CTest test in sequence)
             {
+                logger.Info("Processing sequence");
                 CTestStandSeq SubSeq = genInstrListFromTest(test);
 
                 ts.addSequence("Call to subsequence " + SubSeq.identifier, SubSeq);
-
+                logger.Debug("End of sequence Processing");
             }
             return ts;
         }
@@ -106,20 +110,26 @@ namespace TestStandGen
 
             foreach (CStep step in TestContainer)
             {
+                logger.Debug("Processing step");
                 SubSeq.Add(new CTsLabel("===================================="));
                 SubSeq.Add(new CTsLabel("========  " + step.title));
                 SubSeq.Add(new CTsLabel("===================================="));
 
                 if (step.DescAction.Length > 0) SubSeq.Add(new CTsLabel("= Actions : " + step.DescAction));
+                logger.Debug("Processing actions.");
                 foreach(CInstruction instr in step.actions)
                 {
+                    logger.Debug("Processing action.");
                      SubSeq.Add(getTsEquivFromInstr(instr));
+                     logger.Debug("End of action processing.");
                 }
 
                 if (step.DescCheck.Length > 0) SubSeq.Add(new CTsLabel("= Checks : " + step.DescCheck));
                 foreach (CInstruction instr in step.checks)
                 {
+                    logger.Debug("Processing check.");
                     SubSeq.Add(getTsEquivFromInstr(instr));
+                    logger.Debug("End of check processing.");
                 }
             }
             return SubSeq;
@@ -129,6 +139,7 @@ namespace TestStandGen
         {
             string typeOfStep = inst.GetType().ToString();
             string typeOfData = inst.data.GetType().ToString();
+            logger.Debug(String.Format("Found instruction [type={0}, data={1}]", typeOfStep, typeOfData));
 
             CTsGenericInstr instr = null;
 

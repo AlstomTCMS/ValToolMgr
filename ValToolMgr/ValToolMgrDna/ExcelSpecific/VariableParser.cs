@@ -16,7 +16,7 @@ namespace ValToolMgrDna.ExcelSpecific
             BOOLEAN
         }
 
-        public static CVariable parseAsVariable(string VariableName, string Path, string Value, SupportedTypes expectedType)
+        public static CVariable parseAsVariable(string VariableName, string Location, string Path, string Value, SupportedTypes expectedType)
         {
 
 	        // Here we call Regex.Match.
@@ -29,7 +29,7 @@ namespace ValToolMgrDna.ExcelSpecific
 	            VariableName = match.Groups[1].Value;
                 uint Index = Convert.ToUInt32(match.Groups[2].Value);
 
-                CVariable Var = parseAsVariable(VariableName, Path, Value, expectedType);
+                CVariable Var = parseAsVariable(VariableName, Location, Path, Value, expectedType);
                 CVariableArray array = new CVariableArray(Var, Index);
                 return array;
 	        }
@@ -37,19 +37,19 @@ namespace ValToolMgrDna.ExcelSpecific
             switch (expectedType)
             {
                 case SupportedTypes.BOOLEAN:
-                    return new CVariableBool(VariableName, Path, Value);
+                    return new CVariableBool(VariableName, Location, Path, Value);
                 case SupportedTypes.INTEGER:
-                    return new CVariableInt(VariableName, Path, Value);
+                    return new CVariableInt(VariableName, Location, Path, Value);
                 case SupportedTypes.REAL:
-                    return new CVariableDouble(VariableName, Path, Value);
+                    return new CVariableDouble(VariableName, Location, Path, Value);
                 case SupportedTypes.UNSIGNED_INTEGER:
-                    return new CVariableUInt(VariableName, Path, Value);
+                    return new CVariableUInt(VariableName, Location, Path, Value);
                 default:
                     return null;
             }
         }
 
-        public static CVariable parseAsVariable(string VariableName, string Path, string Value)
+        public static CVariable parseAsVariable(string VariableName, string Location, string Path, string Value)
         {
             string[] explodedValue = VariableName.Split(':');
 
@@ -58,16 +58,16 @@ namespace ValToolMgrDna.ExcelSpecific
 
             if (explodedValue.Length == 1) 
             {
-                return parseAsVariable(VariableName, Path, Value, SupportedTypes.BOOLEAN);
+                return parseAsVariable(VariableName, Location, Path, Value, SupportedTypes.BOOLEAN);
             }
             else
             {
                 switch(explodedValue[0])
                 {
                     case "I":
-                        return parseAsVariable(explodedValue[1], Path, Value, SupportedTypes.INTEGER);
+                        return parseAsVariable(explodedValue[1], Location, Path, Value, SupportedTypes.INTEGER);
                     case "R":
-                        return parseAsVariable(explodedValue[1], Path, Value, SupportedTypes.REAL);
+                        return parseAsVariable(explodedValue[1], Location, Path, Value, SupportedTypes.REAL);
                     default:
                         throw new FormatException(String.Format("\"{0}\" is not valid type specifier.", explodedValue[0]));
                 }

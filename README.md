@@ -9,7 +9,22 @@ Remember to use the one from a released version (see #Version history below).
 
 # Version history
 
-## ValToolMgr_0.3
+## ValToolMgr_0.0.4
+
+Source code : [ValToolMgr_0.0.4](https://github.com/AlstomTCMS/ValToolMgr/tree/ValToolMgr_0.0.4)
+
+List of processed issues : [Milestone issues list](https://github.com/AlstomTCMS/ValToolMgr/issues?milestone=5&state=closed)
+
+Main points :
+ * [#55](https://github.com/AlstomTCMS/ValToolMgr/issues/55) : QuickAccess is enabled by default;
+ * [#47](https://github.com/AlstomTCMS/ValToolMgr/issues/47) : Multiple units is enabled, with most common function (One section is mapped to one testbench computer). Refers to https://github.com/AlstomTCMS/ValToolMgrDoc/blob/master/Specification/SpecificationLocation.md for details.
+ 
+Main limitations :
+ * [#62](https://github.com/AlstomTCMS/ValToolMgr/issues/62) : No possibility to unforce arrays.
+ * [#63](https://github.com/AlstomTCMS/ValToolMgr/issues/63) : Generate .SEQ where is saved XLS file, with same name as the XLS file.
+ * [#64](https://github.com/AlstomTCMS/ValToolMgr/issues/64) : Outdated template for test sheets.
+
+## ValToolMgr_0.0.3
 
 Source code : [ValToolMgr_0.3](https://github.com/AlstomTCMS/ValToolMgr/tree/ValToolMgr_0.3)
 

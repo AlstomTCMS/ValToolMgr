@@ -14,6 +14,8 @@ namespace ValToolMgrInt
         {
             // TODO: Complete member initialization
             this.Variable = Var;
+            this.path = Var.path;
+            this.Location = Var.Location;
             this.Index = Index;
         }
 

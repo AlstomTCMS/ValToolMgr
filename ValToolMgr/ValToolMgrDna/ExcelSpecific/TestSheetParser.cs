@@ -105,7 +105,7 @@ namespace ValToolMgrDna.ExcelSpecific
             //' Writing inputs
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             logger.Debug(String.Format("Found {0} Excel columns to process.", lcActionsTableColumns.Count));
-            for (int CurrentColumn = 3; CurrentColumn <= lcActionsTableColumns.Count; CurrentColumn++)
+            for (int CurrentColumn = 4; CurrentColumn <= lcActionsTableColumns.Count; CurrentColumn++)
             {
                 logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn].Name));
                 CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
@@ -134,18 +134,19 @@ namespace ValToolMgrDna.ExcelSpecific
                 logger.Debug(String.Format("Processing Excel line {0}.", lrCurrent.Range.AddressLocal));
 
                 string Target = (string)lrCurrent.Range[1, 1].Value;
-                string Location = (string)lrCurrent.Range[1, 2].Value;
+                string Path = (string)lrCurrent.Range[1, 2].Value;
+                string Location = (string)lrCurrent.Range[1, 3].Value;
                 Excel.Range rangeToRetrieve = lrCurrent.Range[1, ColumnIndex];
                 object CellValue = rangeToRetrieve.Value;
 
                 if(CellValue != null)
                 {
-                    logger.Debug(String.Format("Found item [Target={{0}}, Location={{1}}, Value={{2}}].", Target, Location, CellValue));
+                    logger.Debug(String.Format("Found item [Target={0}, Location={1}, Path={2}, Value={3}].", Target, Location, Path, CellValue));
 
                     try
                     {
                         logger.Debug(String.Format("Analysing current item."));
-                        CInstruction o_instruction = detectAndBuildInstruction(Target, Location, CellValue, typeOfTable);
+                        CInstruction o_instruction = detectAndBuildInstruction(Target, Location, Path, CellValue, typeOfTable);
                         if (typeOfTable == TableTypes.TABLE_ACTIONS)
                         {
                             logger.Debug("Adding item to list of actions to perform");
@@ -173,7 +174,7 @@ namespace ValToolMgrDna.ExcelSpecific
             }
         }
 
-        private CInstruction detectAndBuildInstruction(string Target, string Location, object CellValue, TableTypes typeOfTable)
+        private CInstruction detectAndBuildInstruction(string Target, string Location, string Path, object CellValue, TableTypes typeOfTable)
         {
             CInstruction Instruction;
 
@@ -188,7 +189,7 @@ namespace ValToolMgrDna.ExcelSpecific
                     {
                         Instruction = new CInstrUnforce();
                         logger.Debug(String.Format("Detected Unforce step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, null);
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, null);
                     }
                     else if (String.Compare(Target, "@POPUP@") == 0)
                     {
@@ -200,7 +201,7 @@ namespace ValToolMgrDna.ExcelSpecific
                     {
                         Instruction = new CInstrForce();
                         logger.Debug(String.Format("Detected Force step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, CellValueStr);
                     }
                 }
                 else if (typeOfTable == TableTypes.TABLE_CHECKS)
@@ -215,7 +216,7 @@ namespace ValToolMgrDna.ExcelSpecific
                     {
                         Instruction = new CInstrTest();
                         logger.Debug(String.Format("Detected Test step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, CellValueStr);
+                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, CellValueStr);
                     }
                 }
                 else

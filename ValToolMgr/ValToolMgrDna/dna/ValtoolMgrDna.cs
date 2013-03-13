@@ -17,6 +17,8 @@ namespace ValToolMgrDna
 {
     public class ValtoolMgrDna
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         [ExcelFunction(Description="My first Excel-DNA function")]
         public static string MyFirstFunction(string name)
         {
@@ -36,6 +38,7 @@ namespace ValToolMgrDna
             }
             catch (Exception ex)
             {
+                logger.Debug("Exception raised : ", ex);
                 XlCall.Excel(XlCall.xlcAlert, ex.Message); 
             }
 
