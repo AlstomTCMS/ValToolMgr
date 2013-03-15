@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ValToolMgrInt;
-using TestStandGen;
+using TestStandGen.Types;
 
-
-
-namespace ValToolMgrTest
+namespace TestStandGenTest
 {
         [TestFixture]
         public class TestStandGenTest
@@ -16,7 +14,7 @@ namespace ValToolMgrTest
             [Test]
             public void GenerateAllSteps()
             {
-                CTestStandLocatorAdapter.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+                CTsInstrFactory.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
                 CTestContainer container = new CTestContainer();
 
                 CTest test = new CTest("Test_1", "This is my description");

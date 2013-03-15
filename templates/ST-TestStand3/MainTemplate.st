@@ -56,6 +56,9 @@ CB_ForceArrayElement = StepType
 MessagePopup = StepType
 CB_TestArrayElement = StepType
 CB_QuickInit = StepType
+Variable_Force = StepType
+Variable_Release = StepType
+Variable_Read_Test = StepType
 
 [DEF, SF]
 Seq = Objs
@@ -7668,4 +7671,594 @@ Common = "TYPE, CommonResults"
 %INSTFLG: Status = 4194304
 PassFail = True
 %INSTOVRD: Common = 4194304
+
+[DEF, Variable_Force]
+%LOCATION = "StepTypes"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+BlockStartTypes = Str
+%FLG: BlockStartTypes = 524288
+BlockEndTypes = Str
+%FLG: BlockEndTypes = 524288
+AppliesToBlockStructure = Bool
+%FLG: AppliesToBlockStructure = 524288
+Menu = "TYPE, StepTypeMenu"
+Substeps = "TYPE, StepTypeSubstepsArray"
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+TS = "TYPE, TEInf"
+Result = Obj
+VariableName = Str
+VariableValue = Num
+%ROOT_TYPE = True
+
+[Variable_Force]
+DescriptionFormat Line0001 = "(Step.VariableName ==\"\") ? \"Forces variable\" : \"Forces variable \"+Str(Step.VariableName)+((Step.VariableValue !=0)"
+DescriptionFormat Line0002 = " ? \" : sets its value to \"+ Str(Step.VariableValue) : \"\")"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"Force Variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%FLG: BlockStartTypes = 4194328
+%FLG: BlockEndTypes = 4194328
+%FLG: AppliesToBlockStructure = 4194328
+%HI: Substeps = [0]
+CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
+%FLG: CodeTemplates = 4194328
+%INSTFLG: TS = 262168
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%TIMESTAMP = 1266242554
+%VERSION = "0.0.0.12"
+%TYPELASTMOD = "4.0.0.1030"
+%TYPE_FLG = 8
+
+[Variable_Force.Menu]
+ItemName = "\"Force variable\""
+Group = "Variables"
+
+[DEF, Variable_Force.Substeps]
+%[0] = Step
+%TYPE: %[0] = "PostSubstep"
+
+[Variable_Force.Substeps[0].TS]
+Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
+
+[DEF, Variable_Force.Substeps[0].TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Force.Substeps[0].TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+MemberType = 1
+MemberName = "GetMessage"
+%HI: Params = [3]
+
+[DEF, Variable_Force.Substeps[0].TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[0]]
+Name = "errorOccurred"
+ArgVal = "Step.Result.Error.Occurred"
+Type = 2
+Direction = 10
+Dimension = -1
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[1]]
+Name = "errorCode"
+ArgVal = "Step.Result.Error.Code"
+Type = 6
+Direction = 10
+Dimension = -1
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.Error.Msg"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[3]]
+Name = "reportText"
+ArgVal = "Step.Result.ReportText"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[DEF, Variable_Force.Substeps[0]]
+%NAME = "Post"
+
+[Variable_Force.TS]
+Icon = "TrainTracer\\Force.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7274521
+UnloadOpt = "UnloadAfterSequenceExecution"
+
+[DEF, Variable_Force.TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Force.TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+DisposeCreatedInstance = False
+Constructor = "Maintenance()"
+MemberType = 1
+MemberName = "ForceVariable"
+HasReturnValue = True
+%HI: Params = [2]
+
+[DEF, Variable_Force.TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+
+[Variable_Force.TS.SData.Call.Params[0]]
+Name = "Return Value"
+ArgVal = "Step.Result.APICall"
+Type = 2
+Direction = 6
+Dimension = -1
+
+[Variable_Force.TS.SData.Call.Params[1]]
+Name = "variableSymbolicPath"
+ArgVal = "Step.VariableName"
+Type = 1
+Direction = 1
+Dimension = -1
+
+[Variable_Force.TS.SData.Call.Params[2]]
+Name = "value"
+ArgVal = "Step.VariableValue"
+Type = 12
+Direction = 1
+Dimension = -1
+
+[DEF, Variable_Force.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+APICall = Bool
+
+[Variable_Force.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+
+[DEF, Variable_Release]
+%LOCATION = "StepTypes"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+BlockStartTypes = Str
+%FLG: BlockStartTypes = 524288
+BlockEndTypes = Str
+%FLG: BlockEndTypes = 524288
+AppliesToBlockStructure = Bool
+%FLG: AppliesToBlockStructure = 524288
+Menu = "TYPE, StepTypeMenu"
+Substeps = "TYPE, StepTypeSubstepsArray"
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+TS = "TYPE, TEInf"
+Result = Obj
+VariableName = Str
+%ROOT_TYPE = True
+
+[Variable_Release]
+DescriptionFormat = "(Step.VariableName ==\"\") ? \"Releases variable\" : \"Releases variable : \"+Step.VariableName"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"Release Variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%FLG: BlockStartTypes = 4194328
+%FLG: BlockEndTypes = 4194328
+%FLG: AppliesToBlockStructure = 4194328
+%HI: Substeps = [0]
+CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
+%FLG: CodeTemplates = 4194328
+%INSTFLG: TS = 262168
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%TIMESTAMP = 1266242610
+%VERSION = "0.0.0.12"
+%TYPELASTMOD = "4.0.0.1030"
+%TYPE_FLG = 8
+
+[Variable_Release.Menu]
+ItemName = "\"Release variable\""
+Group = "Variables"
+
+[DEF, Variable_Release.Substeps]
+%[0] = Step
+%TYPE: %[0] = "PostSubstep"
+
+[Variable_Release.Substeps[0].TS]
+Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
+
+[DEF, Variable_Release.Substeps[0].TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Release.Substeps[0].TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+MemberType = 1
+MemberName = "GetMessage"
+%HI: Params = [3]
+
+[DEF, Variable_Release.Substeps[0].TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
+
+[Variable_Release.Substeps[0].TS.SData.Call.Params[0]]
+Name = "errorOccurred"
+ArgVal = "Step.Result.Error.Occurred"
+Type = 2
+Direction = 10
+Dimension = -1
+
+[Variable_Release.Substeps[0].TS.SData.Call.Params[1]]
+Name = "errorCode"
+ArgVal = "Step.Result.Error.Code"
+Type = 6
+Direction = 10
+Dimension = -1
+
+[Variable_Release.Substeps[0].TS.SData.Call.Params[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.Error.Msg"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[Variable_Release.Substeps[0].TS.SData.Call.Params[3]]
+Name = "reportText"
+ArgVal = "Step.Result.ReportText"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[DEF, Variable_Release.Substeps[0]]
+%NAME = "Post"
+
+[Variable_Release.TS]
+Icon = "TrainTracer\\Release.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7274521
+UnloadOpt = "UnloadAfterSequenceExecution"
+
+[DEF, Variable_Release.TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Release.TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+DisposeCreatedInstance = False
+Constructor = "Maintenance()"
+MemberType = 1
+MemberName = "ReleaseVariable"
+HasReturnValue = True
+%HI: Params = [1]
+
+[DEF, Variable_Release.TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+
+[Variable_Release.TS.SData.Call.Params[0]]
+Name = "Return Value"
+ArgVal = "Step.Result.APICall"
+Type = 2
+Direction = 6
+Dimension = -1
+
+[Variable_Release.TS.SData.Call.Params[1]]
+Name = "variableSymbolicPath"
+ArgVal = "Step.VariableName"
+Type = 1
+Direction = 1
+Dimension = -1
+
+[DEF, Variable_Release.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+APICall = Bool
+
+[Variable_Release.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+
+[DEF, Variable_Read_Test]
+%LOCATION = "StepTypes"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+BlockStartTypes = Str
+%FLG: BlockStartTypes = 524288
+BlockEndTypes = Str
+%FLG: BlockEndTypes = 524288
+AppliesToBlockStructure = Bool
+%FLG: AppliesToBlockStructure = 524288
+Menu = "TYPE, StepTypeMenu"
+Substeps = "TYPE, StepTypeSubstepsArray"
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+TS = "TYPE, TEInf"
+Result = Obj
+VariableName = Str
+Limits = Obj
+Comp = Str
+CompExpr = "TYPE, Expression"
+UseCompExpr = Bool
+InBuf = Str
+DataSource = "TYPE, Expression"
+%ROOT_TYPE = True
+
+[Variable_Read_Test]
+DescriptionFormat = "(Step.VariableName ==\"\") ? \"Reads variable\" : \"Reads variable : \"+Step.VariableName"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "\"Pass/Fail Read Variable\""
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%FLG: BlockStartTypes = 4194328
+%FLG: BlockEndTypes = 4194328
+%FLG: AppliesToBlockStructure = 4194328
+%HI: Substeps = [1]
+CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template|NumericLimitLabVIEW|NumericLimitCVI|NumericLimitVB.NET|NumericLimitCSharp.NET|Numeric"
+CodeTemplates Line0003 = "LimitC++.NET|NumericLimitVC++_Template|NumericLimitHTB80_Template|NumericLimitHTB72Template|NumericLimit_Template"
+%FLG: CodeTemplates = 4194328
+%INSTFLG: TS = 262168
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%FLG: Limits = 12288
+%INSTFLG: Limits = 12288
+Comp = "GELE"
+%FLG: Comp = 12288
+%INSTFLG: Comp = 12288
+%FLG: CompExpr = 6144
+DataSource = "Step.Result.Numeric"
+%TIMESTAMP = 1266242453
+%VERSION = "0.0.0.19"
+%TYPELASTMOD = "4.0.0.1030"
+%TYPE_FLG = 8
+
+[Variable_Read_Test.Menu]
+ItemName = "\"Pass/Fail Read variable\""
+Group = "Variables"
+
+[DEF, Variable_Read_Test.Substeps]
+%[0] = Step
+%TYPE: %[0] = "PostSubstep"
+%[1] = Step
+%TYPE: %[1] = "EditSubstep"
+
+[Variable_Read_Test.Substeps[0].TS]
+Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
+
+[DEF, Variable_Read_Test.Substeps[0].TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+MemberType = 1
+MemberName = "GetMessage"
+%HI: Params = [3]
+
+[DEF, Variable_Read_Test.Substeps[0].TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[0]]
+Name = "errorOccurred"
+ArgVal = "Step.Result.Error.Occurred"
+Type = 2
+Direction = 10
+Dimension = -1
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[1]]
+Name = "errorCode"
+ArgVal = "Step.Result.Error.Code"
+Type = 6
+Direction = 10
+Dimension = -1
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.Error.Msg"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[3]]
+Name = "reportText"
+ArgVal = "Step.Result.ReportText"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[DEF, Variable_Read_Test.Substeps[0]]
+%NAME = "Post"
+
+[DEF, Variable_Read_Test.Substeps[1].TS]
+SData = "TYPE, FlexCStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call]
+LibPath = "CommonSubsteps.dll"
+Func = "EditNumericMeasurementStepUsingExpr"
+%HI: Parms = [3]
+
+[DEF, Variable_Read_Test.Substeps[1].TS.SData.Call.Parms]
+%[0] = "TYPE, FCParameter"
+%[1] = "TYPE, FCParameter"
+%[2] = "TYPE, FCParameter"
+%[3] = "TYPE, FCParameter"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[0]]
+Name = "Return Value"
+Type = 3
+ObjType = 2
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[1]]
+Name = "sequenceContext"
+Type = 4
+ArgVal = "ThisContext"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[2]]
+Name = "reserved"
+ArgVal = "0"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[3]]
+Name = "changed"
+ObjType = 2
+NumPass = 1
+ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+ArgDisplayVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+
+[Variable_Read_Test.Substeps[1].TS]
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 2097152
+ConnectionLifetime = 0
+
+[Variable_Read_Test.Substeps[1]]
+%INSTFLG: TS = 262168
+%INSTOVRD: TS = 262168
+MenuName = "ResStr(\"NI_STEPTYPES\", \"NUM_EDIT_STEP_MENU_NAME\")"
+SupportsReadOnly = True
+
+[Variable_Read_Test.Substeps[1].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+%INSTOVRD: Common = 4194304
+
+[DEF, Variable_Read_Test.Substeps[1]]
+%NAME = "Edit"
+
+[Variable_Read_Test.TS]
+Icon = "TrainTracer\\Read.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7274521
+UnloadOpt = "UnloadAfterSequenceExecution"
+StatusExpr Line0001 = "CheckLimits(Step.DataSource == \"Step.Result.Numeric\" ? Step.Result.Numeric : (Step.Result.Numeric = Evaluate(Step.Data"
+StatusExpr Line0002 = "Source)), Step.Limits.High, Step.Limits.Low,Step.Comp)"
+
+[DEF, Variable_Read_Test.TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Read_Test.TS.SData.Call]
+AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+DisposeCreatedInstance = False
+Constructor = "Maintenance()"
+MemberType = 1
+MemberName = "ReadVariable"
+HasReturnValue = True
+%HI: Params = [2]
+
+[DEF, Variable_Read_Test.TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+
+[Variable_Read_Test.TS.SData.Call.Params[0]]
+Name = "Return Value"
+ArgVal = "Step.Result.APICall"
+Type = 2
+Direction = 6
+Dimension = -1
+
+[Variable_Read_Test.TS.SData.Call.Params[1]]
+Name = "variableSymbolicPath"
+ArgVal = "Step.VariableName"
+Type = 1
+Direction = 1
+Dimension = -1
+
+[Variable_Read_Test.TS.SData.Call.Params[2]]
+Name = "value"
+ArgVal = "Step.Result.Numeric"
+Type = 12
+Direction = 10
+Dimension = -1
+
+[DEF, Variable_Read_Test.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+APICall = Bool
+Numeric = Num
+Units = Str
+
+[Variable_Read_Test.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+%FLG: Numeric = 9216
+%INSTFLG: Numeric = 9216
+%FLG: Units = 10240
+%INSTFLG: Units = 8192
+
+[DEF, Variable_Read_Test.Limits]
+Low = Num
+High = Num
+LowExpr = "TYPE, Expression"
+HighExpr = "TYPE, Expression"
+UseLowExpr = Bool
+UseHighExpr = Bool
+
+[Variable_Read_Test.Limits]
+Low = 9
+High = 11
+%FLG: LowExpr = 2048
+%FLG: HighExpr = 2048
+%FLG: UseLowExpr = 2048
+%FLG: UseHighExpr = 2048
 >>

@@ -1,7 +1,7 @@
 ﻿
 namespace TestStandGen.Types.Instructions
 {
-    abstract class CTsGenericInstr
+    public abstract class CTsGenericInstr
     {
         private static int idSalt = 0;
         private string guid;

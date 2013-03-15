@@ -5,7 +5,7 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    abstract class CTsCbVariable : CTsGenericInstr
+    abstract class CTsTtVariable : CTsGenericInstr
     {
         public string Name;
         public string Value;
@@ -17,7 +17,7 @@ namespace TestStandGen.Types.Instructions
 
 
 
-        public CTsCbVariable(CVariable var)
+        public CTsTtVariable(CVariable var)
         {
             if (String.Equals(var.GetType().FullName, typeof(CVariableArray).FullName))
             {

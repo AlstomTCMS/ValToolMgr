@@ -4,7 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using ValToolMgrInt;
 using TestStandGen;
-using TestStandGen.Types.Instructions;
+using TestStandGen.Types;
 
 namespace ValToolMgrTest
 {
@@ -14,7 +14,7 @@ namespace ValToolMgrTest
         [Test]
         public void loadConfiguration()
         {
-            CTestStandLocatorAdapter.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+            CTsInstrFactory.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
         }
     }
 }

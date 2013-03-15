@@ -49,7 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
-    <Compile Include="Types\CTestStandLocatorAdapter.cs" />
+    <Compile Include="Types\CTsInstrFactory.cs" />
+    <Compile Include="Types\Instructions\CTsTtTest.cs" />
+    <Compile Include="Types\Instructions\CTsTtUnforce.cs" />
+    <Compile Include="Types\Instructions\CTsTtVariable.cs" />
+    <Compile Include="Types\Instructions\CTsTtForce.cs" />
     <Compile Include="Types\Instructions\CTsCbVariable.cs" />
     <Compile Include="Types\Instructions\CTsTestArray.cs" />
     <Compile Include="Types\Instructions\CTsForceArray.cs" />

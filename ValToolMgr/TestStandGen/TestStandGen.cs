@@ -24,7 +24,7 @@ namespace TestStandGen
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
         {
-            CTestStandLocatorAdapter.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+            CTsInstrFactory.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
 
             TestStandGen test = new TestStandGen(sequence, outFile, templatePath);
             
@@ -120,7 +120,7 @@ namespace TestStandGen
                 foreach(CInstruction instr in step.actions)
                 {
                     logger.Debug("Processing action.");
-                     SubSeq.Add(getTsEquivFromInstr(instr));
+                     SubSeq.Add(CTsInstrFactory.getTsEquivFromInstr(instr));
                      logger.Debug("End of action processing.");
                 }
 
@@ -128,7 +128,7 @@ namespace TestStandGen
                 foreach (CInstruction instr in step.checks)
                 {
                     logger.Debug("Processing check.");
-                    SubSeq.Add(getTsEquivFromInstr(instr));
+                    SubSeq.Add(CTsInstrFactory.getTsEquivFromInstr(instr));
                     logger.Debug("End of check processing.");
                 }
             }
