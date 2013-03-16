@@ -15,6 +15,8 @@ namespace TestStandGen.Types.Instructions
         public CTsTtVariable(CTsInstrFactory.TtTarget ttTarget, CVariable variable)
             : base(variable)
         {
+            if (String.Equals(variable.GetType().FullName, typeof(CVariableBool).FullName))
+                Value = Convert.ToInt32(Convert.ToBoolean(variable.value)).ToString();
             Location = ttTarget.Identifier;
             Path = ttTarget.prefix + Path;
         }

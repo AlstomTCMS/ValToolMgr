@@ -45,6 +45,6 @@ Comp = "EQ"
 CompExpr = "$Instruction.Variable.Value$"
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Test $Instruction.Variable.Name$"
+%NAME = "Test $Instruction.Variable.Name$ to $Instruction.Variable.Value$"
 
 >>

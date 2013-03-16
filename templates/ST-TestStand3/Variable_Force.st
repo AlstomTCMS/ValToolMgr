@@ -43,6 +43,6 @@ VariableName = "$Instruction.Variable.Path$/$Instruction.Variable.Name$"
 VariableValue = $Instruction.Variable.Value$
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Force $Instruction.Variable.Name$"
+%NAME = "Force $Instruction.Variable.Name$ to $Instruction.Variable.Value$"
 
 >>
