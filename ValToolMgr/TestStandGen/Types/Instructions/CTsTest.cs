@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsTest : CTsCbVariable
+    class CTsTest : CTsBasedVarInstr
     {
         public override string InstructionName
         {
@@ -14,7 +13,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsTest(CVariable var)
+        public CTsTest(CTsVariable var)
             : base(var)
         {
         }

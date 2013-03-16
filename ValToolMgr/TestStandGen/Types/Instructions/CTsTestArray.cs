@@ -6,7 +6,7 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsTestArray : CTsCbVariable
+    class CTsTestArray : CTsBasedVarInstr
     {
         public uint Index;
 
@@ -16,7 +16,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsTestArray(CVariableArray var) : base(var)
+        public CTsTestArray(CTsVariable var) : base(var)
         {
             Index = var.Index;
         }

@@ -12,9 +12,9 @@
   <TargetDefinitions>
     <Target name="TB1" testStandIdentifier="Fileglobals.env1" />
 	<Target name="TB2" testStandIdentifier="Fileglobals.env2" />
-    <Target name="SECTION1_MPU_A" testStandIdentifier="Fileglobals.cb1" />
-    <Target name="SECTION1_MPU_T" testStandIdentifier="Fileglobals.cb2" />
-    <Target name="SECTION2_MPU_A" testStandIdentifier="Fileglobals.cb3" />
-    <Target name="SECTION2_MPU_T" testStandIdentifier="Fileglobals.cb4" />
+    <Target name="SECTION1_MPU_A" traintracerIdentifier="Fileglobals.WebMaintenance1" />
+    <Target name="SECTION1_MPU_T" traintracerIdentifier="Fileglobals.WebMaintenance1" />
+    <Target name="SECTION2_MPU_A" traintracerIdentifier="Fileglobals.WebMaintenance2" />
+    <Target name="SECTION2_MPU_T" traintracerIdentifier="Fileglobals.WebMaintenance2" />
   </TargetDefinitions>
 </Configuration>

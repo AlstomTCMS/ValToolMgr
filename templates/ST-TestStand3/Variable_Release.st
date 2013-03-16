@@ -1,4 +1,4 @@
-Variable_Force(SeqIdx, InstrIdx, Instruction) ::= <<
+Variable_Release(SeqIdx, InstrIdx, Instruction) ::= <<
 $InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
@@ -6,7 +6,7 @@ SData = "TYPE, DotNetStepAdditions"
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS.SData.Call]
 AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
-ClassVariable = "$Instruction.Location$"
+ClassVariable = "$Instruction.Variable.Location$"
 ClassName = "Alstom.eTrain.TestStand.Maintenance"
 DisposeCreatedInstance = False
 Constructor = "Maintenance()"
@@ -33,9 +33,9 @@ Type = 1
 Dimension = -1
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-VariableName = "$Instruction.Path$/$Instruction.Name$"
+VariableName = "$Instruction.Variable.Path$/$Instruction.Variable.Name$"
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Release $Instruction.Name$"
+%NAME = "Release $Instruction.Variable.Name$"
 
 >>

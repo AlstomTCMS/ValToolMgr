@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsForceArray : CTsCbVariable
+    class CTsForceArray : CTsBasedVarInstr
     {
         public uint Index;
 
@@ -16,7 +12,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsForceArray(CVariableArray var) : base(var)
+        public CTsForceArray(CTsVariable var) : base(var)
         {
             Index = var.Index;
         }

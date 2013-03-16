@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsTestAna : CTsCbVariable
+    class CTsTestAna : CTsBasedVarInstr
     {
 
         public override string InstructionName
@@ -15,7 +11,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsTestAna(CVariableDouble var) : base(var)
+        public CTsTestAna(CTsVariable var) : base(var)
         {
         }
     }

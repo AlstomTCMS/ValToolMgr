@@ -46,17 +46,15 @@ namespace TestStandGen.Types
             if (!isInitialized())
                 throw new NullReferenceException("CTsInstrFactory needs to be configured before use.");
 
-            CVariable variable = (CVariable)inst.data;
-            Target t = translateLocation(ref variable);
-            inst.data = variable;
+            CTsVariable variable = translateLocation((CVariable)inst.data);
 
-            if (String.Equals(t.GetType().FullName, typeof(CbTarget).FullName))
+            if (String.Equals(variable.GetType().FullName, typeof(CTsCbVariable).FullName))
             {
-                return buildCbStep(inst);
+                return buildCbStep(inst, variable);
             }
-            else if (String.Equals(t.GetType().FullName, typeof(TtTarget).FullName))
+            else if (String.Equals(variable.GetType().FullName, typeof(CTsTtVariable).FullName))
             {
-                return buildTtStep(inst);
+                return buildTtStep(inst, variable);
             }
             else
             {
@@ -86,12 +84,12 @@ namespace TestStandGen.Types
             {
                 Target target;
 
-                string value = node.Attributes.GetNamedItem("testStandIdentifier").Value;
-                string value2 = node.Attributes.GetNamedItem("trainTracerIdentifier").Value;
-                if (value != null)
-                    target = new CbTarget(node.Attributes.GetNamedItem("name").Value, value);
-                else if (value2 != null)
-                    target = new TtTarget(node.Attributes.GetNamedItem("name").Value, value2);
+                XmlNode testStandIdentifierNode = node.Attributes.GetNamedItem("testStandIdentifier");
+                XmlNode trainTracerIdentifierNode = node.Attributes.GetNamedItem("traintracerIdentifier");
+                if (testStandIdentifierNode != null)
+                    target = new CbTarget(node.Attributes.GetNamedItem("name").Value, testStandIdentifierNode.Value);
+                else if (trainTracerIdentifierNode != null)
+                    target = new TtTarget(node.Attributes.GetNamedItem("name").Value, trainTracerIdentifierNode.Value);
                 else throw new FormatException("No field found valid for configuration file");
 
                 targetTable.Add(target.name, target);
@@ -107,13 +105,23 @@ namespace TestStandGen.Types
             }
         }
 
-        private static Target translateLocation(ref CVariable variable)
+        private static CTsVariable translateLocation(CVariable variable)
         {
             if (dictionnary.Contains(variable.Location))
             {
                 Target t = (Target)dictionnary[variable.Location];
-                variable.Location = t.Identifier;
-                return t;
+                if (String.Equals(t.GetType().FullName, typeof(CbTarget).FullName))
+                {
+                    return new CTsCbVariable((CbTarget)t, variable);
+                }
+                else if (String.Equals(t.GetType().FullName, typeof(TtTarget).FullName))
+                {
+                    return new CTsTtVariable((TtTarget)t, variable);
+                }
+                else
+                {
+                    throw new FormatException("This type of target is not managed");
+                }
             }
             else
             {
@@ -125,7 +133,7 @@ namespace TestStandGen.Types
 
         }
 
-        private static CTsGenericInstr buildTtStep(CInstruction inst)
+        private static CTsGenericInstr buildTtStep(CInstruction inst, CTsVariable TsVariable)
         {
 
             CTsGenericInstr instr = null;
@@ -135,23 +143,23 @@ namespace TestStandGen.Types
 
             if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName) && !String.Equals(typeOfData, typeof(CVariableArray).FullName))
             {
-                return new CTsTtUnforce(variable);
+                return new CTsTtUnforce(TsVariable);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrForce).FullName))
             {
-                return new CTsTtForce(variable);
+                return new CTsTtForce(TsVariable);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrTest).FullName))
             {
-                return new CTsTtTest(variable);
+                return new CTsTtTest(TsVariable);
             }
 
             return instr;
         }
 
-        abstract class Target
+        public abstract class Target
         {
             public string name;
             public string Identifier { get; set; }
@@ -163,7 +171,7 @@ namespace TestStandGen.Types
             }
         }
 
-        class CbTarget : Target
+        public class CbTarget : Target
         {
             public CbTarget(string p, string value)
                 : base(p, value)
@@ -171,7 +179,7 @@ namespace TestStandGen.Types
             }
         }
 
-        class TtTarget : Target
+        public class TtTarget : Target
         {
             public TtTarget(string p, string value)
                 : base(p, value)
@@ -188,7 +196,7 @@ namespace TestStandGen.Types
             public string targetConfig { get; set; }
         }
 
-        private static CTsGenericInstr buildCbStep(CInstruction inst)
+        private static CTsGenericInstr buildCbStep(CInstruction inst, CTsVariable TsVariable)
         {
             CTsGenericInstr instr = null;
             string typeOfStep = inst.GetType().ToString();
@@ -197,28 +205,28 @@ namespace TestStandGen.Types
 
             if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName) && !String.Equals(typeOfData, typeof(CVariableArray).FullName))
             {
-                instr = new CTsUnforce(variable);
+                instr = new CTsUnforce(TsVariable);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrForce).FullName))
             {
                 if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName) || String.Equals(typeOfData, typeof(CVariableUInt).FullName) || String.Equals(typeOfData, typeof(CVariableDouble).FullName))
-                    instr = new CTsForce(variable);
+                    instr = new CTsForce(TsVariable);
 
                 if (String.Equals(typeOfData, typeof(CVariableArray).FullName))
-                    instr = new CTsForceArray((CVariableArray)inst.data);
+                    instr = new CTsForceArray(TsVariable);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrTest).FullName))
             {
                 if (String.Equals(typeOfData, typeof(CVariableBool).FullName) || String.Equals(typeOfData, typeof(CVariableInt).FullName) || String.Equals(typeOfData, typeof(CVariableUInt).FullName))
-                    instr = new CTsTest((CVariable)inst.data);
+                    instr = new CTsTest(TsVariable);
 
                 if (String.Equals(typeOfData, typeof(CVariableDouble).FullName))
-                    instr = new CTsTestAna((CVariableDouble)inst.data);
+                    instr = new CTsTestAna(TsVariable);
 
                 if (String.Equals(typeOfData, typeof(CVariableArray).FullName))
-                    instr = new CTsTestArray((CVariableArray)inst.data);
+                    instr = new CTsTestArray(TsVariable);
             }
             return instr;
         }

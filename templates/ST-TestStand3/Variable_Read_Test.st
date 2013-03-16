@@ -6,7 +6,7 @@ SData = "TYPE, DotNetStepAdditions"
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS.SData.Call]
 AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
-ClassVariable = "FileGlobals.WebMaintenance2"
+ClassVariable = "$Instruction.Variable.Location$"
 ClassName = "Alstom.eTrain.TestStand.Maintenance"
 DisposeCreatedInstance = False
 Constructor = "Maintenance()"
@@ -41,10 +41,10 @@ Direction = 10
 Dimension = -1
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-VariableName = "$Instruction.Path$/$Instruction.Name$"
+VariableName = "$Instruction.Variable.Path$/$Instruction.Variable.Name$"
 Comp = "EQ"
-CompExpr = "$Instruction.Value$"
+CompExpr = "$Instruction.Variable.Value$"
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Test $Instruction.Name$"
+%NAME = "Test $Instruction.Variable.Name$"
 >>

@@ -6,7 +6,7 @@ using ValToolMgrInt;
 
 namespace TestStandGen.Types.Instructions
 {
-    class CTsTtForce : CTsTtVariable
+    class CTsTtForce : CTsBasedVarInstr
     {
         public override string InstructionName
         {
@@ -14,7 +14,7 @@ namespace TestStandGen.Types.Instructions
             protected set { }
         }
 
-        public CTsTtForce(CVariable var)
+        public CTsTtForce(CTsVariable var)
             : base(var)
         {
         }

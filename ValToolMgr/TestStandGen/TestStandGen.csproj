@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
     <Compile Include="Types\CTsInstrFactory.cs" />
+    <Compile Include="Types\Instructions\CTsBasedVarInstr.cs" />
     <Compile Include="Types\Instructions\CTsTtTest.cs" />
     <Compile Include="Types\Instructions\CTsTtUnforce.cs" />
     <Compile Include="Types\Instructions\CTsTtVariable.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Types\Instructions\CTsForceArray.cs" />
     <Compile Include="Types\Instructions\CTsTestAna.cs" />
     <Compile Include="Types\Instructions\CTsTest.cs" />
+    <Compile Include="Types\Instructions\CTsVariable.cs" />
     <Compile Include="Types\Instructions\CTsWait.cs" />
     <Compile Include="Types\Instructions\CTsPopup.cs" />
     <Compile Include="Types\Instructions\CTsUnforce.cs" />
