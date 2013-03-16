@@ -101,7 +101,13 @@ namespace TestStandGen.Types
             {
                 string name = node.Attributes.GetNamedItem("name").Value;
                 string targetConfig = node.Attributes.GetNamedItem("targetConfig").Value;
-                dictionnary.Add(name, targetTable[targetConfig]);
+
+                Target t = (Target)targetTable[targetConfig];
+                if(String.Equals(t.GetType().FullName, typeof(TtTarget).FullName))
+                {
+                    ((TtTarget)t).prefix = node.Attributes.GetNamedItem("pathPrefix").Value;
+                }
+                dictionnary.Add(name, t);
             }
         }
 
@@ -181,6 +187,8 @@ namespace TestStandGen.Types
 
         public class TtTarget : Target
         {
+            public string prefix;
+
             public TtTarget(string p, string value)
                 : base(p, value)
             {

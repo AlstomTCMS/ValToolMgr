@@ -16,6 +16,7 @@ namespace TestStandGen.Types.Instructions
             : base(variable)
         {
             Location = ttTarget.Identifier;
+            Path = ttTarget.prefix + Path;
         }
     }
 }

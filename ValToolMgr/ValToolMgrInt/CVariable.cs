@@ -9,7 +9,6 @@ namespace ValToolMgrInt
     public abstract class CVariable
     {
         private string Name;
-        private string Path;
         private string location;
 
 
