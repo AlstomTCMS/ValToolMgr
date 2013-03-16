@@ -1,5 +1,4 @@
 MessagePopup(SeqIdx, InstrIdx, Instruction) ::= <<
-
 $InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 StatusExpr = "Step.Result.ButtonHit == 1 ? \"Passed\" : \"Failed\" "
 
