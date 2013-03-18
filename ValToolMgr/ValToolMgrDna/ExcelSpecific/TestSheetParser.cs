@@ -24,6 +24,8 @@ namespace ValToolMgrDna.ExcelSpecific
 
         private Excel.Worksheet sheet;
         Excel.ListObject header;
+        string actionTableName;
+        string checkTableName;
         Excel.ListObject loActionsTable;
         Excel.ListObject loChecksTable;
         Excel.ListColumns lcActionsTableColumns;
@@ -46,6 +48,9 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 logger.Debug(String.Format("Trying to retrieve action table \"{0}\".", actionsTableName));
                 loActionsTable = sheet.ListObjects[actionsTableName];
+
+                actionTableName = sheet.Name+"!"+actionsTableName;
+                checkTableName = sheet.Name + "!" + checksTableName;
                     
                 logger.Debug(String.Format("Extracting columns for action table."));
                 lcActionsTableColumns = loActionsTable.ListColumns;
@@ -95,12 +100,12 @@ namespace ValToolMgrDna.ExcelSpecific
             logger.Debug(String.Format("Extracting columns for action table."));
             Excel.ListColumns lcActionsTableColumns = loActionsTable.ListColumns;
 
-            object[,] actionsValues = preloadTable(loActionsTable);
+            object[,] actionsValues = preloadTable(this.actionTableName);
 
             logger.Debug(String.Format("Extracting columns for checks table."));
             Excel.ListColumns lcChecksTableColumns = loChecksTable.ListColumns;
 
-            object[,] checksValues = preloadTable(loChecksTable);
+            object[,] checksValues = preloadTable(this.checkTableName);
 
             CTest parseSingleTest = new CTest(title, "Description");
             logger.Debug(String.Format("Creating Test : {0}", parseSingleTest.ToString()));
@@ -129,25 +134,22 @@ namespace ValToolMgrDna.ExcelSpecific
             return parseSingleTest;
         }
 
-        private object[,] preloadTable(Excel.ListObject table)
+        private object[,] preloadTable(string namedRange)
         {
-            object[,] result;
 
+            // Get a reference to the current selection
+            ExcelReference selection = (ExcelReference)XlCall.Excel(XlCall.xlfEvaluate, namedRange);
             // Get the value of the selection
-            int rows = table.ListRows.Count;
-            int cols = table.ListColumns.Count;
-            
-            result = new object[rows, cols];
-
-            // Process the values
-            for (int line = 0; line < rows; line++)
+            object selectionContent = selection.GetValue();
+            //object evalResult = XlCall.Excel(XlCall.xlfEvaluate, formula_text);
+            // Make sure we dereference if needed.
+            //return XlCall.Excel(XlCall.xlCoerce, evalResult); 
+            if (selectionContent is object[,])
             {
-                for (int column = 0; column < cols; column++)
-                {
-                    result[line, column] = table.Range[line+2, column+1].Value;
-                }
+                return (object[,])selectionContent;
             }
-            return result;
+            else
+                throw new Exception(String.Format("Calling named range \"{0}\" failed.", namedRange));
         }
 
         private void fillWithActions(CStep o_step, TableTypes typeOfTable, Excel.ListObject tableRef, object[,] table, int ColumnIndex)
@@ -157,12 +159,15 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 logger.Debug(String.Format("Processing Excel line [{0}, {1}]{2} => {3}", line, ColumnIndex, tableRef.Range[line + 2, ColumnIndex + 1].AddressLocal, table[line, ColumnIndex]));
 
-                string Target = (string)table[line, 0];
-                string Path = (string)table[line, 1];
-                string Location = (string)table[line, 2];
+                string Target = "";
+                if (table[line, 0] is string) Target = (string)table[line, 0];
+                string Path = "";
+                if (table[line, 1] is string) Path = (string)table[line, 1];
+                string Location = "";
+                if (table[line, 2] is string) Location = (string)table[line, 2];
                 object CellValue = table[line, ColumnIndex];
 
-                if(CellValue != null)
+                if(!(CellValue is ExcelDna.Integration.ExcelEmpty))
                 {
                     logger.Debug(String.Format("Found item [Target={0}, Location={1}, Path={2}, Value={3}].", Target, Location, Path, CellValue));
 
