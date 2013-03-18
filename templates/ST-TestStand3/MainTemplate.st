@@ -166,60 +166,60 @@ PostExpr = "FileGlobals.WebMaintenance = StationGlobals.TrainTracer.WebMaintenan
 %NAME = "Copy Traintracer project references"
 
 [SF.Seq[0].Setup[1].TS]
-Id = "ID#:cFACL/1JQ0a4oAtDiMecxC"
-PostExpr = "FileGlobals.WebMaintenance1 = StationGlobals.TrainTracer.WebMaintenance1"
+Id = "ID#:OZLBiCRcQUO/lDbyxcTkVB"
+PostExpr = "FileGlobals.CbEmb1= StationGlobals.ControlBuildPtr.CbPtr_emb1"
 
 [DEF, SF.Seq[0].Setup[1]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded1 project references"
 
 [SF.Seq[0].Setup[2].TS]
-Id = "ID#:zeVr5o7hA0WAq70+pZ14jB"
-PostExpr = "FileGlobals.WebMaintenance2 = StationGlobals.TrainTracer.WebMaintenance2"
+Id = "ID#:zqkp4ZN6ZUSItjai6kkc6C"
+PostExpr = "FileGlobals.CbEmb2= StationGlobals.ControlBuildPtr.CbPtr_emb2"
 
 [DEF, SF.Seq[0].Setup[2]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded2 project references"
 
 [SF.Seq[0].Setup[3].TS]
-Id = "ID#:BNE0AEtkZk6kL9D63v6UAC"
-PostExpr = "FileGlobals.WebMaintenance3 = StationGlobals.TrainTracer.WebMaintenance3"
+Id = "ID#:uG7yCx6kg0idI/WnRVHhIC"
+PostExpr = "FileGlobals.CbEmb3= StationGlobals.ControlBuildPtr.CbPtr_emb3"
 
 [DEF, SF.Seq[0].Setup[3]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded3 project references"
 
 [SF.Seq[0].Setup[4].TS]
-Id = "ID#:bQl5eqOo40CVM4Elleo12B"
-PostExpr = "FileGlobals.WebMaintenance4 = StationGlobals.TrainTracer.WebMaintenance4"
+Id = "ID#:feYbtVm5t0qrooqZV1PeIC"
+PostExpr = "FileGlobals.CbEmb4= StationGlobals.ControlBuildPtr.CbPtr_emb4"
 
 [DEF, SF.Seq[0].Setup[4]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded4 project references"
 
 [SF.Seq[0].Setup[5].TS]
-Id = "ID#:k+Sz6KWVQ0aRALDuae0UyA"
-PostExpr = "FileGlobals.WebMaintenance5 = StationGlobals.TrainTracer.WebMaintenance5"
+Id = "ID#:YjKdiRHgQE6rJO/BcUC4XC"
+PostExpr = "FileGlobals.CbEmb5= StationGlobals.ControlBuildPtr.CbPtr_emb5"
 
 [DEF, SF.Seq[0].Setup[5]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded5 project references"
 
 [SF.Seq[0].Setup[6].TS]
-Id = "ID#:LX7jmT1n206ZS1vM4Kh3MC"
-PostExpr = "FileGlobals.WebMaintenance6 = StationGlobals.TrainTracer.WebMaintenance6"
+Id = "ID#:Vfo+S7kSHE2oSV5skDRwLA"
+PostExpr = "FileGlobals.CbEmb6= StationGlobals.ControlBuildPtr.CbPtr_emb6"
 
 [DEF, SF.Seq[0].Setup[6]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded6 project references"
 
 [SF.Seq[0].Setup[7].TS]
-Id = "ID#:pqEqhgP9nES6e3kaVAw0hC"
-PostExpr = "FileGlobals.WebMaintenance7 = StationGlobals.TrainTracer.WebMaintenance7"
+Id = "ID#:KdoNygbjhkyh4Yeihz2OMC"
+PostExpr = "FileGlobals.CbEmb7= StationGlobals.ControlBuildPtr.CbPtr_emb7"
 
 [DEF, SF.Seq[0].Setup[7]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded7 project references"
 
 [SF.Seq[0].Setup[8].TS]
-Id = "ID#:03d5X94UjUaYJImq++NEmC"
-PostExpr = "FileGlobals.WebMaintenance8 = StationGlobals.TrainTracer.WebMaintenance8"
+Id = "ID#:Dz0YUMfUbkajteWnP2+7fB"
+PostExpr = "FileGlobals.CbEmb8= StationGlobals.ControlBuildPtr.CbPtr_emb8"
 
 [DEF, SF.Seq[0].Setup[8]]
-%NAME = "Copy Traintracer project references"
+%NAME = "Copy Embedded8 project references"
 
 [DEF, SF.Seq[0].RTS]
 Type = Num
@@ -303,14 +303,6 @@ Var9 = Str
 Var10 = Str
 Var11 = Str
 WebMaintenance = Ref
-WebMaintenance1 = Ref
-WebMaintenance2 = Ref
-WebMaintenance3 = Ref
-WebMaintenance4 = Ref
-WebMaintenance5 = Ref
-WebMaintenance6 = Ref
-WebMaintenance7 = Ref
-WebMaintenance8 = Ref
 CbEnv = Ref
 CbEnv1 = Ref
 CbEnv2 = Ref

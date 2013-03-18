@@ -1,5 +1,5 @@
 CB_ForceArrayElement(SeqIdx, InstrIdx, Instruction) ::= <<
-$InstructionHeader(SeqIdx, InstrIdx, Instruction)$Id = "ID#:$Instruction.GUID$"
+$InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$].TS]
 SData = "TYPE, AutomationStepAdditions"
 
