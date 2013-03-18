@@ -3,9 +3,9 @@ $InstructionHeader(SeqIdx, InstrIdx, Instruction)$
 
 [SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
 SeqCallStepGroupIdx = -1
-TimeExpr = "$Instruction.Variable.Value$"
+TimeExpr = "$Instruction.Value$"
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Wait $Instruction.Variable.Value$ seconds"
+%NAME = "Wait $Instruction.Value$ seconds"
 
 >>
