@@ -95,8 +95,12 @@ namespace ValToolMgrDna.ExcelSpecific
             logger.Debug(String.Format("Extracting columns for action table."));
             Excel.ListColumns lcActionsTableColumns = loActionsTable.ListColumns;
 
+            object[,] actionsValues = preloadTable(loActionsTable);
+
             logger.Debug(String.Format("Extracting columns for checks table."));
             Excel.ListColumns lcChecksTableColumns = loChecksTable.ListColumns;
+
+            object[,] checksValues = preloadTable(loChecksTable);
 
             CTest parseSingleTest = new CTest(title, "Description");
             logger.Debug(String.Format("Creating Test : {0}", parseSingleTest.ToString()));
@@ -105,19 +109,19 @@ namespace ValToolMgrDna.ExcelSpecific
             //' Writing inputs
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             logger.Debug(String.Format("Found {0} Excel columns to process.", lcActionsTableColumns.Count));
-            for (int CurrentColumn = 4; CurrentColumn <= lcActionsTableColumns.Count; CurrentColumn++)
+            for (int CurrentColumn = 3; CurrentColumn < lcActionsTableColumns.Count; CurrentColumn++)
             {
                 logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn].Name));
                 CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
 
                 logger.Debug(String.Format("Processing Actions table."));
-                fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, CurrentColumn);
+                fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, actionsValues, CurrentColumn);
 
                 logger.Debug(String.Format("Processing Timer table."));
                 addTempoIfExists(o_step, loActionsTable, CurrentColumn);
 
                 logger.Debug(String.Format("Processing Checks table."));
-                fillWithActions(o_step, TableTypes.TABLE_CHECKS, loChecksTable, CurrentColumn);
+                fillWithActions(o_step, TableTypes.TABLE_CHECKS, loChecksTable, checksValues, CurrentColumn);
 
                 logger.Debug(String.Format("Adding step to results."));
                 parseSingleTest.Add(o_step);
@@ -125,19 +129,38 @@ namespace ValToolMgrDna.ExcelSpecific
             return parseSingleTest;
         }
 
-        private void fillWithActions(CStep o_step, TableTypes typeOfTable, Excel.ListObject loSourceFiles, int ColumnIndex)
+        private object[,] preloadTable(Excel.ListObject table)
         {
-            logger.Debug(String.Format("Found {0} Excel lines to process.", loSourceFiles.ListRows.Count));
-            for (int line = 1; line <= loSourceFiles.ListRows.Count; line++)
-            {
-                Excel.ListRow lrCurrent = loSourceFiles.ListRows[line];
-                logger.Debug(String.Format("Processing Excel line {0}.", lrCurrent.Range.AddressLocal));
+            object[,] result;
 
-                string Target = (string)lrCurrent.Range[1, 1].Value;
-                string Path = (string)lrCurrent.Range[1, 2].Value;
-                string Location = (string)lrCurrent.Range[1, 3].Value;
-                Excel.Range rangeToRetrieve = lrCurrent.Range[1, ColumnIndex];
-                object CellValue = rangeToRetrieve.Value;
+            // Get the value of the selection
+            int rows = table.ListRows.Count;
+            int cols = table.ListColumns.Count;
+            
+            result = new object[rows, cols];
+
+            // Process the values
+            for (int line = 0; line < rows; line++)
+            {
+                for (int column = 0; column < cols; column++)
+                {
+                    result[line, column] = table.Range[line+2, column+1].Value;
+                }
+            }
+            return result;
+        }
+
+        private void fillWithActions(CStep o_step, TableTypes typeOfTable, Excel.ListObject tableRef, object[,] table, int ColumnIndex)
+        {
+            logger.Debug(String.Format("Found {0} Excel lines to process.", table.GetLength(0)));
+            for (int line = 0; line < table.GetLength(0); line++)
+            {
+                logger.Debug(String.Format("Processing Excel line [{0}, {1}]{2} => {3}", line, ColumnIndex, tableRef.Range[line + 2, ColumnIndex + 1].AddressLocal, table[line, ColumnIndex]));
+
+                string Target = (string)table[line, 0];
+                string Path = (string)table[line, 1];
+                string Location = (string)table[line, 2];
+                object CellValue = table[line, ColumnIndex];
 
                 if(CellValue != null)
                 {
@@ -163,12 +186,12 @@ namespace ValToolMgrDna.ExcelSpecific
                     catch(InvalidCastException ex)
                     {
                         logger.Error("Problem when trying to find an equivalence for item.", ex);
-                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + rangeToRetrieve.Address + " : "+ex.Message);
+                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + tableRef.Range[line + 2, ColumnIndex + 1].Address + " : " + ex.Message);
                     }
                     catch (Exception ex)
                     {
                         logger.Error("Invalid item processed.", ex);
-                        XlCall.Excel(XlCall.xlcAlert, "Cell problem " + rangeToRetrieve.Address + " : " + ex.Message);
+                        XlCall.Excel(XlCall.xlcAlert, "Cell problem " + tableRef.Range[line + 2, ColumnIndex + 1].Address + " : " + ex.Message);
                     }
                 }
             }
