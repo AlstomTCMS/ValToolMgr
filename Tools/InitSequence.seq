@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "D:\\Validation\\Project_Env_trunk\\Validation\\InitSequence.seq"
+Path = "C:\\macros_alstom\\Tools\\InitSequence.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -48,7 +48,6 @@ TH_Start = StepType
 CB_QuickInit = StepType
 SequenceArgument = Argument
 Environment_LoadATMLFile = StepType
-Variable_Force = StepType
 Environment_Connect = StepType
 Statement = StepType
 
@@ -103,7 +102,7 @@ RTS = Obj
 [SF.Seq[0]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [4]
+%HI: Main = [3]
 %FLG: Main = 4194304
 %FLG: Setup = 4194304
 %HI: Cleanup = [1]
@@ -137,11 +136,9 @@ HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedde
 %[1] = Step
 %TYPE: %[1] = "SequenceCall"
 %[2] = Step
-%TYPE: %[2] = "Variable_Force"
+%TYPE: %[2] = "Label"
 %[3] = Step
 %TYPE: %[3] = "NI_Wait"
-%[4] = Step
-%TYPE: %[4] = "NI_Wait"
 
 [SF.Seq[0].Main[0].TS]
 Id = "ID#:Tg1NEspKzkurE6uuK4/hnB"
@@ -232,78 +229,26 @@ Expr = "\"C:\\Repositories\\TrainTracer\\Russian_2ES5\\0.0.24\\ATML\""
 %NAME = "SequenceCall"
 
 [SF.Seq[0].Main[2].TS]
-Id = "ID#://+KxcwFJEyYi3vMW0wjXA"
-
-[DEF, SF.Seq[0].Main[2].TS]
-SData = "TYPE, DotNetStepAdditions"
-
-[SF.Seq[0].Main[2].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
-ClassVariable = "StationGlobals.TrainTracer.WebMaintenance2"
-ClassName = "Alstom.eTrain.TestStand.Maintenance"
-DisposeCreatedInstance = False
-Constructor = "Maintenance()"
-MemberType = 1
-MemberName = "ForceVariable"
-HasReturnValue = True
-%HI: Params = [2]
-
-[DEF, SF.Seq[0].Main[2].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-
-[SF.Seq[0].Main[2].TS.SData.Call.Params[0]]
-Name = "Return Value"
-ArgVal = "Step.Result.APICall"
-Type = 2
-Direction = 6
-Dimension = -1
-
-[SF.Seq[0].Main[2].TS.SData.Call.Params[1]]
-Name = "variableSymbolicPath"
-ArgVal = "Step.VariableName"
-Type = 1
-Dimension = -1
-
-[SF.Seq[0].Main[2].TS.SData.Call.Params[2]]
-Name = "value"
-ArgVal = "Step.VariableValue"
-Type = 12
-Dimension = -1
-
-[SF.Seq[0].Main[2]]
-VariableName = "mpu/mpu_sil0_taskf_SIL0//mpu_sil0_taskf_SIL0/Application_TrTrans/Embedded/W_SPARE"
+Id = "ID#:JtMJF+J+QkG4mfuTU5zFSD"
 
 [DEF, SF.Seq[0].Main[2]]
-%NAME = "Force W_SPARE to 0"
+%NAME = "Loop index"
 
 [SF.Seq[0].Main[3].TS]
-Id = "ID#:y4gAHwVyGkm1agzgygI9FA"
+Id = "ID#:RlvsDwq+LE6CBZ+xuk6b/A"
 PassAct = "Goto"
 FailAct = "Goto"
 PassActTarget = "\"ID#:y4gAHwVyGkm1agzgygI9FA\""
 FailActTarget = "\"ID#:y4gAHwVyGkm1agzgygI9FA\""
+CustExpr = "True"
+CustTrueAct = "Goto"
+CustTrueActTarget = "\"ID#:JtMJF+J+QkG4mfuTU5zFSD\""
 
 [SF.Seq[0].Main[3]]
 SeqCallStepGroupIdx = -1
 TimeExpr = "60"
 
 [DEF, SF.Seq[0].Main[3]]
-%NAME = "Wait  seconds"
-
-[SF.Seq[0].Main[4].TS]
-Id = "ID#:RlvsDwq+LE6CBZ+xuk6b/A"
-PassAct = "Goto"
-FailAct = "Goto"
-PassActTarget = "\"ID#:y4gAHwVyGkm1agzgygI9FA\""
-FailActTarget = "\"ID#:y4gAHwVyGkm1agzgygI9FA\""
-
-[SF.Seq[0].Main[4]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "60"
-
-[DEF, SF.Seq[0].Main[4]]
 %NAME = "Wait  seconds"
 
 [DEF, SF.Seq[0].Cleanup]
@@ -2726,7 +2671,6 @@ TH_Start = "TH_Start"
 CB_QuickInit = "CB_QuickInit"
 SequenceArgument = "SequenceArgument"
 Environment_LoadATMLFile = "Environment_LoadATMLFile"
-Variable_Force = "Variable_Force"
 Environment_Connect = "Environment_Connect"
 Statement = "Statement"
 
@@ -7015,175 +6959,6 @@ Common = "TYPE, CommonResults"
 APICall = Bool
 
 [Environment_LoadATMLFile.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-%FLG: ReportText = 4194304
-%INSTFLG: ReportText = 4194304
-
-[DEF, Variable_Force]
-%LOCATION = "StepTypes"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-BlockStartTypes = Str
-%FLG: BlockStartTypes = 524288
-BlockEndTypes = Str
-%FLG: BlockEndTypes = 524288
-AppliesToBlockStructure = Bool
-%FLG: AppliesToBlockStructure = 524288
-Menu = "TYPE, StepTypeMenu"
-Substeps = "TYPE, StepTypeSubstepsArray"
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-TS = "TYPE, TEInf"
-Result = Obj
-VariableName = Str
-VariableValue = Num
-%ROOT_TYPE = True
-
-[Variable_Force]
-DescriptionFormat Line0001 = "(Step.VariableName ==\"\") ? \"Forces variable\" : \"Forces variable \"+Str(Step.VariableName)+((Step.VariableValue !=0)"
-DescriptionFormat Line0002 = " ? \" : sets its value to \"+ Str(Step.VariableValue) : \"\")"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Force Variable\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%FLG: BlockStartTypes = 4194328
-%FLG: BlockEndTypes = 4194328
-%FLG: AppliesToBlockStructure = 4194328
-%HI: Substeps = [0]
-CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
-%FLG: CodeTemplates = 4194328
-%INSTFLG: TS = 262168
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-%TIMESTAMP = 1266242554
-%VERSION = "0.0.0.12"
-%TYPELASTMOD = "4.0.0.1030"
-%TYPE_FLG = 8
-
-[Variable_Force.Menu]
-ItemName = "\"Force variable\""
-Group = "Variables"
-
-[DEF, Variable_Force.Substeps]
-%[0] = Step
-%TYPE: %[0] = "PostSubstep"
-
-[Variable_Force.Substeps[0].TS]
-Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
-
-[DEF, Variable_Force.Substeps[0].TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[Variable_Force.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
-ClassVariable = "FileGlobals.WebMaintenance"
-ClassName = "Alstom.eTrain.TestStand.Maintenance"
-MemberType = 1
-MemberName = "GetMessage"
-%HI: Params = [3]
-
-[DEF, Variable_Force.Substeps[0].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-%[3] = "TYPE, DotNetParameter"
-
-[Variable_Force.Substeps[0].TS.SData.Call.Params[0]]
-Name = "errorOccurred"
-ArgVal = "Step.Result.Error.Occurred"
-Type = 2
-Direction = 10
-Dimension = -1
-
-[Variable_Force.Substeps[0].TS.SData.Call.Params[1]]
-Name = "errorCode"
-ArgVal = "Step.Result.Error.Code"
-Type = 6
-Direction = 10
-Dimension = -1
-
-[Variable_Force.Substeps[0].TS.SData.Call.Params[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.Error.Msg"
-Type = 1
-Direction = 10
-Dimension = -1
-
-[Variable_Force.Substeps[0].TS.SData.Call.Params[3]]
-Name = "reportText"
-ArgVal = "Step.Result.ReportText"
-Type = 1
-Direction = 10
-Dimension = -1
-
-[DEF, Variable_Force.Substeps[0]]
-%NAME = "Post"
-
-[Variable_Force.TS]
-Icon = "TrainTracer\\Force.ico"
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 7274521
-UnloadOpt = "UnloadAfterSequenceExecution"
-
-[DEF, Variable_Force.TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[Variable_Force.TS.SData.Call]
-AssemblyPath = "C:\\Program Files\\Alstom\\UTM4TS\\bin\\TestStand_TrainTracer.dll"
-ClassVariable = "FileGlobals.WebMaintenance"
-ClassName = "Alstom.eTrain.TestStand.Maintenance"
-DisposeCreatedInstance = False
-Constructor = "Maintenance()"
-MemberType = 1
-MemberName = "ForceVariable"
-HasReturnValue = True
-%HI: Params = [2]
-
-[DEF, Variable_Force.TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-
-[Variable_Force.TS.SData.Call.Params[0]]
-Name = "Return Value"
-ArgVal = "Step.Result.APICall"
-Type = 2
-Direction = 6
-Dimension = -1
-
-[Variable_Force.TS.SData.Call.Params[1]]
-Name = "variableSymbolicPath"
-ArgVal = "Step.VariableName"
-Type = 1
-Direction = 1
-Dimension = -1
-
-[Variable_Force.TS.SData.Call.Params[2]]
-Name = "value"
-ArgVal = "Step.VariableValue"
-Type = 12
-Direction = 1
-Dimension = -1
-
-[DEF, Variable_Force.Result]
-Error = "TYPE, Error"
-Status = Str
-ReportText = Str
-Common = "TYPE, CommonResults"
-APICall = Bool
-
-[Variable_Force.Result]
 %FLG: Error = 4194304
 %INSTFLG: Error = 4194304
 %FLG: Status = 4194304
