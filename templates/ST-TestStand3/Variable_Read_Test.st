@@ -44,6 +44,10 @@ VariableName = "$Instruction.Variable.Path$/$Instruction.Variable.Name$"
 Comp = "EQ"
 CompExpr = "$Instruction.Variable.Value$"
 
+[SF.Seq[$SeqIdx$].Main[$InstrIdx$].Limits]
+Low = $Instruction.Variable.Value$
+High = $Instruction.Variable.Value$
+
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
 %NAME = "Test $Instruction.Variable.Name$ to $Instruction.Variable.Value$"
 

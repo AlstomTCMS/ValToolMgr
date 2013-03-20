@@ -320,6 +320,7 @@ CbEmb4 = Ref
 CbEmb5 = Ref
 CbEmb6 = Ref
 CbEmb7 = Ref
+CbEmb8 = Ref
 
 [SF.FileGlobalDefaults]
 DDU_ScreenShot = True
