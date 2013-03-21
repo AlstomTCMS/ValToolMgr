@@ -104,9 +104,10 @@ RTS = Obj
 %FLG: Locals = 4194304
 %HI: Main = [1]
 %FLG: Main = 4194304
-%HI: Setup = [1]
+%HI: Setup = [2]
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
+GotoCleanupOnFail = True
 %FLG: GotoCleanupOnFail = 4194312
 RecordResults = True
 %FLG: RecordResults = 4194312
@@ -164,6 +165,8 @@ TimeExpr = "60"
 %TYPE: %[0] = "SequenceCall"
 %[1] = Step
 %TYPE: %[1] = "SequenceCall"
+%[2] = Step
+%TYPE: %[2] = "SequenceCall"
 
 [SF.Seq[0].Setup[0].TS]
 Id = "ID#:Tg1NEspKzkurE6uuK4/hnB"
@@ -224,31 +227,89 @@ Expr = "\"target_mpu_SIL0\""
 %NAME = "Init EMB1"
 
 [SF.Seq[0].Setup[1].TS]
-Id = "ID#:XMvnx0kizkeD+GJM9SVYCB"
+Id = "ID#:roXJ2FAXkkeGqFkhsqZFqB"
 
 [DEF, SF.Seq[0].Setup[1].TS]
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[0].Setup[1].TS.SData]
-SeqName = "TrainTracerInitialiser"
+SeqName = "EmbeddedInitialiser"
 UseCurFile = True
 
 [DEF, SF.Seq[0].Setup[1].TS.SData]
 ActualArgs = Arguments
 
 [DEF, SF.Seq[0].Setup[1].TS.SData.ActualArgs]
+CbReference = "TYPE, SequenceArgument"
+TestBenchEthAddress = "TYPE, SequenceArgument"
+CbPathName = "TYPE, SequenceArgument"
+CbProjectName = "TYPE, SequenceArgument"
+CbApplicationName = "TYPE, SequenceArgument"
+CbTaskName = "TYPE, SequenceArgument"
+CbConfiguration = "TYPE, SequenceArgument"
+CbTarget = "TYPE, SequenceArgument"
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbReference]
+UseDef = False
+Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb2"
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.TestBenchEthAddress]
+UseDef = False
+Expr = "\"192.168.1.103\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbPathName]
+UseDef = False
+Expr = "\"C:\\\\Russian_2ES5\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbProjectName]
+UseDef = False
+Expr = "\"Russian_2ES5.cbp\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbApplicationName]
+UseDef = False
+Expr = "\"russian_2es5\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbTaskName]
+UseDef = False
+Expr = "\"russian_2es5\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbConfiguration]
+UseDef = False
+Expr = "\"conf_banc\""
+
+[SF.Seq[0].Setup[1].TS.SData.ActualArgs.CbTarget]
+UseDef = False
+Expr = "\"target_mpu_SIL0\""
+
+[DEF, SF.Seq[0].Setup[1]]
+%NAME = "Init EMB2"
+
+[SF.Seq[0].Setup[2].TS]
+Id = "ID#:XMvnx0kizkeD+GJM9SVYCB"
+
+[DEF, SF.Seq[0].Setup[2].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[0].Setup[2].TS.SData]
+SeqName = "TrainTracerInitialiser"
+UseCurFile = True
+
+[DEF, SF.Seq[0].Setup[2].TS.SData]
+ActualArgs = Arguments
+
+[DEF, SF.Seq[0].Setup[2].TS.SData.ActualArgs]
 TtReference = "TYPE, SequenceArgument"
 TtATMLPath = "TYPE, SequenceArgument"
 
-[SF.Seq[0].Setup[1].TS.SData.ActualArgs.TtReference]
+[SF.Seq[0].Setup[2].TS.SData.ActualArgs.TtReference]
 UseDef = False
 Expr = "StationGlobals.TrainTracer.WebMaintenance"
 
-[SF.Seq[0].Setup[1].TS.SData.ActualArgs.TtATMLPath]
+[SF.Seq[0].Setup[2].TS.SData.ActualArgs.TtATMLPath]
 UseDef = False
 Expr = "\"C:\\Repositories\\TrainTracer\\Russian_2ES5\\0.0.24\\ATML\""
 
-[DEF, SF.Seq[0].Setup[1]]
+[DEF, SF.Seq[0].Setup[2]]
 %NAME = "SequenceCall"
 
 [DEF, SF.Seq[0].RTS]
@@ -2133,7 +2194,6 @@ TimeExpr = "2"
 [SF.Seq[3].Main[3].TS]
 Id = "ID#:sPXZEP3000udjUQEAUmK0A"
 NoResult = True
-FailAct = "Terminate"
 
 [DEF, SF.Seq[3].Main[3].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -2505,7 +2565,7 @@ ResultList = Objs
 Id = "ID#:vF9I+0a3gk+/p14iYpDSDA"
 
 [SF.Seq[4].Main[0]]
-ATMLFile = "C:\\Repositories\\TrainTracer\\Russian_2ES5\\0.0.24\\ATML\\train.xml"
+ATMLFile = "C:\\Repositories\\TrainTracer\\Russian_2ES5\\3.0.2\\ATML\\train.xml"
 
 [DEF, SF.Seq[4].Main[0]]
 %NAME = "Load ATML File"
