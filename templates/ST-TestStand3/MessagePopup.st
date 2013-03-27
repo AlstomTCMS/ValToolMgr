@@ -14,6 +14,6 @@ ShowResponse = True
 DefaultResponse = "Comment : "
 
 [DEF, SF.Seq[$SeqIdx$].Main[$InstrIdx$]]
-%NAME = "Interaction request"
+%NAME = "Popup display"
 
 >>

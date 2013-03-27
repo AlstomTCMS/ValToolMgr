@@ -12,7 +12,7 @@ namespace TestStandGen.Types.Instructions
 
         public CTsPopup(string text)
         {
-            this.Text = text;
+            this.Text = TestStandAdapter.protectText(text);
         }
 
         public override string InstructionName

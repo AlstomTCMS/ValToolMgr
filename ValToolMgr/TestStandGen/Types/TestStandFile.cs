@@ -19,7 +19,7 @@ namespace TestStandGen.Types
 
             set
             {
-                filename = TestStandAdapter.protectBackslashes(value);
+                filename = TestStandAdapter.protectText(value);
             }
         }
 
