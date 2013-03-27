@@ -34,7 +34,7 @@ Public Sub Generer_OngletsTests()
     
         Set testRange = Sheets(SYNTHESE_NAME).range("A2")
         testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type_Var", "Vehicule", "Variable", "Chemin", "Valeur")
-        Set finSynthese = Sheets(SYNTHESE_NAME).range("F2").End(xlDown).range("D1") 'cellule de l'angle du tableau par Num_Etape
+        Set finSynthese = Sheets(SYNTHESE_NAME).range("F1").End(xlDown).range("D1") 'cellule de l'angle du tableau par Num_Etape
         
         Do
             Call reformatExigences(testRange.range("C1"))
@@ -51,7 +51,7 @@ Public Sub Generer_OngletsTests()
                     Set debut = testRange.range("F1")
                     
                     'Tester s'il n'y a qu'une ligne principale pour ce test
-                    If testRange.range("A2") <> "" Then
+                    If testRange.range("A2") <> "" Or testRange.row = finSynthese.row Then
                         Set fin = testRange.range("I1")
                     ' Si on atteind la fin du tableau de synthèse, on ne doit pas faire d'offset
                     ElseIf testRange.range("A2").End(xlDown).row = finSynthese.row Then

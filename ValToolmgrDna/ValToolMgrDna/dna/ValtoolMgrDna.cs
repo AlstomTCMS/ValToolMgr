@@ -31,6 +31,6 @@ namespace ValToolMgrDna
             CTestContainer t = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
-        } 
+        }
     }
 }

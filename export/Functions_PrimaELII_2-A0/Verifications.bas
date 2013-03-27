@@ -202,7 +202,7 @@ Function checkPrimaValidVehiculs(testSheetName As String) As Boolean
     checkPrimaValidVehiculs = True
     
     With Sheets(testSheetName)
-        With .range("A2", .Cells(.range("A2").End(xlDown).row, .range("A1").End(xlToRight).Column))
+        With .range("A2", .Cells(.range("A1").End(xlDown).row, .range("A1").End(xlToRight).Column))
         'filtrer sur la colonne Vehicule
         .AutoFilter Field:=8, Criteria1:="=1", Operator:=xlOr, Criteria2:="=2"
         

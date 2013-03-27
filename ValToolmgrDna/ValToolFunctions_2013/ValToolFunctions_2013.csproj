@@ -67,8 +67,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PR_Test\TestsGenerator.cs" />
+    <Compile Include="PR_Test\TestSheet.cs" />
     <Compile Include="RibbonHandler.cs" />
+    <Compile Include="SheetAlreadyExistException.cs" />
     <Compile Include="SwVTD.cs" />
+    <Compile Include="SwVTP\SwVTP.cs" />
+    <Compile Include="SwVTP\SwVTPManager.cs" />
     <Compile Include="SwVTP\SwVTP_Creation.cs" />
     <Compile Include="Utils\General.cs" />
     <Compile Include="PR_Test\CreateTest.cs" />
@@ -83,6 +87,10 @@
       <Name>ValToolFunctionsStub</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
+      <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
+      <Name>ValToolMgrDna</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -92,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Stubs\SwVTP_stub.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

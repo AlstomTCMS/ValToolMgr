@@ -264,7 +264,7 @@ Dim fin As Integer
         
         'boucler par test
         Set testRange = .range("A2")
-        fin = .UsedRange.Rows.Count
+        fin = Sheets(SYNTHESE_NAME).range("F1").End(xlDown).row '.UsedRange.Rows.Count
         Do
             'on cherche le suivant
             If testRange.range("A2") <> "" Then

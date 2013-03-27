@@ -95,7 +95,9 @@ namespace ValToolFunctions_2013
 
         public void AddCategory(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            throw new NotImplementedException();
+            SetExcelApplication(exelApp);
+            SwVTPManager.AddCategory();
+            IsAFunctionalityRunning = false;
         }
 
         public void RemoveCategory(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)

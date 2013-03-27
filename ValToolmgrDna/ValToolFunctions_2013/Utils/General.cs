@@ -8,6 +8,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.IO;
+using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2013
 {
@@ -135,6 +136,30 @@ namespace ValToolFunctions_2013
                 }
             }
             return isActivesheet_a_PR_Test;
+        }
+
+        /// <summary>
+        /// Détecter si c'est bien un onglet de test au bon format
+        /// </summary>
+        /// <param name="displayMsg">Sortir avec message sinon. Vrai par défaut</param>
+        /// <returns></returns>
+        internal static Boolean isActivesheet_a_SwVTPSheet(Boolean displayMsg = true)
+        {
+            Boolean isActivesheet_a_SwVTPSheet;
+
+            if (Regex.IsMatch(RibbonHandler.ExcelApplication.ActiveSheet.name, StringEnum.GetStringValue(SheetsNames.SW_VTP) + "*"))
+            {
+                isActivesheet_a_SwVTPSheet = true;
+            }
+            else
+            {
+                isActivesheet_a_SwVTPSheet = false;
+                if (displayMsg)
+                {
+                    MessageBox.Show("This sheet is not a SwVTP. You cannot use this function on this sheet.");
+                }
+            }
+            return isActivesheet_a_SwVTPSheet;
         }
 
         internal static string getTestNumber()

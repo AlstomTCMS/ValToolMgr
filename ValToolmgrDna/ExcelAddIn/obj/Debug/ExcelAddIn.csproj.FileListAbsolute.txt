@@ -20,3 +20,13 @@ C:\macros_alstom\ValToolmgrDna\ExcelAddIn\obj\Debug\fr\ExcelAddIn.resources.dll
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\obj\Debug\ExcelAddIn.RibbonVisual.resources
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\obj\Debug\ExcelAddIn.Properties.Language.resources
 C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ExcelAddIn.dll.config
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolMgrDna.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ExcelApi.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\NetOffice.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\OfficeApi.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\VBIDEApi.dll
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ValToolMgrDna.pdb
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\ExcelApi.xml
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\NetOffice.xml
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\OfficeApi.xml
+C:\macros_alstom\ValToolmgrDna\ExcelAddIn\bin\Debug\VBIDEApi.xml

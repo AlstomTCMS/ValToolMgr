@@ -214,8 +214,8 @@
   <data name="AddActionVar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/gAA
-        Cv4B5iV4ZgAABiJJREFUWEftlntMU1ccxw8qONymzpm4LQOXRRO3OZfFmW0sJgYTBYaZxjmYoohiFHHK
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/QAA
+        Cv0BS5xZCwAABiJJREFUWEftlntMU1ccxw8qONymzpm4LQOXRRO3OZfFmW0sJgYTBYaZxjmYoohiFHHK
         NCJD8cVLBBFnCcgYKhYsj7UotJRnH4gUsBUQS6E8CoXyLtCWR1vgt3OvihZKi5j9t5N80nvP73vu75tz
         fuecWtjb21uGhIQssbKyAmSizZtrgR6Ku1EytwkhrHT+7mP0me0icoRep4UBpbLfw22H3tQ3jMZoNJqt
         QqEApVIJarUaNBqNAUQfEVP1KyGDJ4Yf/RjgdIoBN5kVIKxpJimtlKrz+WXrXzs5MYDFYtlotVoyqZ+f
@@ -247,8 +247,8 @@
   <data name="RemoveActionVar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALAAAA
-        CwAB5DetvwAABY5JREFUWEfl131ME3cYB/AOoYARdBrxZcI2HcsyJy7DvYjRbMQhOMxcnMOhzBecb7jB
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/wAA
+        Cv8BNGKaggAABY5JREFUWEfl131ME3cYB/AOoYARdBrxZcI2HcsyJy7DvYjRbMQhOMxcnMOhzBecb7jB
         oiIimEwLtYJaBgRhvCgWqBQKCC0tlLZQkANsAXWlUl7EQkHBCrZjA9RnvzsHWsQ2nDH7Y5d8cu3dc9z3
         fvf87gqFQqFMQf67xd3d3QrDsDkKhcLBlGuN9Q7nskocVu1OdFi1K9HhVCrPoVBUSeDyy2ansThWpK6C
         zWY7abVa0Ol0oNfrwWAwGMG34fse9Osgv1wJX4XkwdrDeZDGawB5UwehplGtF1XUriQVgM/nOw4NDREn
@@ -278,8 +278,8 @@
   <data name="AddCheckVar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/gAA
-        Cv4B5iV4ZgAABf5JREFUWEetl3lQU0cYwBcr1Vqs08M61sHSKi1/OB1nOq2O9a6jdWhG7VR0pnIjoFwB
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/QAA
+        Cv0BS5xZCwAABf5JREFUWEetl3lQU0cYwBcr1Vqs08M61sHSKi1/OB1nOq2O9a6jdWhG7VR0pnIjoFwB
         VERAoEKCNlIQzygIhEMrYg2igIiSIGcIJNz3mQSQAAESIAG+7nsCYpNACd2Z37zN9+3xe2933+Tppaam
         LtHX1zeQyWQL9PT00L8LAOAQILFUgZJftiLFsAoZrVyKdq3/DKnGxhHRI+lO7MDzZ5kqXFWqDTBboLi4
         OEwqlUJXVxd0dnaqQcR7cJ5X0Qx2F9LhcOAjOBvJhdKaFigsb4IijJvnKQs8z0+zzaUx39DQwMB3CWlp
@@ -311,8 +311,8 @@
   <data name="RemoveCheckVar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALAAAA
-        CwAB5DetvwAABc5JREFUWEetlnlQU1cUh19CJaJYWx2F2qK0iKXTsYv9p51pdabTUSgGlzrUyiiyKFKJ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/wAA
+        Cv8BNGKaggAABc5JREFUWEetlnlQU1cUh19CJaJYWx2F2qK0iKXTsYv9p51pdabTUSgGlzrUyiiyKFKJ
         RlxYAmERCJAUBRwFFJUlhlIEBKtQIYSAbAmEEJCwlEWSsBnBwUhF9PS+CBEkyZDonfmS++65557fO+/e
         8x6ByWQusbS0NFepVERMZwNsYGQcKxLIsfGnk9hHKxdjP3xugZkvff85AfnkZKWPlZWWPEPdCd1r6LA0
         NDScVSqVMDQ0BIODg3PAxx8iu7ClBzxji2F32E2gp1ZAY1sv1DV3gwAREsHYh5a3Nzg47tDT08MC1IqK

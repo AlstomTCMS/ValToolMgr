@@ -49,7 +49,7 @@ namespace ValToolFunctions_2013
             //Add init sheets
             CreateEndpaperSheet(wb);
             CreateEvolSheet(wb);
-            CreateBenchConfSheet(wb);
+            //CreateBenchConfSheet(wb);
             CreateSwVTPSheet(wb);
 
             //Save file and show it
@@ -69,11 +69,233 @@ namespace ValToolFunctions_2013
             eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER); 
             TabColorLightBlue(eps.Tab);
 
-            eps.Range["B3:B10"].Value = new String[] { "Function", "Num_PR", "Indice_PR", "Date_PR", 
-                                    "Ref_FRScc", "Ind_FRScc", "Versions MPU", "Aim of the function"};
+            //Mask what is not on the area of the sheet
+            //General.SetGreySheetPattern(eps);
+            //General.UnformatGrey(eps.Range["A1", "O27"]);
+            //ScrollArea 
+            Range lastColumn = eps.Range["P1"].get_End(Excel.XlDirection.xlToRight);
+            eps.Range["P1",lastColumn].EntireColumn.Hidden = true;
+            eps.Rows["28:1048576"].EntireRow.Hidden = true;
 
 
-            eps.Range["B2"].Value = "";//D4&" "&D5&" - "&D3;
+            eps.Range["B3:B20"].Value = RibbonHandler.ExcelApplication.WorksheetFunction.Transpose(
+                                        new String[] { "Function", "Num_PR", "Indice_PR", "Date_PR", 
+                                        "Ref_FRScc", "Ind_FRScc", "Versions              MPU", "DDU","TCU","ACU","BCU", 
+                                        "ATESS", "LZB", "TRU", "Locomotive's type", "Locomotive's number", "Test's date", "Aim of the function"});
+
+
+            eps.Columns["A:A"].ColumnWidth = 2.5;
+            eps.Columns["B:B"].ColumnWidth = 17.43;
+            eps.Columns["C:C"].ColumnWidth = 2.5;
+            eps.Columns["O:O"].ColumnWidth = 2.5;
+            
+            // Aim of the function
+            Range functionGoal = eps.Rows["20:20"];
+            functionGoal.EntireRow.RowHeight = 39;
+            functionGoal.HorizontalAlignment = XlHAlign.xlHAlignGeneral;
+            functionGoal.VerticalAlignment = XlVAlign.xlVAlignCenter;
+            functionGoal.WrapText = false; ;
+            functionGoal.Orientation = 0;
+            functionGoal.AddIndent = false;
+            functionGoal.IndentLevel = 0;
+            functionGoal.ShrinkToFit = false;
+            functionGoal.ReadingOrder = (int)Excel.Constants.xlContext;
+            functionGoal.MergeCells = true;
+
+            //Format the whole first table
+            SetBoldBorder(eps.Range["B2:N20"]);
+
+            //First column
+            Range firstColumn = eps.Range["B2:C20"];
+            Interior inte = firstColumn.Interior;
+            inte.Pattern = XlPattern.xlPatternSolid;
+            inte.PatternColorIndex  = XlColorIndex.xlColorIndexAutomatic;
+            inte.ThemeColor = XlThemeColor.xlThemeColorAccent1;
+            inte.TintAndShade = 0;;
+            inte.PatternTintAndShade = 0;
+
+            Font font1Column = firstColumn.Font;
+            font1Column.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            font1Column.TintAndShade = 0;
+            font1Column.Bold = true;
+            font1Column.Bold = false;
+            font1Column.Size = 12;
+
+            firstColumn.HorizontalAlignment = XlHAlign.xlHAlignLeft;
+            firstColumn.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            firstColumn.WrapText = false; ;
+            firstColumn.Orientation = 0;
+            firstColumn.AddIndent = false;
+            firstColumn.IndentLevel = 0;
+            firstColumn.ShrinkToFit = false;
+            firstColumn.ReadingOrder = (int)Excel.Constants.xlContext;
+            firstColumn.MergeCells = false;
+
+            //firstColumn.Merge();
+
+            //Title line
+            Range titleLine = eps.Range["B2:N2"];
+            titleLine.Merge();
+            titleLine.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+            //titleLine.VerticalAlignment = xlBottom;
+            //titleLine.WrapText = false;
+            //titleLine.Orientation = 0;
+            //titleLine.AddIndent = false;
+            //titleLine.IndentLevel = 0;
+            //titleLine.ShrinkToFit = False;
+            //titleLine.ReadingOrder = xlContext;
+            //titleLine.MergeCells = False;
+
+
+            SetBoldBorder(eps.Range["B3:N3"]);
+
+            //Reference Zone
+            SetBoldBorder(eps.Range["B4:N8"], true);
+    //Range("B4:N8").Select
+    //Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    //Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    //With Selection.Borders(xlEdgeLeft)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlMedium
+    //End With
+    //With Selection.Borders(xlEdgeTop)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlMedium
+    //End With
+    //With Selection.Borders(xlEdgeBottom)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlMedium
+    //End With
+    //With Selection.Borders(xlEdgeRight)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlMedium
+    //End With
+    //With Selection.Borders(xlInsideVertical)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlThin
+    //End With
+    //With Selection.Borders(xlInsideHorizontal)
+    //    .LineStyle = xlContinuous
+    //    .ColorIndex = 0
+    //    .TintAndShade = 0
+    //    .Weight = xlThin
+    //End With
+
+            SetBoldBorder(eps.Range["B9:N19"], true);
+            SetBoldBorder(eps.Range["D3:N20"], true);
+
+            //Add Named Ranges
+            wb.Names.Add("FunctionName", eps.Range["D3"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R3C4");
+            wb.Names.Add("Num_PR", eps.Range["D4"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R4C4");
+            wb.Names.Add("Indice_PR", eps.Range["D5"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R5C4");
+            eps.Range["B2:N2"].FormulaR1C1 = @"=Num_PR&"" ""&Indice_PR&"" - ""&FunctionName";
+
+            eps.Range["D3:N3"].Merge();
+            eps.Range["D20:N20"].Merge();
+            eps.Range["D4:N19"].Merge();
+
+
+            //Version
+            Range endpaperVersionRange = eps.Range["B1"];
+            endpaperVersionRange.Value = "v1.0.0";
+            wb.Names.Add("EndpaperVersion", endpaperVersionRange, true);
+
+            //ActiveSheet.Protection.AllowEditRanges.Add Title:="Range123", Range:=Range("K4:L10")
+            Font epVFont = endpaperVersionRange.Font;
+            epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            epVFont.TintAndShade = -0.149998474074526;
+
+            // Protect Sheet Editing
+            eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
+            //Define editing zones
+            //eps.Protection.AllowEditRanges.Add( Title:"EditZone", Range:eps.Range["D3:N20"]);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="range"></param>
+        private static void SetBoldBorder(Range range, Boolean insideThin = false)
+        {
+            range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
+
+            foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlEdgeRight })
+            {
+                Border border = range.Borders[edge];
+                border.LineStyle = XlLineStyle.xlContinuous;
+                border.Weight = XlBorderWeight.xlMedium;
+                border.ColorIndex = 0;
+                border.TintAndShade = 0;
+            }
+
+            if (insideThin)
+            {
+                foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlInsideVertical, XlBordersIndex.xlInsideHorizontal })
+                {
+                    Border border = range.Borders[edge];
+                    border.LineStyle = XlLineStyle.xlContinuous;
+                    border.Weight = XlBorderWeight.xlThin;
+                    border.ColorIndex = 0;
+                    border.TintAndShade = 0;
+                }
+            }
+            else
+            {
+                range.Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlLineStyleNone;
+                range.Borders[XlBordersIndex.xlInsideHorizontal].LineStyle = XlLineStyle.xlLineStyleNone;
+            }
+        }
+
+        private static void SetTitles(Range range)
+        {
+            range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlInsideHorizontal].LineStyle = XlLineStyle.xlLineStyleNone;
+
+            foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlEdgeRight })
+            {
+                Border border = range.Borders[edge];
+                border.LineStyle = XlLineStyle.xlContinuous;
+                border.Weight = XlBorderWeight.xlMedium;
+                border.ColorIndex = 0;
+                border.TintAndShade = 0;
+            }
+
+            Interior inte = range.Interior;
+            inte.Pattern = XlPattern.xlPatternSolid;
+            inte.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
+            inte.ThemeColor = XlThemeColor.xlThemeColorAccent1;
+            inte.TintAndShade = 0; ;
+            inte.PatternTintAndShade = 0;
+
+            Font font1Column = range.Font;
+            font1Column.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            font1Column.TintAndShade = 0;
+            font1Column.Bold = true;
+            font1Column.Bold = false;
+            font1Column.Size = 12;
+
+            range.HorizontalAlignment = XlHAlign.xlHAlignLeft;
+            range.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            range.WrapText = false; ;
+            range.Orientation = 0;
+            range.AddIndent = false;
+            range.IndentLevel = 0;
+            range.ShrinkToFit = false;
+            range.ReadingOrder = (int)Excel.Constants.xlContext;
+            range.MergeCells = false;
         }
 
         private static void CreateEvolSheet(Workbook wb)
@@ -112,7 +334,7 @@ namespace ValToolFunctions_2013
 
         private static void CreateSwVTPSheet(Workbook wb)
         {
-            Worksheet SwvtpS = wb.Sheets.Add(After: wb.Sheets[wb.Sheets.Count]);
+            Worksheet SwvtpS = wb.Sheets[3];//wb.Sheets.Add(After: wb.Sheets[wb.Sheets.Count]);
             SwvtpS.Name = StringEnum.GetStringValue(SheetsNames.SW_VTP);
             TabColorLightBlue(SwvtpS.Tab);
             General.SetGreySheetPattern(SwvtpS);

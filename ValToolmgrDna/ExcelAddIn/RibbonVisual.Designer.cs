@@ -62,6 +62,7 @@
             this.macroVersion = this.Factory.CreateRibbonLabel();
             this.UpdateDate = this.Factory.CreateRibbonLabel();
             this.autoUpdate = this.Factory.CreateRibbonCheckBox();
+            this.addCategory = this.Factory.CreateRibbonButton();
             this.ValToolMgrTab.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -105,6 +106,7 @@
             // group2
             // 
             this.group2.Items.Add(this.button_NewPR);
+            this.group2.Items.Add(this.addCategory);
             this.group2.Items.Add(this.plan2Tests);
             this.group2.Label = "Editing";
             this.group2.Name = "group2";
@@ -291,6 +293,14 @@
             this.autoUpdate.Name = "autoUpdate";
             this.autoUpdate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.autoUpdate_Click);
             // 
+            // addCategory
+            // 
+            this.addCategory.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.addCategory.Label = "Add a Category";
+            this.addCategory.Name = "addCategory";
+            this.addCategory.ShowImage = true;
+            this.addCategory.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.addCategory_Click);
+            // 
             // RibbonVisual
             // 
             this.Name = "RibbonVisual";
@@ -343,6 +353,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTD;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton toSwVTDR;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton help;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton addCategory;
     }
 
     partial class ThisRibbonCollection
