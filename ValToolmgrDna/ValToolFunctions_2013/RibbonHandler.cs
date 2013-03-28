@@ -80,24 +80,42 @@ namespace ValToolFunctions_2013
         [System.Obsolete("Use createWholeTestFormat instead", true)]
         public void NewPR(Excel.Application exelApp)
         {
-            SetExcelApplication(exelApp);
-            SwVTP_Creation.NewPR();
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                SwVTP_Creation.NewPR();
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void NewPR(Excel.Application exelApp, Microsoft.Office.Tools.Excel.ApplicationFactory factory)
         {
-            SetFactory(factory);
-            SetExcelApplication(exelApp);
-            SwVTP_Creation.NewPR();
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetFactory(factory);
+                SetExcelApplication(exelApp);
+                SwVTP_Creation.NewPR();
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void AddCategory(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            SwVTPManager.AddCategory();
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                SwVTPManager.AddCategory();
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void RemoveCategory(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
@@ -129,9 +147,15 @@ namespace ValToolFunctions_2013
 
         public void PlanToTests(Excel.Application exelApp)
         {
-            SetExcelApplication(exelApp);
-            TestsGenerator.FromSwVTP2Tests();
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestsGenerator.FromSwVTP2Tests();
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
 
@@ -139,44 +163,80 @@ namespace ValToolFunctions_2013
 
         public void AddStep(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.AddNewStep(editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.AddNewStep(editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void RemoveStep(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.RemoveStep(editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.RemoveStep(editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void AddActionVar(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.AddVariable(TEST.TABLE.TYPE.ACTION, editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.AddVariable(TEST.TABLE.TYPE.ACTION, editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void RemoveActionVar(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.RemoveVariable(TEST.TABLE.TYPE.ACTION, editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.RemoveVariable(TEST.TABLE.TYPE.ACTION, editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void AddCheckVar(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.AddVariable(TEST.TABLE.TYPE.CHECK, editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.AddVariable(TEST.TABLE.TYPE.CHECK, editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         public void RemoveCheckVar(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
         {
-            SetExcelApplication(exelApp);
-            TestManager.RemoveVariable(TEST.TABLE.TYPE.CHECK, editingMode);
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                TestManager.RemoveVariable(TEST.TABLE.TYPE.CHECK, editingMode);
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
 
         #endregion
@@ -184,9 +244,15 @@ namespace ValToolFunctions_2013
 
         public void extractTests2SwVTD(Excel.Application exelApp)
         {
-            SetExcelApplication(exelApp);
-            SwVTD.GenerateSwVTD();
-            IsAFunctionalityRunning = false;
+            try
+            {
+                SetExcelApplication(exelApp);
+                SwVTD.GenerateSwVTD();
+            }
+            finally
+            {
+                IsAFunctionalityRunning = false;
+            }
         }
     }
 }

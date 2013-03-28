@@ -225,6 +225,20 @@ namespace ValToolFunctions_2013
         /// Reveal data from tinted empty sheet
         /// </summary>
         /// <param name="range">the range to reveal</param>
+        internal static void FormatGrey(Range range)
+        {
+            Interior interior = range.Interior;
+            interior.Pattern = XlPattern.xlPatternSolid;
+            interior.PatternColorIndex = XlColorIndex.xlColorIndexAutomatic;
+            interior.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            interior.TintAndShade = -0.349986266670736;
+            interior.PatternTintAndShade = 0;
+        }
+
+        /// <summary>
+        /// Reveal data from tinted empty sheet
+        /// </summary>
+        /// <param name="range">the range to reveal</param>
         internal static void UnformatGrey(Range range)
         {
             Interior interior = range.Interior;

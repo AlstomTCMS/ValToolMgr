@@ -74,40 +74,40 @@ namespace ExcelAddIn
         private void button_NewPR_Click(object sender, RibbonControlEventArgs e)
         {
             Excel.Application xlsApp = Globals.ThisAddIn.Application;
-            //try
-            //{
-            //    xlsApp.ScreenUpdating = false;
-            //    xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
+            try
+            {
+                xlsApp.ScreenUpdating = false;
+                xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
                 ribbonHandler_2013.NewPR(xlsApp, Globals.Factory);
-            //}
-            //catch (NotImplementedException ex)
-            //{
-            //    MessageBox.Show(Language.Exception_NotImplemented);
-            //}
-            //catch (ExcelApplicationNotAvailableException ex)
-            //{
-            //    MessageBox.Show(Language.Exception_ExcelApplication_NotAvailable);
-            //}
-            //catch (ExcelApplicationMissingException ex)
-            //{
-            //    MessageBox.Show(Language.Exception_ExcelApplication_Missing);
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
-            //    {
-            //        MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
-            //    }
-            //}
-            //finally
-            //{
-            //    xlsApp.ScreenUpdating = true;
-            //    if (!xlsApp.Interactive)
-            //    {
-            //        xlsApp.Interactive = true;
-            //    }
-            //}
+            }
+            catch (NotImplementedException ex)
+            {
+                MessageBox.Show(Language.Exception_NotImplemented);
+            }
+            catch (ExcelApplicationNotAvailableException ex)
+            {
+                MessageBox.Show(Language.Exception_ExcelApplication_NotAvailable);
+            }
+            catch (ExcelApplicationMissingException ex)
+            {
+                MessageBox.Show(Language.Exception_ExcelApplication_Missing);
+            }
+            catch (Exception ex)
+            {
+                if (ex.TargetSite.ToString() == EXCEPTION_USER_EDITING)
+                {
+                    MessageBox.Show(Language.Error_Excel_User_Editing, Language.Warning_title);
+                }
+            }
+            finally
+            {
+                xlsApp.ScreenUpdating = true;
+                if (!xlsApp.Interactive)
+                {
+                    xlsApp.Interactive = true;
+                }
+            }
         }
 
 

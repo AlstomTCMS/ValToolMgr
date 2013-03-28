@@ -14,6 +14,7 @@ namespace ValToolFunctions_2013
     internal class SwVTP_Creation
     {
         static ExcelTools.ListObject testsTableT;
+        static ExcelTools.ListObject evolTableT;
 
         /// <summary>
         /// Ask user for an PR name and create a new PR file with an empty SwVTP, the Bench conf sheet and 
@@ -56,6 +57,7 @@ namespace ValToolFunctions_2013
         {
             Excel.Application app = RibbonHandler.ExcelApplication;
             Workbook wb = app.Workbooks.Add(Type.Missing);
+            wb.Open += new WorkbookEvents_OpenEventHandler(wb_Open);
 
             //Add init sheets
             CreateEndpaperSheet(wb, fileName);
@@ -68,6 +70,22 @@ namespace ValToolFunctions_2013
             wb.SaveAs(fileName);
             app.DisplayAlerts = true;
             wb.Saved = true;
+            wb.AddToFavorites();
+        }
+
+        static void wb_Open()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void wbT_Open(object sender, EventArgs e)
+        {
+            //if (e.Item.isNew)
+            //{
+            Microsoft.Office.Tools.Excel.ListObject evolLIst = sender as Microsoft.Office.Tools.Excel.ListObject;
+            evolLIst.Range.Offset[1, 0].EntireRow.Hidden = false;
+            //}
+            //System.Windows.Forms.MessageBox.Show("This data is read-only.");
         }
 
         /// <summary>
@@ -98,30 +116,59 @@ namespace ValToolFunctions_2013
 
 
             eps.Columns["A:A"].ColumnWidth = 2.5;
-            eps.Columns["B:B"].ColumnWidth = 10;
-            eps.Columns["C:C"].ColumnWidth = 10;
+            eps.Columns["B:B"].ColumnWidth = 10.5;
+            eps.Columns["C:C"].ColumnWidth = 10.5;
+            eps.Columns["D:D"].ColumnWidth = 2.5;
             eps.Columns["O:O"].ColumnWidth = 2.5;
+
+            Range TotalEditZone = eps.Range["D3:N20"];
 
             //Title line
             SetTitles(eps.Range["B2:N2"]);
 
             //Function name (AF code)
             SetTitles(eps.Range["B3:C3"], false);
-            SetEditZone(eps.Range["D3:N3"]);
+            SetEditZone(eps.Range["D3:N3"], ref TotalEditZone);
 
             //PR References zone
             SetTitles(eps.Range["B4:C8"], false);
-            SetEditZone(eps.Range["D4:N8"]);
+            SetEditZone(eps.Range["D4:N8"], ref TotalEditZone);
 
             //Hardware versions zone
             SetTitles(eps.Range["B9:C19"], false);
-            SetEditZone(eps.Range["D9:N19"]);
+            SetEditZone(eps.Range["D9:N19"], ref TotalEditZone);
             
             // Aim of the function
             Range functionGoal = eps.Range["B20:C20"];
-            functionGoal.EntireRow.RowHeight = 39;
+            functionGoal.EntireRow.RowHeight = 40;
             SetTitles(functionGoal, false);
-            SetEditZone(eps.Range["D20:N20"]);
+            SetEditZone(eps.Range["D20:N20"], ref TotalEditZone);
+
+
+            // Approval titles
+            Range swVTPWriter = eps.Range["B22:E22"];
+            SetTitles(swVTPWriter);
+            swVTPWriter.Value = "SwVTP's Writer";
+            SetEditZone(eps.Range["B23:E26"], ref TotalEditZone, true);
+
+            Range testWriter = eps.Range["F22:H22"];
+            SetTitles(testWriter);
+            testWriter.Value = "Tests's Writer";
+            SetEditZone(eps.Range["F23:H26"], ref TotalEditZone, true);
+
+            Range controller = eps.Range["I22:K22"];
+            SetTitles(controller);
+            controller.Value = "Controller";
+            SetEditZone(eps.Range["I23:K26"], ref TotalEditZone, true);
+
+            Range approver = eps.Range["L22:N22"];
+            SetTitles(approver);
+            approver.Value = "Approver";
+            SetEditZone(eps.Range["L23:N26"], ref TotalEditZone, true);
+
+            eps.Rows[22].EntireRow.RowHeight = 25;
+            eps.Rows[26].EntireRow.RowHeight = 90;
+
 
             //Add Named Ranges
             wb.Names.Add("FunctionName", eps.Range["D3"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R3C4");
@@ -137,56 +184,22 @@ namespace ValToolFunctions_2013
 
             //Template version
             Range endpaperVersionRange = eps.Range["B1"];
-            endpaperVersionRange.Value = "v1.0.0";
             wb.Names.Add("EndpaperVersion", endpaperVersionRange, true);
+            endpaperVersionRange.Value = "v1.0.0";
             Font epVFont = endpaperVersionRange.Font;
-            epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            epVFont.TintAndShade = -0.149998474074526;
+            // Workaround of Excel 2010 formatting bug : http://social.msdn.microsoft.com/Forums/en-US/exceldev/thread/0fe66a4d-357a-4d74-b502-32848e7b44ba/
+            //epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            //epVFont.TintAndShade = -4.99893185216834E-02;
+            epVFont.Color = 15987699;
 
             // Protect Sheet Editing
-            //eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
             //Define editing zones
             //ActiveSheet.Protection.AllowEditRanges.Add Title:="Range123", Range:=Range("K4:L10")
-            //eps.Protection.AllowEditRanges.Add( Title:"EditZone", Range:eps.Range["D3:N20"]);
+            eps.Protection.AllowEditRanges.Add("EditZone", TotalEditZone, Type.Missing);
+            eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        private static void SetBoldBorder(Range range, Boolean insideThin = false)
-        {
-            range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
-            range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
-
-            foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlEdgeRight })
-            {
-                Border border = range.Borders[edge];
-                border.LineStyle = XlLineStyle.xlContinuous;
-                border.Weight = XlBorderWeight.xlMedium;
-                border.ColorIndex = 0;
-                border.TintAndShade = 0;
-            }
-
-            if (insideThin)
-            {
-                foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlInsideVertical, XlBordersIndex.xlInsideHorizontal })
-                {
-                    Border border = range.Borders[edge];
-                    border.LineStyle = XlLineStyle.xlContinuous;
-                    border.Weight = XlBorderWeight.xlThin;
-                    border.ColorIndex = 0;
-                    border.TintAndShade = 0;
-                }
-            }
-            else
-            {
-                range.Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlLineStyleNone;
-                range.Borders[XlBordersIndex.xlInsideHorizontal].LineStyle = XlLineStyle.xlLineStyleNone;
-            }
-        }
-
-        private static void SetEditZone(Range range)
+        private static void SetEditZone(Range range, ref Range totalEditZone, bool isApproval = false)
         {
             range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
             range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
@@ -206,7 +219,8 @@ namespace ValToolFunctions_2013
             borderIH.ColorIndex = 0;
             borderIH.TintAndShade = 0;
 
-            range.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            range.VerticalAlignment = XlVAlign.xlVAlignTop;
+            range.HorizontalAlignment = XlHAlign.xlHAlignLeft;
             range.WrapText = false; ;
             range.Orientation = 0;
             range.AddIndent = false;
@@ -215,7 +229,25 @@ namespace ValToolFunctions_2013
             range.ReadingOrder = (int)Excel.Constants.xlContext;
             range.MergeCells = false;
 
-            range.Merge(true);
+            if (isApproval)
+            {
+                range.Columns[1].value = RibbonHandler.ExcelApplication.WorksheetFunction.Transpose(
+                                        new String[] { "Name : ", "Entity : ", "Date :", "Stamp :" });
+                if (totalEditZone != null)
+                {
+                    Range localEditZone = range.Columns[2];
+                    for (int i = 3; i <= range.Columns.Count; i++)
+                    {
+                        localEditZone = RibbonHandler.ExcelApplication.Union(localEditZone, range.Columns[i]);
+                    }
+                    localEditZone.Merge(true);
+                    totalEditZone = RibbonHandler.ExcelApplication.Union(localEditZone, totalEditZone);
+                }
+            }
+            else
+            {
+                range.Merge(true);
+            }
         }
 
         /// <summary>
@@ -246,12 +278,11 @@ namespace ValToolFunctions_2013
             inte.TintAndShade = 0; ;
             inte.PatternTintAndShade = 0;
 
-            Font font1Column = range.Font;
-            font1Column.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            font1Column.TintAndShade = 0;
-            font1Column.Bold = true;
-            font1Column.Bold = false;
-            font1Column.Size = 12;
+            Font font = range.Font;
+            font.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            font.TintAndShade = 0;
+            font.Bold = true;
+            font.Size = 12;
 
             range.VerticalAlignment = XlVAlign.xlVAlignCenter;
             range.WrapText = false; ;
@@ -280,23 +311,102 @@ namespace ValToolFunctions_2013
             TabColorLightBlue(es.Tab);
             General.SetGreySheetPattern(es);
 
-            ListObject evolTable = es.ListObjects.Add(XlListObjectSourceType.xlSrcRange, es.Range["A1:D1"], XlYesNoGuess.xlYes);
+            Range lastColumn = es.Range["E1"].get_End(Excel.XlDirection.xlToRight);
+            es.Range["E1", lastColumn].EntireColumn.Hidden = true;
+            //es.Rows["4:1048576"].EntireRow.Hidden = true;
+            es.Activate();
+            RibbonHandler.ExcelApplication.ActiveWindow.DisplayGridlines = false;
 
-            es.Range["A1:D1"].Value = new String[] { "Version", "Date (M/D/Y)", "Name", "Modification" };
-            evolTable.Name = "evolTable";
-            evolTable.TableStyle = "TableStyleMedium2";
+            //ListObject evolTable = es.ListObjects.Add(XlListObjectSourceType.xlSrcRange, es.Range["A1:D1"], XlYesNoGuess.xlYes);
 
-            Interior int_evol = evolTable.Range.Interior;
+            System.Data.DataSet ds = new System.Data.DataSet();
+            System.Data.DataTable dt = ds.Tables.Add("Evolutions");
+            dt.Columns.Add(new System.Data.DataColumn("Version"));
+            dt.Columns.Add(new System.Data.DataColumn("Date"));
+            dt.Columns.Add(new System.Data.DataColumn("Name"));
+            dt.Columns.Add(new System.Data.DataColumn("Modification"));
+
+            // Add a new row to the DataTable.
+            System.Data.DataRow dr = dt.NewRow();
+            dr["Version"] = "A0";
+            dr["Date"] = General.GetCurrentDate();
+            dr["Name"] = Environment.UserName;
+            dr["Modification"] = "Creation";
+            dt.Rows.Add(dr);
+
+            // Create a list object.
+            evolTableT = RibbonHandler.Factory.GetVstoObject(es).Controls.AddListObject(es.Range["A1"], "evolListobject");
+
+            // Bind the list object to the DataTable.
+            evolTableT.AutoSetDataBoundColumnHeaders = true;
+            //evolTable.DataSource = ds;
+            //evolTable.DataMember = "Evolutions";
+            evolTableT.SetDataBinding(ds, "Evolutions", "Version", "Date", "Name", "Modification");
+
+            // Create the event handler.
+            //evolTable.DataMemberChanged += new System.EventHandler(EvolList_Change);
+
+            //es.Range["A1:D1"].Value = new String[] { "Version", "Date (M/D/Y)", "Name", "Modification" };
+            //evolTable.Name = "evolTable";
+            evolTableT.TableStyle = "TableStyleMedium2";
+
+            Interior int_evol = evolTableT.Range.Interior;
             int_evol.Pattern = XlPattern.xlPatternNone;
             int_evol.TintAndShade = 0;
             int_evol.PatternTintAndShade = 0;
 
-            //Init filling
-            es.Range["A2:D2"].Value = new String[] { "A0", General.GetCurrentDate(), Environment.UserName, "Creation" };
+            evolTableT.Range.EntireColumn.AutoFit();
+            evolTableT.ListColumns[3].Range.ColumnWidth = 15; //Name
+            evolTableT.ListColumns[4].Range.ColumnWidth = 60; //Modif
+            es.Range["evolListobject[Date]"].NumberFormat = "mm/dd/yyyy";
 
-            evolTable.Range.EntireColumn.AutoFit();
-            evolTable.ListColumns[3].Range.ColumnWidth = 15; //Name
-            evolTable.ListColumns[4].Range.ColumnWidth = 60; //Modif        
+            evolTableT.Change += new ExcelTools.ListObjectChangeHandler(EvolList_Change);
+        }
+
+        //internal static void list1_BeforeAddDataBoundRow(object sender, Microsoft.Office.Tools.Excel.BeforeAddDataBoundRowEventArgs e)
+        //{
+        //    //if (e.Item.isNew)
+        //    //{
+        //        Microsoft.Office.Tools.Excel.ListObject evolLIst = sender as Microsoft.Office.Tools.Excel.ListObject;
+        //        evolLIst.Range.Offset[1, 0].EntireRow.Hidden = false;
+        //    //}
+        //    //System.Windows.Forms.MessageBox.Show("This data is read-only.");
+        //}
+
+        //internal static void EvolList_Change(object sender, EventArgs e)
+        //{
+        //    Microsoft.Office.Tools.Excel.ListObject evolLIst = sender as Microsoft.Office.Tools.Excel.ListObject;
+        //    evolLIst.Range.Offset[1, 0].EntireRow.Hidden = false;
+        //}
+
+        internal static void EvolList_Change(Range targetRange, ExcelTools.ListRanges changedRanges)
+        {
+            if (changedRanges == ExcelTools.ListRanges.DataBodyRange)
+            {
+                if (evolTableT == null)
+                {
+                    evolTableT = RibbonHandler.Factory.GetVstoObject(RibbonHandler.ExcelApplication.Sheets[
+                        StringEnum.GetStringValue(SheetsNames.EVOLUTION)]);
+                }
+                if (evolTableT != null)
+                {
+                    //// Hidden the entire sheet
+                    //Worksheet evolWS = (evolTableT.Parent as Worksheet);
+                    //evolWS.Cells.EntireRow.Hidden = true;
+                    //// Display table zone + Next line
+                    //RibbonHandler.ExcelApplication.Union(evolTableT.Range, evolTableT.Range.Offset[1, 0]).EntireRow.Hidden = false;
+
+                    //Si on modifie la dernière ligne
+                    if (evolTableT.ListRows.Count +1 == targetRange.Row)
+                    {
+                        evolTableT.Change -= new ExcelTools.ListObjectChangeHandler(EvolList_Change);
+                        evolTableT.DataBodyRange.Cells[evolTableT.ListRows.Count, 2].Value = General.GetCurrentDate();
+                        evolTableT.DataBodyRange.Cells[evolTableT.ListRows.Count, 3].Value = Environment.UserName;
+                        evolTableT.Change += new ExcelTools.ListObjectChangeHandler(EvolList_Change);
+                    }
+                    //targetRange.Select();
+                }
+            }
         }
 
         private static void CreateBenchConfSheet(Workbook wb)
@@ -372,7 +482,18 @@ namespace ValToolFunctions_2013
 
             // Add Tests's list event handler
             testsTableT = RibbonHandler.Factory.GetVstoObject(testsTable);
-            //testsTableT.Change += new Microsoft.Office.Tools.Excel.ListObjectChangeHandler(TestsList_Change);
+            testsTableT.Change += new ExcelTools.ListObjectChangeHandler(TestsList_Change);
+
+            Range lastTableColumn = testsTable.Range.Columns[testsTable.Range.Columns.Count].Offset[0, 1];
+            Range lastColumn = lastTableColumn.get_End(Excel.XlDirection.xlToRight);
+            SwvtpS.Range[lastTableColumn, lastColumn].EntireColumn.Hidden = true;
+
+            // SwVTP Format sheet version
+            Range SwVTPFormatVersion = SwvtpS.Range["A1"];
+            wb.Names.Add("SwVTPFormatVersion", SwVTPFormatVersion, true);
+            SwVTPFormatVersion.Value = "v1.0.0";
+            Font epVFont = SwVTPFormatVersion.Font;
+            epVFont.Color = 15987699;
 
             //DebugFillingSwVTP(wb);
         }
@@ -435,28 +556,34 @@ namespace ValToolFunctions_2013
 
         internal static void TestsList_Change(Range targetRange, ExcelTools.ListRanges changedRanges)
         {
-            string cellAddress = targetRange.get_Address(Excel.XlReferenceStyle.xlA1);
-            //testsTableT.
+            Worksheet swVTP = RibbonHandler.ExcelApplication.Sheets[
+                        StringEnum.GetStringValue(SheetsNames.SW_VTP)];
+            int lastTestsRow = swVTP.ListObjects[swVTP.ListObjects.Count].Range.get_End(Excel.XlDirection.xlDown).Row;
+            General.FormatGrey(swVTP.Range["A3:A65365"]);
+            General.UnformatGrey(swVTP.Range["A3:A"+lastTestsRow]);
+
+            //string cellAddress = targetRange.get_Address(Excel.XlReferenceStyle.xlA1);
+            ////testsTableT.
             
-            switch (changedRanges)
-            {
-                case ExcelTools.ListRanges.DataBodyRange:
-                    MessageBox.Show("The cells at range " + cellAddress +
-                        " in the data body changed.");
-                    break;
-                case ExcelTools.ListRanges.HeaderRowRange:
-                    MessageBox.Show("The cells at range " + cellAddress +
-                        " in the header row changed.");
-                    break;
-                case ExcelTools.ListRanges.TotalsRowRange:
-                    MessageBox.Show("The cells at range " + cellAddress +
-                        " in the totals row changed.");
-                    break;
-                default:
-                    MessageBox.Show("The cells at range " + cellAddress +
-                        " changed.");
-                    break;
-            }
+            //switch (changedRanges)
+            //{
+            //    case ExcelTools.ListRanges.DataBodyRange:
+            //        MessageBox.Show("The cells at range " + cellAddress +
+            //            " in the data body changed.");
+            //        break;
+            //    case ExcelTools.ListRanges.HeaderRowRange:
+            //        MessageBox.Show("The cells at range " + cellAddress +
+            //            " in the header row changed.");
+            //        break;
+            //    case ExcelTools.ListRanges.TotalsRowRange:
+            //        MessageBox.Show("The cells at range " + cellAddress +
+            //            " in the totals row changed.");
+            //        break;
+            //    default:
+            //        MessageBox.Show("The cells at range " + cellAddress +
+            //            " changed.");
+            //        break;
+            //}
         }
     }
 }
