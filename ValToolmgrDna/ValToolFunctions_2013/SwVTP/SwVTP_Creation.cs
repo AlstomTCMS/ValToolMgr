@@ -36,7 +36,18 @@ namespace ValToolFunctions_2013
                 string filename = saveFileDialog1.FileName;
                 if (filename != "" && filename != FILENAME_PATTERN)
                 {
-                    SaveExcelFile(PRname);
+                    //http://msdn.microsoft.com/fr-fr/library/vstudio/3y21t6y4(v=vs.100).aspx
+                    //http://lgmorand.developpez.com/dotnet/regex/
+                    Regex rgx = new Regex(@"[a-zA-Z]\d_\d{3}_\d_[A-Za-z]\d");
+                    if (rgx.IsMatch(filename))
+                    {
+                        PRname = rgx.Match(filename).ToString();
+                        SaveExcelFile(PRname);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalide file name format"); //throw 
+                    }
                 }
             }
         }
@@ -47,7 +58,7 @@ namespace ValToolFunctions_2013
             Workbook wb = app.Workbooks.Add(Type.Missing);
 
             //Add init sheets
-            CreateEndpaperSheet(wb);
+            CreateEndpaperSheet(wb, fileName);
             CreateEvolSheet(wb);
             //CreateBenchConfSheet(wb);
             CreateSwVTPSheet(wb);
@@ -63,7 +74,7 @@ namespace ValToolFunctions_2013
         /// Create the "Page de garde" of the book
         /// </summary>
         /// <param name="wb"></param>
-        private static void CreateEndpaperSheet(Workbook wb)
+        private static void CreateEndpaperSheet(Workbook wb, string filename)
         {
             Worksheet eps = wb.Sheets[1];
             eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER); 
@@ -75,7 +86,9 @@ namespace ValToolFunctions_2013
             //ScrollArea 
             Range lastColumn = eps.Range["P1"].get_End(Excel.XlDirection.xlToRight);
             eps.Range["P1",lastColumn].EntireColumn.Hidden = true;
-            eps.Rows["28:1048576"].EntireRow.Hidden = true;
+            eps.Rows["28:1048576"].EntireRow.Hidden = true; 
+            eps.Activate();
+            RibbonHandler.ExcelApplication.ActiveWindow.DisplayGridlines = false;
 
 
             eps.Range["B3:B20"].Value = RibbonHandler.ExcelApplication.WorksheetFunction.Transpose(
@@ -85,114 +98,30 @@ namespace ValToolFunctions_2013
 
 
             eps.Columns["A:A"].ColumnWidth = 2.5;
-            eps.Columns["B:B"].ColumnWidth = 17.43;
-            eps.Columns["C:C"].ColumnWidth = 2.5;
+            eps.Columns["B:B"].ColumnWidth = 10;
+            eps.Columns["C:C"].ColumnWidth = 10;
             eps.Columns["O:O"].ColumnWidth = 2.5;
-            
-            // Aim of the function
-            Range functionGoal = eps.Rows["20:20"];
-            functionGoal.EntireRow.RowHeight = 39;
-            functionGoal.HorizontalAlignment = XlHAlign.xlHAlignGeneral;
-            functionGoal.VerticalAlignment = XlVAlign.xlVAlignCenter;
-            functionGoal.WrapText = false; ;
-            functionGoal.Orientation = 0;
-            functionGoal.AddIndent = false;
-            functionGoal.IndentLevel = 0;
-            functionGoal.ShrinkToFit = false;
-            functionGoal.ReadingOrder = (int)Excel.Constants.xlContext;
-            functionGoal.MergeCells = true;
-
-            //Format the whole first table
-            SetBoldBorder(eps.Range["B2:N20"]);
-
-            //First column
-            Range firstColumn = eps.Range["B2:C20"];
-            Interior inte = firstColumn.Interior;
-            inte.Pattern = XlPattern.xlPatternSolid;
-            inte.PatternColorIndex  = XlColorIndex.xlColorIndexAutomatic;
-            inte.ThemeColor = XlThemeColor.xlThemeColorAccent1;
-            inte.TintAndShade = 0;;
-            inte.PatternTintAndShade = 0;
-
-            Font font1Column = firstColumn.Font;
-            font1Column.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            font1Column.TintAndShade = 0;
-            font1Column.Bold = true;
-            font1Column.Bold = false;
-            font1Column.Size = 12;
-
-            firstColumn.HorizontalAlignment = XlHAlign.xlHAlignLeft;
-            firstColumn.VerticalAlignment = XlVAlign.xlVAlignBottom;
-            firstColumn.WrapText = false; ;
-            firstColumn.Orientation = 0;
-            firstColumn.AddIndent = false;
-            firstColumn.IndentLevel = 0;
-            firstColumn.ShrinkToFit = false;
-            firstColumn.ReadingOrder = (int)Excel.Constants.xlContext;
-            firstColumn.MergeCells = false;
-
-            //firstColumn.Merge();
 
             //Title line
-            Range titleLine = eps.Range["B2:N2"];
-            titleLine.Merge();
-            titleLine.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-            //titleLine.VerticalAlignment = xlBottom;
-            //titleLine.WrapText = false;
-            //titleLine.Orientation = 0;
-            //titleLine.AddIndent = false;
-            //titleLine.IndentLevel = 0;
-            //titleLine.ShrinkToFit = False;
-            //titleLine.ReadingOrder = xlContext;
-            //titleLine.MergeCells = False;
+            SetTitles(eps.Range["B2:N2"]);
 
+            //Function name (AF code)
+            SetTitles(eps.Range["B3:C3"], false);
+            SetEditZone(eps.Range["D3:N3"]);
 
-            SetBoldBorder(eps.Range["B3:N3"]);
+            //PR References zone
+            SetTitles(eps.Range["B4:C8"], false);
+            SetEditZone(eps.Range["D4:N8"]);
 
-            //Reference Zone
-            SetBoldBorder(eps.Range["B4:N8"], true);
-    //Range("B4:N8").Select
-    //Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    //Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    //With Selection.Borders(xlEdgeLeft)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlMedium
-    //End With
-    //With Selection.Borders(xlEdgeTop)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlMedium
-    //End With
-    //With Selection.Borders(xlEdgeBottom)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlMedium
-    //End With
-    //With Selection.Borders(xlEdgeRight)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlMedium
-    //End With
-    //With Selection.Borders(xlInsideVertical)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlThin
-    //End With
-    //With Selection.Borders(xlInsideHorizontal)
-    //    .LineStyle = xlContinuous
-    //    .ColorIndex = 0
-    //    .TintAndShade = 0
-    //    .Weight = xlThin
-    //End With
-
-            SetBoldBorder(eps.Range["B9:N19"], true);
-            SetBoldBorder(eps.Range["D3:N20"], true);
+            //Hardware versions zone
+            SetTitles(eps.Range["B9:C19"], false);
+            SetEditZone(eps.Range["D9:N19"]);
+            
+            // Aim of the function
+            Range functionGoal = eps.Range["B20:C20"];
+            functionGoal.EntireRow.RowHeight = 39;
+            SetTitles(functionGoal, false);
+            SetEditZone(eps.Range["D20:N20"]);
 
             //Add Named Ranges
             wb.Names.Add("FunctionName", eps.Range["D3"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R3C4");
@@ -200,24 +129,24 @@ namespace ValToolFunctions_2013
             wb.Names.Add("Indice_PR", eps.Range["D5"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R5C4");
             eps.Range["B2:N2"].FormulaR1C1 = @"=Num_PR&"" ""&Indice_PR&"" - ""&FunctionName";
 
-            eps.Range["D3:N3"].Merge();
-            eps.Range["D20:N20"].Merge();
-            eps.Range["D4:N19"].Merge();
+            Regex rgx = new Regex(@"^[a-zA-Z][0-9]_\d{3}_\d{1}");
+            wb.Names.Item("Num_PR").RefersToRange.Value = rgx.Match(filename).ToString();
+            rgx = new Regex(@"[a-zA-Z][0-9]{1,}$");
+            wb.Names.Item("Indice_PR").RefersToRange.Value = rgx.Match(filename).ToString();
+            eps.Range["D6"].Value = General.GetCurrentDate();
 
-
-            //Version
+            //Template version
             Range endpaperVersionRange = eps.Range["B1"];
             endpaperVersionRange.Value = "v1.0.0";
             wb.Names.Add("EndpaperVersion", endpaperVersionRange, true);
-
-            //ActiveSheet.Protection.AllowEditRanges.Add Title:="Range123", Range:=Range("K4:L10")
             Font epVFont = endpaperVersionRange.Font;
             epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
             epVFont.TintAndShade = -0.149998474074526;
 
             // Protect Sheet Editing
-            eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
+            //eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
             //Define editing zones
+            //ActiveSheet.Protection.AllowEditRanges.Add Title:="Range123", Range:=Range("K4:L10")
             //eps.Protection.AllowEditRanges.Add( Title:"EditZone", Range:eps.Range["D3:N20"]);
         }
 
@@ -257,7 +186,44 @@ namespace ValToolFunctions_2013
             }
         }
 
-        private static void SetTitles(Range range)
+        private static void SetEditZone(Range range)
+        {
+            range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
+            range.Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlLineStyleNone;
+
+            foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlEdgeRight })
+            {
+                Border border = range.Borders[edge];
+                border.LineStyle = XlLineStyle.xlContinuous;
+                border.Weight = XlBorderWeight.xlMedium;
+                border.ColorIndex = 0;
+                border.TintAndShade = 0;
+            }
+            Border borderIH = range.Borders[XlBordersIndex.xlInsideHorizontal];
+            borderIH.LineStyle = XlLineStyle.xlContinuous;
+            borderIH.Weight = XlBorderWeight.xlThin;
+            borderIH.ColorIndex = 0;
+            borderIH.TintAndShade = 0;
+
+            range.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            range.WrapText = false; ;
+            range.Orientation = 0;
+            range.AddIndent = false;
+            range.IndentLevel = 0;
+            range.ShrinkToFit = false;
+            range.ReadingOrder = (int)Excel.Constants.xlContext;
+            range.MergeCells = false;
+
+            range.Merge(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="isZoneTitle"></param>
+        private static void SetTitles(Range range, bool isZoneTitle = true)
         {
             range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
             range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
@@ -287,8 +253,7 @@ namespace ValToolFunctions_2013
             font1Column.Bold = false;
             font1Column.Size = 12;
 
-            range.HorizontalAlignment = XlHAlign.xlHAlignLeft;
-            range.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            range.VerticalAlignment = XlVAlign.xlVAlignCenter;
             range.WrapText = false; ;
             range.Orientation = 0;
             range.AddIndent = false;
@@ -296,6 +261,16 @@ namespace ValToolFunctions_2013
             range.ShrinkToFit = false;
             range.ReadingOrder = (int)Excel.Constants.xlContext;
             range.MergeCells = false;
+
+            if (isZoneTitle)
+            {
+                range.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                range.Merge();
+            }
+            else
+            {
+                range.HorizontalAlignment = XlHAlign.xlHAlignLeft;
+            }
         }
 
         private static void CreateEvolSheet(Workbook wb)
@@ -307,7 +282,7 @@ namespace ValToolFunctions_2013
 
             ListObject evolTable = es.ListObjects.Add(XlListObjectSourceType.xlSrcRange, es.Range["A1:D1"], XlYesNoGuess.xlYes);
 
-            es.Range["A1:D1"].Value = new String[] { "Version", "Date", "Name", "Modification" };
+            es.Range["A1:D1"].Value = new String[] { "Version", "Date (M/D/Y)", "Name", "Modification" };
             evolTable.Name = "evolTable";
             evolTable.TableStyle = "TableStyleMedium2";
 
@@ -317,7 +292,7 @@ namespace ValToolFunctions_2013
             int_evol.PatternTintAndShade = 0;
 
             //Init filling
-            es.Range["A2:D2"].Value = new String[] { "A0", DateTime.Now.ToString(), Environment.UserName, "Creation" };
+            es.Range["A2:D2"].Value = new String[] { "A0", General.GetCurrentDate(), Environment.UserName, "Creation" };
 
             evolTable.Range.EntireColumn.AutoFit();
             evolTable.ListColumns[3].Range.ColumnWidth = 15; //Name

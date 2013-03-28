@@ -198,6 +198,10 @@ namespace ValToolFunctions_2013
             }
         }
 
+        internal static String GetCurrentDate()
+        {
+            return String.Format("{0:MM/dd/yyyy}", DateTime.Now);
+        }
 
 
         /// <summary>
