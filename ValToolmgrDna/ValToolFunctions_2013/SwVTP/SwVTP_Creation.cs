@@ -98,30 +98,59 @@ namespace ValToolFunctions_2013
 
 
             eps.Columns["A:A"].ColumnWidth = 2.5;
-            eps.Columns["B:B"].ColumnWidth = 10;
-            eps.Columns["C:C"].ColumnWidth = 10;
+            eps.Columns["B:B"].ColumnWidth = 10.5;
+            eps.Columns["C:C"].ColumnWidth = 10.5;
+            eps.Columns["D:D"].ColumnWidth = 2.5;
             eps.Columns["O:O"].ColumnWidth = 2.5;
+
+            Range TotalEditZone = eps.Range["D3:N20"];
 
             //Title line
             SetTitles(eps.Range["B2:N2"]);
 
             //Function name (AF code)
             SetTitles(eps.Range["B3:C3"], false);
-            SetEditZone(eps.Range["D3:N3"]);
+            SetEditZone(eps.Range["D3:N3"], ref TotalEditZone);
 
             //PR References zone
             SetTitles(eps.Range["B4:C8"], false);
-            SetEditZone(eps.Range["D4:N8"]);
+            SetEditZone(eps.Range["D4:N8"], ref TotalEditZone);
 
             //Hardware versions zone
             SetTitles(eps.Range["B9:C19"], false);
-            SetEditZone(eps.Range["D9:N19"]);
+            SetEditZone(eps.Range["D9:N19"], ref TotalEditZone);
             
             // Aim of the function
             Range functionGoal = eps.Range["B20:C20"];
-            functionGoal.EntireRow.RowHeight = 39;
+            functionGoal.EntireRow.RowHeight = 40;
             SetTitles(functionGoal, false);
-            SetEditZone(eps.Range["D20:N20"]);
+            SetEditZone(eps.Range["D20:N20"], ref TotalEditZone);
+
+
+            // Approval titles
+            Range swVTPWriter = eps.Range["B22:E22"];
+            SetTitles(swVTPWriter);
+            swVTPWriter.Value = "SwVTP's Writer";
+            SetEditZone(eps.Range["B23:E26"], ref TotalEditZone, true);
+
+            Range testWriter = eps.Range["F22:H22"];
+            SetTitles(testWriter);
+            testWriter.Value = "Tests's Writer";
+            SetEditZone(eps.Range["F23:H26"], ref TotalEditZone, true);
+
+            Range controller = eps.Range["I22:K22"];
+            SetTitles(controller);
+            controller.Value = "Controller";
+            SetEditZone(eps.Range["I23:K26"], ref TotalEditZone, true);
+
+            Range approver = eps.Range["L22:N22"];
+            SetTitles(approver);
+            approver.Value = "Approver";
+            SetEditZone(eps.Range["L23:N26"], ref TotalEditZone, true);
+
+            eps.Rows[22].EntireRow.RowHeight = 25;
+            eps.Rows[26].EntireRow.RowHeight = 90;
+
 
             //Add Named Ranges
             wb.Names.Add("FunctionName", eps.Range["D3"], true);//RefersToR1C1: "=" + SheetsNames.ENDPAPER + "!R3C4");
@@ -137,56 +166,22 @@ namespace ValToolFunctions_2013
 
             //Template version
             Range endpaperVersionRange = eps.Range["B1"];
-            endpaperVersionRange.Value = "v1.0.0";
             wb.Names.Add("EndpaperVersion", endpaperVersionRange, true);
+            endpaperVersionRange.Value = "v1.0.0";
             Font epVFont = endpaperVersionRange.Font;
-            epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            epVFont.TintAndShade = -0.149998474074526;
+            // Workaround of Excel 2010 formatting bug : http://social.msdn.microsoft.com/Forums/en-US/exceldev/thread/0fe66a4d-357a-4d74-b502-32848e7b44ba/
+            //epVFont.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            //epVFont.TintAndShade = -4.99893185216834E-02;
+            epVFont.Color = 15987699;
 
             // Protect Sheet Editing
-            //eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
             //Define editing zones
             //ActiveSheet.Protection.AllowEditRanges.Add Title:="Range123", Range:=Range("K4:L10")
-            //eps.Protection.AllowEditRanges.Add( Title:"EditZone", Range:eps.Range["D3:N20"]);
+            eps.Protection.AllowEditRanges.Add("EditZone", TotalEditZone, Type.Missing);
+            eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        private static void SetBoldBorder(Range range, Boolean insideThin = false)
-        {
-            range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
-            range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
-
-            foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlEdgeRight })
-            {
-                Border border = range.Borders[edge];
-                border.LineStyle = XlLineStyle.xlContinuous;
-                border.Weight = XlBorderWeight.xlMedium;
-                border.ColorIndex = 0;
-                border.TintAndShade = 0;
-            }
-
-            if (insideThin)
-            {
-                foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlInsideVertical, XlBordersIndex.xlInsideHorizontal })
-                {
-                    Border border = range.Borders[edge];
-                    border.LineStyle = XlLineStyle.xlContinuous;
-                    border.Weight = XlBorderWeight.xlThin;
-                    border.ColorIndex = 0;
-                    border.TintAndShade = 0;
-                }
-            }
-            else
-            {
-                range.Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlLineStyleNone;
-                range.Borders[XlBordersIndex.xlInsideHorizontal].LineStyle = XlLineStyle.xlLineStyleNone;
-            }
-        }
-
-        private static void SetEditZone(Range range)
+        private static void SetEditZone(Range range, ref Range totalEditZone, bool isApproval = false)
         {
             range.Borders[XlBordersIndex.xlDiagonalDown].LineStyle = XlLineStyle.xlLineStyleNone;
             range.Borders[XlBordersIndex.xlDiagonalUp].LineStyle = XlLineStyle.xlLineStyleNone;
@@ -206,7 +201,8 @@ namespace ValToolFunctions_2013
             borderIH.ColorIndex = 0;
             borderIH.TintAndShade = 0;
 
-            range.VerticalAlignment = XlVAlign.xlVAlignBottom;
+            range.VerticalAlignment = XlVAlign.xlVAlignTop;
+            range.HorizontalAlignment = XlHAlign.xlHAlignLeft;
             range.WrapText = false; ;
             range.Orientation = 0;
             range.AddIndent = false;
@@ -215,7 +211,25 @@ namespace ValToolFunctions_2013
             range.ReadingOrder = (int)Excel.Constants.xlContext;
             range.MergeCells = false;
 
-            range.Merge(true);
+            if (isApproval)
+            {
+                range.Columns[1].value = RibbonHandler.ExcelApplication.WorksheetFunction.Transpose(
+                                        new String[] { "Name : ", "Entity : ", "Date :", "Stamp :" });
+                if (totalEditZone != null)
+                {
+                    Range localEditZone = range.Columns[2];
+                    for (int i = 3; i <= range.Columns.Count; i++)
+                    {
+                        localEditZone = RibbonHandler.ExcelApplication.Union(localEditZone, range.Columns[i]);
+                    }
+                    localEditZone.Merge(true);
+                    totalEditZone = RibbonHandler.ExcelApplication.Union(localEditZone, totalEditZone);
+                }
+            }
+            else
+            {
+                range.Merge(true);
+            }
         }
 
         /// <summary>
@@ -246,12 +260,11 @@ namespace ValToolFunctions_2013
             inte.TintAndShade = 0; ;
             inte.PatternTintAndShade = 0;
 
-            Font font1Column = range.Font;
-            font1Column.ThemeColor = XlThemeColor.xlThemeColorDark1;
-            font1Column.TintAndShade = 0;
-            font1Column.Bold = true;
-            font1Column.Bold = false;
-            font1Column.Size = 12;
+            Font font = range.Font;
+            font.ThemeColor = XlThemeColor.xlThemeColorDark1;
+            font.TintAndShade = 0;
+            font.Bold = true;
+            font.Size = 12;
 
             range.VerticalAlignment = XlVAlign.xlVAlignCenter;
             range.WrapText = false; ;
