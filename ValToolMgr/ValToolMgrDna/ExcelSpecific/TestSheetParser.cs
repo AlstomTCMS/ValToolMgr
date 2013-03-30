@@ -16,7 +16,7 @@ namespace ValToolMgrDna.ExcelSpecific
         public const string PR_TEST_CHECK = "Check";
         public const string PR_TEST_DESCRIPTION = "Desc";
         public const string PR_TEST_STEP_PATERN = "STEP 1";
-        public const string PR_TEST_PREFIX = "Test_";
+        public const string PR_TEST_PREFIX = "Test";
         public const string PR_TEST_SCENARIO_PREFIX = "TS_";
         public const string PR_TEST_TABLE_ACTION_PREFIX = TABLE_PREFIX + PR_TEST_ACTION + "_";
         public const string PR_TEST_TABLE_CHECK_PREFIX = TABLE_PREFIX + PR_TEST_CHECK + "_";
@@ -82,11 +82,11 @@ namespace ValToolMgrDna.ExcelSpecific
 
         }
 
-        public static CTest parseTest(string title, Excel.Worksheet sheet, string headerTableName, string actionsTableName, string checksTableName)
+        public static CTest parseTest(string title, Excel.Worksheet sheet, WorkbookParser.ExcelTestStruct tableRefs)
         {
-            logger.Info(String.Format("Beginning Analysis of sheet {0}, using arrays {1} and {2}", sheet.Name, actionsTableName, checksTableName));
+            logger.Info(String.Format("Beginning Analysis of sheet {0}, using arrays {1} and {2}", sheet.Name, tableRefs.actionTableName, tableRefs.testTableName));
 
-            TestSheetParser analyser = new TestSheetParser(sheet, headerTableName, actionsTableName, checksTableName);
+            TestSheetParser analyser = new TestSheetParser(sheet, tableRefs.descrTableName, tableRefs.actionTableName, tableRefs.testTableName);
             CTest test = null;
 
             logger.Debug("Sheet passed validity tests successfully");
@@ -331,9 +331,6 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 string range = obj.Range.AddressLocal;
                 logger.Debug(String.Format("Analysing Range {0}", range));                                                                                                                                                 
-                //public const string PR_TEST_TABLE_ACTION_PREFIX = TABLE_PREFIX + PR_TEST_ACTION + "_";
-                //public const string PR_TEST_TABLE_CHECK_PREFIX = TABLE_PREFIX + PR_TEST_CHECK + "_";
-                //public const string PR_TEST_TABLE_DESCRIPTION_PREFIX = TABLE_PREFIX + PR_TEST_DESCRIPTION + "_";
             }
             throw new NotImplementedException();
         }
