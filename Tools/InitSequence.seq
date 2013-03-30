@@ -181,7 +181,6 @@ SData = "TYPE, SeqCallStepAdditions"
 [SF.Seq[0].Setup[0].TS.SData]
 SeqName = "ControlBuildInitialiser"
 UseCurFile = True
-ThreadOpt = 1
 
 [DEF, SF.Seq[0].Setup[0].TS.SData]
 ActualArgs = Arguments
@@ -245,7 +244,6 @@ SData = "TYPE, SeqCallStepAdditions"
 [SF.Seq[0].Setup[1].TS.SData]
 SeqName = "ControlBuildInitialiser"
 UseCurFile = True
-ThreadOpt = 1
 
 [DEF, SF.Seq[0].Setup[1].TS.SData]
 ActualArgs = Arguments
@@ -308,7 +306,6 @@ SData = "TYPE, SeqCallStepAdditions"
 [SF.Seq[0].Setup[2].TS.SData]
 SeqName = "ControlBuildInitialiser"
 UseCurFile = True
-ThreadOpt = 1
 
 [DEF, SF.Seq[0].Setup[2].TS.SData]
 ActualArgs = Arguments
@@ -1022,6 +1019,7 @@ IsServerOptional = True
 
 [SF.Seq[1].Setup[6].TS]
 Id = "ID#:72IP5wPTEUygbNe6jdtOnA"
+Mode = "Skip"
 StepFCSeqF = False
 IgnoreRTE = True
 
