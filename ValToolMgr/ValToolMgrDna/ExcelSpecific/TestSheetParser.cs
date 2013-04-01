@@ -28,6 +28,7 @@ namespace ValToolMgrDna.ExcelSpecific
         string checkTableName;
         Excel.ListObject loActionsTable;
         Excel.ListObject loChecksTable;
+        TableColumnsStructure tableStructure;
         Excel.ListColumns lcActionsTableColumns;
         Excel.ListColumns lcChecksTableColumns;
 
@@ -36,6 +37,25 @@ namespace ValToolMgrDna.ExcelSpecific
             TABLE_ACTIONS,
             TABLE_CHECKS,
             TABLE_HEADER
+        }
+
+        private class TableColumnsStructure
+        {
+            public int TargetColumnIndex = -1;
+            public int LocationColumnIndex = -1;
+            public int PathColumnIndex = -1;
+            public int FirstColumnIndex = -1;
+
+            public bool isValid()
+            {
+                return (TargetColumnIndex >= 0 && LocationColumnIndex >= 0 && PathColumnIndex >= 0 && FirstColumnIndex >= 0) 
+                    && (TargetColumnIndex != LocationColumnIndex && PathColumnIndex != FirstColumnIndex && TargetColumnIndex != FirstColumnIndex);
+            }
+
+            public void setFirstColumnIndex()
+            {
+                FirstColumnIndex = Math.Max(TargetColumnIndex, Math.Max(LocationColumnIndex, PathColumnIndex)) + 1;
+            }
         }
 
         public TestSheetParser(Excel.Worksheet sheet, string headerTableName, string actionsTableName, string checksTableName)
@@ -68,8 +88,6 @@ namespace ValToolMgrDna.ExcelSpecific
 
                 logger.Debug(String.Format("Extracting columns for checks table."));
                 lcChecksTableColumns = loChecksTable.ListColumns;
-
-
             }
             catch (Exception ex)
             {
@@ -100,6 +118,8 @@ namespace ValToolMgrDna.ExcelSpecific
             logger.Debug(String.Format("Extracting columns for action table."));
             Excel.ListColumns lcActionsTableColumns = loActionsTable.ListColumns;
 
+            tableStructure = checkAndDetermineTablecolumns(lcActionsTableColumns);
+
             object[,] actionsValues = preloadTable(this.actionTableName);
 
             logger.Debug(String.Format("Extracting columns for checks table."));
@@ -114,7 +134,7 @@ namespace ValToolMgrDna.ExcelSpecific
             //' Writing inputs
             //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             logger.Debug(String.Format("Found {0} Excel columns to process.", lcActionsTableColumns.Count));
-            for (int CurrentColumn = 3; CurrentColumn < lcActionsTableColumns.Count; CurrentColumn++)
+            for (int CurrentColumn = tableStructure.FirstColumnIndex; CurrentColumn < lcActionsTableColumns.Count; CurrentColumn++)
             {
                 logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn].Name));
                 CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
@@ -132,6 +152,28 @@ namespace ValToolMgrDna.ExcelSpecific
                 parseSingleTest.Add(o_step);
             }
             return parseSingleTest;
+        }
+
+        private TableColumnsStructure checkAndDetermineTablecolumns(Excel.ListColumns lcActionsTableColumns)
+        {
+            TableColumnsStructure tableStructure = new TableColumnsStructure();
+
+            for (int CurrentColumn = 1; CurrentColumn < 5; CurrentColumn++)
+            {
+                if (lcActionsTableColumns[CurrentColumn].Name.Equals("Target"))
+                    tableStructure.TargetColumnIndex = CurrentColumn - 1; // Indexes from Excel are starting from 1, and we are using 0 based indexes
+                if (lcActionsTableColumns[CurrentColumn].Name.Equals("Location"))
+                    tableStructure.LocationColumnIndex = CurrentColumn - 1; // Indexes from Excel are starting from 1, and we are using 0 based indexes
+                if (lcActionsTableColumns[CurrentColumn].Name.Equals("Path"))
+                    tableStructure.PathColumnIndex = CurrentColumn - 1; // Indexes from Excel are starting from 1, and we are using 0 based indexes
+            }
+
+            tableStructure.setFirstColumnIndex();
+
+            if(!tableStructure.isValid())
+                throw new FormatException(String.Format("Table doesn't contains all necessary columns headers : {0}", tableStructure.ToString()));
+
+            return tableStructure;
         }
 
         private object[,] preloadTable(string namedRange)
@@ -157,18 +199,17 @@ namespace ValToolMgrDna.ExcelSpecific
             logger.Debug(String.Format("Found {0} Excel lines to process.", table.GetLength(0)));
             for (int line = 0; line < table.GetLength(0); line++)
             {
-                logger.Debug(String.Format("Processing Excel line [{0}, {1}]{2} => {3}", line, ColumnIndex, tableRef.Range[line + 2, ColumnIndex + 1].AddressLocal, table[line, ColumnIndex]));
-
-                string Target = "";
-                if (table[line, 0] is string) Target = (string)table[line, 0];
-                string Path = "";
-                if (table[line, 1] is string) Path = (string)table[line, 1];
-                string Location = "";
-                if (table[line, 2] is string) Location = (string)table[line, 2];
                 object CellValue = table[line, ColumnIndex];
 
                 if(!(CellValue is ExcelDna.Integration.ExcelEmpty))
                 {
+                    string Target = "";
+                    if (table[line, tableStructure.TargetColumnIndex] is string) Target = (string)table[line, tableStructure.TargetColumnIndex];
+                    string Path = "";
+                    if (table[line, tableStructure.PathColumnIndex] is string) Path = (string)table[line, tableStructure.PathColumnIndex];
+                    string Location = "";
+                    if (table[line, tableStructure.LocationColumnIndex] is string) Location = (string)table[line, tableStructure.LocationColumnIndex];
+
                     logger.Debug(String.Format("Found item [Target={0}, Location={1}, Path={2}, Value={3}].", Target, Location, Path, CellValue));
 
                     try
