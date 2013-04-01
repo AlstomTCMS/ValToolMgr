@@ -25,7 +25,7 @@ namespace TestStandGen.Types
 
         public CTestStandSeqContainer Sequences { get; set; }
 
-        public TestStandArray HeaderList = new TestStandArray();
+        public CTestStandSeq HeaderList = new CTestStandSeq();
 
         public TestStandFile(string Filename)
         {

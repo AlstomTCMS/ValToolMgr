@@ -93,7 +93,7 @@ RTS = Obj
 [SF.Seq[0]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [0]
+$if(TestStandFile.HeaderList)$%HI: Main = [$TestStandFile.HeaderList.Max$]$endif$
 %FLG: Main = 4194304
 %HI: Setup = [8]
 %FLG: Setup = 4194304
@@ -121,22 +121,17 @@ HARD = Str
 EACB_File = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\EACB.xml"
 HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\HARD.xml"
 
+$if(TestStandFile.HeaderList)$
 [DEF, SF.Seq[0].Main]
-%[0] = Step
-%TYPE: %[0] = "SequenceCall"
+$TestStandFile.HeaderList:{s|
+%[$i0$] = Step
+%TYPE: %[$i0$] = "$s.InstructionName$"
+}$
+$TestStandFile.HeaderList:{item |
+$(item.InstructionName)( "0", i0, item)
 
-[SF.Seq[0].Main[0].TS]
-Id = "ID#:0000000000000000000543"
-
-[DEF, SF.Seq[0].Main[0].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Main[0].TS.SData]
-SeqName = "Test_1.1"
-UseCurFile = True
-
-[DEF, SF.Seq[0].Main[0]]
-%NAME = "Call to subsequence Test_1.1"
+$}$
+$endif$
 
 [DEF, SF.Seq[0].Setup]
 %[0] = Step
