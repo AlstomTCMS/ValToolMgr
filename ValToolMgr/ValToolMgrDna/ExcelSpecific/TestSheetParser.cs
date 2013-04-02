@@ -69,8 +69,8 @@ namespace ValToolMgrDna.ExcelSpecific
                 logger.Debug(String.Format("Trying to retrieve action table \"{0}\".", actionsTableName));
                 loActionsTable = sheet.ListObjects[actionsTableName];
 
-                actionTableName = sheet.Name+"!"+actionsTableName;
-                checkTableName = sheet.Name + "!" + checksTableName;
+                actionTableName = String.Format("'{0}'!{1}", sheet.Name, actionsTableName);
+                checkTableName = String.Format("'{0}'!{1}", sheet.Name, checksTableName);
                     
                 logger.Debug(String.Format("Extracting columns for action table."));
                 lcActionsTableColumns = loActionsTable.ListColumns;
@@ -180,9 +180,14 @@ namespace ValToolMgrDna.ExcelSpecific
         {
 
             // Get a reference to the current selection
-            ExcelReference selection = (ExcelReference)XlCall.Excel(XlCall.xlfEvaluate, namedRange);
+            object selection = XlCall.Excel(XlCall.xlfEvaluate, namedRange);
+            if(selection is ExcelError)
+            {
+                throw new FormatException(String.Format("Excel returned an error : {0}", ((ExcelError)selection)));
+            }
+            
             // Get the value of the selection
-            object selectionContent = selection.GetValue();
+            object selectionContent = ((ExcelReference)selection).GetValue();
             //object evalResult = XlCall.Excel(XlCall.xlfEvaluate, formula_text);
             // Make sure we dereference if needed.
             //return XlCall.Excel(XlCall.xlCoerce, evalResult); 
