@@ -40,7 +40,8 @@ namespace TestStandGen.Types.Instructions
                 Value = var.value.ToString();
 
             Name = var.name;
-            Path = var.path;
+            Path = var.path.TrimEnd('/');
+
             Location = var.Location;
         }
 
