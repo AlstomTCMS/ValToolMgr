@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ValToolFunctions_2013.Properties {
-    using System;
+namespace ExcelTemplate_2013.Properties {
     
     
     /// <summary>
@@ -39,7 +38,7 @@ namespace ValToolFunctions_2013.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ValToolFunctions_2013.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ExcelTemplate_2013.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,31 +56,6 @@ namespace ValToolFunctions_2013.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A2	&quot;FME-F12_040
-        ///FME-F12_031&quot;	Surveillance du CC-VE(URG)	
-        ///A2	FME-F12_041	Surveillance du CC-Q(URG)	
-        ///A2	FME-F12_042	Surveillance du CC1-Q(URG)	
-        ///A2	FME-F12_043	Surveillance du CC-Q-FU	
-        ///A2	FME-F12_044	Surveillance du CC(CFG)F	
-        ///A2	FME-F12_046	Surveillance du RB(IS)VV1(URG)	
-        ///A2	FME-F12_047	Surveillance du RB(IS)VV(RD)URG	
-        ///A2	FME-F12_050	Surveillance du BP1(URG)	Prise en compte de la relecture du CC. A mettre à jour avec les bons noms de variables
-        ///.
-        /// </summary>
-        internal static string SwVTP_stub {
-            get {
-                return ResourceManager.GetString("SwVTP_stub", resourceCulture);
-            }
-        }
-        
-        internal static byte[] Template_2013 {
-            get {
-                object obj = ResourceManager.GetObject("Template_2013", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }

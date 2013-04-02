@@ -8,14 +8,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStandGen", "TestStandGen\TestStandGen.csproj", "{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelAddIn", "ExcelAddIn\ExcelAddIn.csproj", "{20B5FCE4-AB2D-4751-955E-7CD4DCED6AB5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B} = {7D0E1085-1E3C-4344-8529-46DC70A0965B}
+	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ValToolMgrSetup", "ValToolMgrSetup\ValToolMgrSetup.vdproj", "{FD2B1DEB-30F9-4E09-8BFA-3A7318DE8FED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctions_2013", "ValToolFunctions_2013\ValToolFunctions_2013.csproj", "{BE8D8C66-4DAA-4E0C-AC38-E4B7B336D9D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B} = {7D0E1085-1E3C-4344-8529-46DC70A0965B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctions_2012", "ValToolFunctions_2012\ValToolFunctions_2012.csproj", "{E7F6BAF7-5C3C-4450-84C3-E0408E369FFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValToolFunctionsStub", "ValToolFunctionsStub\ValToolFunctionsStub.csproj", "{6ACDB451-673C-48F3-8B3F-661658017FCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelTemplate_2013", "ExcelTemplate_2013\ExcelTemplate_2013.csproj", "{7D0E1085-1E3C-4344-8529-46DC70A0965B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +111,16 @@ Global
 		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6ACDB451-673C-48F3-8B3F-661658017FCC}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7D0E1085-1E3C-4344-8529-46DC70A0965B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

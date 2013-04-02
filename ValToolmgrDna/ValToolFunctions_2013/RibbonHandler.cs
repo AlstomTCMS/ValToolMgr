@@ -99,6 +99,11 @@ namespace ValToolFunctions_2013
                 SetExcelApplication(exelApp);
                 SwVTP_Creation.NewPR();
             }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
+            }
             finally
             {
                 IsAFunctionalityRunning = false;

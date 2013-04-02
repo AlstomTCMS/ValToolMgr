@@ -8,6 +8,8 @@ using Microsoft.Office.Interop.Excel;
 using ExcelTools = Microsoft.Office.Tools.Excel;
 using ValToolFunctionsStub;
 using System.Text.RegularExpressions;
+using System.Reflection;
+using System.IO;
 
 namespace ValToolFunctions_2013
 {
@@ -56,26 +58,55 @@ namespace ValToolFunctions_2013
         private static void SaveExcelFile(string fileName)
         {
             Excel.Application app = RibbonHandler.ExcelApplication;
-            Workbook wb = app.Workbooks.Add(Type.Missing);
-            wb.Open += new WorkbookEvents_OpenEventHandler(wb_Open);
+
+            app.DisplayAlerts = false;
+
+            // Init a new workbook from our 2013 embeded template
+            // by copying it to a temporary file
+            string sPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".xltx"); 
+            File.WriteAllBytes(sPath, Properties.Resources.Template_2013);
+            Workbook wb = app.Workbooks.Add(sPath);
+            File.Delete(sPath);
+
+            initEvol(wb);
+            initEndpaper(wb, fileName);
+
+            app.Goto("FunctionName");
 
             //Add init sheets
-            CreateEndpaperSheet(wb, fileName);
-            CreateEvolSheet(wb);
+            //CreateEndpaperSheet(wb, fileName);
+            //CreateEvolSheet(wb);
             //CreateBenchConfSheet(wb);
-            CreateSwVTPSheet(wb);
+            //CreateSwVTPSheet(wb);
 
             //Save file and show it
-            app.DisplayAlerts = false;
             wb.SaveAs(fileName);
             app.DisplayAlerts = true;
             wb.Saved = true;
             wb.AddToFavorites();
         }
 
-        static void wb_Open()
+        internal static void initEndpaper(Workbook wb, string filename)
         {
-            throw new NotImplementedException();
+            Worksheet eps = wb.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER)];
+            eps.Unprotect();
+
+            Regex rgx = new Regex(@"^[a-zA-Z][0-9]_\d{3}_\d{1}");
+            wb.Names.Item("Num_PR").RefersToRange.Value = rgx.Match(filename).ToString();
+            rgx = new Regex(@"[a-zA-Z][0-9]{1,}$");
+            wb.Names.Item("Indice_PR").RefersToRange.Value = rgx.Match(filename).ToString();
+            eps.Range["D6"].Value = General.GetCurrentDate();
+
+            eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
+        }
+
+        internal static void initEvol(Workbook wb)
+        {
+            Worksheet es = wb.Sheets[StringEnum.GetStringValue(SheetsNames.EVOLUTION)];
+            es.Range["evolListobject[Version]"].Value = "A0";
+            es.Range["evolListobject[Date]"].Value = General.GetCurrentDate();
+            es.Range["evolListobject[Name]"].Value = Environment.UserName;
+            es.Range["evolListobject[Modification]"].Value = "Creation";
         }
 
         internal static void wbT_Open(object sender, EventArgs e)
