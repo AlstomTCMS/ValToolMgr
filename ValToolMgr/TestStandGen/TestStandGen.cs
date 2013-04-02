@@ -11,6 +11,7 @@ namespace TestStandGen
     using Antlr4.StringTemplate.Compiler;
     using Antlr4.StringTemplate.Misc;
     using System.IO;
+    using System.Text;
 
     public class TestStandGen
     {
@@ -72,7 +73,7 @@ namespace TestStandGen
                     }
                 }
 
-                StreamWriter output = new StreamWriter(this.outFile);
+                StreamWriter output = new StreamWriter(this.outFile, false, Encoding.GetEncoding("windows-1251"));
 
                 output.Write(result);
                 output.Close();
