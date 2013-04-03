@@ -16,6 +16,12 @@ namespace ExcelTemplate_2013
     {
         private void ThisWorkbook_Startup(object sender, System.EventArgs e)
         {
+            //Check in each sheet the kies data
+
+            // get evol list row number
+            MessageBox.Show("This startup");
+
+            // get SwVTP tests's list
         }
 
         private void ThisWorkbook_Shutdown(object sender, System.EventArgs e)
@@ -30,8 +36,19 @@ namespace ExcelTemplate_2013
         /// </summary>
         private void InternalStartup()
         {
+            this.Open += new Excel.WorkbookEvents_OpenEventHandler(ThisWorkbook_Open);
             this.Startup += new System.EventHandler(ThisWorkbook_Startup);
             this.Shutdown += new System.EventHandler(ThisWorkbook_Shutdown);
+        }
+
+        void ThisWorkbook_Open()
+        {
+            //Check in each sheet the kies data
+
+            // get evol list row number
+            MessageBox.Show("This Open");
+
+            // get SwVTP tests's list
         }
 
         #endregion

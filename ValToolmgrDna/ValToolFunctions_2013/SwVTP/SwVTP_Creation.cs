@@ -58,27 +58,15 @@ namespace ValToolFunctions_2013
         private static void SaveExcelFile(string fileName)
         {
             Excel.Application app = RibbonHandler.ExcelApplication;
-
-            app.DisplayAlerts = false;
-
-            // Init a new workbook from our 2013 embeded template
-            // by copying it to a temporary file
-            string sPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".xltx"); 
-            File.WriteAllBytes(sPath, Properties.Resources.Template_2013);
-            Workbook wb = app.Workbooks.Add(sPath);
-            File.Delete(sPath);
-
-            initEvol(wb);
-            initEndpaper(wb, fileName);
-
-            app.Goto("FunctionName");
+            Workbook wb = app.Workbooks.Add();
 
             //Add init sheets
-            //CreateEndpaperSheet(wb, fileName);
-            //CreateEvolSheet(wb);
-            //CreateBenchConfSheet(wb);
-            //CreateSwVTPSheet(wb);
+            CreateEndpaperSheet(wb, fileName);
+            CreateEvolSheet(wb);
+            CreateBenchConfSheet(wb);
+            CreateSwVTPSheet(wb); 
 
+            app.DisplayAlerts = false;
             //Save file and show it
             wb.SaveAs(fileName);
             app.DisplayAlerts = true;
@@ -86,6 +74,39 @@ namespace ValToolFunctions_2013
             wb.AddToFavorites();
         }
 
+        [System.Obsolete("Use createWholeTestFormat instead", true)]
+        internal static void initThroughTemplate(string fileName)
+        {
+            Excel.Application app = RibbonHandler.ExcelApplication;
+
+
+            //string tempPath = @"D:\Documents and Settings\e_dleona\Local Settings\Temp\";
+            ////instal template vsto
+            //File.WriteAllBytes(tempPath + "ExcelTemplate_2013.vsto", Properties.Resources.ExcelTemplate_2013_Vsto);
+            //File.WriteAllBytes(tempPath + "ExcelTemplate_2013.dll.manifest", Properties.Resources.ExcelTemplate_2013_dll_manifest);
+            //File.WriteAllBytes(tempPath + "ExcelTemplate_2013.dll", Properties.Resources.ExcelTemplate_2013_dll);
+
+            //// Init a new workbook from our 2013 embeded template
+            //// by copying it to a temporary file
+            //string sPath = tempPath + "Template_2013.xltx"; 
+            //File.WriteAllBytes(sPath, Properties.Resources.Template_2013);
+            Workbook wb = app.Workbooks.Add("ExcelTemplate_2013");
+            //File.Delete(sPath);
+
+            initEvol(wb);
+            initEndpaper(wb, fileName);
+
+            //goto the function name in order to indiquate to the user that we want him to input it
+            app.Goto("FunctionName");
+
+            app.DisplayAlerts = false;
+            //Save file and show it
+            wb.SaveAs(fileName);
+            app.DisplayAlerts = true;
+            wb.Saved = true;
+            wb.AddToFavorites();
+        }
+        [System.Obsolete("Use createWholeTestFormat instead")]
         internal static void initEndpaper(Workbook wb, string filename)
         {
             Worksheet eps = wb.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER)];
@@ -99,7 +120,7 @@ namespace ValToolFunctions_2013
 
             eps.Protect(DrawingObjects: false, Contents: true, Scenarios: true);
         }
-
+        [System.Obsolete("Use createWholeTestFormat instead")]
         internal static void initEvol(Workbook wb)
         {
             Worksheet es = wb.Sheets[StringEnum.GetStringValue(SheetsNames.EVOLUTION)];
@@ -108,7 +129,7 @@ namespace ValToolFunctions_2013
             es.Range["evolListobject[Name]"].Value = Environment.UserName;
             es.Range["evolListobject[Modification]"].Value = "Creation";
         }
-
+        [System.Obsolete("Use createWholeTestFormat instead")]
         internal static void wbT_Open(object sender, EventArgs e)
         {
             //if (e.Item.isNew)

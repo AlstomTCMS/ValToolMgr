@@ -69,10 +69,13 @@ namespace ValToolFunctions_2013
             testSheet.Activate();
             testSheet.Tab.ThemeColor = XlThemeColor.xlThemeColorLight2;
             testSheet.Tab.TintAndShade = 0;
-            General.SetGreySheetPattern(testSheet);
+            //General.SetGreySheetPattern(testSheet);
             testSheet.Cells.ColumnWidth = 25;
 
-            AddTableDescription(testSheet);
+            //try{
+                AddTableDescription(testSheet);
+            //}
+            //catch { }
             AddTableAction(testSheet);
             AddTableCheck(testSheet);
             AddActionLabel(testSheet);
@@ -85,12 +88,13 @@ namespace ValToolFunctions_2013
         {
             testSheet.Columns["C:C"].ColumnWidth = 25;
             testSheet.Rows["1:2"].Group();
-            testSheet.Range[TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name) + "["+ TEST.STEP_PATERN + "]"].Select();
+            //testSheet.Range[TEST.TABLE.PREFIX.ACTION + General.getTestNumber(testSheet.Name) + "["+ TEST.STEP_PATERN + "]"].Select();
+            testSheet.Range["D5"].Select();
             testSheet.Application.ActiveWindow.FreezePanes = true;
             testSheet.Range["A1"].Select();
 
-            Range bottomRightCorner = testSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);//testSheet.Range[TEST.TABLE.PREFIX.CHECK + General.getTestNumber(testSheet.Name)].End(XlDirection.xlDown);
-            General.UnformatGrey(testSheet.Range["A1", bottomRightCorner.Offset[1,1]]);
+            //Range bottomRightCorner = testSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);//testSheet.Range[TEST.TABLE.PREFIX.CHECK + General.getTestNumber(testSheet.Name)].End(XlDirection.xlDown);
+            //General.UnformatGrey(testSheet.Range["A1", bottomRightCorner.Offset[1,1]]);
         }
 
         ////Ajoute la table de description en haut
@@ -101,8 +105,12 @@ namespace ValToolFunctions_2013
             testSheet.Rows["1:1"].Insert(XlDirection.xlDown);
             string tableName = TEST.TABLE.PREFIX.DESC + General.getTestNumber(testSheet.Name);
             testSheet.ListObjects.Add(XlListObjectSourceType.xlSrcRange, testSheet.Range["$C$1:$D$4"], XlYesNoGuess.xlYes).Name = tableName;
-                
-            AddDescTableFormat();
+
+            //try
+            //{
+            //    AddDescTableFormat();
+            //}
+            //catch { }
             ListObject descTable = testSheet.ListObjects[tableName];
             descTable.TableStyle = TEST.DESCRIPTION_TABLE_STYLE + " " + TEST.DESCRIPTION_TABLE_STYLE_VERSION;
             descTable.ShowHeaders = false;
@@ -326,12 +334,12 @@ namespace ValToolFunctions_2013
         /// Ajoute au workbook le style de tableau pour la partie descriptive s'il n'existe pas déjà
         /// </summary>
         /// <returns>vrai s'il faut mettre à jour le style du tableau</returns>
-        private static Boolean AddDescTableFormat()
+        internal static Boolean AddDescTableFormat()
         {
             Boolean updateTable=false;
             Boolean addTable=true;
             string[] tableName;
-            TableStyle ts;
+            TableStyle ts=null;
             Boolean addDescTableFormat=false;
 
             Workbook wb =RibbonHandler.ExcelApplication.ActiveWorkbook;
@@ -342,8 +350,15 @@ namespace ValToolFunctions_2013
                 if(Regex.IsMatch(style.Name, TEST.DESCRIPTION_TABLE_STYLE + "*"))
                 {
                     addTable = false;
-                    tableName = Regex.Split(style.Name, " ");
-                    if (tableName.Length == 2) {// Si on a la version
+                    tableName = Regex.Split(style.Name, " "); 
+                    if (tableName.Length == 3)
+                    {// Si on a la version
+                        if (String.Compare(tableName[tableName.Length-1], TEST.DESCRIPTION_TABLE_STYLE_VERSION) > 0)
+                        {
+                            updateTable = true;
+                        }
+                    }
+                    else if (tableName.Length == 2) {// Si on a la version
                         //If tableName(2) < PR_TEST_DESCRIPTION_TABLE_STYLE_VERSION Then
                         updateTable = true;
                         //End If
@@ -355,12 +370,15 @@ namespace ValToolFunctions_2013
         
         
             if (addTable){
-                wb.TableStyles.Add (TEST.DESCRIPTION_TABLE_STYLE + " " + TEST.DESCRIPTION_TABLE_STYLE_VERSION);
+                ts = wb.TableStyles.Add(TEST.DESCRIPTION_TABLE_STYLE + " " + TEST.DESCRIPTION_TABLE_STYLE_VERSION);
             }
 
             if (addTable | updateTable)
             {
-                ts = wb.TableStyles[TEST.DESCRIPTION_TABLE_STYLE + " " + TEST.DESCRIPTION_TABLE_STYLE_VERSION];
+                if (ts == null)
+                {
+                    ts = wb.TableStyles[TEST.DESCRIPTION_TABLE_STYLE + " " + TEST.DESCRIPTION_TABLE_STYLE_VERSION];
+                }
                 ts.ShowAsAvailablePivotTableStyle = false;
                 ts.ShowAsAvailableTableStyle = true;
                 ts.ShowAsAvailableSlicerStyle = false;
@@ -379,7 +397,10 @@ namespace ValToolFunctions_2013
                 // LA Première colonne (les titres)
                 // -------------------------------------------------------------
                 TableStyleElement firstCol = ts.TableStyleElements[XlTableStyleElementType.xlFirstColumn];
-                Font font = firstCol.Font; font.Bold = true; font.TintAndShade = 0; font.ThemeColor = XlThemeColor.xlThemeColorDark1;
+                Font font = firstCol.Font;
+                font.ThemeColor = XlThemeColor.xlThemeColorDark1;
+                font.TintAndShade = 0;
+                font.Bold = true;
                 Interior inte = firstCol.Interior; inte.Color = 12419407; inte.TintAndShade = 0;
                 foreach (XlBordersIndex edge in new XlBordersIndex[] { XlBordersIndex.xlEdgeTop, XlBordersIndex.xlEdgeBottom, XlBordersIndex.xlEdgeLeft, XlBordersIndex.xlInsideHorizontal })
                 {
@@ -391,9 +412,9 @@ namespace ValToolFunctions_2013
                 }
 
                 // -------------------------------------------------------------
-                // Colonnes paires
+                // Colonnes impaires
                 // -------------------------------------------------------------
-                Interior oddsColInterior = ts.TableStyleElements[XlTableStyleElementType.xlColumnStripe2].Interior;
+                Interior oddsColInterior = ts.TableStyleElements[XlTableStyleElementType.xlColumnStripe1].Interior;
                 oddsColInterior.Pattern = XlPattern.xlPatternSolid;
                 oddsColInterior.PatternColorIndex = 0;
                 oddsColInterior.Color = 15853276;

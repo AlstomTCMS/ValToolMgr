@@ -15,16 +15,16 @@
     <OfficeApplication>Excel</OfficeApplication>
     <ProjectGuid>{7D0E1085-1E3C-4344-8529-46DC70A0965B}</ProjectGuid>
     <SolutionID>b1cc2398-31f4-402e-918b-19f273a78ad0</SolutionID>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>\\dom2.ad.sys\dfsbor1root\BOR1_FLO\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\13_Macros\Sauvegarde\deploiement\Template\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.2</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <IsWebBootstrapper>False</IsWebBootstrapper>
     <ProductName>ExcelTemplate_2013</ProductName>
     <PublisherName />
     <SupportUrl />
@@ -198,17 +198,17 @@
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Template_2013.xltx" HostPackage="{825100CF-0BA7-47EA-A084-DCF3308DAF74}" OfficeVersion="14.0" VstxVersion="4.0" ApplicationType="XLT" Language="CS" TemplatesPath="VSTOTemplates" DebugInfoExeName="C:\Program Files\Microsoft Office\Office14\Excel.exe" DebugInfoCommandLine="/t &quot;[$OUTPUT]Template_2013.xltx&quot;" />
-        <Host Name="Excel Document" Path=".\Template_2013.xltx" GeneratedCodeNamespace="ExcelTemplate_2013">
-          <HostItem Name="Feuil1" Code="Endpaper.cs" CanonicalName="Feuil1" DisplayName="Endpaper" Blueprint="Endpaper.Designer.xml" GeneratedCode="Endpaper.Designer.cs" />
-          <HostItem Name="Feuil2" Code="Evol.cs" CanonicalName="Feuil2" DisplayName="Evol" Blueprint="Evol.Designer.xml" GeneratedCode="Evol.Designer.cs" />
-          <HostItem Name="Feuil3" Code="SwVTP.cs" CanonicalName="Feuil3" DisplayName="SwVTP" Blueprint="SwVTP.Designer.xml" GeneratedCode="SwVTP.Designer.cs" />
-          <HostItem Name="ThisWorkbook" Code="ThisWorkbook.cs" CanonicalName="ThisWorkbook" Blueprint="ThisWorkbook.Designer.xml" GeneratedCode="ThisWorkbook.Designer.cs" />
+        <Host Name="Excel Document" Path=".\Template_2013.xltx" GeneratedCodeNamespace="ExcelTemplate_2013" PublishedHash="2AE8AC5EBF9912D5EC0ACA5EDE362E75E11F0254">
+          <HostItem Name="Feuil1" Code="Endpaper.cs" CanonicalName="Feuil1" DisplayName="Endpaper" Blueprint="Endpaper.Designer.xml" GeneratedCode="Endpaper.Designer.cs" PublishedHash="ABA1CACA19B23576A5DE14CCE52A44537F5E2566" />
+          <HostItem Name="Feuil2" Code="Evol.cs" CanonicalName="Feuil2" DisplayName="Evol" Blueprint="Evol.Designer.xml" GeneratedCode="Evol.Designer.cs" PublishedHash="B506BA2BFDB1C0F0C79BAC3977DA6B9197473619" />
+          <HostItem Name="Feuil3" Code="SwVTP.cs" CanonicalName="Feuil3" DisplayName="SwVTP" Blueprint="SwVTP.Designer.xml" GeneratedCode="SwVTP.Designer.cs" PublishedHash="167CE9B848F47ACBAB0C561C1112539D50FE2F55" />
+          <HostItem Name="ThisWorkbook" Code="ThisWorkbook.cs" CanonicalName="ThisWorkbook" Blueprint="ThisWorkbook.Designer.xml" GeneratedCode="ThisWorkbook.Designer.cs" PublishedHash="F7A51E0EEFDAD915FA5820A4D1F2F25C973D63A2" />
         </Host>
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetDir)  $(SolutionDir)\ValToolFunctions_2013\Resources</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetDir)*.*"  "\\dom2.ad.sys\dfsbor1root\BOR1_FLO\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\13_Macros\Sauvegarde\deploiement\Template"</PostBuildEvent>
   </PropertyGroup>
   <!--
     To modify your build process, add your task inside one of the targets below and uncomment it.

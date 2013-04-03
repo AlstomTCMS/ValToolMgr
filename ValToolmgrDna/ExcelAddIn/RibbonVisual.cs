@@ -260,7 +260,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-            ribbonHandler_2013.PlanToTests(xlsApp);
+                ribbonHandler_2013.PlanToTests(xlsApp);
             }
             catch (NotImplementedException ex)
             {
@@ -343,7 +343,7 @@ namespace ExcelAddIn
                 xlsApp.ScreenUpdating = false;
                 xlsApp.Interactive = false; //http://msdn.microsoft.com/en-us/library/ff841248.aspx
 
-                ribbonHandler_2013.AddCategory(xlsApp);
+                ribbonHandler_2013.AddCategory(xlsApp, Globals.Factory);
             }
             catch (NotImplementedException ex)
             {

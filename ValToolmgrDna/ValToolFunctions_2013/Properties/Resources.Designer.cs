@@ -60,6 +60,27 @@ namespace ValToolFunctions_2013.Properties {
             }
         }
         
+        internal static byte[] ExcelTemplate_2013_dll {
+            get {
+                object obj = ResourceManager.GetObject("ExcelTemplate_2013_dll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] ExcelTemplate_2013_dll_manifest {
+            get {
+                object obj = ResourceManager.GetObject("ExcelTemplate_2013_dll_manifest", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] ExcelTemplate_2013_Vsto {
+            get {
+                object obj = ResourceManager.GetObject("ExcelTemplate_2013_Vsto", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to A2	&quot;FME-F12_040
         ///FME-F12_031&quot;	Surveillance du CC-VE(URG)	

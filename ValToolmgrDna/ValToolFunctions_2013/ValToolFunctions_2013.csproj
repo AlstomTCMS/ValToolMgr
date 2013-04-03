@@ -106,6 +106,8 @@
     <EmbeddedResource Include="Resources\Template_2013.xltx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resources\ExcelTemplate_2013.dll.manifest" />
+    <None Include="Resources\ExcelTemplate_2013.vsto" />
     <None Include="Stubs\SwVTP_stub.csv" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExcelTemplate_2013.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -110,12 +110,18 @@ namespace ValToolFunctions_2013
             }
         }
 
-        public void AddCategory(Excel.Application exelApp, EditingZone editingMode = EditingZone.NONE)
+        public void AddCategory(Excel.Application exelApp, Microsoft.Office.Tools.Excel.ApplicationFactory factory, EditingZone editingMode = EditingZone.NONE)
         {
             try
             {
+                SetFactory(factory);
                 SetExcelApplication(exelApp);
                 SwVTPManager.AddCategory();
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
             }
             finally
             {
@@ -157,6 +163,11 @@ namespace ValToolFunctions_2013
                 SetExcelApplication(exelApp);
                 TestsGenerator.FromSwVTP2Tests();
             }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
+            }
             finally
             {
                 IsAFunctionalityRunning = false;
@@ -173,6 +184,11 @@ namespace ValToolFunctions_2013
                 SetExcelApplication(exelApp);
                 TestManager.AddNewStep(editingMode);
             }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
+            }
             finally
             {
                 IsAFunctionalityRunning = false;
@@ -185,6 +201,11 @@ namespace ValToolFunctions_2013
             {
                 SetExcelApplication(exelApp);
                 TestManager.RemoveStep(editingMode);
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
             }
             finally
             {
@@ -199,6 +220,11 @@ namespace ValToolFunctions_2013
                 SetExcelApplication(exelApp);
                 TestManager.AddVariable(TEST.TABLE.TYPE.ACTION, editingMode);
             }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
+            }
             finally
             {
                 IsAFunctionalityRunning = false;
@@ -211,6 +237,11 @@ namespace ValToolFunctions_2013
             {
                 SetExcelApplication(exelApp);
                 TestManager.RemoveVariable(TEST.TABLE.TYPE.ACTION, editingMode);
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
             }
             finally
             {
@@ -225,6 +256,11 @@ namespace ValToolFunctions_2013
                 SetExcelApplication(exelApp);
                 TestManager.AddVariable(TEST.TABLE.TYPE.CHECK, editingMode);
             }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
+            }
             finally
             {
                 IsAFunctionalityRunning = false;
@@ -237,6 +273,11 @@ namespace ValToolFunctions_2013
             {
                 SetExcelApplication(exelApp);
                 TestManager.RemoveVariable(TEST.TABLE.TYPE.CHECK, editingMode);
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
             }
             finally
             {
@@ -253,6 +294,11 @@ namespace ValToolFunctions_2013
             {
                 SetExcelApplication(exelApp);
                 SwVTD.GenerateSwVTD();
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw e;
             }
             finally
             {

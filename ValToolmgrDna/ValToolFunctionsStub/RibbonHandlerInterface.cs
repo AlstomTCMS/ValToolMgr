@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Excel;
+using ExcelTools = Microsoft.Office.Tools.Excel;
 
 namespace ValToolFunctionsStub
 {
@@ -29,7 +30,7 @@ namespace ValToolFunctionsStub
         /// <summary>
         /// Create a new PR from scratch
         /// </summary>
-        void NewPR(Application exelApp, Microsoft.Office.Tools.Excel.ApplicationFactory factory);
+        void NewPR(Application exelApp, ExcelTools.ApplicationFactory factory);
 
 
         #region SwVTP
@@ -37,7 +38,7 @@ namespace ValToolFunctionsStub
         /// <summary>
         /// Add a category at the end of SwVTP
         /// </summary>
-        void AddCategory(Application exelApp, EditingZone editingMode = EditingZone.NONE);
+        void AddCategory(Application exelApp, ExcelTools.ApplicationFactory factory, EditingZone editingMode = EditingZone.NONE);
 
         /// <summary>
         /// remove the category at the end of SwVTP

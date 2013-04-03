@@ -66,7 +66,11 @@ Private Sub UserForm_Initialize()
             .AutoFilter Field:=1
         End With
             
-            testsList = .range("K2:" & .range("K1").End(xlDown).Address)
+            Set fin = .range("K2").End(xlDown)
+            If fin.row = 65536 Then
+                Set fin = .range("K2")
+            End If
+            testsList = .range("K2:" & fin.Address)
             Application.DisplayAlerts = False
             .Columns("K:K").Delete
             Application.DisplayAlerts = True
