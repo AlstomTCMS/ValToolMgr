@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\Documents and Settings\\Administrator\\Desktop\\Validation\\macros_alstom\\Tools\\launch_environment.seq"
+Path = "C:\\macros_alstom\\Tools\\launch_environment.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -45,6 +45,7 @@ TL_CloseAll = StepType
 TL_Init = StepType
 TL_SendCmd = StepType
 Statement = StepType
+SequenceArgument = Argument
 
 [DEF, SF]
 Seq = Objs
@@ -129,6 +130,16 @@ SData = "TYPE, SeqCallStepAdditions"
 SeqName = "InitEmvSequenceSect1"
 UseCurFile = True
 
+[DEF, SF.Seq[0].Setup[0].TS.SData]
+ActualArgs = Arguments
+
+[DEF, SF.Seq[0].Setup[0].TS.SData.ActualArgs]
+CbPtr = "TYPE, SequenceArgument"
+
+[SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbPtr]
+UseDef = False
+Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb3"
+
 [DEF, SF.Seq[0].Setup[0]]
 %NAME = "InitEnvSequenceSect1"
 
@@ -183,6 +194,12 @@ GotoCleanupOnFail = Bool
 RecordResults = Bool
 RTS = Obj
 %NAME = "InitEmvSequenceSect1"
+
+[DEF, SF.Seq[1].Parameters]
+CbPtr = Ref
+
+[SF.Seq[1].Parameters]
+%FLG: CbPtr = 4
 
 [SF.Seq[1]]
 %FLG: Parameters = 4456448
@@ -266,7 +283,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Main[1].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -1981,7 +1998,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[5].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2063,7 +2080,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[6].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2145,7 +2162,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[7].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2227,7 +2244,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[8].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2309,7 +2326,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[9].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2391,7 +2408,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[10].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2473,7 +2490,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[11].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2555,7 +2572,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[12].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2637,7 +2654,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[13].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2719,7 +2736,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[14].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2801,7 +2818,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[15].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2883,7 +2900,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[16].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -2965,7 +2982,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[17].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3047,7 +3064,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[18].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3129,7 +3146,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[19].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3211,7 +3228,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[20].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3293,7 +3310,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[21].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3375,7 +3392,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[22].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3457,7 +3474,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[23].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3539,7 +3556,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[24].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3621,7 +3638,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[25].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3703,7 +3720,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[26].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3785,7 +3802,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[27].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3867,7 +3884,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[28].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -3949,7 +3966,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[29].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4031,7 +4048,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[30].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4113,7 +4130,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[31].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4195,7 +4212,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[32].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4277,7 +4294,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[33].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4359,7 +4376,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[34].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4441,7 +4458,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[35].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4523,7 +4540,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[36].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4605,7 +4622,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[37].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4687,7 +4704,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[38].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4769,7 +4786,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[39].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4851,7 +4868,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[40].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -4933,7 +4950,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[41].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5015,7 +5032,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[42].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5097,7 +5114,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[43].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5179,7 +5196,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[44].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5261,7 +5278,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[45].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5343,7 +5360,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[46].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5425,7 +5442,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[47].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5507,7 +5524,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[48].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5590,7 +5607,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[49].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5672,7 +5689,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[50].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5754,7 +5771,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[51].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5836,7 +5853,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[52].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -5918,7 +5935,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[53].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6000,7 +6017,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[54].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6082,7 +6099,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[55].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6164,7 +6181,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[56].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6246,7 +6263,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[57].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6328,7 +6345,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[58].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6410,7 +6427,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[59].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6492,7 +6509,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[60].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6574,7 +6591,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[61].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6656,7 +6673,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[62].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6738,7 +6755,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[63].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6820,7 +6837,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[64].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6902,7 +6919,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[65].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -6984,7 +7001,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[66].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7066,7 +7083,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[67].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7148,7 +7165,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[68].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7230,7 +7247,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[69].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7312,7 +7329,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[70].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7394,7 +7411,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[71].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7476,7 +7493,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[72].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7558,7 +7575,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[73].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7640,7 +7657,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[74].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7722,7 +7739,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[75].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7804,7 +7821,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[76].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7886,7 +7903,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[77].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -7968,7 +7985,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[78].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8050,7 +8067,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[79].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8132,7 +8149,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[80].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8214,7 +8231,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[81].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8296,7 +8313,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[82].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8378,7 +8395,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[83].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8460,7 +8477,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[84].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8542,7 +8559,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[85].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8624,7 +8641,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[86].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8706,7 +8723,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[87].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8788,7 +8805,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[88].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8870,7 +8887,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[89].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -8952,7 +8969,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[90].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9034,7 +9051,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[91].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9116,7 +9133,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[92].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9198,7 +9215,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[93].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9280,7 +9297,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[94].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9362,7 +9379,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[95].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9444,7 +9461,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[96].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9526,7 +9543,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[97].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9608,7 +9625,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[98].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9690,7 +9707,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[99].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9772,7 +9789,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[100].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9854,7 +9871,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[101].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -9936,7 +9953,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[102].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10018,7 +10035,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[103].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10100,7 +10117,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[104].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10182,7 +10199,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[105].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10264,7 +10281,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[106].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10346,7 +10363,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[107].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10428,7 +10445,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[108].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10510,7 +10527,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[109].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10592,7 +10609,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[110].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10674,7 +10691,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[111].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10756,7 +10773,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[112].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10838,7 +10855,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[113].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -10920,7 +10937,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[114].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11002,7 +11019,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[115].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11084,7 +11101,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[116].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11166,7 +11183,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[117].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11248,7 +11265,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[118].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11330,7 +11347,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[119].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11412,7 +11429,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[120].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11494,7 +11511,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[121].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11576,7 +11593,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[122].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11658,7 +11675,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[123].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11740,7 +11757,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[124].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11822,7 +11839,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[125].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11904,7 +11921,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[126].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -11986,7 +12003,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[127].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12068,7 +12085,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[128].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12150,7 +12167,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[129].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12232,7 +12249,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[130].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12314,7 +12331,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[131].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12396,7 +12413,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[132].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12478,7 +12495,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[133].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12560,7 +12577,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[134].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12642,7 +12659,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[135].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12724,7 +12741,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[136].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12806,7 +12823,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[137].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12888,7 +12905,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[138].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -12970,7 +12987,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[139].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13052,7 +13069,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[140].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13134,7 +13151,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[141].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13216,7 +13233,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[142].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13298,7 +13315,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[143].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13380,7 +13397,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[144].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13462,7 +13479,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[145].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13584,7 +13601,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[152].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13660,7 +13677,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[153].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13736,7 +13753,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[154].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13812,7 +13829,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[155].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13888,7 +13905,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[156].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -13964,7 +13981,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[157].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14040,7 +14057,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[158].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14116,7 +14133,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[159].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14192,7 +14209,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[160].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14268,7 +14285,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[161].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14344,7 +14361,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[162].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14420,7 +14437,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[163].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14496,7 +14513,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[164].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14572,7 +14589,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[165].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14648,7 +14665,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[166].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14724,7 +14741,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[167].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14800,7 +14817,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[168].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14876,7 +14893,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[169].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -14952,7 +14969,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[170].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15028,7 +15045,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[171].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15104,7 +15121,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[172].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15180,7 +15197,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[173].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15256,7 +15273,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[174].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15332,7 +15349,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[175].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15408,7 +15425,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[176].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15484,7 +15501,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[177].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15560,7 +15577,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[178].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15636,7 +15653,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[179].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15712,7 +15729,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[180].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15788,7 +15805,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[181].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15864,7 +15881,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[182].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -15940,7 +15957,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[183].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16016,7 +16033,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[184].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16092,7 +16109,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[185].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16168,7 +16185,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[186].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16244,7 +16261,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[187].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16320,7 +16337,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[188].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16396,7 +16413,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[189].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16472,7 +16489,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[190].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16548,7 +16565,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[191].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16624,7 +16641,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[192].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16700,7 +16717,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[193].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16776,7 +16793,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[194].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16852,7 +16869,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[195].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -16929,7 +16946,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[196].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17005,7 +17022,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[197].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17081,7 +17098,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[198].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17157,7 +17174,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[199].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17233,7 +17250,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[200].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17309,7 +17326,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[201].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17385,7 +17402,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[202].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17461,7 +17478,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[203].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17537,7 +17554,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[204].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17613,7 +17630,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[205].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17689,7 +17706,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[206].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17765,7 +17782,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[207].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17841,7 +17858,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[208].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17917,7 +17934,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[209].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -17993,7 +18010,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[210].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18069,7 +18086,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[211].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18145,7 +18162,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[212].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18221,7 +18238,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[213].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18297,7 +18314,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[214].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18373,7 +18390,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[215].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18449,7 +18466,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[216].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18525,7 +18542,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[217].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18601,7 +18618,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[218].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18677,7 +18694,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[219].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18753,7 +18770,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[220].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18829,7 +18846,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[221].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18905,7 +18922,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[222].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -18981,7 +18998,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[223].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19057,7 +19074,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[224].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19133,7 +19150,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[225].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19209,7 +19226,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[226].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19285,7 +19302,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[227].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19361,7 +19378,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[228].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19437,7 +19454,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[229].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19513,7 +19530,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[230].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19589,7 +19606,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[231].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19665,7 +19682,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[232].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19741,7 +19758,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[233].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19817,7 +19834,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[234].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19893,7 +19910,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[235].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -19969,7 +19986,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[236].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20045,7 +20062,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[237].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20121,7 +20138,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[238].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20197,7 +20214,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[239].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20273,7 +20290,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[240].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20349,7 +20366,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[241].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20425,7 +20442,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[242].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20501,7 +20518,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[243].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20577,7 +20594,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[244].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20653,7 +20670,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[245].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20729,7 +20746,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[246].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20805,7 +20822,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[247].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20881,7 +20898,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[248].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -20957,7 +20974,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[249].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21033,7 +21050,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[250].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21109,7 +21126,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[251].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21185,7 +21202,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[252].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21261,7 +21278,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[253].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21337,7 +21354,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[254].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21413,7 +21430,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[255].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21489,7 +21506,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[256].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21565,7 +21582,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[257].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21641,7 +21658,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[258].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21717,7 +21734,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[259].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21793,7 +21810,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[260].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21869,7 +21886,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[261].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -21945,7 +21962,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[262].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22021,7 +22038,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[263].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22097,7 +22114,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[264].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22173,7 +22190,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[265].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22249,7 +22266,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[266].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22325,7 +22342,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[267].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22401,7 +22418,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[268].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22477,7 +22494,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[269].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22553,7 +22570,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[270].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22629,7 +22646,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[271].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22705,7 +22722,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[272].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22781,7 +22798,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[273].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22857,7 +22874,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[274].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -22933,7 +22950,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[275].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23009,7 +23026,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[276].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23085,7 +23102,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[277].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23161,7 +23178,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[278].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23237,7 +23254,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[279].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23313,7 +23330,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[280].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23389,7 +23406,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[281].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23465,7 +23482,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[282].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23541,7 +23558,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[283].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23617,7 +23634,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[284].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23693,7 +23710,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[285].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23769,7 +23786,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[286].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23845,7 +23862,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[287].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23921,7 +23938,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[288].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -23997,7 +24014,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[289].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24073,7 +24090,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[290].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24149,7 +24166,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[291].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24225,7 +24242,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[292].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24301,7 +24318,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[293].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24384,7 +24401,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[294].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24466,7 +24483,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[295].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24548,7 +24565,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[296].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24630,7 +24647,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[297].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24713,7 +24730,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[298].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24797,7 +24814,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[299].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24881,7 +24898,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[300].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -24965,7 +24982,7 @@ StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 SData = "TYPE, AutomationStepAdditions"
 
 [SF.Seq[1].Setup[301].TS.SData.Call]
-ObjectVariable = "FileGlobals.env1"
+ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
 ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
@@ -25224,6 +25241,7 @@ TL_CloseAll = "TL_CloseAll"
 TL_Init = "TL_Init"
 TL_SendCmd = "TL_SendCmd"
 Statement = "Statement"
+SequenceArgument = "SequenceArgument"
 
 [DEF, Path]
 %LOCATION = "StdTypes"
@@ -29323,4 +29341,19 @@ Common = "TYPE, CommonResults"
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
 %INSTOVRD: Common = 4194304
+
+[DEF, SequenceArgument]
+%LOCATION = "StdTypes"
+UseDef = Bool
+Expr = "TYPE, Expression"
+%ROOT_TYPE = True
+
+[SequenceArgument]
+UseDef = True
+%TIMESTAMP = 1059672989
+%VERSION = "3.0.0.12373"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%FLG = 24
+%TYPE_FLG = 33554436
 

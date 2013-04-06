@@ -72,7 +72,7 @@ ModelOption = Num
 %NAME = "Data"
 
 [SF]
-%HI: Seq = [6]
+%HI: Seq = [7]
 %FLG: Seq = 4194304
 %FLG: FileGlobalDefaults = 4194304
 %FLG: ModelFile = 4194312
@@ -96,6 +96,7 @@ BatchSync = 1
 %[4] = Sequence
 %[5] = Sequence
 %[6] = Sequence
+%[7] = Sequence
 
 [DEF, SF.Seq[0]]
 Parameters = Obj
@@ -2723,6 +2724,200 @@ CopyStepsOnOverriding = Bool
 Priority = Num
 
 [SF.Seq[6].RTS]
+%FLG: Type = 4194304
+OptimizeNonReentrantCalls = True
+%FLG: OptimizeNonReentrantCalls = 4194304
+EPNameExpr = "\"Unnamed Entry Point\""
+%FLG: EPNameExpr = 4194304
+EPEnabledExpr = "True"
+%FLG: EPEnabledExpr = 4194304
+%FLG: EPMenuHint = 4194304
+%FLG: EPIgnoreClient = 4194304
+%FLG: EPInitiallyHidden = 4194304
+EPCheckToSaveTitledFile = True
+%FLG: EPCheckToSaveTitledFile = 4194304
+%FLG: ShowEPAlways = 4194304
+ShowEPForFileWin = True
+%FLG: ShowEPForFileWin = 4194304
+%FLG: ShowEPForExeWin = 4194304
+%FLG: ShowEPForEditorOnly = 4194304
+%FLG: AllowIntExeOfEP = 4194304
+CopyStepsOnOverriding = True
+%FLG: CopyStepsOnOverriding = 4194304
+Priority = 2953567917
+%FLG: Priority = 4194304
+
+[DEF, SF.Seq[7]]
+Parameters = Obj
+Locals = Obj
+Main = Objs
+Setup = Objs
+Cleanup = Objs
+GotoCleanupOnFail = Bool
+RecordResults = Bool
+RTS = Obj
+%NAME = "RealTargetInitialiser"
+
+[DEF, SF.Seq[7].Parameters]
+CbReference = Ref
+TestBenchEthAddress = Str
+CbPathName = Str
+CbProjectName = Str
+CbApplicationName = Str
+CbTaskName = Str
+CbConfiguration = Str
+CbTarget = Str
+TargetEthAddress = Str
+
+[SF.Seq[7].Parameters]
+%FLG: CbReference = 4
+
+[SF.Seq[7]]
+%FLG: Parameters = 4456448
+%FLG: Locals = 4194304
+%HI: Main = [0]
+%FLG: Main = 4194304
+%HI: Setup = [1]
+%FLG: Setup = 4194304
+%FLG: Cleanup = 4194304
+GotoCleanupOnFail = True
+%FLG: GotoCleanupOnFail = 4194312
+RecordResults = True
+%FLG: RecordResults = 4194312
+%FLG: RTS = 4456456
+
+[DEF, SF.Seq[7].Locals]
+ResultList = Objs
+CbReference = Ref
+
+[DEF, SF.Seq[7].Locals.ResultList]
+%EPTYPE = TEResult
+
+[DEF, SF.Seq[7].Main]
+%[0] = Step
+%TYPE: %[0] = "Statement"
+
+[SF.Seq[7].Main[0].TS]
+Id = "ID#:wbTnlNfNoEe7UqSMyAtB5D"
+PostExpr = "Parameters.CbReference= Locals.CbReference"
+
+[DEF, SF.Seq[7].Main[0]]
+%NAME = "Copy Cb References"
+
+[DEF, SF.Seq[7].Setup]
+%[0] = Step
+%TYPE: %[0] = "SequenceCall"
+%[1] = Step
+%TYPE: %[1] = "SequenceCall"
+
+[SF.Seq[7].Setup[0].TS]
+Id = "ID#:9zwZlRfBlUi3D/U90r6iTA"
+LoadOpt = "DynamicLoad"
+
+[DEF, SF.Seq[7].Setup[0].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[7].Setup[0].TS.SData]
+SFPath = "C:\\macros_alstom\\Tools\\TestStandFunctions.seq"
+SeqName = "ComputerCleanup"
+%FLG: Prototype = 262144
+UsePrototype = True
+SpecifyHostByExpr = True
+RemoteExecution = True
+RemoteHostExpr = "Parameters.TestBenchEthAddress"
+
+[DEF, SF.Seq[7].Setup[0].TS.SData]
+Prototype = Obj
+
+[DEF, SF.Seq[7].Setup[0]]
+%NAME = "Computer Cleanup"
+
+[SF.Seq[7].Setup[1].TS]
+Id = "ID#:7G6x0SufKE2ReW5npiM/uD"
+
+[DEF, SF.Seq[7].Setup[1].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[7].Setup[1].TS.SData]
+SeqName = "ControlBuildInitialiser"
+UseCurFile = True
+
+[DEF, SF.Seq[7].Setup[1].TS.SData]
+ActualArgs = Arguments
+
+[DEF, SF.Seq[7].Setup[1].TS.SData.ActualArgs]
+CbReference = "TYPE, SequenceArgument"
+TestBenchEthAddress = "TYPE, SequenceArgument"
+CbPathName = "TYPE, SequenceArgument"
+CbProjectName = "TYPE, SequenceArgument"
+CbApplicationName = "TYPE, SequenceArgument"
+CbTaskName = "TYPE, SequenceArgument"
+CbConfiguration = "TYPE, SequenceArgument"
+CbTarget = "TYPE, SequenceArgument"
+IpTarget = "TYPE, SequenceArgument"
+StartTarget = "TYPE, SequenceArgument"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbReference]
+UseDef = False
+Expr = "Parameters.CbReference"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.TestBenchEthAddress]
+UseDef = False
+Expr = "Parameters.TestBenchEthAddress"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbPathName]
+UseDef = False
+Expr = "Parameters.CbPathName"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbProjectName]
+UseDef = False
+Expr = "Parameters.CbProjectName"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbApplicationName]
+UseDef = False
+Expr = "Parameters.CbApplicationName"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbTaskName]
+UseDef = False
+Expr = "Parameters.CbTaskName"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbConfiguration]
+UseDef = False
+Expr = "Parameters.CbConfiguration"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.CbTarget]
+UseDef = False
+Expr = "Parameters.CbTarget"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.IpTarget]
+UseDef = False
+Expr = "Parameters.TargetEthAddress"
+
+[SF.Seq[7].Setup[1].TS.SData.ActualArgs.StartTarget]
+UseDef = False
+Expr = "False"
+
+[DEF, SF.Seq[7].Setup[1]]
+%NAME = "ControlBuildInitialiser"
+
+[DEF, SF.Seq[7].RTS]
+Type = Num
+OptimizeNonReentrantCalls = Bool
+EPNameExpr = Str
+EPEnabledExpr = Str
+EPMenuHint = Str
+EPIgnoreClient = Bool
+EPInitiallyHidden = Bool
+EPCheckToSaveTitledFile = Bool
+ShowEPAlways = Bool
+ShowEPForFileWin = Bool
+ShowEPForExeWin = Bool
+ShowEPForEditorOnly = Bool
+AllowIntExeOfEP = Bool
+CopyStepsOnOverriding = Bool
+Priority = Num
+
+[SF.Seq[7].RTS]
 %FLG: Type = 4194304
 OptimizeNonReentrantCalls = True
 %FLG: OptimizeNonReentrantCalls = 4194304
