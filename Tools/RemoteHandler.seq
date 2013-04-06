@@ -4,25 +4,27 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\macros_alstom\\Tools\\RemoteControlBuildInit.seq"
+Path = "C:\\Documents and Settings\\Administrator\\Desktop\\Validation\\macros_alstom\\Tools\\RemoteHandler.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
 [DEF, %OBJROOT]
 SF = SequenceFileData
 Path = PathValue
-CallExecutable = StepType
+Statement = StepType
+StepTypeSubstepsArray = Objs
+EditSubstep = StepType
 Expression = ExprValue
 StepTypeMenu = Obj
-StepTypeSubstepsArray = Objs
-PostSubstep = StepType
 TEInf = Obj
 Error = Obj
 CommonResults = Obj
 FlexCStepAdditions = FCModule
 FCParameter = FCParameter
-EditSubstep = StepType
 NoneStepAdditions = NoneModule
+SequenceCall = StepType
+SeqCallStepAdditions = SeqCallModule
+SequenceArgument = Argument
 
 [DEF, SF]
 Seq = Objs
@@ -38,7 +40,7 @@ ModelOption = Num
 %NAME = "Data"
 
 [SF]
-%HI: Seq = [0]
+%HI: Seq = [2]
 %FLG: Seq = 4194304
 %FLG: FileGlobalDefaults = 4194304
 %FLG: ModelFile = 4194312
@@ -52,11 +54,12 @@ BatchSync = 1
 %FLG: BatchSync = 4194312
 %FLG: SFGlobalsScope = 4194312
 %FLG: Type = 4194312
-ModelOption = 1
 %FLG: ModelOption = 4194312
 
 [DEF, SF.Seq]
 %[0] = Sequence
+%[1] = Sequence
+%[2] = Sequence
 
 [DEF, SF.Seq[0]]
 Parameters = Obj
@@ -73,7 +76,6 @@ RTS = Obj
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
 %FLG: Main = 4194304
-%HI: Setup = [1]
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
@@ -86,31 +88,6 @@ ResultList = Objs
 
 [DEF, SF.Seq[0].Locals.ResultList]
 %EPTYPE = TEResult
-
-[DEF, SF.Seq[0].Setup]
-%[0] = Step
-%TYPE: %[0] = "CallExecutable"
-%[1] = Step
-%TYPE: %[1] = "CallExecutable"
-
-[SF.Seq[0].Setup[0].TS]
-Id = "ID#:0YsQWe9HYk6nTbt0NtZKwB"
-
-[SF.Seq[0].Setup[0]]
-Executable = "kill_all.bat"
-WaitCondition = "WAIT_FOR_EXIT"
-
-[DEF, SF.Seq[0].Setup[0]]
-%NAME = "Call Executable"
-
-[SF.Seq[0].Setup[1].TS]
-Id = "ID#:gReeyLTFGkaGXAtBEU7DVA"
-
-[SF.Seq[0].Setup[1]]
-Executable = "C:\\ControlBuild\\tooldir\\tool.c\\bin\\msw32\\ControlBuild.exe"
-
-[DEF, SF.Seq[0].Setup[1]]
-%NAME = "Call Executable"
 
 [DEF, SF.Seq[0].RTS]
 Type = Num
@@ -153,20 +130,226 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
+[DEF, SF.Seq[1]]
+Parameters = Obj
+Locals = Obj
+Main = Objs
+Setup = Objs
+Cleanup = Objs
+GotoCleanupOnFail = Bool
+RecordResults = Bool
+RTS = Obj
+%NAME = "RemoteCbRefCopier"
+
+[DEF, SF.Seq[1].Parameters]
+CBRef = Ref
+IPAddress = Ref
+
+[SF.Seq[1].Parameters]
+%FLG: CBRef = 4
+%FLG: IPAddress = 4
+
+[SF.Seq[1]]
+%FLG: Parameters = 4456448
+%FLG: Locals = 4194304
+%FLG: Main = 4194304
+%HI: Setup = [0]
+%FLG: Setup = 4194304
+%FLG: Cleanup = 4194304
+%FLG: GotoCleanupOnFail = 4194312
+RecordResults = True
+%FLG: RecordResults = 4194312
+%FLG: RTS = 4456456
+
+[DEF, SF.Seq[1].Locals]
+ResultList = Objs
+
+[DEF, SF.Seq[1].Locals.ResultList]
+%EPTYPE = TEResult
+
+[DEF, SF.Seq[1].Setup]
+%[0] = Step
+%TYPE: %[0] = "SequenceCall"
+
+[SF.Seq[1].Setup[0].TS]
+Id = "ID#:YCNlgqew+kqVH1/gb5C3aA"
+LoadOpt = "DynamicLoad"
+
+[DEF, SF.Seq[1].Setup[0].TS]
+SData = "TYPE, SeqCallStepAdditions"
+
+[SF.Seq[1].Setup[0].TS.SData]
+SeqName = "RemoteCbRefCopier"
+%FLG: Prototype = 262144
+UsePrototype = True
+SpecifyHostByExpr = True
+RemoteExecution = True
+RemoteHostExpr = "Parameters.IPAddress"
+
+[DEF, SF.Seq[1].Setup[0].TS.SData]
+ActualArgs = Arguments
+Prototype = Obj
+
+[DEF, SF.Seq[1].Setup[0].TS.SData.ActualArgs]
+CbRef = "TYPE, SequenceArgument"
+
+[SF.Seq[1].Setup[0].TS.SData.ActualArgs.CbRef]
+UseDef = False
+Expr = "Parameters.CBRef"
+
+[DEF, SF.Seq[1].Setup[0].TS.SData.Prototype]
+CbRef = Ref
+
+[SF.Seq[1].Setup[0].TS.SData.Prototype]
+%FLG: CbRef = 4
+
+[DEF, SF.Seq[1].Setup[0]]
+%NAME = "SequenceCall"
+
+[DEF, SF.Seq[1].RTS]
+Type = Num
+OptimizeNonReentrantCalls = Bool
+EPNameExpr = Str
+EPEnabledExpr = Str
+EPMenuHint = Str
+EPIgnoreClient = Bool
+EPInitiallyHidden = Bool
+EPCheckToSaveTitledFile = Bool
+ShowEPAlways = Bool
+ShowEPForFileWin = Bool
+ShowEPForExeWin = Bool
+ShowEPForEditorOnly = Bool
+AllowIntExeOfEP = Bool
+CopyStepsOnOverriding = Bool
+Priority = Num
+
+[SF.Seq[1].RTS]
+%FLG: Type = 4194304
+OptimizeNonReentrantCalls = True
+%FLG: OptimizeNonReentrantCalls = 4194304
+EPNameExpr = "\"Unnamed Entry Point\""
+%FLG: EPNameExpr = 4194304
+EPEnabledExpr = "True"
+%FLG: EPEnabledExpr = 4194304
+%FLG: EPMenuHint = 4194304
+%FLG: EPIgnoreClient = 4194304
+%FLG: EPInitiallyHidden = 4194304
+EPCheckToSaveTitledFile = True
+%FLG: EPCheckToSaveTitledFile = 4194304
+%FLG: ShowEPAlways = 4194304
+ShowEPForFileWin = True
+%FLG: ShowEPForFileWin = 4194304
+%FLG: ShowEPForExeWin = 4194304
+%FLG: ShowEPForEditorOnly = 4194304
+%FLG: AllowIntExeOfEP = 4194304
+CopyStepsOnOverriding = True
+%FLG: CopyStepsOnOverriding = 4194304
+Priority = 2953567917
+%FLG: Priority = 4194304
+
+[DEF, SF.Seq[2]]
+Parameters = Obj
+Locals = Obj
+Main = Objs
+Setup = Objs
+Cleanup = Objs
+GotoCleanupOnFail = Bool
+RecordResults = Bool
+RTS = Obj
+%NAME = "LocalCbRefCopier"
+
+[DEF, SF.Seq[2].Parameters]
+CbRef = Ref
+
+[SF.Seq[2].Parameters]
+%FLG: CbRef = 4
+
+[SF.Seq[2]]
+%FLG: Parameters = 4456448
+%FLG: Locals = 4194304
+%FLG: Main = 4194304
+%HI: Setup = [0]
+%FLG: Setup = 4194304
+%FLG: Cleanup = 4194304
+%FLG: GotoCleanupOnFail = 4194312
+RecordResults = True
+%FLG: RecordResults = 4194312
+%FLG: RTS = 4456456
+
+[DEF, SF.Seq[2].Locals]
+ResultList = Objs
+
+[DEF, SF.Seq[2].Locals.ResultList]
+%EPTYPE = TEResult
+
+[DEF, SF.Seq[2].Setup]
+%[0] = Step
+%TYPE: %[0] = "Statement"
+
+[SF.Seq[2].Setup[0].TS]
+Id = "ID#:gk1fsmH+wkeWrTVd9zGWcC"
+PostExpr = "Parameters.CbRef = StationGlobals.ControlBuildPtr.CbPtr_emb3"
+
+[DEF, SF.Seq[2].Setup[0]]
+%NAME = "Statement"
+
+[DEF, SF.Seq[2].RTS]
+Type = Num
+OptimizeNonReentrantCalls = Bool
+EPNameExpr = Str
+EPEnabledExpr = Str
+EPMenuHint = Str
+EPIgnoreClient = Bool
+EPInitiallyHidden = Bool
+EPCheckToSaveTitledFile = Bool
+ShowEPAlways = Bool
+ShowEPForFileWin = Bool
+ShowEPForExeWin = Bool
+ShowEPForEditorOnly = Bool
+AllowIntExeOfEP = Bool
+CopyStepsOnOverriding = Bool
+Priority = Num
+
+[SF.Seq[2].RTS]
+%FLG: Type = 4194304
+OptimizeNonReentrantCalls = True
+%FLG: OptimizeNonReentrantCalls = 4194304
+EPNameExpr = "\"Unnamed Entry Point\""
+%FLG: EPNameExpr = 4194304
+EPEnabledExpr = "True"
+%FLG: EPEnabledExpr = 4194304
+%FLG: EPMenuHint = 4194304
+%FLG: EPIgnoreClient = 4194304
+%FLG: EPInitiallyHidden = 4194304
+EPCheckToSaveTitledFile = True
+%FLG: EPCheckToSaveTitledFile = 4194304
+%FLG: ShowEPAlways = 4194304
+ShowEPForFileWin = True
+%FLG: ShowEPForFileWin = 4194304
+%FLG: ShowEPForExeWin = 4194304
+%FLG: ShowEPForEditorOnly = 4194304
+%FLG: AllowIntExeOfEP = 4194304
+CopyStepsOnOverriding = True
+%FLG: CopyStepsOnOverriding = 4194304
+Priority = 2953567917
+%FLG: Priority = 4194304
+
 [%TYPES]
 Path = "Path"
-CallExecutable = "CallExecutable"
+Statement = "Statement"
+StepTypeSubstepsArray = "StepTypeSubstepsArray"
+EditSubstep = "EditSubstep"
 Expression = "Expression"
 StepTypeMenu = "StepTypeMenu"
-StepTypeSubstepsArray = "StepTypeSubstepsArray"
-PostSubstep = "PostSubstep"
 TEInf = "TEInf"
 Error = "Error"
 CommonResults = "CommonResults"
 FlexCStepAdditions = "FlexCStepAdditions"
 FCParameter = "FCParameter"
-EditSubstep = "EditSubstep"
 NoneStepAdditions = "NoneStepAdditions"
+SequenceCall = "SequenceCall"
+SeqCallStepAdditions = "SeqCallStepAdditions"
+SequenceArgument = "SequenceArgument"
 
 [DEF, Path]
 %LOCATION = "StdTypes"
@@ -180,7 +363,149 @@ NoneStepAdditions = "NoneStepAdditions"
 %FLG = 4194304
 %TYPE_FLG = 33554436
 
-[DEF, CallExecutable]
+[DEF, Statement]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[Statement]
+%HI: Substeps = [0]
+%INSTFLG: Substeps = 524312
+%INSTOVRD: Substeps = 655384
+DescriptionFormat = "LocalizeExpression(Step.TS.PostExpr)"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_DEF_STEP_NAME\")"
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: Menu = 524312
+%INSTOVRD: Menu = 524312
+%INSTFLG: TS = 4456472
+%INSTOVRD: TS = 4456472
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%FLG: CodeTemplates = 4194328
+%TIMESTAMP = 1063730206
+%VERSION = "3.0.0.12374"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%TYPE_FLG = 33554446
+
+[DEF, Statement.Substeps]
+%[0] = Step
+%TYPE: %[0] = "EditSubstep"
+
+[DEF, Statement.Substeps[0].TS]
+SData = "TYPE, FlexCStepAdditions"
+%FLG: SData = 2097152
+
+[Statement.Substeps[0].TS.SData.Call]
+LibPath = "CommonSubsteps.dll"
+Func = "EditStatementStep"
+%HI: Parms = [3]
+
+[DEF, Statement.Substeps[0].TS.SData.Call.Parms]
+%[0] = "TYPE, FCParameter"
+%[1] = "TYPE, FCParameter"
+%[2] = "TYPE, FCParameter"
+%[3] = "TYPE, FCParameter"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[0]]
+Name = "Return Value"
+Type = 3
+ObjType = 2
+
+[Statement.Substeps[0].TS.SData.Call.Parms[1]]
+Name = "context"
+Type = 4
+ArgVal = "ThisContext"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[2]]
+Name = "reserved"
+ArgVal = "0"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[3]]
+Name = "changed"
+ObjType = 2
+NumPass = 1
+ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+
+[Statement.Substeps[0].TS]
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 2097152
+ConnectionLifetime = 0
+
+[Statement.Substeps[0]]
+%INSTFLG: TS = 262168
+%INSTOVRD: TS = 262168
+MenuName = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_EDIT_STEP_MENU_NAME\")"
+SupportsReadOnly = True
+
+[Statement.Substeps[0].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+%INSTOVRD: Common = 4194304
+
+[DEF, Statement.Substeps[0]]
+%NAME = "Edit"
+
+[Statement.Menu]
+ItemName = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_MENU_ITEM_NAME\")"
+Group = "NI_Miscellaneous"
+
+[Statement.TS]
+Icon = "Statement.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7143448
+ConnectionLifetime = 0
+CanSpecifyModule = False
+
+[DEF, Statement.TS]
+SData = "TYPE, NoneStepAdditions"
+%FLG: SData = 2097152
+
+[DEF, Statement.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[Statement.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+%INSTOVRD: Common = 4194304
+
+[DEF, StepTypeSubstepsArray]
+%LOCATION = "StdTypes"
+%ROOT_TYPE = True
+
+[StepTypeSubstepsArray]
+%TIMESTAMP = 1059680189
+%VERSION = "3.0.0.12373"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%FLG = 4194328
+%TYPE_FLG = 33554436
+%INSTFLG = 4718616
+%INSTOVRD = 4849688
+
+[DEF, EditSubstep]
 %LOCATION = "StepTypes"
 DescriptionFormat = "TYPE, Expression"
 %FLG: DescriptionFormat = 524288
@@ -192,179 +517,60 @@ CodeTemplates = Str
 %FLG: CodeTemplates = 524288
 TS = "TYPE, TEInf"
 Result = Obj
-Executable = "TYPE, Path"
-Arguments = "TYPE, Expression"
-WaitCondition = Str
-TimeToWait = Num
-InitialWindowState = Str
-TerminateOnAbort = Bool
-ProcessHandle = Num
-ExitCodeStatusAction = Str
+MenuName = "TYPE, Expression"
+SupportsReadOnly = Bool
 %ROOT_TYPE = True
 
-[CallExecutable]
-DescriptionFormat = "Step.Executable + ((Step.Arguments == \"\") ? \"\" : \" \" + LocalizeExpression(Step.Arguments))"
+[EditSubstep]
+DescriptionFormat = "\"%ModuleDescription\""
 %FLG: DescriptionFormat = 4194328
 %INSTFLG: DescriptionFormat = 4718616
 %INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "ResStr(\"CALLEXEC_STEP_TYPE\", \"DEF_STEP_NAME\")"
+DefaultNameFormat = "ResStr(\"NI_STEPTYPES\", \"EDIT_DEF_SUBSTEP_NAME\")"
 %FLG: DefaultNameFormat = 4194328
 %INSTFLG: DefaultNameFormat = 4718616
 %INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: Menu = 524312
-%INSTOVRD: Menu = 524312
-%HI: Substeps = [1]
-%INSTFLG: Substeps = 524312
-%INSTOVRD: Substeps = 655384
+CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
 %FLG: CodeTemplates = 4194328
 %INSTFLG: TS = 4456472
-%INSTOVRD: TS = 4456472
 %FLG: Result = 4194304
 %INSTFLG: Result = 4194304
-Arguments = "\"\""
-WaitCondition = "WAIT_NONE"
-InitialWindowState = "WINSTATE_SHOWNORM_A"
-ExitCodeStatusAction = "EXIT_CODE_NO_ACTION"
-%TIMESTAMP = 1045854787
-%VERSION = "3.0.0.12373"
+%TIMESTAMP = 1063730206
+%VERSION = "3.0.0.12374"
 %TYPELASTMOD = "3.0.0.12373"
 %MINPRODVER = "3.0.0.0"
-%TYPE_FLG = 33554446
+%TYPE_FLG = 33554438
+%INSTFLG = 4194304
+%INSTOVRD = 4194304
 
-[CallExecutable.Menu]
-ItemName = "ResStr(\"CALLEXEC_STEP_TYPE\", \"MENU_ITEM_NAME\")"
-Group = "NI_Miscellaneous"
+[EditSubstep.Menu]
+CanBeSubstepType = True
+CanOnlyBeSubstepType = True
+ItemName = "ResStr(\"NI_STEPTYPES\", \"EDIT_SUBSTEP_MENU_ITEM_NAME\")"
+Group = "EditSubsteps"
 
-[DEF, CallExecutable.Substeps]
-%[0] = Step
-%TYPE: %[0] = "PostSubstep"
-%[1] = Step
-%TYPE: %[1] = "EditSubstep"
-
-[DEF, CallExecutable.Substeps[0].TS]
-SData = "TYPE, FlexCStepAdditions"
+[DEF, EditSubstep.TS]
+SData = Obj
 %FLG: SData = 2097152
 
-[CallExecutable.Substeps[0].TS.SData.Call]
-LibPath = "callexec.dll"
-Func = "CallExecutable"
-%HI: Parms = [1]
-
-[DEF, CallExecutable.Substeps[0].TS.SData.Call.Parms]
-%[0] = "TYPE, FCParameter"
-%[1] = "TYPE, FCParameter"
-
-[CallExecutable.Substeps[0].TS.SData.Call.Parms[0]]
-Name = "Return Value"
-ResultAct = 1
-Flags = 2
-
-[CallExecutable.Substeps[0].TS.SData.Call.Parms[1]]
-Name = "context"
-Type = 4
-ObjType = 1
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-
-[CallExecutable.Substeps[0].TS]
+[EditSubstep.TS]
 %INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
+%INSTOVRD: SData = 7274521
 
-[CallExecutable.Substeps[0]]
-%INSTFLG: TS = 262168
-%INSTOVRD: TS = 262168
-
-[CallExecutable.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-%INSTOVRD: Common = 4194304
-
-[DEF, CallExecutable.Substeps[0]]
-%NAME = "Post"
-
-[DEF, CallExecutable.Substeps[1].TS]
-SData = "TYPE, FlexCStepAdditions"
-%FLG: SData = 2097152
-
-[CallExecutable.Substeps[1].TS.SData.Call]
-LibPath = "callexec.dll"
-Func = "CallExec_Config"
-%HI: Parms = [2]
-
-[DEF, CallExecutable.Substeps[1].TS.SData.Call.Parms]
-%[0] = "TYPE, FCParameter"
-%[1] = "TYPE, FCParameter"
-%[2] = "TYPE, FCParameter"
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[0]]
-Name = "Return Value"
-ResultAct = 1
-Flags = 2
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[1]]
-Name = "context"
-Type = 4
-ObjType = 1
-ArgVal = "ThisContext"
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[2]]
-Name = "changeCount"
-NumPass = 1
-ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
-ArgDisplayVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
-
-[CallExecutable.Substeps[1].TS]
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
-LoopIncrement = ""
-
-[CallExecutable.Substeps[1]]
-%INSTFLG: TS = 262168
-%INSTOVRD: TS = 262168
-MenuName = "ResStr(\"CALLEXEC_STEP_TYPE\", \"EDIT_STEP_MENU_NAME\")"
-SupportsReadOnly = True
-
-[CallExecutable.Substeps[1].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-%INSTOVRD: Common = 4194304
-
-[DEF, CallExecutable.Substeps[1]]
-%NAME = "Edit"
-
-[CallExecutable.TS]
-Icon = "execstep.ico"
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
-LoopIncrement = ""
-LoopInitialize = ""
-CanSpecifyModule = False
-
-[DEF, CallExecutable.TS]
-SData = "TYPE, NoneStepAdditions"
-%FLG: SData = 2097152
-
-[DEF, CallExecutable.Result]
+[DEF, EditSubstep.Result]
 Error = "TYPE, Error"
 Status = Str
-ExitCode = Num
 ReportText = Str
 Common = "TYPE, CommonResults"
 
-[CallExecutable.Result]
+[EditSubstep.Result]
 %FLG: Error = 4194304
 %INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
 %FLG: Status = 4194304
 %INSTFLG: Status = 4194304
-%FLG: ExitCode = 8192
-%INSTFLG: ExitCode = 8192
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
-%INSTOVRD: Common = 4194304
 
 [DEF, Expression]
 %LOCATION = "StdTypes"
@@ -402,85 +608,6 @@ SingularItemName = "\"\""
 %TYPE_FLG = 33554436
 %INSTFLG = 4718616
 %INSTOVRD = 4718616
-
-[DEF, StepTypeSubstepsArray]
-%LOCATION = "StdTypes"
-%ROOT_TYPE = True
-
-[StepTypeSubstepsArray]
-%TIMESTAMP = 1059680189
-%VERSION = "3.0.0.12373"
-%TYPELASTMOD = "3.0.0.12373"
-%MINPRODVER = "3.0.0.0"
-%FLG = 4194328
-%TYPE_FLG = 33554436
-%INSTFLG = 4718616
-%INSTOVRD = 4849688
-
-[DEF, PostSubstep]
-%LOCATION = "StepTypes"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-Substeps = "TYPE, StepTypeSubstepsArray"
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-TS = "TYPE, TEInf"
-Result = Obj
-%ROOT_TYPE = True
-
-[PostSubstep]
-DescriptionFormat = "\"%ModuleDescription\""
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "ResStr(\"NI_STEPTYPES\", \"POST_DEF_SUBSTEP_NAME\")"
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
-%FLG: CodeTemplates = 4194328
-%INSTFLG: TS = 4456472
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-%TIMESTAMP = 1059680189
-%VERSION = "3.0.0.12373"
-%TYPELASTMOD = "3.0.0.12373"
-%MINPRODVER = "3.0.0.0"
-%TYPE_FLG = 33554438
-%INSTFLG = 4194304
-%INSTOVRD = 4194304
-
-[PostSubstep.Menu]
-CanBeSubstepType = True
-CanOnlyBeSubstepType = True
-ItemName = "ResStr(\"NI_STEPTYPES\", \"POST_SUBSTEP_MENU_ITEM_NAME\")"
-Group = "ExecSubsteps"
-
-[DEF, PostSubstep.TS]
-SData = Obj
-%FLG: SData = 2097152
-
-[PostSubstep.TS]
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 7274521
-
-[DEF, PostSubstep.Result]
-Error = "TYPE, Error"
-Status = Str
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[PostSubstep.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-%FLG: ReportText = 4194304
-%INSTFLG: ReportText = 4194304
 
 [DEF, TEInf]
 %LOCATION = "StdTypes"
@@ -778,79 +905,146 @@ StrSize = "1024"
 [FCParameter.ArrayDimensionsSize]
 %EPTYPE = "1024"
 
-[DEF, EditSubstep]
-%LOCATION = "StepTypes"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-Substeps = "TYPE, StepTypeSubstepsArray"
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-TS = "TYPE, TEInf"
-Result = Obj
-MenuName = "TYPE, Expression"
-SupportsReadOnly = Bool
-%ROOT_TYPE = True
-
-[EditSubstep]
-DescriptionFormat = "\"%ModuleDescription\""
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "ResStr(\"NI_STEPTYPES\", \"EDIT_DEF_SUBSTEP_NAME\")"
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
-%FLG: CodeTemplates = 4194328
-%INSTFLG: TS = 4456472
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-%TIMESTAMP = 1063730206
-%VERSION = "3.0.0.12374"
-%TYPELASTMOD = "3.0.0.12373"
-%MINPRODVER = "3.0.0.0"
-%TYPE_FLG = 33554438
-%INSTFLG = 4194304
-%INSTOVRD = 4194304
-
-[EditSubstep.Menu]
-CanBeSubstepType = True
-CanOnlyBeSubstepType = True
-ItemName = "ResStr(\"NI_STEPTYPES\", \"EDIT_SUBSTEP_MENU_ITEM_NAME\")"
-Group = "EditSubsteps"
-
-[DEF, EditSubstep.TS]
-SData = Obj
-%FLG: SData = 2097152
-
-[EditSubstep.TS]
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 7274521
-
-[DEF, EditSubstep.Result]
-Error = "TYPE, Error"
-Status = Str
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[EditSubstep.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-%FLG: ReportText = 4194304
-%INSTFLG: ReportText = 4194304
-
 [DEF, NoneStepAdditions]
 %LOCATION = "StdTypes"
 %ROOT_TYPE = True
 
 [NoneStepAdditions]
 %TIMESTAMP = 1059680859
+%VERSION = "3.0.0.12373"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%FLG = 24
+%TYPE_FLG = 33554436
+
+[DEF, SequenceCall]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[SequenceCall]
+%INSTFLG: Substeps = 524312
+%INSTOVRD: Substeps = 655384
+DescriptionFormat = "\"%ModuleDescription\""
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "ResStr(\"NI_STEPTYPES\", \"SC_DEF_STEP_NAME\")"
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: Menu = 524312
+%INSTOVRD: Menu = 524312
+%INSTFLG: TS = 4456472
+%INSTOVRD: TS = 4456472
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%FLG: CodeTemplates = 4194328
+%TIMESTAMP = 1063730206
+%VERSION = "3.0.0.12374"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%TYPE_FLG = 33554438
+
+[SequenceCall.Menu]
+ItemName = "ResStr(\"NI_STEPTYPES\", \"SC_MENU_ITEM_NAME\")"
+Group = "NI_Miscellaneous"
+
+[SequenceCall.TS]
+Icon = "SeqAdp.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7143448
+ConnectionLifetime = 0
+StatusExpr Line0001 = "(Step.Result.Status == \"Done\" && (Step.TS.SData.ThreadOpt == 0 || Step.TS.SData.ThreadOpt == 3)) ? \"Passed\" : Step.R"
+StatusExpr Line0002 = "esult.Status"
+%INSTFLG: StatusExpr = 1
+%INSTOVRD: StatusExpr = 5046297
+
+[DEF, SequenceCall.TS]
+SData = "TYPE, SeqCallStepAdditions"
+%FLG: SData = 2097152
+
+[DEF, SequenceCall.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[SequenceCall.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+%INSTOVRD: Common = 4194304
+
+[DEF, SeqCallStepAdditions]
+%LOCATION = "StdTypes"
+SFPath = "TYPE, Path"
+SFPathExpr = "TYPE, Expression"
+SeqName = Str
+SeqNameExpr = "TYPE, Expression"
+ActualArgs = Arguments
+%FLG: ActualArgs = 2097152
+UseCurFile = Bool
+SpecifyByExpr = Bool
+Prototype = Obj
+%FLG: Prototype = 2097152
+UsePrototype = Bool
+SpecifyHostByExpr = Bool
+RemoteExecution = Bool
+RemoteHost = Str
+RemoteHostExpr = "TYPE, Expression"
+AutoWaitAsync = Bool
+CreateThreadSuspended = Bool
+AsyncThreadExpr = "TYPE, Expression"
+AsyncApartmentThreaded = Bool
+ThreadOpt = Num
+ExecModelOpt = Num
+ExecTypeMask = Num
+ExecTypeMaskExpr = "TYPE, Expression"
+ExecBreakOnEntryExpr = "TYPE, Expression"
+ExecModelPath = "TYPE, Path"
+ExecModelPathExpr = "TYPE, Expression"
+ExecSync = Bool
+Trace = Str
+IgnoreTerminate = Bool
+%ROOT_TYPE = True
+
+[SeqCallStepAdditions]
+%INSTFLG: ActualArgs = 2097152
+%INSTFLG: Prototype = 2097152
+AutoWaitAsync = True
+ExecModelOpt = 1
+ExecBreakOnEntryExpr = "False"
+Trace = "Don't Change"
+%TIMESTAMP = 1059680765
+%VERSION = "3.0.0.12373"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%FLG = 24
+%TYPE_FLG = 33554436
+
+[DEF, SequenceArgument]
+%LOCATION = "StdTypes"
+UseDef = Bool
+Expr = "TYPE, Expression"
+%ROOT_TYPE = True
+
+[SequenceArgument]
+UseDef = True
+%TIMESTAMP = 1059672989
 %VERSION = "3.0.0.12373"
 %TYPELASTMOD = "3.0.0.12373"
 %MINPRODVER = "3.0.0.0"
