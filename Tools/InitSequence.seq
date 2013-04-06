@@ -155,7 +155,7 @@ Id = "ID#:sRu/OyX2Uk+dfbl/Q0C9FD"
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[0].Setup[0].TS.SData]
-SFPath = "C:\\Documents and Settings\\Administrator\\Desktop\\Validation\\macros_alstom\\Tools\\TestStandFunctions.seq"
+SFPath = "TestStandFunctions.seq"
 SeqName = "TestBenchInitialiser"
 %FLG: Prototype = 262144
 

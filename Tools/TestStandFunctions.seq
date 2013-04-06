@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\Documents and Settings\\Administrator\\Desktop\\Validation\\macros_alstom\\Tools\\TestStandFunctions.seq"
+Path = "C:\\macros_alstom\\Tools\\TestStandFunctions.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -2580,8 +2580,8 @@ LoadOpt = "DynamicLoad"
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[6].Setup[0].TS.SData]
+SFPath = "C:\\macros_alstom\\Tools\\TestStandFunctions.seq"
 SeqName = "ComputerCleanup"
-UseCurFile = True
 %FLG: Prototype = 262144
 UsePrototype = True
 SpecifyHostByExpr = True
@@ -2602,8 +2602,8 @@ LoadOpt = "DynamicLoad"
 SData = "TYPE, SeqCallStepAdditions"
 
 [SF.Seq[6].Setup[1].TS.SData]
+SFPath = "C:\\macros_alstom\\Tools\\TestStandFunctions.seq"
 SeqName = "RPServerInitialiser"
-UseCurFile = True
 %FLG: Prototype = 262144
 UsePrototype = True
 SpecifyHostByExpr = True
