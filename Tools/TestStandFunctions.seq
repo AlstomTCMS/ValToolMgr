@@ -2536,7 +2536,6 @@ MVB_Network_name = Str
 [SF.Seq[6]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [0]
 %FLG: Main = 4194304
 %HI: Setup = [2]
 %FLG: Setup = 4194304
@@ -2553,17 +2552,6 @@ CbReference = Ref
 
 [DEF, SF.Seq[6].Locals.ResultList]
 %EPTYPE = TEResult
-
-[DEF, SF.Seq[6].Main]
-%[0] = Step
-%TYPE: %[0] = "Statement"
-
-[SF.Seq[6].Main[0].TS]
-Id = "ID#:To+WaMOmfkmrGkL7pBikND"
-PostExpr = "Parameters.CbReference= Locals.CbReference"
-
-[DEF, SF.Seq[6].Main[0]]
-%NAME = "Copy Cb References"
 
 [DEF, SF.Seq[6].Setup]
 %[0] = Step
@@ -2775,7 +2763,6 @@ TargetEthAddress = Str
 [SF.Seq[7]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [0]
 %FLG: Main = 4194304
 %HI: Setup = [1]
 %FLG: Setup = 4194304
@@ -2792,17 +2779,6 @@ CbReference = Ref
 
 [DEF, SF.Seq[7].Locals.ResultList]
 %EPTYPE = TEResult
-
-[DEF, SF.Seq[7].Main]
-%[0] = Step
-%TYPE: %[0] = "Statement"
-
-[SF.Seq[7].Main[0].TS]
-Id = "ID#:wbTnlNfNoEe7UqSMyAtB5D"
-PostExpr = "Parameters.CbReference= Locals.CbReference"
-
-[DEF, SF.Seq[7].Main[0]]
-%NAME = "Copy Cb References"
 
 [DEF, SF.Seq[7].Setup]
 %[0] = Step
