@@ -181,7 +181,7 @@ Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb7"
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.TestBenchEthAddress]
 UseDef = False
-Expr = "\"192.168.2.101\""
+Expr = "\"192.168.1.201\""
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbPathName]
 UseDef = False
