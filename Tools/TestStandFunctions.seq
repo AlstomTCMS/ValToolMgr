@@ -240,7 +240,7 @@ PostExpr = "Parameters.CbReference= Locals.CbReference"
 
 [DEF, SF.Seq[1].Setup]
 %[0] = Step
-%TYPE: %[0] = "Goto"
+%TYPE: %[0] = "Statement"
 %[1] = Step
 %TYPE: %[1] = "CB_Init"
 %[2] = Step
@@ -259,11 +259,11 @@ PostExpr = "Parameters.CbReference= Locals.CbReference"
 %TYPE: %[8] = "CB_QuickInit"
 
 [SF.Seq[1].Setup[0].TS]
-Id = "ID#:QViVTpwH+ESgo4o+qgW3DD"
-PreCond = "Parameters.CbReference!=Nothing"
+Id = "ID#:65SVo0O6lU+kiYjh9V3eXB"
+PostExpr = "Parameters.CbReference=Nothing"
 
 [DEF, SF.Seq[1].Setup[0]]
-%NAME = "Goto"
+%NAME = "Clear Cb Reference"
 
 [SF.Seq[1].Setup[1].TS]
 Id = "ID#:0Ub32dQhQUatnWKztdKJoB"
@@ -442,7 +442,8 @@ IsByRef = True
 
 [SF.Seq[1].Setup[3].TS]
 Id = "ID#:dP0Zt9UvYk2dsoFjlG1k4D"
-PreCond = "Parameters.StartTarget=False"
+PreCond = "Parameters.StartTarget==False"
+Mode = "Skip"
 NoResult = True
 
 [DEF, SF.Seq[1].Setup[3].TS]
@@ -549,7 +550,8 @@ ArgVal = "Step.Result.Error.Msg"
 
 [SF.Seq[1].Setup[4].TS]
 Id = "ID#:o65t02o+20WIWlZlhdPfIA"
-PreCond = "Parameters.StartTarget=False"
+PreCond = "Parameters.StartTarget==False"
+Mode = "Skip"
 NoResult = True
 
 [DEF, SF.Seq[1].Setup[4].TS]
@@ -646,7 +648,8 @@ ArgVal = "Step.Result.Error.Msg"
 
 [SF.Seq[1].Setup[5].TS]
 Id = "ID#:OhN3TH3w+0KDyI2x0eqaID"
-PreCond = "Parameters.StartTarget=False"
+PreCond = "Parameters.StartTarget==False"
+Mode = "Skip"
 NoResult = True
 
 [DEF, SF.Seq[1].Setup[5].TS]
@@ -805,7 +808,7 @@ IsByRef = True
 
 [SF.Seq[1].Setup[7].TS]
 Id = "ID#:kbQVCYZG1k+qRBd0X/p0tB"
-PreCond = "Parameters.StartTarget=True"
+PreCond = "Parameters.StartTarget==True"
 NoResult = True
 
 [DEF, SF.Seq[1].Setup[7].TS]
