@@ -201,7 +201,7 @@ CbPtr = Ref
 %FLG: Locals = 4194304
 %HI: Main = [6]
 %FLG: Main = 4194304
-%HI: Setup = [310]
+%HI: Setup = [308]
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
@@ -1430,11 +1430,7 @@ IsByRef = True
 %[307] = Step
 %TYPE: %[307] = "CB_Force"
 %[308] = Step
-%TYPE: %[308] = "CB_Force"
-%[309] = Step
-%TYPE: %[309] = "CB_Force"
-%[310] = Step
-%TYPE: %[310] = "Label"
+%TYPE: %[308] = "Label"
 
 [SF.Seq[1].Setup[0].TS]
 Id = "ID#:FoyjCLjg/E2npPX4VpKujA"
@@ -24627,18 +24623,19 @@ SData = "TYPE, AutomationStepAdditions"
 [SF.Seq[1].Setup[303].TS.SData.Call]
 ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"
+Interface = "{7B61F889-72CD-487A-ACEE-A7156B3F0B85}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809363
+Member = 1610809386
 MemberName = "CB_Force"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "22b.0"
+TypeLibVersion = "4ba.0"
 InterfaceType = 1
+VTableOffset = 320
 %HI: Parameters = [4]
 
 [DEF, SF.Seq[1].Setup[303].TS.SData.Call.Parameters]
@@ -24650,8 +24647,8 @@ InterfaceType = 1
 
 [SF.Seq[1].Setup[303].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal = "\"SECTION_1/LV_LOCO_ATSA\""
-ArgDisplayVal = "\"SECTION_1/LV_LOCO_ATSA\""
+ArgVal = "\"SECTION_1/LV_LOCO_ATSA/r03/r03b01\""
+ArgDisplayVal = "\"SECTION_1/LV_LOCO_ATSA/r03/r03b01\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24669,7 +24666,7 @@ Direction = 1
 [SF.Seq[1].Setup[303].TS.SData.Call.Parameters[2]]
 Name = "vForcedValue"
 ArgVal = "True"
-ArgDisplayVal = "\"True\""
+ArgDisplayVal = "True"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24699,7 +24696,9 @@ IsByRef = True
 %NAME = "Force SA32 at True"
 
 [SF.Seq[1].Setup[304].TS]
-Id = "ID#:HyL5HwbPDESigkKTFtk0kB"
+Id = "ID#:lTEcV0KOEUqqreQ0C4AHjD"
+Mode = "Skip"
+StepFCSeqF = False
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -24709,18 +24708,19 @@ SData = "TYPE, AutomationStepAdditions"
 [SF.Seq[1].Setup[304].TS.SData.Call]
 ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"
+Interface = "{7B61F889-72CD-487A-ACEE-A7156B3F0B85}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809363
+Member = 1610809386
 MemberName = "CB_Force"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "22b.0"
+TypeLibVersion = "4ba.0"
 InterfaceType = 1
+VTableOffset = 320
 %HI: Parameters = [4]
 
 [DEF, SF.Seq[1].Setup[304].TS.SData.Call.Parameters]
@@ -24732,8 +24732,8 @@ InterfaceType = 1
 
 [SF.Seq[1].Setup[304].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal = "\"SECTION_1/LV_LOCO_ATSA\""
-ArgDisplayVal = "\"SECTION_1/LV_LOCO_ATSA\""
+ArgVal = "\"SECTION_1\""
+ArgDisplayVal = "\"SECTION_1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24741,8 +24741,8 @@ Direction = 1
 
 [SF.Seq[1].Setup[304].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"SA32_1\""
-ArgDisplayVal = "\"SA32_1\""
+ArgVal = "\"S_BT1_KV44\""
+ArgDisplayVal = "\"S_BT1_KV44\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24751,7 +24751,7 @@ Direction = 1
 [SF.Seq[1].Setup[304].TS.SData.Call.Parameters[2]]
 Name = "vForcedValue"
 ArgVal = "True"
-ArgDisplayVal = "\"True\""
+ArgDisplayVal = "True"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24778,10 +24778,12 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[1].Setup[304]]
-%NAME = "Force SA32_1 at True"
+%NAME = "Force S_BT1_KV44 at True"
 
 [SF.Seq[1].Setup[305].TS]
-Id = "ID#:NboMRSNx7kq2OtReLYWgxD"
+Id = "ID#:U07gBeJiAEyB+ChRX+sXJA"
+Mode = "Skip"
+StepFCSeqF = False
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -24791,18 +24793,19 @@ SData = "TYPE, AutomationStepAdditions"
 [SF.Seq[1].Setup[305].TS.SData.Call]
 ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"
+Interface = "{7B61F889-72CD-487A-ACEE-A7156B3F0B85}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809363
+Member = 1610809386
 MemberName = "CB_Force"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "22b.0"
+TypeLibVersion = "4ba.0"
 InterfaceType = 1
+VTableOffset = 320
 %HI: Parameters = [4]
 
 [DEF, SF.Seq[1].Setup[305].TS.SData.Call.Parameters]
@@ -24814,8 +24817,8 @@ InterfaceType = 1
 
 [SF.Seq[1].Setup[305].TS.SData.Call.Parameters[0]]
 Name = "strInstanceName"
-ArgVal = "\"SECTION_1/LV_LOCO_ATSA\""
-ArgDisplayVal = "\"SECTION_1/LV_LOCO_ATSA\""
+ArgVal = "\"SECTION_1\""
+ArgDisplayVal = "\"SECTION_1\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24823,8 +24826,8 @@ Direction = 1
 
 [SF.Seq[1].Setup[305].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"SA30\""
-ArgDisplayVal = "\"SA30\""
+ArgVal = "\"S_BT2_KV45\""
+ArgDisplayVal = "\"S_BT2_KV45\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24833,7 +24836,7 @@ Direction = 1
 [SF.Seq[1].Setup[305].TS.SData.Call.Parameters[2]]
 Name = "vForcedValue"
 ArgVal = "True"
-ArgDisplayVal = "\"True\""
+ArgDisplayVal = "True"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24860,10 +24863,11 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[1].Setup[305]]
-%NAME = "Force SA30 at True"
+%NAME = "Force S_BT2_KV45 at True"
 
 [SF.Seq[1].Setup[306].TS]
-Id = "ID#:lTEcV0KOEUqqreQ0C4AHjD"
+Id = "ID#:iH1n0gYIPEKdmb+nsX3SVC"
+Mode = "Skip"
 StepFCSeqF = False
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
@@ -24907,8 +24911,8 @@ Direction = 1
 
 [SF.Seq[1].Setup[306].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"S_BT1_KV44\""
-ArgDisplayVal = "\"S_BT1_KV44\""
+ArgVal = "\"S_BT1_KV21\""
+ArgDisplayVal = "\"S_BT1_KV21\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -24944,10 +24948,11 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[1].Setup[306]]
-%NAME = "Force S_BT1_KV44 at True"
+%NAME = "Force S_BT1_KV21 at True"
 
 [SF.Seq[1].Setup[307].TS]
-Id = "ID#:U07gBeJiAEyB+ChRX+sXJA"
+Id = "ID#:0151bKAk1UafbTKiq0ZPtA"
+Mode = "Skip"
 StepFCSeqF = False
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
@@ -24958,19 +24963,18 @@ SData = "TYPE, AutomationStepAdditions"
 [SF.Seq[1].Setup[307].TS.SData.Call]
 ObjectVariable = "Parameters.CbPtr"
 Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
 CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
 CoClassName = "ControlBuild"
-Interface = "{7B61F889-72CD-487A-ACEE-A7156B3F0B85}"
+Interface = "{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"
 InterfaceName = "_ControlBuild"
 MemberType = 1
-Member = 1610809386
+Member = 1610809363
 MemberName = "CB_Force"
 HasMemberInfo = True
 Locale = 1036
-TypeLibVersion = "4ba.0"
+TypeLibVersion = "22b.0"
 InterfaceType = 1
-VTableOffset = 320
 %HI: Parameters = [4]
 
 [DEF, SF.Seq[1].Setup[307].TS.SData.Call.Parameters]
@@ -24991,8 +24995,8 @@ Direction = 1
 
 [SF.Seq[1].Setup[307].TS.SData.Call.Parameters[1]]
 Name = "strVariableName"
-ArgVal = "\"S_BT2_KV45\""
-ArgDisplayVal = "\"S_BT2_KV45\""
+ArgVal = "\"S_BT2_KV22\""
+ArgDisplayVal = "\"S_BT2_KV22\""
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -25027,183 +25031,16 @@ TypeValid = True
 Direction = 3
 IsByRef = True
 
-[DEF, SF.Seq[1].Setup[307]]
-%NAME = "Force S_BT2_KV45 at True"
-
-[SF.Seq[1].Setup[308].TS]
-Id = "ID#:iH1n0gYIPEKdmb+nsX3SVC"
-StepFCSeqF = False
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[1].Setup[308].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[1].Setup[308].TS.SData.Call]
-ObjectVariable = "Parameters.CbPtr"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{7B61F889-72CD-487A-ACEE-A7156B3F0B85}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809386
-MemberName = "CB_Force"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 320
-%HI: Parameters = [4]
-
-[DEF, SF.Seq[1].Setup[308].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-
-[SF.Seq[1].Setup[308].TS.SData.Call.Parameters[0]]
-Name = "strInstanceName"
-ArgVal = "\"SECTION_1\""
-ArgDisplayVal = "\"SECTION_1\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[308].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"S_BT1_KV21\""
-ArgDisplayVal = "\"S_BT1_KV21\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[308].TS.SData.Call.Parameters[2]]
-Name = "vForcedValue"
-ArgVal = "True"
-ArgDisplayVal = "True"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[308].TS.SData.Call.Parameters[3]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[1].Setup[308].TS.SData.Call.Parameters[4]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[1].Setup[308]]
-%NAME = "Force S_BT1_KV21 at True"
-
-[SF.Seq[1].Setup[309].TS]
-Id = "ID#:0151bKAk1UafbTKiq0ZPtA"
-StepFCSeqF = False
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[1].Setup[309].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[1].Setup[309].TS.SData.Call]
-ObjectVariable = "Parameters.CbPtr"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{60CA140F-FBED-44D2-A0DF-DBCB2D65E7C0}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809363
-MemberName = "CB_Force"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-%HI: Parameters = [4]
-
-[DEF, SF.Seq[1].Setup[309].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-
-[SF.Seq[1].Setup[309].TS.SData.Call.Parameters[0]]
-Name = "strInstanceName"
-ArgVal = "\"SECTION_1\""
-ArgDisplayVal = "\"SECTION_1\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[309].TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"S_BT2_KV22\""
-ArgDisplayVal = "\"S_BT2_KV22\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[309].TS.SData.Call.Parameters[2]]
-Name = "vForcedValue"
-ArgVal = "True"
-ArgDisplayVal = "True"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[1].Setup[309].TS.SData.Call.Parameters[3]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[1].Setup[309].TS.SData.Call.Parameters[4]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[1].Setup[309]]
+[SF.Seq[1].Setup[307]]
 InBuf = "\"SECTION_1\""
 
-[DEF, SF.Seq[1].Setup[309]]
+[DEF, SF.Seq[1].Setup[307]]
 %NAME = "Force S_BT2_KV22 at True"
 
-[SF.Seq[1].Setup[310].TS]
+[SF.Seq[1].Setup[308].TS]
 Id = "ID#:UICqip+e+UawDkvD5LKZeA"
 
-[DEF, SF.Seq[1].Setup[310]]
+[DEF, SF.Seq[1].Setup[308]]
 %NAME = "= Checks : Checks comment retrieval Not implemented"
 
 [DEF, SF.Seq[1].RTS]
