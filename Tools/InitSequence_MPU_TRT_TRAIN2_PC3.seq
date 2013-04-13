@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\macros_alstom\\Tools\\InitSequence_MPU_ATSA_TRAIN1.seq"
+Path = "C:\\macros_alstom\\Tools\\InitSequence_MPU_TRT_TRAIN2_PC3.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -176,15 +176,15 @@ TargetEthAddress = "TYPE, SequenceArgument"
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbReference]
 UseDef = False
-Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb1"
+Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb4"
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.TestBenchEthAddress]
 UseDef = False
-Expr = "\"192.168.1.202\""
+Expr = "\"192.168.2.202\""
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbPathName]
 UseDef = False
-Expr = "\"C:\\\\2es5_atsa\""
+Expr = "\"C:\\\\2es5\""
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbProjectName]
 UseDef = False
@@ -208,7 +208,7 @@ Expr = "\"target_mpu_SIL0\""
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.TargetEthAddress]
 UseDef = False
-Expr = "\"192.168.1.1\""
+Expr = "\"192.168.2.81\""
 
 [DEF, SF.Seq[0].Setup[0].TS.SData.Prototype]
 CbReference = Ref

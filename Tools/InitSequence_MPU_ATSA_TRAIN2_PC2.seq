@@ -4,7 +4,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "C:\\macros_alstom\\Tools\\InitSequence_MPU_ATSA_TRAIN2.seq"
+Path = "C:\\macros_alstom\\Tools\\InitSequence_MPU_ATSA_TRAIN2_PC2.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -180,7 +180,7 @@ Expr = "StationGlobals.ControlBuildPtr.CbPtr_emb3"
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.TestBenchEthAddress]
 UseDef = False
-Expr = "\"192.168.1.202\""
+Expr = "\"192.168.1.203\""
 
 [SF.Seq[0].Setup[0].TS.SData.ActualArgs.CbPathName]
 UseDef = False
