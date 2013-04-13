@@ -1507,17 +1507,19 @@ RTS = Obj
 
 [DEF, SF.Seq[4].Parameters]
 Path_HARD_EACB = Str
-MVB_Network_name = Str
+MVB_Network_name1 = Str
+MVB_Network_name2 = Str
 
 [SF.Seq[4].Parameters]
 %FLG: Path_HARD_EACB = 4
-%FLG: MVB_Network_name = 4
+%FLG: MVB_Network_name1 = 4
+%FLG: MVB_Network_name2 = 4
 
 [SF.Seq[4]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
 %FLG: Main = 4194304
-%HI: Setup = [10]
+%HI: Setup = [11]
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
@@ -1554,6 +1556,8 @@ ResultList = Objs
 %TYPE: %[9] = "RP_ReadConfig"
 %[10] = Step
 %TYPE: %[10] = "RP_StartAllEqt"
+%[11] = Step
+%TYPE: %[11] = "RP_StartAllEqt"
 
 [SF.Seq[4].Setup[0].TS]
 Id = "ID#:ScQec0RtfUq36PEurNQhgC"
@@ -2151,8 +2155,8 @@ Direction = 1
 
 [SF.Seq[4].Setup[10].TS.SData.Call.Parameters[1]]
 Name = "strNetwork"
-ArgVal = "Parameters.MVB_Network_name"
-ArgDisplayVal = "Parameters.MVB_Network_name"
+ArgVal = "Parameters.MVB_Network_name1"
+ArgDisplayVal = "Parameters.MVB_Network_name1"
 Type = 8
 DisplayType = "String"
 TypeValid = True
@@ -2179,6 +2183,78 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[4].Setup[10]]
+%NAME = "Start all equipments_mvb"
+
+[SF.Seq[4].Setup[11].TS]
+Id = "ID#:559qZxh4HUOhtwT9MqjuZB"
+PreCond = "!StrComp(Parameters.MVB_Network_name2, \"\")"
+
+[DEF, SF.Seq[4].Setup[11].TS]
+SData = "TYPE, AutomationStepAdditions"
+
+[SF.Seq[4].Setup[11].TS.SData.Call]
+ObjectVariable = "FileGlobals.Remote"
+Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
+ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
+CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
+CoClassName = "RemoteCBTarget"
+Interface = "{618DD9ED-67C2-4C18-99F1-4D410B4DDC12}"
+InterfaceName = "_RemoteCBTarget"
+MemberType = 1
+Member = 1610809365
+MemberName = "RP_StartAllEqt"
+HasMemberInfo = True
+Locale = 1036
+TypeLibVersion = "4ba.0"
+InterfaceType = 1
+VTableOffset = 112
+%HI: Parameters = [3]
+
+[DEF, SF.Seq[4].Setup[11].TS.SData.Call.Parameters]
+%[0] = "TYPE, AutomationParameter"
+%[1] = "TYPE, AutomationParameter"
+%[2] = "TYPE, AutomationParameter"
+%[3] = "TYPE, AutomationParameter"
+
+[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[0]]
+Name = "strIPaddress"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[1]]
+Name = "strNetwork"
+ArgVal = "Parameters.MVB_Network_name2"
+ArgDisplayVal = "Parameters.MVB_Network_name2"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 1
+
+[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[2]]
+Name = "passFail"
+ArgVal = "Step.Result.PassFail"
+ArgDisplayVal = "Step.Result.PassFail"
+Type = 11
+DisplayType = "Boolean"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[3]]
+Name = "errorMsg"
+ArgVal = "Step.Result.ReportText"
+ArgDisplayVal = "Step.Result.ReportText"
+Type = 8
+DisplayType = "String"
+TypeValid = True
+Direction = 3
+IsByRef = True
+
+[DEF, SF.Seq[4].Setup[11]]
 %NAME = "Start all equipments_mvb"
 
 [DEF, SF.Seq[4].RTS]
@@ -2374,6 +2450,7 @@ CbReference = Ref
 [SF.Seq[6].Setup[0].TS]
 Id = "ID#:hvtoJ0gCLEK0aJ7AltAaaB"
 LoadOpt = "DynamicLoad"
+Mode = "Skip"
 
 [DEF, SF.Seq[6].Setup[0].TS]
 SData = "TYPE, SeqCallStepAdditions"
@@ -2415,23 +2492,30 @@ Prototype = Obj
 
 [DEF, SF.Seq[6].Setup[1].TS.SData.ActualArgs]
 Path_HARD_EACB = "TYPE, SequenceArgument"
-MVB_Network_name = "TYPE, SequenceArgument"
+MVB_Network_name1 = "TYPE, SequenceArgument"
+MVB_Network_name2 = "TYPE, SequenceArgument"
 
 [SF.Seq[6].Setup[1].TS.SData.ActualArgs.Path_HARD_EACB]
 UseDef = False
 Expr = "Parameters.Path_EACB_HARD"
 
-[SF.Seq[6].Setup[1].TS.SData.ActualArgs.MVB_Network_name]
+[SF.Seq[6].Setup[1].TS.SData.ActualArgs.MVB_Network_name1]
 UseDef = False
-Expr = "Parameters.MVB_Network_name"
+Expr = "\"mvb_S1\""
+
+[SF.Seq[6].Setup[1].TS.SData.ActualArgs.MVB_Network_name2]
+UseDef = False
+Expr = "\"mvb_S2\""
 
 [DEF, SF.Seq[6].Setup[1].TS.SData.Prototype]
 Path_HARD_EACB = Str
-MVB_Network_name = Str
+MVB_Network_name1 = Str
+MVB_Network_name2 = Str
 
 [SF.Seq[6].Setup[1].TS.SData.Prototype]
 %FLG: Path_HARD_EACB = 4
-%FLG: MVB_Network_name = 4
+%FLG: MVB_Network_name1 = 4
+%FLG: MVB_Network_name2 = 4
 
 [DEF, SF.Seq[6].Setup[1]]
 %NAME = "SequenceCall"
