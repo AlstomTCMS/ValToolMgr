@@ -80,7 +80,7 @@ LoadOpt = "UseStepUnloadOpt"
 %FLG: LoadOpt = 4194312
 UnloadOpt = "UseStepUnloadOpt"
 %FLG: UnloadOpt = 4194312
-Version = "2.2.1.1"
+Version = "2.2.1.2"
 %FLG: Version = 4194312
 BatchSync = 1
 %FLG: BatchSync = 4194312
@@ -2359,7 +2359,7 @@ Id = "ID#:J0QzhV0ARkqtgnO0TcH/wD"
 
 [SF.Seq[5].Main[2]]
 SeqCallStepGroupIdx = -1
-TimeExpr = "5"
+TimeExpr = "10"
 
 [DEF, SF.Seq[5].Main[2]]
 %NAME = "Wait"
