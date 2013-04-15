@@ -5,7 +5,9 @@ Sub AddNewPR(control As IRibbonControl)
     Call CopyRef
 End Sub
 
-
+Sub AddNewPR_FromSheet()
+    Call CopyRef
+End Sub
 
 '------------------------------------------------------------------------
 ' Copie le fichier de références de C:\macros_alstom\Ref_PrimaELII_2-XX.xlsx
@@ -15,6 +17,7 @@ End Sub
 Public Function CopyRef() As Boolean
 Dim fileSaveFullName, fileSaveName, RefFileName As String
 Dim splitName As Variant
+
     
     CopyRef = True
     
