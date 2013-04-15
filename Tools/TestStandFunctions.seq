@@ -80,7 +80,7 @@ LoadOpt = "UseStepUnloadOpt"
 %FLG: LoadOpt = 4194312
 UnloadOpt = "UseStepUnloadOpt"
 %FLG: UnloadOpt = 4194312
-Version = "2.2.1.0"
+Version = "2.2.1.1"
 %FLG: Version = 4194312
 BatchSync = 1
 %FLG: BatchSync = 4194312
@@ -2450,7 +2450,6 @@ CbReference = Ref
 [SF.Seq[6].Setup[0].TS]
 Id = "ID#:hvtoJ0gCLEK0aJ7AltAaaB"
 LoadOpt = "DynamicLoad"
-Mode = "Skip"
 
 [DEF, SF.Seq[6].Setup[0].TS]
 SData = "TYPE, SeqCallStepAdditions"
