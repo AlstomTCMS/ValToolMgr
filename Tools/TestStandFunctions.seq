@@ -2312,7 +2312,7 @@ RTS = Obj
 [SF.Seq[5]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [1]
+%HI: Main = [2]
 %FLG: Main = 4194304
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
@@ -2332,6 +2332,8 @@ ResultList = Objs
 %TYPE: %[0] = "CallExecutable"
 %[1] = Step
 %TYPE: %[1] = "CallExecutable"
+%[2] = Step
+%TYPE: %[2] = "NI_Wait"
 
 [SF.Seq[5].Main[0].TS]
 Id = "ID#:HFK3w9Ic4UWIL+CSUW49dB"
@@ -2351,6 +2353,16 @@ Executable = "C:\\ControlBuild\\tooldir\\tool.c\\bin\\msw32\\ControlBuild.exe"
 
 [DEF, SF.Seq[5].Main[1]]
 %NAME = "Call Executable_Copy"
+
+[SF.Seq[5].Main[2].TS]
+Id = "ID#:J0QzhV0ARkqtgnO0TcH/wD"
+
+[SF.Seq[5].Main[2]]
+SeqCallStepGroupIdx = -1
+TimeExpr = "5"
+
+[DEF, SF.Seq[5].Main[2]]
+%NAME = "Wait"
 
 [DEF, SF.Seq[5].RTS]
 Type = Num
