@@ -1,5 +1,4 @@
 Attribute VB_Name = "VersAncienFormalisme"
-
 Sub Reverse_Nvo_Vers_Ancien(control As IRibbonControl)
     If HasActiveBook Then
         Call Reverse_NvoVersAncien
@@ -33,8 +32,8 @@ Dim ws As Worksheet
     ' Vérifier si les dernières colonnes sont renseignées en bouclant sur les onglets de tests
     anyTestSheet = False
     For Each ws In Sheets
-        'Si c'est un onglet de test
-        If ws.Name Like "B2_???_???" Then
+        'Si c'est un onglet de test (PRIMA ou KZ)
+        If ws.Name Like "B2_???_???" Or ws.Name Like "K*" Then
             anyTestSheet = True
             'If Not  Then GoTo Finally
             Call verif_remplissage(ws.Name, True)
@@ -75,23 +74,23 @@ Dim ws As Worksheet
             
             ' ---------------------------------------------------------------------------------------------------------
             ' Spécifité Prima forme Kazak
-            For Each objrange In .Columns(2).SpecialCells(xlCellTypeVisible).Areas
-                If objrange.Rows.Count < 2 Then
+            'For Each objrange In .Columns(2).SpecialCells(xlCellTypeVisible).Areas
+                'If objrange.Rows.Count < 2 Then
                     ' Si conf banc pas B ou vide, mettre en rouge + message d'erreur à la fin
-                    If objrange.Value <> "" And objrange.Value <> "B" Then
-                        With objrange.Interior
-                            .Pattern = xlSolid
-                            .PatternColorIndex = xlAutomatic
-                            .Color = 255
-                            .TintAndShade = 0
-                            .PatternTintAndShade = 0
-                        End With
-                    End If
+                    'If objrange.Value <> "" And objrange.Value <> "B" Then
+                        'With objrange.Interior
+                            '.Pattern = xlSolid
+                            '.PatternColorIndex = xlAutomatic
+                            '.Color = 255
+                            '.TintAndShade = 0
+                            '.PatternTintAndShade = 0
+                        'End With
+                    'End If
                 
                     ' Mettre B dans tous les cas
-                    objrange.Value = "B"
-                End If
-            Next
+                    'objrange.Value = "B"
+                'End If
+            'Next
             ' ---------------------------------------------------------------------------------------------------------
             
             Application.CutCopyMode = False
@@ -127,8 +126,8 @@ Dim ws As Worksheet
         Set next_testRange = testRange.range("A2")
         
         ' Si le test existe et si tout va bien dedans, on colle son contenu dans PR de sortie
-        If checkTest(testRange.Value) Then
-            With Sheets(testRange.Value)
+        If checkTest(testRange.value) Then
+            With Sheets(testRange.value)
                 
                 tailleColle = .range("A" & .Rows.Count).End(xlUp).row
                 
@@ -169,7 +168,7 @@ Dim ws As Worksheet
                 '--------------------------------------------------------------------------------------
                 'Copie des exigences
                 testRange.range("C1") = ""
-                Set exigencesRange = Sheets(SYNTHESE_NAME).Columns(1).Find(what:=testRange.Value, LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
+                Set exigencesRange = Sheets(SYNTHESE_NAME).Columns(1).Find(What:=testRange.value, LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
                 If Not exigencesRange Is Nothing Then
                     exigences = Strings.Split(exigencesRange.range("C1"), Chr(10))
                     For i = 0 To UBound(exigences)
@@ -184,7 +183,7 @@ Dim ws As Worksheet
             End With
             
             'Après ces manipulations, il faut reformater les onglets de tests
-            Call formatageFicheTest(testRange.Value)
+            Call formatageFicheTest(testRange.value)
         
             Set testRange = testRange.range("A2").End(xlDown)
             
@@ -204,18 +203,27 @@ Dim ws As Worksheet
             End If
         End If
         
-    Loop While StrComp(testRange.Value, "END", vbTextCompare) <> 0 'And testRange.row < next_testRange.row
+    Loop While StrComp(testRange.value, "END", vbTextCompare) <> 0 'And testRange.row < next_testRange.row
     
     'Copie de l'entete
-    Sheets("PDG").range("C4:C9").Copy
-    With Sheets(PR_OUT_NAME)
-        .range("B1").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
-        'On intervertie la version MPU avec Ref_FRScc depuis la version A5
-        versionMPU = .range("B6")
-        .range("B6") = .range("B5")
-        .range("B5") = .range("B4")
-        .range("B4") = versionMPU
-    End With
+    If WsExist(PDG_NAME) Then
+        Sheets(PDG_NAME).range("C4:C9").Copy
+        With Sheets(PR_OUT_NAME)
+            .range("B1").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+            'On intervertie la version MPU avec Ref_FRScc depuis la version A5
+            versionMPU = .range("B6")
+            .range("B6") = .range("B5")
+            .range("B5") = .range("B4")
+            .range("B4") = versionMPU
+        End With
+    ElseIf WsExist(ENDPAPER_PR_NAME) Then 'New format
+        Sheets(ENDPAPER_PR_NAME).range("D5:D7").Copy 'Num_PR:date_PR
+        Sheets(PR_OUT_NAME).range("B1").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+        Sheets(ENDPAPER_PR_NAME).range("D10:D11").Copy ' Ref:Inf Spec
+        Sheets(PR_OUT_NAME).range("B5").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+        Sheets(ENDPAPER_PV_NAME).range("D7").Copy 'MPU version
+        Sheets(PR_OUT_NAME).range("B4").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+    End If
         
     Call formatagePR_OUT
 
@@ -288,3 +296,5 @@ Sub formatagePR_OUT()
         .Columns("H:I").WrapText = True
     End With
 End Sub
+
+

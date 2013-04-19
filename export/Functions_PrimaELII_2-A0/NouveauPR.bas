@@ -17,47 +17,32 @@ End Sub
 Public Function CopyRef() As Boolean
 Dim fileSaveFullName, fileSaveName, RefFileName As String
 Dim splitName As Variant
-
     
     CopyRef = True
     
-    RefFileName = "C:\macros_alstom\Ref_PrimaELII_2-" & refVersion & ".xls"
-    
-    'ChDir "c:\Documents and Settings\"
+    RefFileName = MacroPath & "\Ref_PrimaELII_2-" & refVersion & ".xltm"
     
     'Demander à l'utilisateur le nom qu'il veut mettre
-    fileSaveFullName = Application.GetSaveAsFilename(InitialFileName:="B2_XXX_Y_A0", _
-    fileFilter:="xls Files (*.xls), *.xls")
+    fileSaveFullName = Application.GetSaveAsFilename(InitialFileName:="", fileFilter:="Excel Files macro enabled (*.xlsm), *.xlsm")
     
     If fileSaveFullName <> False Then
-        Call FileCopy(RefFileName, fileSaveFullName)
-        
-        On Error GoTo ErrHandler:
-        Workbooks.Open fileSaveFullName, 0, ReadOnly:=False
-        On Error GoTo 0
-        
-        'dejà mettre le nom de la fonction dans la page de garde
+        Application.ScreenUpdating = False
+        'Call FileCopy(RefFileName, fileSaveFullName)
+        Set newWB = Workbooks.Add(Template:=RefFileName)
         splitName = Split(fileSaveFullName, "\")
-        fileSaveName = Replace(splitName(UBound(splitName)), ".xls", "")
-        range(Names("Num_PR")) = Left(fileSaveName, 8)
-        range(Names("Indice_PR")) = Mid(fileSaveName, 10, 2)
-        
-        With Sheets("Suivi Versions")
-            .range("A2") = range(Names("Indice_PR"))
-            .range("B2") = Date
-            .range("C2") = Environ("username")
-        End With
+        fileSaveName = Replace(splitName(UBound(splitName)), ".xlsm", "")
         
         'faire une copie de Synthèse vierge
         Sheets(SYNTHESE_MODEL_NAME).visible = xlSheetVisible
-    
         Sheets(SYNTHESE_MODEL_NAME).Copy After:=Sheets(Sheets.Count)
-        Sheets(Sheets.Count).Name = SYNTHESE_NAME
-        
+        ActiveSheet.Name = SYNTHESE_NAME
         Sheets(SYNTHESE_MODEL_NAME).visible = xlSheetHidden
+        Sheets(ENDPAPER_PR_NAME).Activate
         
+        newWB.SaveAs Filename:=fileSaveName, FileFormat:=XlFileFormat.xlOpenXMLWorkbookMacroEnabled
+        
+        Application.ScreenUpdating = True
     End If
-    
             
 ErrHandler:
     ' error handling code

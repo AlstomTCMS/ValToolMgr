@@ -4,9 +4,14 @@ Public Const MacroPath As String = "C:\macros_alstom"
 Public Const serverPath As String = "\\dom2.ad.sys\dfsbor1root\BOR1_FLO\DEP_Etudes\Tsysteme\Affaires\PRIMA EL2\Ctrl-cmd\Banc de Test\13_Macros"
 Public Const exportFolder As String = "\export\Functions_PrimaELII_2-A0\"
 
-Public Const macroVersion As String = "v1.0.02"
-Public Const refVersion As String = "A4"
-Public Const macroUpdateDate As String = "03/04/2013"
+Public Const macroVersion As String = "v2.0.1"
+Public Const refVersion As String = "A5"
+Public Const macroUpdateDate As String = "22/04/2013"
+
+Public Const TEMPLATE_FILE_PREFIX As String = "Ref_PrimaELII_2-"
+Public Const TEMPLATE_FILENAME As String = TEMPLATE_FILE_PREFIX & refVersion & ".xltm"
+Public Const TEMPLATE_FULLPATH As String = MacroPath & "\" & TEMPLATE_FILENAME
+
 
 Public Const PR_IN_NAME As String = "PR In"
 Public Const PR_OUT_NAME As String = "PR Out"
@@ -15,6 +20,9 @@ Public Const SYNTHESE_MODEL_NAME As String = "Synthèse Model"
 Public Const SYNTHESE_NAME As String = "Synthèse"
 Public Const VALID_NAME As String = "Data Validation"
 Public Const ERROR_NAME As String = "Erreurs"
+Public Const PDG_NAME As String = "PDG"
+Public Const ENDPAPER_PR_NAME As String = "Endpaper_PR"
+Public Const ENDPAPER_PV_NAME As String = "Endpaper_PV"
 
 Public Const ERROR_TYPE_PRIMA_VEHICULS As String = "Seuls les véhicules 1 et 2 sont permis pour PRIMA."
 Public Const ERROR_TYPE_DOUBLON As String = "{0} est en doublon."

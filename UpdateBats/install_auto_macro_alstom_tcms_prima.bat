@@ -9,8 +9,8 @@ rem ****************************************
 rem install_auto_macro_alstom_tcms_prima.exe
 rem Auteur du fichier: DLE
 rem Societe : Alten
-rem version : v1.0.00 20.02.2013
-set versionServeur=v1.0.00
+rem version : v2.0.1 22.04.2013
+set versionServeur=v2.0.1
 
 
 :: si on force l'installation
@@ -73,7 +73,7 @@ echo.
 rem Installation de la macro (copie le fichier sur le réseau vers un dossier en local)
 xcopy "%networkPath%Functions_PrimaELII_2-A0.xlam" %localPath% /Y
 rem Copie du fichier des references (source de données pour la macro)
-xcopy "%networkPath%Ref_PrimaELII_2-A4.xls" %localPath% /Y 
+xcopy "%networkPath%Ref_PrimaELII_2-A5.xltm" %localPath% /Y 
 rem Copie du .bat appelé pour la MAJ
 xcopy "%networkPath%UpdateMacroTCMS.exe" %localPath% /Y 
 rem Copie de sauvegarde du .bat pour une mise à jour auto en début de session utilisateur

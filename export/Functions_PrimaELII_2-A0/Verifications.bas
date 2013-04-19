@@ -8,18 +8,26 @@ Sub getVisibleVerifTab(control As IRibbonControl, ByRef visible)
 End Sub
 
 Sub VerificationsTestCourant(control As IRibbonControl)
+    Dim header As Variant
+    
+    'header = Array("Num_Etape", "Mode", "Com_Etape", "Com_act", "Com_chk")
+
+    
     If HasActiveBook Then
         'Vérifier si la feuille courante est un test
         With ActiveSheet
             testName = .Name
-            If testName Like "B?_???_???" Then
+            If .range("B1").value = "Mode" Then
                 If Not checkTest(testName, True) Then
                     Call FormatErrorSheet
                     Message = "Le test " & testName & " contient des erreurs !"
                     Call MsgBox(Message, vbExclamation, "Attention")
+                    
+                Else
+                    Call MsgBox("Le test " & testName & " semble être correct.", vbInformation, "Vérification")
                 End If
             Else
-                MsgBox "L'onglet courant n'est pas un onglet de test PRIMA.", vbOKOnly + vbExclamation, "Fonctionnalité non utilisable !"
+                MsgBox "L'onglet courant n'est pas un onglet de test au format 2012.", vbOKOnly + vbExclamation, "Fonctionnalité non utilisable !"
             End If
         End With
     End If
@@ -93,7 +101,7 @@ Dim nNbLigneType_Deb, nNbLigneType_Fin As Integer 'Num Ligne Debut et Fin de Typ
             
             'Trouve les bornes de l'Etape
             For nNbLigne = etape_deb To nNbLigneTotal
-                If .Cells(nNbLigne, 1) <> Etape_EnCours.Value Then
+                If .Cells(nNbLigne, 1) <> Etape_EnCours.value Then
                     etape_fin = nNbLigne - 1
                     Exit For
                 End If
@@ -183,10 +191,10 @@ Dim nouvelleLigne As range
             .Hyperlinks.Add Anchor:=nouvelleLigne.range("A1"), Address:="", _
                 SubAddress:="'" & testSheetName & "'!A1", TextToDisplay:=testSheetName
         Else
-            nouvelleLigne = Array(testSheetName, etapeRange.Value, errorMsg)
+            nouvelleLigne = Array(testSheetName, etapeRange.value, errorMsg)
             linkAddress = "'" & testSheetName & "'!" & Replace(etapeRange.Address, "$", "")
             .Hyperlinks.Add Anchor:=nouvelleLigne.range("B1"), Address:="", _
-                SubAddress:=linkAddress, TextToDisplay:=etapeRange.Value
+                SubAddress:=linkAddress, TextToDisplay:=etapeRange.value
             .Hyperlinks.Add Anchor:=nouvelleLigne.range("A1"), Address:="", _
                 SubAddress:="'" & testSheetName & "'!A1", TextToDisplay:=testSheetName
         End If
@@ -313,7 +321,7 @@ Function checkEmpty(range2Check) As Variant
 
 
     For Each cell In range2Check
-        If cell.Value = vbNullString Then
+        If cell.value = vbNullString Then
             If emptyCellsStr = "" Then
                 emptyCellsStr = Replace(cell.Address, "$", "")
             Else
@@ -358,15 +366,16 @@ Dim formatAlreadyExist As Boolean
         End With
     End With
     
-    Call SetVehiculesRouges_TEST(sheetName)
-End Sub
-
-Sub unit_Test_SetVehiculesRouges_TEST()
-    Call SetVehiculesRouges_TEST("B2_037_112")
+    If isPrimaProject Then
+        Call SetVehiculesRouges_TEST_PRIMA(sheetName) 'Spécificité PRIMA véhicules permis :1 ou 2
+    Else
+        Call SetVehiculesRouges_TEST(sheetName)
+    End If
+    
 End Sub
 
 'Ajoute la formatage conditionnel sur les vehicules PRIMA
-Public Sub SetVehiculesRouges_TEST(ByVal sheetName As String)
+Public Sub SetVehiculesRouges_TEST_PRIMA(ByVal sheetName As String)
 Dim formatAlreadyExist As Boolean
 
     With Sheets(sheetName)
@@ -406,6 +415,51 @@ NextformatCond:
     End With
 End Sub
 
+Sub unit_Test_SetVehiculesRouges_TEST()
+    Call SetVehiculesRouges_TEST("B2_037_112")
+End Sub
+
+Public Sub SetVehiculesRouges_TEST(ByVal sheetName As String)
+Dim formatAlreadyExist As Boolean
+
+    With Sheets(sheetName)
+        fin = .range("A1").End(xlDown).row
+        With .range("H2:H" & fin)
+    
+            On Error GoTo NextformatCond
+            'Voir si le formatage existe deja
+            For Each formatCond In .FormatConditions
+                With formatCond
+                    If formatCond.Formula1 = "=NBCAR(SUPPRESPACE(G2))=0" Then
+                        formatAlreadyExist = True
+                    Else
+                        formatCond.Delete 'ancienne condition pour PRIMA
+                    End If
+                End With
+                
+            Next formatCond
+            
+NextformatCond:
+            On Error GoTo 0
+            
+            If Not formatAlreadyExist Then
+                .FormatConditions.Add Type:=xlExpression, Formula1:="=NBCAR(SUPPRESPACE(G2))=0"
+                
+                With .FormatConditions(.FormatConditions.Count)
+                    .SetFirstPriority
+                    With .Interior
+                        .PatternColorIndex = xlAutomatic
+                        .Color = 255
+                        .TintAndShade = 0
+                    End With
+                    .StopIfTrue = True
+                End With
+            End If
+            
+        End With
+    End With
+End Sub
+
 ' Ajoute les validations automatiques des données de tests
 Sub SetValidations_TEST(ByVal sheetName As String)
 
@@ -413,10 +467,16 @@ Sub SetValidations_TEST(ByVal sheetName As String)
         fin = .range("A1").End(xlDown).row
         
         'Types de Véhicules permis
+        If isPrimaProject Then
+            vehiculeDataZone = "'!$C$5:$C$6" 'Spécificité PRIMA véhicules permis :1 ou 2
+        Else
+            vehiculeDataZone = "'!$C$2:$C$8" 'Tout autre projet
+        End If
+        
         With .range("H2:H" & fin).Validation
             .Delete
             .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
-            xlBetween, Formula1:="='" & VALID_NAME & "'!$C$5:$C$6" 'Spécificité PRIMA véhicules permis :1 ou 2      "'!$C$2:$C$8"
+            xlBetween, Formula1:="='" & VALID_NAME & vehiculeDataZone
             .IgnoreBlank = True
             .InCellDropdown = True
             .InputTitle = ""
@@ -468,10 +528,26 @@ Sub SetValidations_SYNTH()
     End With
 End Sub
 
+Function isPrimaProject() As Boolean
+    Dim name_ As Name
+    isPrimaProject = False
+    
+    For Each name_ In Names
+        If name_.Name = "Num_PR" Then
+            If name_.RefersTo = "=PDG!$C$4" Then
+                isPrimaProject = name_.RefersToRange.value Like "B2_???_?"
+            'Else
+                'name_.Delete
+            End If
+        End If
+    Next
+    
+End Function
+
 Public Sub FormatErrorSheet()
     With Sheets(ERROR_NAME)
         .Activate
-        .UsedRange.RemoveDuplicates Columns:=Array(1, 2, 3), Header:=xlYes
+        .UsedRange.RemoveDuplicates Columns:=Array(1, 2, 3), header:=xlYes
         .Columns("A:C").AutoFit
     End With
 End Sub

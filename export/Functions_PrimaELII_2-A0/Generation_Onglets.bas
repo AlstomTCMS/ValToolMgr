@@ -42,8 +42,8 @@ Public Sub Generer_OngletsTests()
             ' Créer une feuille du nom du test
             
             'Si l'onglet de test n'existe pas déjà
-            If Not WsExist(testRange.Value) Then
-                Set testSheet = InitSheet(testRange.Value, True, , , testTitle)
+            If Not WsExist(testRange.value) Then
+                Set testSheet = InitSheet(testRange.value, True, , , testTitle)
                 
                 With testSheet
                     
@@ -75,7 +75,7 @@ Public Sub Generer_OngletsTests()
                     'Num_Etape
                     nbreEtape = fin.row - debut.row + 1
                     For i = 1 To nbreEtape
-                        .Cells(i + 1, 1) = testRange.Value & "-" & Format(i, "00")
+                        .Cells(i + 1, 1) = testRange.value & "-" & Format(i, "00")
                     Next
                     
                     'Ajout du commentaire pour les Type de variables permis
@@ -126,7 +126,7 @@ Sub ajouteLiens(zoneLien As range)
 Dim test_num As String
 Dim cellToLink As range
 
-    test_num = zoneLien.range("A1").Value
+    test_num = zoneLien.range("A1").value
     
     With Sheets(SYNTHESE_NAME)
         .Hyperlinks.Add Anchor:=zoneLien, Address:="", SubAddress:= _
@@ -135,7 +135,7 @@ Dim cellToLink As range
         'Ajout des liens vers les étapes
         For Each cell In zoneLien.Columns("F").Rows
             .Hyperlinks.Add Anchor:=cell, Address:="", SubAddress:= _
-            "'" & test_num & "'!" & Replace(cell.Offset(2 - zoneLien.row, -5).Address, "$", ""), TextToDisplay:=cell.Value
+            "'" & test_num & "'!" & Replace(cell.Offset(2 - zoneLien.row, -5).Address, "$", ""), TextToDisplay:=cell.value
         Next
     End With
 End Sub
@@ -154,7 +154,7 @@ Dim exigences As Variant
     exigences = Strings.Split(num_ex, Chr(10))
     
     For i = 0 To UBound(exigences)
-        Set exRow = Sheets("Tref_Exigences").Columns(3).Find(what:=exigences(i), LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
+        Set exRow = Sheets("Tref_Exigences").Columns(3).Find(What:=exigences(i), LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
         If exRow Is Nothing Then
             exigencesExist = False
         End If
@@ -217,7 +217,7 @@ Private Function SupprimerOngletsTests() As Boolean
                 If ws.Name Like "K8_*" Or ws.Name Like "B????_*" Or ws.Name Like "E????_*" Then
                     ws.Delete
                 End If
-                If PR2Synth And ws.Name Like "B2_???_???*" Then
+                If ws.Name Like "B2_???_???*" Then
                     ws.Delete
                 End If
             Next
@@ -297,3 +297,5 @@ Sub RedefineSyntheseArray()
     
     Call SetValidations_SYNTH
 End Sub
+
+

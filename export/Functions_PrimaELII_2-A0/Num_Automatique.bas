@@ -1,4 +1,8 @@
 Attribute VB_Name = "Num_Automatique"
+'Procédure pour laisser l'utilisateur le faire quand il veut
+Public Sub NumerotationAutomatique()
+    Call Numerotation_Automatique
+End Sub
 
 'Renvoie True si ça s'est bien passé
 Function Numerotation_Automatique() As Boolean
@@ -19,21 +23,21 @@ ReDim columns2check_int(0 To 3)
 With Sheets(PR_IN_NAME)
     .Activate
     
-    Set numPR_range = .Columns(1).Find(what:="Num_PR", LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=False)
+    Set numPR_range = .Columns(1).Find(What:="Num_PR", LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=False)
     If numPR_range Is Nothing Then
         Call MsgBox("Numéro de PR introuvable!" & vbCr & "Arrêt de la numérotation!", vbExclamation, "Attention!")
         Numerotation_Automatique = False
         Exit Function
     Else
         NumPR = numPR_range.range("B1")
-        Set numPR_range = .Columns(1).Find(what:="Num_Test", LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=False)
+        Set numPR_range = .Columns(1).Find(What:="Num_Test", LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=False)
         If numPR_range Is Nothing Then
             Call MsgBox("La colonne Num_Test est introuvable!" & vbCr & "Arrêt de la numérotation!", vbExclamation, "Attention!")
             Numerotation_Automatique = False
             Exit Function
         Else
             For i = 1 To UBound(columns2check_String)
-                Set checkRange = Rows(numPR_range.row).Find(what:=columns2check_String(i), LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=False)
+                Set checkRange = Rows(numPR_range.row).Find(What:=columns2check_String(i), LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=False)
                 If checkRange Is Nothing Then
                     Call MsgBox("Colonne " & columns2check_String(i) & " introuvable!" & vbCr & "Arrêt de la numérotation!", vbExclamation, "Attention!")
                     Numerotation_Automatique = False
@@ -89,5 +93,6 @@ End With
 
 
 End Function
+
 
 

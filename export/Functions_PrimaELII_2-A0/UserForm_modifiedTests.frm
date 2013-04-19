@@ -16,10 +16,10 @@ Attribute VB_Exposed = False
 Private Sub CheckBox_SelectAll_Click()
     If CheckBox_SelectAll Then
         For Each CheckBox In Frame_TestsList.Controls
-            CheckBox.Value = True
+            CheckBox.value = True
         Next CheckBox
-        CheckBox_UnselectAll.Value = False
-        CheckBox_SelectAll.Value = False
+        CheckBox_UnselectAll.value = False
+        CheckBox_SelectAll.value = False
     End If
 End Sub
 
@@ -27,10 +27,10 @@ Private Sub CheckBox_UnselectAll_Click()
 'Dim CheckBox As Controls
     If CheckBox_UnselectAll Then
         For Each CheckBox In Frame_TestsList.Controls
-            CheckBox.Value = False
+            CheckBox.value = False
         Next CheckBox
-        CheckBox_SelectAll.Value = False
-        CheckBox_UnselectAll.Value = False
+        CheckBox_SelectAll.value = False
+        CheckBox_UnselectAll.value = False
     End If
 End Sub
 
@@ -86,7 +86,7 @@ Private Sub UserForm_Initialize()
         Set CheckBox = Frame_TestsList.Controls.Add("Forms.CheckBox.1")
         
         With CheckBox
-            .Value = False
+            .value = False
             .Caption = testsList(i, 1)
             .visible = True
             .Top = rowtop
@@ -107,7 +107,7 @@ OneLine:
         Set CheckBox = Frame_TestsList.Controls.Add("Forms.CheckBox.1")
         
         With CheckBox
-            .Value = False
+            .value = False
             .Caption = testsList
             .visible = True
             .Top = rowtop

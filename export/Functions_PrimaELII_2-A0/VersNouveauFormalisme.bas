@@ -29,6 +29,8 @@ End Sub
 
 'Fonction principale qui à partir du PR créer une synthèse et les onglets de tests qui correspondent
 Public Sub AncienVersNouveau()
+    Dim find_range As range
+    Dim data As Variant
     
     ' Empeche le rafraichissement de la fenetre
     Application.ScreenUpdating = False
@@ -41,17 +43,8 @@ Public Sub AncienVersNouveau()
         End If
     End If
     
-    ' On vérifie si on a déjà une feuille nommée "PR IN" dans quel cas on la choisie
-    If WsExist(PR_IN_NAME) Then
-        Set PR_In_Sheet = Sheets(PR_IN_NAME)
-    Else
-    'Sinon on prend le premier onglet
-        Set PR_In_Sheet = Sheets(1)
-    End If
-    
-    
     'Verifier que le fichier a num_PR en A1
-    If Not PR_In_Sheet.range("A1") = "Num_PR" Then
+    If Not getPR_IN.range("A1") = "Num_PR" Then
         Call MsgBox("La génération ne peut pas se faire car la feuille 1 n'est pas un PR.", vbExclamation, "Alerte")
         GoTo Finally
     End If
@@ -59,26 +52,97 @@ Public Sub AncienVersNouveau()
     Call CopySheetsFromRef
     
     'Vérifier que la fiche 1 est bien un PR.
-    If Not matchRange(PR_In_Sheet.range("A1:A3"), Sheets(PR_MODEL_NAME).range("A1:A3")) Then
+    If Not matchRange(getPR_IN.range("A1:A3"), Sheets(PR_MODEL_NAME).range("A1:A3")) Then
         Call MsgBox("La génération ne peut pas se faire car la feuille 1 n'est pas un PR.", vbExclamation, "Alerte")
         GoTo Finally
     End If
     
+    On Error GoTo Finally
     Call virerFeuillesInutiles
-    If Not checkIsPrimaOldVersion Then GoTo Finally
+    'If Not checkIsPrimaOldVersion Then GoTo Finally
         
     'Copie de l'entete dans la page de garde
-    PR_In_Sheet.range("B1:B6").Copy
-    With Sheets("PDG")
-        .range("C4").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
-        'On intervertie la version MPU avec Ref_FRScc depuis la version A5
-        versionMPU = .range("C7")
-        .range("C7") = .range("C8")
-        .range("C8") = .range("C9")
-        .range("C9") = versionMPU
-        .Activate
-        .range("A1").Select
-    End With
+    Set PR_In_Sheet = getPR_IN
+    If WsExist(PDG_NAME) Then
+        'PR_In_Sheet.range("B1:B6").Copy
+        With Sheets(PDG_NAME)
+            Application.EnableEvents = False
+            'Num_PR:date_PR C4:C6  D5:D7
+            .range("C4:C6").Copy
+            Sheets(ENDPAPER_PR_NAME).range("D5:D7").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+            
+            'Function  C3 D9
+            .range("C3").Copy
+            Application.EnableEvents = True
+            Sheets(ENDPAPER_PR_NAME).range("D9").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+            Application.EnableEvents = False
+            
+            ' Ref:Inf Spec Ref_FRScc
+            Set find_range = .Columns(2).Find(What:="Ref_FRScc", LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=False)
+            If Not find_range Is Nothing Then
+                find_range.range("B1:B2").Copy
+                Sheets(ENDPAPER_PR_NAME).range("D10").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+            End If
+            
+            ' Aim of the function
+            Set find_range = .Columns(2).Find(What:="Objet de la fonction", LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=False)
+            If Not find_range Is Nothing Then
+                Sheets(ENDPAPER_PR_NAME).range("D12").value = find_range.Next.value
+            End If
+            
+            'MPU version
+            Set find_range = .Columns(2).Find(What:="MPU", LookIn:=xlValues, LookAt:=xlPart, SearchOrder:=xlByColumns, MatchCase:=False)
+            If Not find_range Is Nothing Then
+                Sheets(ENDPAPER_PV_NAME).range("D7").value = find_range.Next.value
+            Else
+                Set find_range = .Columns(2).Find(What:="Version Software", LookIn:=xlValues, LookAt:=xlPart, SearchOrder:=xlByColumns, MatchCase:=False)
+                If Not find_range Is Nothing Then
+                    Sheets(ENDPAPER_PV_NAME).range("D7").value = find_range.Next.value
+                End If
+            End If
+            
+            'Writers and controllers
+            Set find_range = Nothing
+            For i = 1 To 30
+                If .Cells(i, 2) = "Rédacteur" Then
+                    Set find_range = .Cells(i, 2)
+                End If
+            Next
+            'Set find_range = .Cells.Find(What:="Rédacteur", After:=ActiveCell, LookIn:=xlValues, _
+                LookAt:=xlPart, SearchOrder:=xlByColumns, SearchDirection:=xlNext, _
+                MatchCase:=True, SearchFormat:=False)
+            If Not find_range Is Nothing Then
+                'SwVTP's Writer
+                data = find_range.range("A2:A5")
+                data = splitData(data)
+                Sheets(ENDPAPER_PR_NAME).range("C19:C22") = data
+                'Tests's Writer
+                Sheets(ENDPAPER_PR_NAME).range("F19:F22") = data
+                
+                'Controller
+                data = find_range.range("D2:D5")
+                Sheets(ENDPAPER_PR_NAME).range("H19:H22") = splitData(data)
+                
+                'Approver
+                data = find_range.range("G2:G5")
+                Sheets(ENDPAPER_PR_NAME).range("J19:J22") = splitData(data)
+                
+            End If
+            Application.DisplayAlerts = False
+            .Delete
+            Application.DisplayAlerts = True
+            
+        End With
+    ElseIf WsExist(ENDPAPER_PR_NAME) Then 'New format
+        Application.EnableEvents = False 'In order to not trigger the change event of Endpaper
+        PR_In_Sheet.range("B1:B3").Copy 'Num_PR:date_PR
+        Sheets(ENDPAPER_PR_NAME).range("D5:D7").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+        PR_In_Sheet.range("B5:B6").Copy ' Ref:Inf Spec
+        Sheets(ENDPAPER_PR_NAME).range("D10:D11").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+        PR_In_Sheet.range("B4").Copy 'MPU version
+        Sheets(ENDPAPER_PV_NAME).range("D7").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
+        Application.EnableEvents = True
+    End If
     
     Call FillSynthese
     Call SupprimerOngletsTests
@@ -98,9 +162,28 @@ Public Sub AncienVersNouveau()
 Finally:
     ' Permet le rafraichissement de la fenetre
     Application.ScreenUpdating = True
+    Application.EnableEvents = True
 End Sub
 
+Private Function splitData(data As Variant) As Variant
+    Dim returnArray As Variant
+    ReDim returnArray(LBound(data) To UBound(data), 1 To 1)
+    
+    For i = LBound(data) To UBound(data)
+        returnArray(i, 1) = LTrim(Split(data(i, 1), ":")(1))
+    Next
+    splitData = returnArray
+End Function
 
+Function getPR_IN() As Worksheet
+    ' On vérifie si on a déjà une feuille nommée "PR IN" dans quel cas on la choisie
+    If WsExist(PR_IN_NAME) Then
+        Set getPR_IN = Sheets(PR_IN_NAME)
+    Else
+    'Sinon on prend le premier onglet
+        Set getPR_IN = Sheets(1)
+    End If
+End Function
 
 'Function qui dit si le contenu de deux colonnes sont égaux
 Function matchRange(column1 As range, column2 As range) As Boolean
@@ -220,7 +303,7 @@ synthTitle = Array("Test", "Conf banc", "Exigence(s) associée(s)", "Description 
         
         'On enleve le filtre qu'il pourrait y avoir sur la colonne "Com_Etape"
         '.Columns(1).AutoFilter Field:=7
-        fin = .Columns(1).Find(what:="END", MatchCase:=False).row
+        fin = .Columns(1).Find(What:="END", MatchCase:=False).row
         With .range("$A$9:$I" & fin)
             .AutoFilter
             
@@ -328,7 +411,7 @@ Sub MajLiensSynthese(zoneLien As range)
 Dim test_num As String
 Dim cellToLink As range
 
-    test_num = zoneLien.range("A1").Value
+    test_num = zoneLien.range("A1").value
     
     With Sheets(SYNTHESE_NAME)
         .Hyperlinks.Add Anchor:=zoneLien.range("A1"), Address:="", SubAddress:= _
@@ -336,11 +419,11 @@ Dim cellToLink As range
         
         'Ajout des liens vers les étapes
         For Each cell In zoneLien.Columns("F").Rows
-            Set cellToLink = Sheets(test_num).Columns(1).Find(what:=cell.Value, LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=True)
+            Set cellToLink = Sheets(test_num).Columns(1).Find(What:=cell.value, LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, MatchCase:=True)
             If Not cellToLink Is Nothing Then
             
                 .Hyperlinks.Add Anchor:=cell, Address:="", SubAddress:= _
-                "'" & test_num & "'!" & Replace(cellToLink.Address, "$", ""), TextToDisplay:=cell.Value
+                "'" & test_num & "'!" & Replace(cellToLink.Address, "$", ""), TextToDisplay:=cell.value
             End If
         Next
     End With
@@ -477,7 +560,7 @@ testTitle = Array("Num_Etape", "Com_Etape", "Com_act", "Com_chk", "Pause", "Type
         ' Copier tout le bloc des etapes dans l'onglet de test
         '------------------------------------------------------
         ' Créer une feuille du nom du test
-        Set testSheet = InitSheet(anc_testRange.Value, True, , , testTitle)
+        Set testSheet = InitSheet(anc_testRange.value, True, , , testTitle)
         'connaitre les ranges des deux coins de la diagonale
         Set debut = anc_testRange.range("F1")
         Set fin = anc_nextTestRange.range("O1").Offset(-1, 0)
@@ -553,18 +636,18 @@ Dim exigences As String
         
         If Not exigenceRange Is Nothing Then
             For Each cell In range(exigenceRange, exigenceRange.End(xlDown))
-                If cell.Value = "" Then
+                If cell.value = "" Then
                     Exit For
                 Else
                     If exigences = "" Then
-                        exigences = cell.Value
+                        exigences = cell.value
                     Else
-                        exigences = exigences & Chr(10) & cell.Value
+                        exigences = exigences & Chr(10) & cell.value
                     End If
                 End If
             Next cell
         End If
-        Set nvo_syntRange = Sheets(SYNTHESE_NAME).Columns(1).Find(what:=testRange.Value, LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
+        Set nvo_syntRange = Sheets(SYNTHESE_NAME).Columns(1).Find(What:=testRange.value, LookIn:=xlFormulas, LookAt:=xlWhole, SearchOrder:=xlByRows, MatchCase:=True)
         If Not nvo_syntRange Is Nothing Then
             nvo_syntRange.range("C1") = LTrim(exigences)
         End If
@@ -611,3 +694,5 @@ Finally:
     On Error GoTo 0
     Application.DisplayAlerts = True
 End Function
+
+
