@@ -24,7 +24,7 @@ namespace ValToolFunctions_2013
                 ws.Columns["B:B"].EntireColumn.Hidden = false;
 
                 // Workaround : unprotect all sheets before adding a table style : https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&ved=0CDQQFjAA&url=http%3A%2F%2Fpradeepgali.blogspot.com%2F2013%2F02%2Fsteps-to-format-excel-table-suitable-to.html&ei=ck9cUZrnM8XiPLH7gJgF&usg=AFQjCNFR-SwI8Ns4n_ZeOB6VW3HTEB1GVg&sig2=rcSAUk2KeYCDJvWi-0cHXA
-                Worksheet endpaper = RibbonHandler.ExcelApplication.ActiveWorkbook.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER)];
+                Worksheet endpaper = RibbonHandler.ExcelApplication.ActiveWorkbook.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER_PR)];
                 endpaper.Unprotect();
                 CreateTest.AddDescTableFormat();
                 endpaper.Protect();

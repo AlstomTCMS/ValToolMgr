@@ -5,7 +5,7 @@ using ValToolFunctionsStub;
 
 namespace ValToolFunctions_2013
 {
-    public enum ERROR
+    public enum ERROR:int
     {
         [StringValue("Function not implemented")]
         NOT_IMPLEMENTED_FUNCTION = 1,
@@ -19,7 +19,7 @@ namespace ValToolFunctions_2013
         TARGET = 5        
     }
 
-    public enum Type_Var
+    public enum Type_Var:int
     {
         [StringValue("ACc")]
         TYPE_VAR_ACTION_EMB = 1,
@@ -33,14 +33,16 @@ namespace ValToolFunctions_2013
         TYPE_VAR_PGM  = 5
     }
 
-    public enum SheetsNames
+    public enum SheetsNames:int
     {
-        [StringValue("Endpaper")]
-        ENDPAPER,
+        [StringValue("Endpaper_PR")]
+        ENDPAPER_PR,
+        [StringValue("Endpaper_PV")]
+        ENDPAPER_PV,
         [StringValue("Evol")]
         EVOLUTION,
-        [StringValue("Bench Conf")]
-        BENCH_CONF,
+        //[StringValue("Bench Conf")]
+        //BENCH_CONF,
         [StringValue("SwVTP")]
         SW_VTP,
         [StringValue("SwVTD")]
@@ -53,20 +55,30 @@ namespace ValToolFunctions_2013
         ERROR
     }
 
-    public enum SwVTP_Columns
+    public enum SwVTx_Columns:int
     {
         [StringValue("Category")]
-        CATEGORY,
+        CATEGORY = 1,
         [StringValue("Test")]
-        TEST,
+        TEST = 2,
         [StringValue("Bench Conf")]
-        BENCH_CONF,
+        BENCH_CONF = 3,
         [StringValue("Associated requirement(s)")]
-        REQUIREMENT,
-        [StringValue("Description")]
-        DESC,
+        REQUIREMENT = 4,
+        [StringValue("Step")]
+        STEP = 5,
+        [StringValue("Title")]
+        TITLE = 6,
+        [StringValue("Action")]
+        ACTION = 7,
+        [StringValue("Check")]
+        CHECK = 8,
+        [StringValue("Status")]
+        STATUS = 9,
+        [StringValue("Justification")]
+        JUSTIFICATION = 10,
         [StringValue("Comment")]
-        COMMENT
+        R_COMMENT = 11
     }
 
     public enum LAYOUT
@@ -79,7 +91,7 @@ namespace ValToolFunctions_2013
         L_2013 = 2
     }
 
-    public enum TEST_COLUMN
+    public enum TEST_COLUMN:int
     {
         TYPE_ACTION = 7,
         DOUBLON_COMPARE = 12
@@ -89,7 +101,7 @@ namespace ValToolFunctions_2013
     {
         public static class TABLE
         {
-            public enum TYPE
+            public enum TYPE:int
             {
                 [StringValue("Action")]
                 ACTION,

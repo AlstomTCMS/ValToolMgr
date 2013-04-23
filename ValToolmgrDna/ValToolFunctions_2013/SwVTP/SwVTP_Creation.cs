@@ -109,7 +109,7 @@ namespace ValToolFunctions_2013
         [System.Obsolete("Use createWholeTestFormat instead")]
         internal static void initEndpaper(Workbook wb, string filename)
         {
-            Worksheet eps = wb.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER)];
+            Worksheet eps = wb.Sheets[StringEnum.GetStringValue(SheetsNames.ENDPAPER_PR)];
             eps.Unprotect();
 
             Regex rgx = new Regex(@"^[a-zA-Z][0-9]_\d{3}_\d{1}");
@@ -147,7 +147,7 @@ namespace ValToolFunctions_2013
         private static void CreateEndpaperSheet(Workbook wb, string filename)
         {
             Worksheet eps = wb.Sheets[1];
-            eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER); 
+            eps.Name = StringEnum.GetStringValue(SheetsNames.ENDPAPER_PR); 
             TabColorLightBlue(eps.Tab);
 
             //Mask what is not on the area of the sheet
@@ -463,10 +463,10 @@ namespace ValToolFunctions_2013
 
         private static void CreateBenchConfSheet(Workbook wb)
         {
-            Worksheet bcs = wb.Sheets[3];
-            bcs.Name = StringEnum.GetStringValue(SheetsNames.BENCH_CONF);
-            bcs.Tab.ThemeColor = XlThemeColor.xlThemeColorDark2;
-            bcs.Tab.TintAndShade = -9.99786370433668E-02;
+            //Worksheet bcs = wb.Sheets[3];
+            //bcs.Name = StringEnum.GetStringValue(SheetsNames.BENCH_CONF);
+            //bcs.Tab.ThemeColor = XlThemeColor.xlThemeColorDark2;
+            //bcs.Tab.TintAndShade = -9.99786370433668E-02;
         }
 
         private static void CreateSwVTPSheet(Workbook wb)
@@ -476,14 +476,19 @@ namespace ValToolFunctions_2013
             TabColorLightBlue(SwvtpS.Tab);
             General.SetGreySheetPattern(SwvtpS);
 
-            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B2:F2"], XlYesNoGuess.xlYes);
+            ListObject testsTable = SwvtpS.ListObjects.Add(XlListObjectSourceType.xlSrcRange, SwvtpS.Range["B2:L2"], XlYesNoGuess.xlYes);
             testsTable.Name = "TestsList_0";
-            SwvtpS.Range["A2:F2"].Value = new String[] { StringEnum.GetStringValue(SwVTP_Columns.CATEGORY), 
-                                                        StringEnum.GetStringValue(SwVTP_Columns.TEST), 
-                                                        StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF), 
-                                                        StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT),
-                                                        StringEnum.GetStringValue(SwVTP_Columns.DESC),
-                                                        StringEnum.GetStringValue(SwVTP_Columns.COMMENT) };
+            SwvtpS.Range["A2:L2"].Value = new String[] { StringEnum.GetStringValue(SwVTx_Columns.CATEGORY), 
+                                                        StringEnum.GetStringValue(SwVTx_Columns.TEST), 
+                                                        StringEnum.GetStringValue(SwVTx_Columns.BENCH_CONF), 
+                                                        StringEnum.GetStringValue(SwVTx_Columns.REQUIREMENT),
+                                                        StringEnum.GetStringValue(SwVTx_Columns.STEP), 
+                                                        StringEnum.GetStringValue(SwVTx_Columns.TITLE),
+                                                        StringEnum.GetStringValue(SwVTx_Columns.ACTION),
+                                                        StringEnum.GetStringValue(SwVTx_Columns.CHECK), 
+                                                        StringEnum.GetStringValue(SwVTx_Columns.STATUS),
+                                                        StringEnum.GetStringValue(SwVTx_Columns.JUSTIFICATION),
+                                                        StringEnum.GetStringValue(SwVTx_Columns.R_COMMENT) };
 
             testsTable.TableStyle = "TableStyleMedium2";
             //testsTable.Range.EntireColumn.AutoFit();
@@ -493,7 +498,7 @@ namespace ValToolFunctions_2013
             // Tests title
             Range testsTitleRange = testsTable.Range.Offset[-1, 0].Rows[1];
             testsTitleRange.MergeCells = true;
-            testsTitleRange.Value = "Tests";
+            testsTitleRange.Value = "TEST";
             testsTitleRange.HorizontalAlignment = XlHAlign.xlHAlignCenter;
             testsTitleRange.VerticalAlignment = XlVAlign.xlVAlignCenter;
 
@@ -527,7 +532,9 @@ namespace ValToolFunctions_2013
             //titleRow.WrapText = true;
 
             formatColumnsSwVTP();
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.TEST)].Range.EntireColumn.Hidden = true;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.TEST)].Range.EntireColumn.Hidden = true;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.STEP)].Range.EntireColumn.Hidden = true;
+            SwvtpS.Columns["H:L"].EntireColumn.Hidden = true;
 
             SetBenchConfValidation(testsTable);
 
@@ -555,11 +562,11 @@ namespace ValToolFunctions_2013
         {
             Worksheet ws = RibbonHandler.ExcelApplication.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTP)];
             ListObject testsTable = ws.ListObjects[1];
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.TEST)].Range.ColumnWidth = 4;
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF)].Range.ColumnWidth = 6.57;
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.REQUIREMENT)].Range.ColumnWidth = 16;
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.DESC)].Range.ColumnWidth = 25;
-            testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.COMMENT)].Range.ColumnWidth = 25;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.TEST)].Range.ColumnWidth = 4;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.BENCH_CONF)].Range.ColumnWidth = 6.57;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.REQUIREMENT)].Range.ColumnWidth = 16;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.TITLE)].Range.ColumnWidth = 25;
+            testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.ACTION)].Range.ColumnWidth = 25;
             testsTable.Range.WrapText = true;
         }
 
@@ -586,7 +593,7 @@ namespace ValToolFunctions_2013
 
         private static void SetBenchConfValidation(ListObject testsTable)
         {
-            ListColumn lc = testsTable.ListColumns[StringEnum.GetStringValue(SwVTP_Columns.BENCH_CONF)];
+            ListColumn lc = testsTable.ListColumns[StringEnum.GetStringValue(SwVTx_Columns.BENCH_CONF)];
             //List<string> validConfs = new List<string>() { "A1", "A2", "B", "C", "D" };
             //string[] validConfs = new string[] { "A1", "A2", "B", "C", "D" };
             //string validConfs = "\"A1\",\"A2\",\"B\",\"C\",\"D\"";

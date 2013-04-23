@@ -21,8 +21,26 @@ namespace ValToolFunctions_2013
             {
                 Pr_wb.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTD)].Delete();
             }
-            Worksheet swVtdS = ((Worksheet)Pr_wb.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTP)])
-                .Copy(After: Pr_wb.Sheets[Pr_wb.Sheets.Count]);
+            Worksheet swVTP = Pr_wb.Sheets[StringEnum.GetStringValue(SheetsNames.SW_VTP)];
+            swVTP.Copy(After: Pr_wb.Sheets[swVTP.Index]);
+            Worksheet swVtdS = Pr_wb.Sheets[swVTP.Index + 1];
+            swVtdS.Name = StringEnum.GetStringValue(SheetsNames.SW_VTD);
+
+
+            //unhide 2 columns
+            swVtdS.Columns[SwVTx_Columns.STEP].EntireColumn.Hidden = false;
+            swVtdS.Columns[SwVTx_Columns.CHECK].EntireColumn.Hidden = false;
+
+            //Modify test title zone
+            Range testTitle = swVtdS.Range["B1:F1"];
+            testTitle.UnMerge();
+            testTitle = swVtdS.Range["B1:D1"];
+            testTitle.Merge();
+
+            //Add Step Zone
+            Range StepTitle = swVtdS.Range["E1:H1"];
+            StepTitle.Merge();
+            StepTitle.Value = "STEP";
 
             //Fill SwVTD with tests's sheets data
             //swVtdS.

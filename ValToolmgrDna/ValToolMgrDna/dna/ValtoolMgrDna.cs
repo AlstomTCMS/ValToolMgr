@@ -32,5 +32,25 @@ namespace ValToolMgrDna
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
         }
+
+        [ExcelCommand(MenuText = "Workbook_Open")]
+        public static void TPL_Workbook_Open()
+        {
+            XlCall.Excel(XlCall.xlcAlert, "Workbook_Open"); 
+    //        'Refresh linked data sources
+    //Me.RefreshAll
+    
+    //Application.EnableEvents = True
+
+    //For Each sh In Me.Worksheets
+    //    ' Hidden sheets are refences. They don't have to be count
+    //    If Not sh.Visible = xlSheetHidden Then
+    //        For Each oList In sh.ListObjects
+    //            Set nm_c = MyName(oList.Name & ROWS, CStr(oList.ListRows.Count))
+    //            Set nm_c = MyName(oList.Name & COLUMNS, CStr(oList.ListColumns.Count))
+    //        Next oList
+    //    End If
+    //Next sh
+        }
     }
 }

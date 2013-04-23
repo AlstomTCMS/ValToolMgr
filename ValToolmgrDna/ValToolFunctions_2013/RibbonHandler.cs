@@ -290,20 +290,20 @@ namespace ValToolFunctions_2013
 
         public void extractTests2SwVTD(Excel.Application exelApp)
         {
-            try
-            {
+            //try
+            //{
                 SetExcelApplication(exelApp);
                 SwVTD.GenerateSwVTD();
-            }
-            catch (Exception e)
-            {
-                //log exception
-                throw e;
-            }
-            finally
-            {
+            //}
+            //catch (Exception e)
+            //{
+            //    //log exception
+            //    throw e;
+            //}
+            //finally
+            //{
                 IsAFunctionalityRunning = false;
-            }
+            //}
         }
     }
 }

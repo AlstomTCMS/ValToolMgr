@@ -35,12 +35,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonVisual));
-            this.ValToolMgrTab = this.Factory.CreateRibbonTab();
+            this.TabValToolMgr = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.label1 = this.Factory.CreateRibbonLabel();
             this.LayoutVersion_DD = this.Factory.CreateRibbonDropDown();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.button_NewPR = this.Factory.CreateRibbonButton();
+            this.addCategory = this.Factory.CreateRibbonButton();
             this.plan2Tests = this.Factory.CreateRibbonButton();
             this.TestEditGroup = this.Factory.CreateRibbonGroup();
             this.AddStep = this.Factory.CreateRibbonButton();
@@ -62,8 +63,7 @@
             this.macroVersion = this.Factory.CreateRibbonLabel();
             this.UpdateDate = this.Factory.CreateRibbonLabel();
             this.autoUpdate = this.Factory.CreateRibbonCheckBox();
-            this.addCategory = this.Factory.CreateRibbonButton();
-            this.ValToolMgrTab.SuspendLayout();
+            this.TabValToolMgr.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.TestEditGroup.SuspendLayout();
@@ -71,17 +71,16 @@
             this.Outputs.SuspendLayout();
             this.macroInfos.SuspendLayout();
             // 
-            // ValToolMgrTab
+            // TabValToolMgr
             // 
-            this.ValToolMgrTab.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.ValToolMgrTab.Groups.Add(this.group1);
-            this.ValToolMgrTab.Groups.Add(this.group2);
-            this.ValToolMgrTab.Groups.Add(this.TestEditGroup);
-            this.ValToolMgrTab.Groups.Add(this.checks);
-            this.ValToolMgrTab.Groups.Add(this.Outputs);
-            this.ValToolMgrTab.Groups.Add(this.macroInfos);
-            this.ValToolMgrTab.Label = "Val tool Mgr";
-            this.ValToolMgrTab.Name = "ValToolMgrTab";
+            this.TabValToolMgr.Groups.Add(this.group1);
+            this.TabValToolMgr.Groups.Add(this.group2);
+            this.TabValToolMgr.Groups.Add(this.TestEditGroup);
+            this.TabValToolMgr.Groups.Add(this.checks);
+            this.TabValToolMgr.Groups.Add(this.Outputs);
+            this.TabValToolMgr.Groups.Add(this.macroInfos);
+            this.TabValToolMgr.Label = "Val tool Mgr";
+            this.TabValToolMgr.Name = "TabValToolMgr";
             // 
             // group1
             // 
@@ -119,6 +118,15 @@
             this.button_NewPR.Name = "button_NewPR";
             this.button_NewPR.ShowImage = true;
             this.button_NewPR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button_NewPR_Click);
+            // 
+            // addCategory
+            // 
+            this.addCategory.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.addCategory.Label = "Add a Category";
+            this.addCategory.Name = "addCategory";
+            this.addCategory.ShowImage = true;
+            this.addCategory.Visible = false;
+            this.addCategory.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.addCategory_Click);
             // 
             // plan2Tests
             // 
@@ -230,7 +238,6 @@
             // toSwVTD
             // 
             this.toSwVTD.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toSwVTD.Enabled = false;
             this.toSwVTD.Image = global::ExcelAddIn.Properties.Resources.Tests2SwVTD;
             this.toSwVTD.Label = "To SwVTD";
             this.toSwVTD.Name = "toSwVTD";
@@ -293,22 +300,14 @@
             this.autoUpdate.Name = "autoUpdate";
             this.autoUpdate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.autoUpdate_Click);
             // 
-            // addCategory
-            // 
-            this.addCategory.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.addCategory.Label = "Add a Category";
-            this.addCategory.Name = "addCategory";
-            this.addCategory.ShowImage = true;
-            this.addCategory.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.addCategory_Click);
-            // 
             // RibbonVisual
             // 
             this.Name = "RibbonVisual";
             this.RibbonType = "Microsoft.Excel.Workbook";
-            this.Tabs.Add(this.ValToolMgrTab);
+            this.Tabs.Add(this.TabValToolMgr);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.RibbonVisual_Load);
-            this.ValToolMgrTab.ResumeLayout(false);
-            this.ValToolMgrTab.PerformLayout();
+            this.TabValToolMgr.ResumeLayout(false);
+            this.TabValToolMgr.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
@@ -326,7 +325,7 @@
 
         #endregion
 
-        internal Microsoft.Office.Tools.Ribbon.RibbonTab ValToolMgrTab;
+        internal Microsoft.Office.Tools.Ribbon.RibbonTab TabValToolMgr;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown LayoutVersion_DD;
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel label1;
