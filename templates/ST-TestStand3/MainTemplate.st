@@ -1,4 +1,4 @@
-MainTemplate(filename, nbOfSequences, SequenceDeclare, SequenceList) ::= <<
+MainTemplate(TestStandFile) ::= <<
 
 [__Header__]
 ProductName = "TestStand"
@@ -6,7 +6,7 @@ ProductVersion = 3.0.0.12373
 CompatibleProdVersion = 3.0.0.0
 Version = 172
 Type = "SequenceFile"
-Path = "$filename$"
+Path = "C:\\macros_alstom\\test\\genTest-ref.seq"
 ProductVersionString = "3.0 (3.0.0.12373)"
 CharEncoding = "SBCS"
 
@@ -30,13 +30,8 @@ NoneStepAdditions = NoneModule
 Label = StepType
 SequenceCall = StepType
 SeqCallStepAdditions = SeqCallModule
-CB_Force = StepType
-CB_Test = StepType
 NI_Wait = StepType
 PostSubstep = StepType
-CB_LoadConfiguration = StepType
-CB_Connect = StepType
-CB_StartExecution = StepType
 RP_Init = StepType
 RP_Close = StepType
 RP_StartServer = StepType
@@ -44,12 +39,11 @@ RP_StopServer = StepType
 RP_ReadConfig = StepType
 RP_ResetConfig = StepType
 RP_StartAllEqt = StepType
-CallExecutable = StepType
-TH_Init = StepType
 DotNetStepAdditions = DotNetModule
 DotNetParameter = DotNetParameter
-TH_Start = StepType
-TH_Stop = StepType
+Variable_Force = StepType
+Variable_Read_Test = StepType
+Statement = StepType
 
 [DEF, SF]
 Seq = Objs
@@ -65,7 +59,7 @@ ModelOption = Num
 %NAME = "Data"
 
 [SF]
-%HI: Seq = [$nbOfSequences$]
+%HI: Seq = [1]
 %FLG: Seq = 4194304
 %FLG: FileGlobalDefaults = 4194304
 %FLG: ModelFile = 4194312
@@ -82,8 +76,9 @@ BatchSync = 1
 %FLG: ModelOption = 4194312
 
 [DEF, SF.Seq]
-$SequenceDeclare:{s | %[$i0$] = Sequence
-}$
+%[0] = Sequence
+%[1] = Sequence
+
 [DEF, SF.Seq[0]]
 Parameters = Obj
 Locals = Obj
@@ -98,11 +93,10 @@ RTS = Obj
 [SF.Seq[0]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
-%HI: Main = [0]
+$if(TestStandFile.HeaderList)$%HI: Main = [$TestStandFile.HeaderList.Max$]$endif$
 %FLG: Main = 4194304
-%HI: Setup = [28]
+%HI: Setup = [8]
 %FLG: Setup = 4194304
-%HI: Cleanup = [4]
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
 RecordResults = True
@@ -124,1454 +118,103 @@ HARD = Str
 %NUMFMT = "%g"
 
 [SF.Seq[0].Locals]
-EACB_File = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\EACB.xml"
-HARD = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\HARD.xml"
+EACB_File = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\EACB.xml"
+HARD = "C:\\Russian_2ES5_EnvTest_1_0_0\\Workbench\\build\\conf_banc_env\\embedded\\target_testbench\\HARD.xml"
 
+$if(TestStandFile.HeaderList)$
 [DEF, SF.Seq[0].Main]
-%[0] = Step
-%TYPE: %[0] = "SequenceCall"
+$TestStandFile.HeaderList:{s|
+%[$i0$] = Step
+%TYPE: %[$i0$] = "$s.InstructionName$"
+}$
+$TestStandFile.HeaderList:{item |
+$(item.InstructionName)( "0", i0, item)
 
-[SF.Seq[0].Main[0].TS]
-Id = "ID#:0000000000000000000001"
-
-[DEF, SF.Seq[0].Main[0].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Main[0].TS.SData]
-SeqName = "Test_1.2"
-UseCurFile = True
-
-[DEF, SF.Seq[0].Main[0]]
-%NAME = "Test_1.2"
+$}$
+$endif$
 
 [DEF, SF.Seq[0].Setup]
 %[0] = Step
-%TYPE: %[0] = "Label"
+%TYPE: %[0] = "Statement"
 %[1] = Step
-%TYPE: %[1] = "CallExecutable"
+%TYPE: %[1] = "Statement"
 %[2] = Step
-%TYPE: %[2] = "RP_Init"
+%TYPE: %[2] = "Statement"
 %[3] = Step
-%TYPE: %[3] = "NI_Wait"
+%TYPE: %[3] = "Statement"
 %[4] = Step
-%TYPE: %[4] = "RP_StartServer"
+%TYPE: %[4] = "Statement"
 %[5] = Step
-%TYPE: %[5] = "NI_Wait"
+%TYPE: %[5] = "Statement"
 %[6] = Step
-%TYPE: %[6] = "Label"
+%TYPE: %[6] = "Statement"
 %[7] = Step
-%TYPE: %[7] = "CB_Init"
+%TYPE: %[7] = "Statement"
 %[8] = Step
-%TYPE: %[8] = "CB_Init"
-%[9] = Step
-%TYPE: %[9] = "NI_Wait"
-%[10] = Step
-%TYPE: %[10] = "Label"
-%[11] = Step
-%TYPE: %[11] = "CB_StartTask"
-%[12] = Step
-%TYPE: %[12] = "CB_StartTask"
-%[13] = Step
-%TYPE: %[13] = "NI_Wait"
-%[14] = Step
-%TYPE: %[14] = "Label"
-%[15] = Step
-%TYPE: %[15] = "CB_LoadConfiguration"
-%[16] = Step
-%TYPE: %[16] = "CB_LoadConfiguration"
-%[17] = Step
-%TYPE: %[17] = "NI_Wait"
-%[18] = Step
-%TYPE: %[18] = "CB_Connect"
-%[19] = Step
-%TYPE: %[19] = "NI_Wait"
-%[20] = Step
-%TYPE: %[20] = "CB_Connect"
-%[21] = Step
-%TYPE: %[21] = "NI_Wait"
-%[22] = Step
-%TYPE: %[22] = "CB_StartExecution"
-%[23] = Step
-%TYPE: %[23] = "NI_Wait"
-%[24] = Step
-%TYPE: %[24] = "RP_ReadConfig"
-%[25] = Step
-%TYPE: %[25] = "RP_ReadConfig"
-%[26] = Step
-%TYPE: %[26] = "RP_ReadConfig"
-%[27] = Step
-%TYPE: %[27] = "TH_Init"
-%[28] = Step
-%TYPE: %[28] = "TH_Start"
+%TYPE: %[8] = "Statement"
 
 [SF.Seq[0].Setup[0].TS]
-NoResult = True
+Id = "ID#:sFBjEI3Am0+svYDDcGLg0C"
+PostExpr = "FileGlobals.WebMaintenance = StationGlobals.TrainTracer.WebMaintenance"
 
 [DEF, SF.Seq[0].Setup[0]]
-%NAME = "RP initialization"
+%NAME = "Copy Traintracer project references"
 
 [SF.Seq[0].Setup[1].TS]
-PreCond = "FileGlobals.Embedded1==true"
-NoResult = True
-
-[SF.Seq[0].Setup[1]]
-Executable = "C:\\\\Russian_2ES5_EnvTest_1_0_0\\\\Workbench\\\\build\\\\conf_banc_env\\\\embedded\\\\target_testbench\\\\server.exe"
-Arguments = "\"toto 1024\""
-InitialWindowState = "WINSTATE_SHOWMIN_A"
+Id = "ID#:OZLBiCRcQUO/lDbyxcTkVB"
+PostExpr = "FileGlobals.CbEmb1= StationGlobals.ControlBuildPtr.CbPtr_emb1"
 
 [DEF, SF.Seq[0].Setup[1]]
-%NAME = "CB_server"
-
-[DEF, SF.Seq[0].Setup[2].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[2].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CreateObject = 0
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-RemoteMachine = "FileGlobals.PC_Env1_ip"
-RemoteMachineByExpr = True
-MemberType = 1
-Member = 1610809344
-MemberName = "RP_Initialize"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 28
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[2].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[0]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 1
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[1]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[2].TS.SData.Call.Parameters[3]]
-Name = "SharedMemoryName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsUserOptional = True
-IsServerOptional = True
-IsByRef = True
+%NAME = "Copy Embedded1 project references"
 
 [SF.Seq[0].Setup[2].TS]
-PreCond = "FileGlobals.Remote_1==Nothing && FileGlobals.Embedded1==true"
-NoResult = True
+Id = "ID#:zqkp4ZN6ZUSItjai6kkc6C"
+PostExpr = "FileGlobals.CbEmb2= StationGlobals.ControlBuildPtr.CbPtr_emb2"
 
 [DEF, SF.Seq[0].Setup[2]]
-%NAME = "Handle Creation RP Env 1"
+%NAME = "Copy Embedded2 project references"
 
 [SF.Seq[0].Setup[3].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-PreCond = "AnyOf(FileGlobals.Remote_1 != Nothing) && FileGlobals.Embedded1==true"
-NoResult = True
-
-[SF.Seq[0].Setup[3]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
+Id = "ID#:uG7yCx6kg0idI/WnRVHhIC"
+PostExpr = "FileGlobals.CbEmb3= StationGlobals.ControlBuildPtr.CbPtr_emb3"
 
 [DEF, SF.Seq[0].Setup[3]]
-%NAME = "Wait"
-
-[DEF, SF.Seq[0].Setup[4].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[4].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809346
-MemberName = "RP_StartServer"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 36
-%HI: Parameters = [2]
-
-[DEF, SF.Seq[0].Setup[4].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[1]]
-Name = "passFail"
-ArgVal = "true"
-ArgDisplayVal = "true"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[4].TS.SData.Call.Parameters[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
+%NAME = "Copy Embedded3 project references"
 
 [SF.Seq[0].Setup[4].TS]
-PreCond = "AllOf(FileGlobals.Remote_1 != Nothing && FileGlobals.Embedded1==true)"
-NoResult = True
-
-[SF.Seq[0].Setup[4]]
-InBuf = "\"10.23.176.153\""
+Id = "ID#:feYbtVm5t0qrooqZV1PeIC"
+PostExpr = "FileGlobals.CbEmb4= StationGlobals.ControlBuildPtr.CbPtr_emb4"
 
 [DEF, SF.Seq[0].Setup[4]]
-%NAME = "Start Handle RP Env 1"
+%NAME = "Copy Embedded4 project references"
 
 [SF.Seq[0].Setup[5].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-PreCond = "AnyOf(FileGlobals.Remote_1 != Nothing) && FileGlobals.Embedded1==true"
-NoResult = True
-
-[SF.Seq[0].Setup[5]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
+Id = "ID#:YjKdiRHgQE6rJO/BcUC4XC"
+PostExpr = "FileGlobals.CbEmb5= StationGlobals.ControlBuildPtr.CbPtr_emb5"
 
 [DEF, SF.Seq[0].Setup[5]]
-%NAME = "Wait"
+%NAME = "Copy Embedded5 project references"
 
 [SF.Seq[0].Setup[6].TS]
-Id = "ID#:SDiNBJGXd0uGbdGQyuDPVA"
-NoResult = True
+Id = "ID#:Vfo+S7kSHE2oSV5skDRwLA"
+PostExpr = "FileGlobals.CbEmb6= StationGlobals.ControlBuildPtr.CbPtr_emb6"
 
 [DEF, SF.Seq[0].Setup[6]]
-%NAME = "LANCEMENT DE CONTROLBUILD"
+%NAME = "Copy Embedded6 project references"
 
 [SF.Seq[0].Setup[7].TS]
-Id = "ID#:ZRHjkPdmrEymo2Aews1XTA"
-PreCond = "FileGlobals.cb1==nothing && FileGlobals.Embedded==true"
-NoResult = True
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[0].Setup[7].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[7].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CreateObject = 0
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
-InterfaceName = "_ControlBuild"
-RemoteMachine = "FileGlobals.PC_Emb1_ip"
-RemoteMachineByExpr = True
-MemberType = 1
-Member = 1610809344
-MemberName = "CB_Init"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 176
-%HI: Parameters = [5]
-
-[DEF, SF.Seq[0].Setup[7].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[0]]
-Name = "strPathName"
-ArgVal = "FileGlobals.CB_Path_Name"
-ArgDisplayVal = "FileGlobals.CB_Path_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[1]]
-Name = "strProjectName"
-ArgVal = "FileGlobals.CB_Project_Name"
-ArgDisplayVal = "FileGlobals.CB_Project_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[2]]
-Name = "strApplicationName"
-ArgVal = "FileGlobals.CB_Application_Name"
-ArgDisplayVal = "FileGlobals.CB_Application_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[3]]
-Name = "strFunctionalTaskName"
-ArgVal = "FileGlobals.CB_Task_Name"
-ArgDisplayVal = "FileGlobals.CB_Task_Name"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[4]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[7].TS.SData.Call.Parameters[5]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[7]]
-InBuf = "FileGlobals.CB_Path_Name"
-%COMMENT = "\n "
+Id = "ID#:KdoNygbjhkyh4Yeihz2OMC"
+PostExpr = "FileGlobals.CbEmb7= StationGlobals.ControlBuildPtr.CbPtr_emb7"
 
 [DEF, SF.Seq[0].Setup[7]]
-%NAME = "Initialize CB"
+%NAME = "Copy Embedded7 project references"
 
 [SF.Seq[0].Setup[8].TS]
-Id = "ID#:ZRHjkPdmrEymo2Aews1XTA"
-PreCond = "FileGlobals.cb_1==nothing && FileGlobals.Embedded1==true"
-NoResult = True
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[0].Setup[8].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[8].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CreateObject = 0
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
-InterfaceName = "_ControlBuild"
-RemoteMachine = "FileGlobals.PC_Env1_ip"
-RemoteMachineByExpr = True
-MemberType = 1
-Member = 1610809344
-MemberName = "CB_Init"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 176
-%HI: Parameters = [5]
-
-[DEF, SF.Seq[0].Setup[8].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[0]]
-Name = "strPathName"
-ArgVal = "FileGlobals.CB_Path_Name_Env"
-ArgDisplayVal = "FileGlobals.CB_Path_Name_Env"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[1]]
-Name = "strProjectName"
-ArgVal = "FileGlobals.CB_Project_Name_Env"
-ArgDisplayVal = "FileGlobals.CB_Project_Name_Env"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[2]]
-Name = "strApplicationName"
-ArgVal = "FileGlobals.CB_Application_Name_Env"
-ArgDisplayVal = "FileGlobals.CB_Application_Name_Env"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[3]]
-Name = "strFunctionalTaskName"
-ArgVal = "FileGlobals.CB_Task_Name_Env"
-ArgDisplayVal = "FileGlobals.CB_Task_Name_Env"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[4]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[8].TS.SData.Call.Parameters[5]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[8]]
-InBuf = "FileGlobals.CB_Path_Name"
-%COMMENT = "\n "
+Id = "ID#:Dz0YUMfUbkajteWnP2+7fB"
+PostExpr = "FileGlobals.CbEmb8= StationGlobals.ControlBuildPtr.CbPtr_emb8"
 
 [DEF, SF.Seq[0].Setup[8]]
-%NAME = "Initialize CB"
-
-[SF.Seq[0].Setup[9].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-NoResult = True
-
-[SF.Seq[0].Setup[9]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[9]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[10].TS]
-Id = "ID#:YOt6rnxl3UKG6SchFgE+AB"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[10]]
-%NAME = "FONCTIONNAL TEST"
-
-[SF.Seq[0].Setup[11].TS]
-Id = "ID#:yL3+FC7H1kCzjNk3jxI4UB"
-PreCond = "FileGlobals.Embedded==false && FileGlobals.Embedded1==false && FileGlobals.Embedded2==false"
-NoResult = True
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[0].Setup[11].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[11].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809360
-MemberName = "CB_StartTask"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4a5.0"
-InterfaceType = 1
-VTableOffset = 220
-%HI: Parameters = [1]
-
-[DEF, SF.Seq[0].Setup[11].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[11].TS.SData.Call.Parameters[0]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[11].TS.SData.Call.Parameters[1]]
-Name = "\"errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[11]]
-%COMMENT = "\n "
-
-[DEF, SF.Seq[0].Setup[11]]
-%NAME = "Launch CB Functional Task"
-
-[SF.Seq[0].Setup[12].TS]
-Id = "ID#:yL3+FC7H1kCzjNk3jxI4UB"
-PreCond = "FileGlobals.Embedded==false && FileGlobals.Embedded1==false && FileGlobals.Embedded2==false"
-NoResult = True
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
-StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
-
-[DEF, SF.Seq[0].Setup[12].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[12].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809360
-MemberName = "CB_StartTask"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4a5.0"
-InterfaceType = 1
-VTableOffset = 220
-%HI: Parameters = [1]
-
-[DEF, SF.Seq[0].Setup[12].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[0]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[12].TS.SData.Call.Parameters[1]]
-Name = "\"errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[12]]
-%COMMENT = "\n "
-
-[DEF, SF.Seq[0].Setup[12]]
-%NAME = "Launch CB Functional Task"
-
-[SF.Seq[0].Setup[13].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-PreCond = "AnyOf(FileGlobals.Remote_2 != Nothing)"
-NoResult = True
-
-[SF.Seq[0].Setup[13]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[13]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[14].TS]
-Id = "ID#:uJe+2pqBakS1t9tHeVO+lA"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[14]]
-%NAME = "EMBEDDED TEST"
-
-[SF.Seq[0].Setup[15].TS]
-Id = "ID#:Pj5WVd/jU0auQF9aY+tCaA"
-PreCond = "FileGlobals.Embedded==true"
-NoResult = True
-FailAct = "Goto"
-FailActTarget = "\"<End>\""
-
-[DEF, SF.Seq[0].Setup[15].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[15].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 et CB3.32"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809362
-MemberName = "CB_LoadConfiguration"
-HasMemberInfo = True
-Locale = 1036
-HasReturnValue = True
-TypeLibVersion = "\"385.0"
-InterfaceType = 1
-VTableOffset = 228
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[15].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[0]]
-Name = "Return Value"
-Type = 9
-DisplayType = "ICBCOMEmbeddedConfiguration (Object Reference)"
-TypeValid = True
-Direction = 2
-IsUserOptional = True
-IsByRef = True
-IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[1]]
-Name = "FileGlobals.CB_Conf"
-ArgVal = "FileGlobals.CB_Conf"
-ArgDisplayVal = "conf"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[15].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[0].Setup[15]]
-%NAME = "Load a configuration"
-
-[SF.Seq[0].Setup[16].TS]
-Id = "ID#:Pj5WVd/jU0auQF9aY+tCaA"
-PreCond = "FileGlobals.Embedded1==true"
-NoResult = True
-FailAct = "Goto"
-FailActTarget = "\"<End>\""
-
-[DEF, SF.Seq[0].Setup[16].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[16].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 et CB3.32"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809362
-MemberName = "CB_LoadConfiguration"
-HasMemberInfo = True
-Locale = 1036
-HasReturnValue = True
-TypeLibVersion = "\"385.0"
-InterfaceType = 1
-VTableOffset = 228
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[16].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[0]]
-Name = "Return Value"
-Type = 9
-DisplayType = "ICBCOMEmbeddedConfiguration (Object Reference)"
-TypeValid = True
-Direction = 2
-IsUserOptional = True
-IsByRef = True
-IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
-
-[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[1]]
-Name = "FileGlobals.CB_Conf_Env"
-ArgVal = "FileGlobals.CB_Conf_Env"
-ArgDisplayVal = "conf"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[16].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[0].Setup[16]]
-%NAME = "Load a configuration"
-
-[SF.Seq[0].Setup[17].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-NoResult = True
-
-[SF.Seq[0].Setup[17]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[17]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[18].TS]
-Id = "ID#:SGecjY79FUCQS/jYICFusA"
-PreCond = "FileGlobals.Embedded==true"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[18].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[18].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809394
-MemberName = "CB_Connect"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.0"
-InterfaceType = 1
-VTableOffset = 348
-%HI: Parameters = [2]
-
-[DEF, SF.Seq[0].Setup[18].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[0]]
-Name = "strTargetName"
-ArgVal = "FileGlobals.MPU_target"
-ArgDisplayVal = "MPU"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[1]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[18].TS.SData.Call.Parameters[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[0].Setup[18]]
-%NAME = "Connect to a target : MPU"
-
-[SF.Seq[0].Setup[19].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-NoResult = True
-
-[SF.Seq[0].Setup[19]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[19]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[20].TS]
-Id = "ID#:gqDOV1VhQkq005rBlmXwpD"
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[20].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[20].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{92A356FE-21EB-44F0-B05A-056727F0109D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809394
-MemberName = "CB_Connect"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.0"
-InterfaceType = 1
-VTableOffset = 348
-%HI: Parameters = [2]
-
-[DEF, SF.Seq[0].Setup[20].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[20].TS.SData.Call.Parameters[0]]
-Name = "FileGlobals.TestBench_target"
-ArgVal = "FileGlobals.TestBench_target"
-ArgDisplayVal = "TestBench"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[20].TS.SData.Call.Parameters[1]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[20].TS.SData.Call.Parameters[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[0].Setup[20]]
-%NAME = "Connect to a target : TestBench"
-
-[SF.Seq[0].Setup[21].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-PreCond = "FileGlobals.Embedded1==true"
-NoResult = True
-
-[SF.Seq[0].Setup[21]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[21]]
-%NAME = "Wait"
-
-[SF.Seq[0].Setup[22].TS]
-Id = "ID#:XyOEjS1ObUKEl1uRzLPHoA"
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[22].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[22].TS.SData.Call]
-ObjectVariable = "FileGlobals.cb_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{C60955F5-C36C-4941-8201-5DE04CB2FAD9}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809378
-MemberName = "CB_StartExecution"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 288
-%HI: Parameters = [2]
-
-[DEF, SF.Seq[0].Setup[22].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[22].TS.SData.Call.Parameters[0]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[22].TS.SData.Call.Parameters[1]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "\"String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[22].TS.SData.Call.Parameters[2]]
-Name = "strTargetName"
-ArgVal = "FileGlobals.TestBench_target"
-ArgDisplayVal = "FileGlobals.TestBench_target"
-Type = 12
-DisplayType = "\"Variant"
-TypeValid = True
-Direction = 1
-IsUserOptional = True
-IsServerOptional = True
-
-[DEF, SF.Seq[0].Setup[22]]
-%NAME = "Launch organ of target TestBench"
-
-[SF.Seq[0].Setup[23].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[SF.Seq[0].Setup[23]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Setup[23]]
-%NAME = "Wait"
-
-[DEF, SF.Seq[0].Setup[24].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[24].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809348
-MemberName = "RP_ReadConfig"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 44
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[24].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[24].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[24].TS.SData.Call.Parameters[1]]
-Name = "strXMLpathname"
-ArgVal = "Locals.HARD"
-ArgDisplayVal = "Locals.HARD"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[24].TS.SData.Call.Parameters[2]]
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[24].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[24].TS]
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[SF.Seq[0].Setup[24]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[24]]
-%NAME = "Configure a target R/P server for UM Loco1"
-
-[DEF, SF.Seq[0].Setup[25].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[25].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809348
-MemberName = "RP_ReadConfig"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 44
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[25].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[25].TS.SData.Call.Parameters[0]]
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[25].TS.SData.Call.Parameters[1]]
-Name = "strXMLpathname"
-ArgVal = "Locals.EACB_File"
-ArgDisplayVal = "Locals.EACB_File"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[25].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[25].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[25].TS]
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[SF.Seq[0].Setup[25]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[25]]
-%NAME = "Configure a target R/P server for UM Loco1"
-
-[DEF, SF.Seq[0].Setup[26].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[0].Setup[26].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote_1"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{63ED7B3A-8F6C-43DA-90B8-6DE94E5BF121}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809364
-MemberName = "RP_StartAllEqt"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4b8.2"
-InterfaceType = 1
-VTableOffset = 108
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[0].Setup[26].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[0].Setup[26].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[26].TS.SData.Call.Parameters[1]]
-Name = "strNetwork"
-ArgVal = "\"mvb_s1\""
-ArgDisplayVal = "\"mvb_s1\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[0].Setup[26].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[26].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[0].Setup[26].TS]
-PreCond = "FileGlobals.Embedded1==True"
-NoResult = True
-
-[SF.Seq[0].Setup[26]]
-InBuf = "\"\""
-
-[DEF, SF.Seq[0].Setup[26]]
-%NAME = "Start all equipements Loco1"
-
-[SF.Seq[0].Setup[27].TS]
-Id = "ID#: Un729hMWiE6kx4Jk4M7VyC"
-PreCond = "FileGlobals.Embedded2==true"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[27].TS]
-SData = "TYPE, DotNetStepAdditions"
-
-[SF.Seq[0].Setup[27].TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH"
-ClassName = "TestHMI.TestHMI"
-CreateInstance = True
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "InitTestDDU"
-%HI: Params = [5]
-
-[DEF, SF.Seq[0].Setup[27].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-%[3] = "TYPE, DotNetParameter"
-%[4] = "TYPE, DotNetParameter"
-%[5] = "TYPE, DotNetParameter"
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[0]]
-Name = "bPassFail"
-ArgVal = "Step.Result.PassFail"
-Type = 2
-Direction = 10
-Dimension = -1
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[1]]
-Name = "sReportText"
-ArgVal = "Step.Result.ReportText"
-Type = 1
-Direction = 10
-Dimension = -1
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[2]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Dimension = -1
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[3]]
-Name = "sImagesPath"
-ArgVal = "FileGlobals.Teststand_directory"
-Type = 1
-Dimension = -1
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[4]]
-Name = "bReferenceBuild"
-ArgVal = "FileGlobals.DDU_ScreenShot"
-Type = 2
-Dimension = -1
-
-[SF.Seq[0].Setup[27].TS.SData.Call.Params[5]]
-Name = "sShadowFileConf"
-ArgVal = "FileGlobals.Shadow_Path_Name"
-Type = 1
-Dimension = -1
-
-[SF.Seq[0].Setup[27]]
-sImagesPath = "FileGlobals.Teststand_directory"
-sShadowFileConf = "FileGlobals.Shadow_Path_Name"
-
-[DEF, SF.Seq[0].Setup[27]]
-%NAME = "DDU Initialisation"
-
-[SF.Seq[0].Setup[28].TS]
-Id = "ID#: ADj0HVcsMUi0X0i6ntHHND "
-PreCond = "FileGlobals.Embedded2==true"
-NoResult = True
-
-[DEF, SF.Seq[0].Setup[28].TS]
-SData = "TYPE, DotNetStepAdditions"
-
-[SF.Seq[0].Setup[28].TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH"
-ClassName = "TestHMI.TestHMI"
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "RemoteControlStart"
-%HI: Params = [4]
-
-[DEF, SF.Seq[0].Setup[28].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-%[3] = "TYPE, DotNetParameter"
-%[4] = "TYPE, DotNetParameter"
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Params[0]]
-Name = "bPassFail"
-ArgVal = "Step.Result.PassFail"
-Type = 2
-Direction = 10
-Dimension = -1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Params[1]]
-Name = "sReportText"
-ArgVal = "Step.Result.ReportText"
-Type = 1
-Direction = 10
-Dimension = -1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Params[2]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Dimension = -1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Params[3]]
-Name = "sRemoteEqtAddress"
-ArgVal = "FileGlobals.DDU_ip"
-Type = 1
-Dimension = -1
-
-[SF.Seq[0].Setup[28].TS.SData.Call.Params[4]]
-Name = "sRemoteEqtPassword"
-ArgVal = "Step.sRemoteEqtPassword"
-Type = 1
-Dimension = -1
-
-[SF.Seq[0].Setup[28]]
-sRemoteEqtAddress = "FileGlobals.DDU_ip"
-
-[DEF, SF.Seq[0].Setup[28]]
-%NAME = "Remote Control Start"
-
-[DEF, SF.Seq[0].Cleanup]
-%[0] = Step
-%TYPE: %[0] = "Label"
-%[1] = Step
-%TYPE: %[1] = "TH_Stop"
-%[2] = Step
-%TYPE: %[2] = "NI_Wait"
-%[3] = Step
-%TYPE: %[3] = "SequenceCall"
-%[4] = Step
-%TYPE: %[4] = "SequenceCall"
-
-[SF.Seq[0].Cleanup[0].TS]
-Id = "\"ID#:GZn7libHU0e27LN7lpgxjA"
-NoResult = True
-
-[DEF, SF.Seq[0].Cleanup[0]]
-%NAME = "CLOSE"
-
-[SF.Seq[0].Cleanup[1].TS]
-Id = "ID#:4cWoJZNV0Ee1bOV70mMQ3C"
-PreCond = "FileGlobals.Embedded2==true"
-NoResult = True
-
-[DEF, SF.Seq[0].Cleanup[1]]
-%NAME = "Remote Control Stop"
-
-[SF.Seq[0].Cleanup[2].TS]
-Id = "ID#:z4MXOBbXeUu1kvyYDWjhGB"
-NoResult = True
-
-[SF.Seq[0].Cleanup[2]]
-SeqCallStepGroupIdx = -1
-TimeExpr = "2"
-
-[DEF, SF.Seq[0].Cleanup[2]]
-%NAME = "Wait"
-
-[DEF, SF.Seq[0].Cleanup[3].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Cleanup[3].TS.SData]
-SFPath = "C:\\\\teststand\\\\kill.seq"
-SeqName = "MainSequence"
-SpecifyHostByExpr = True
-RemoteExecution = True
-RemoteHostExpr = "FileGlobals.PC_Env1_ip"
-
-[SF.Seq[0].Cleanup[3].TS]
-LoadOpt = "DynamicLoad"
-NoResult = True
-
-[DEF, SF.Seq[0].Cleanup[3]]
-%NAME = "kill PC Env1"
-
-[DEF, SF.Seq[0].Cleanup[4].TS]
-SData = "TYPE, SeqCallStepAdditions"
-
-[SF.Seq[0].Cleanup[4].TS.SData]
-SFPath = "C:\\\\teststand\\\\kill.seq"
-SeqName = "MainSequence"
-SpecifyHostByExpr = True
-RemoteExecution = True
-RemoteHostExpr = "FileGlobals.PC_Emb1_ip"
-
-[SF.Seq[0].Cleanup[4].TS]
-LoadOpt = "DynamicLoad"
-NoResult = True
-
-[DEF, SF.Seq[0].Cleanup[4]]
-%NAME = "kill PC Loco1"
+%NAME = "Copy Embedded8 project references"
 
 [DEF, SF.Seq[0].RTS]
 Type = Num
@@ -1614,7 +257,8 @@ CopyStepsOnOverriding = True
 Priority = 2953567917
 %FLG: Priority = 4194304
 
-$SequenceList:{s |$SequenceBody(i, s)$}$[DEF, SF.FileGlobalDefaults]
+$TestStandFile.Sequences:{s |$SequenceBody(i, s)$}$
+[DEF, SF.FileGlobalDefaults]
 Perf = Ref
 FIP = Ref
 TH = Ref
@@ -1632,39 +276,14 @@ IHMAcquisition = Ref
 LS = Ref
 cb1 = Ref
 cb_1 = Ref
-Remote_1 = Ref
-Remote_2 = Ref
 trameParam = Str
 LectureBool = Bool
 Type_simu = Num
 Flange_Clock_Time = Bool
 Result_Button = Num
-Embedded = Bool
-Embedded1 = Bool
-Embedded2 = Bool
 InitDone = Bool
-CB_Path_Name = Str
-CB_Project_Name = Str
-CB_Task_Name = Str
-CB_Application_Name = Str
-CB_Conf = Str
-CB_Path_Name_Env = Str
-CB_Project_Name_Env = Str
-CB_Task_Name_Env = Str
-CB_Application_Name_Env = Str
-CB_Conf_Env = Str
-Teststand_directory = Str
-Shadow_Path_Name = Str
 DDU_ScreenShot = Bool
 DDU_ip = Str
-MPU_target = Str
-PC_Env1_ip = Str
-PC_Env2_ip = Str
-PC_Emb1_ip = Str
-PC_Emb2_ip = Str
-PC_Emb3_ip = Str
-PC_Emb4_ip = Str
-TestBench_target = Str
 cycle_CB = Num
 TimeOut = Num
 Var1 = Str
@@ -1672,38 +291,35 @@ Var2 = Str
 Var3 = Str
 Var4 = Str
 Var5 = Str
-WebMaintenance = Ref
 Var6 = Str
 Var7 = Str
 Var8 = Str
 Var9 = Str
 Var10 = Str
 Var11 = Str
+WebMaintenance = Ref
+CbEnv = Ref
+CbEnv1 = Ref
+CbEnv2 = Ref
+CbEnv3 = Ref
+CbEnv4 = Ref
+CbEnv5 = Ref
+CbEnv6 = Ref
+CbEnv7 = Ref
+CbEnv8 = Ref
+CbEmb = Ref
+CbEmb1 = Ref
+CbEmb2 = Ref
+CbEmb3 = Ref
+CbEmb4 = Ref
+CbEmb5 = Ref
+CbEmb6 = Ref
+CbEmb7 = Ref
+CbEmb8 = Ref
 
 [SF.FileGlobalDefaults]
-Embedded = True
-CB_Path_Name = "C:\\\\2es5"
-CB_Project_Name = "Russian_2ES5.cbp"
-CB_Task_Name = "Russian_2ES5"
-CB_Application_Name = "Russian_2ES5"
-CB_Conf = "conf_banc"
-CB_Path_Name_Env = "C:\\\\Russian_2ES5_Env"
-CB_Project_Name_Env = "Russian_2ES5_Env.cbp"
-CB_Task_Name_Env = "Russian_2ES5_Env"
-CB_Application_Name_Env = "Russian_2ES5_Env"
-CB_Conf_Env = "conf_banc"
-Teststand_directory = ".\\\\HMI_Test_C2"
-Shadow_Path_Name = "C:\\\\HMI_Test_C2\\\\shadow.ini"
 DDU_ScreenShot = True
 DDU_ip = "10.22.98.17"
-MPU_target = "target_mpu_SIL0"
-PC_Env1_ip = "192.168.1.102"
-PC_Env2_ip = "192.168.1.101"
-PC_Emb1_ip = "192.168.1.103"
-PC_Emb2_ip = "192.168.1.104"
-PC_Emb3_ip = "192.168.1.105"
-PC_Emb4_ip = "192.168.1.106"
-TestBench_target = "target_TB"
 cycle_CB = 0.05
 TimeOut = 5000
 
@@ -1726,13 +342,8 @@ NoneStepAdditions = "NoneStepAdditions"
 Label = "Label"
 SequenceCall = "SequenceCall"
 SeqCallStepAdditions = "SeqCallStepAdditions"
-CB_Force = "CB_Force"
-CB_Test = "CB_Test"
 NI_Wait = "NI_Wait"
 PostSubstep = "PostSubstep"
-CB_LoadConfiguration = "CB_LoadConfiguration"
-CB_Connect = "CB_Connect"
-CB_StartExecution = "CB_StartExecution"
 RP_Init = "RP_Init"
 RP_Close = "RP_Close"
 RP_StartServer = "RP_StartServer"
@@ -1740,12 +351,11 @@ RP_StopServer = "RP_StopServer"
 RP_ReadConfig = "RP_ReadConfig"
 RP_ResetConfig = "RP_ResetConfig"
 RP_StartAllEqt = "RP_StartAllEqt"
-CallExecutable = "CallExecutable"
-TH_Init = "TH_Init"
 DotNetStepAdditions = "DotNetStepAdditions"
 DotNetParameter = "DotNetParameter"
-TH_Start = "TH_Start"
-TH_Stop = "TH_Stop"
+Variable_Force = "Variable_Force"
+Variable_Read_Test = "Variable_Read_Test"
+Statement = "Statement"
 
 [DEF, Path]
 %LOCATION = "StdTypes"
@@ -2912,409 +1522,6 @@ Trace = "Don't Change"
 %FLG = 24
 %TYPE_FLG = 33554436
 
-[DEF, CB_Force]
-%LOCATION = "StepTypes"
-Substeps = "TYPE, StepTypeSubstepsArray"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = Str
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-%ROOT_TYPE = True
-
-[CB_Force]
-%HI: Substeps = [0]
-DescriptionFormat Line0001 = "\"Force the variable \" + Step.TS.SData.Call.Parameters[1].ArgVal + \" of instance \" + Step.TS.SData.Call.Parameters[0]"
-DescriptionFormat Line0002 = ".ArgVal + \" at \" + Step.TS.SData.Call.Parameters[2].ArgVal"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Force a variable\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: TS = 4194304
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-CodeTemplates = "PassFail_Template|PassFailMFC_Template"
-%FLG: CodeTemplates = 24
-%COMMENT = "\n  "
-%TIMESTAMP = 1201268994
-%VERSION = "0.0.0.6"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 2
-
-[DEF, CB_Force.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[DEF, CB_Force.Substeps[0].TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Force.Substeps[0].TS.SData.Call]
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3 et CB3.0.1."
-CreateObject = 0
-CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
-CoClassName = "affichage"
-Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
-InterfaceName = "_affichage"
-MemberType = 1
-Member = 1610809345
-MemberName = "editionCB"
-HasMemberInfo = True
-TypeLibVersion = "2f1.0"
-InterfaceType = 1
-VTableOffset = 32
-%HI: Parameters = [0]
-
-[DEF, CB_Force.Substeps[0].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-
-[CB_Force.Substeps[0].TS.SData.Call.Parameters[0]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[CB_Force.Substeps[0].TS]
-%INSTOVRD: SData = 7274520
-ConnectionLifetime = 0
-
-[CB_Force.Substeps[0]]
-%INSTFLG: TS = 0
-
-[CB_Force.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-
-[DEF, CB_Force.Substeps[0]]
-%NAME = "Edit_Parameters"
-
-[CB_Force.Menu]
-ItemName = "\"Force a variable\""
-Group = "Forcing variables"
-
-[CB_Force.TS]
-Icon = "ExprBrowse.ico"
-ConnectionLifetime = 0
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, CB_Force.TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Force.TS.SData.Call]
-ObjectVariable = "FileGlobals.cb"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809363
-MemberName = "CB_Force"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-VTableOffset = 132
-%HI: Parameters = [4]
-
-[DEF, CB_Force.TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-
-[CB_Force.TS.SData.Call.Parameters[0]]
-Name = "strInstanceName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Force.TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Force.TS.SData.Call.Parameters[2]]
-Name = "vForcedValue"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Force.TS.SData.Call.Parameters[3]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_Force.TS.SData.Call.Parameters[4]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, CB_Force.Result]
-Error = "TYPE, Error"
-Status = Str
-PassFail = Bool
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CB_Force.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-PassFail = True
-%INSTOVRD: Common = 4194304
-
-[DEF, CB_Test]
-%LOCATION = "StepTypes"
-Substeps = "TYPE, StepTypeSubstepsArray"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = Str
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-%ROOT_TYPE = True
-
-[CB_Test]
-%HI: Substeps = [0]
-DescriptionFormat Line0001 = "\"Test the variable \" + Step.TS.SData.Call.Parameters[1].ArgVal + \" of instance \" + Step.TS.SData.Call.Parameters[0]."
-DescriptionFormat Line0002 = "ArgVal + \" at \" + Step.TS.SData.Call.Parameters[2].ArgVal"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Test a variable\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: TS = 4194304
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-CodeTemplates = "PassFail_Template|PassFailMFC_Template"
-%FLG: CodeTemplates = 24
-%COMMENT = "\n  "
-%TIMESTAMP = 1201268994
-%VERSION = "0.0.0.5"
-%TYPELASTMOD = "3.0.0.12373"
-%FLG = 9216
-%TYPE_FLG = 2
-
-[DEF, CB_Test.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[DEF, CB_Test.Substeps[0].TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Test.Substeps[0].TS.SData.Call]
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CreateObject = 0
-CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
-CoClassName = "affichage"
-Interface = "{676C74FE-186D-496D-A3B8-2819E8C6E7E4}"
-InterfaceName = "_affichage"
-MemberType = 1
-Member = 1610809345
-MemberName = "editionCB"
-HasMemberInfo = True
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-VTableOffset = 32
-%HI: Parameters = [0]
-
-[DEF, CB_Test.Substeps[0].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-
-[CB_Test.Substeps[0].TS.SData.Call.Parameters[0]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[CB_Test.Substeps[0].TS]
-%INSTOVRD: SData = 7274520
-ConnectionLifetime = 0
-
-[CB_Test.Substeps[0]]
-%INSTFLG: TS = 0
-
-[CB_Test.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-
-[DEF, CB_Test.Substeps[0]]
-%NAME = "Edit_Parameters"
-
-[CB_Test.Menu]
-ItemName = "\"Test a variable\""
-Group = "Read\\\\Write\\\\Test CB variables"
-
-[CB_Test.TS]
-Icon = "ExprBrowse.ico"
-ConnectionLifetime = 0
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, CB_Test.TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Test.TS.SData.Call]
-ObjectVariable = "FileGlobals.cb"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809349
-MemberName = "CB_Test"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-VTableOffset = 92
-%HI: Parameters = [5]
-
-[DEF, CB_Test.TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-%[4] = "TYPE, AutomationParameter"
-%[5] = "TYPE, AutomationParameter"
-
-[CB_Test.TS.SData.Call.Parameters[0]]
-Name = "strInstanceName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Test.TS.SData.Call.Parameters[1]]
-Name = "strVariableName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Test.TS.SData.Call.Parameters[2]]
-Name = "awaitedValue"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Test.TS.SData.Call.Parameters[3]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_Test.TS.SData.Call.Parameters[4]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_Test.TS.SData.Call.Parameters[5]]
-Name = "lTimeout_ms"
-Type = 3
-DisplayType = "Number (Signed 32-bit Integer)"
-TypeValid = True
-Direction = 1
-IsUserOptional = True
-IsServerOptional = True
-
-[DEF, CB_Test.Result]
-Error = "TYPE, Error"
-Status = Str
-PassFail = Bool
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CB_Test.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-PassFail = True
-%INSTOVRD: Common = 4194304
-
 [DEF, NI_Wait]
 %LOCATION = "StepTypes"
 DescriptionFormat = "TYPE, Expression"
@@ -3569,579 +1776,6 @@ Common = "TYPE, CommonResults"
 %INSTFLG: Status = 4194304
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
-
-[DEF, CB_LoadConfiguration]
-%LOCATION = "StepTypes"
-Substeps = "TYPE, StepTypeSubstepsArray"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = Str
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-%ROOT_TYPE = True
-
-[CB_LoadConfiguration]
-%HI: Substeps = [0]
-DescriptionFormat = "\"Load the configuration \" + Step.TS.SData.Call.Parameters[1].ArgVal"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Load a configuration\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: TS = 4194304
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-CodeTemplates = "PassFail_Template|PassFailMFC_Template"
-%FLG: CodeTemplates = 24
-%COMMENT = "\n  "
-%TIMESTAMP = 1201268994
-%VERSION = "0.0.0.4"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 2
-
-[DEF, CB_LoadConfiguration.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[DEF, CB_LoadConfiguration.Substeps[0].TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_LoadConfiguration.Substeps[0].TS.SData.Call]
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3 et CB3.0.1."
-CreateObject = 0
-CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
-CoClassName = "affichage"
-Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
-InterfaceName = "_affichage"
-MemberType = 1
-Member = 1610809344
-MemberName = "edition"
-HasMemberInfo = True
-TypeLibVersion = "2f1.0"
-InterfaceType = 1
-VTableOffset = 28
-%HI: Parameters = [1]
-
-[DEF, CB_LoadConfiguration.Substeps[0].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-
-[CB_LoadConfiguration.Substeps[0].TS.SData.Call.Parameters[0]]
-Name = "Step"
-ArgVal = "ThisContext.step"
-ArgDisplayVal = "ThisContext.step"
-Type = 9
-DisplayType = "PropertyObject (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{8D8769A0-09C0-11D1-93BD-0020AF68E893}"
-
-[CB_LoadConfiguration.Substeps[0].TS.SData.Call.Parameters[1]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[CB_LoadConfiguration.Substeps[0].TS]
-%INSTOVRD: SData = 7274520
-ConnectionLifetime = 0
-
-[CB_LoadConfiguration.Substeps[0]]
-%INSTFLG: TS = 0
-
-[CB_LoadConfiguration.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-
-[DEF, CB_LoadConfiguration.Substeps[0]]
-%NAME = "Edit"
-
-[CB_LoadConfiguration.Menu]
-ItemName = "\"Load a configuration\""
-Group = "Configuration"
-
-[CB_LoadConfiguration.TS]
-Icon = "ExprBrowse.ico"
-ConnectionLifetime = 0
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, CB_LoadConfiguration.TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_LoadConfiguration.TS.SData.Call]
-ObjectVariable = "FileGlobals.cb"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{0B54A075-8ABC-42CD-9BB7-7C9CC23D01F1}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809361
-MemberName = "CB_LoadConfiguration"
-HasMemberInfo = True
-Locale = 1036
-HasReturnValue = True
-TypeLibVersion = "22b.0"
-InterfaceType = 1
-VTableOffset = 128
-%HI: Parameters = [3]
-
-[DEF, CB_LoadConfiguration.TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[CB_LoadConfiguration.TS.SData.Call.Parameters[0]]
-Name = "Return Value"
-Type = 9
-DisplayType = "ICBCOMConfiguration (Object Reference)"
-TypeValid = True
-Direction = 2
-IsUserOptional = True
-IsByRef = True
-IID = "{0AE2332B-C7A0-4BB3-9CA4-8D1B77BFBF7F}"
-
-[CB_LoadConfiguration.TS.SData.Call.Parameters[1]]
-Name = "strConfigName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_LoadConfiguration.TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_LoadConfiguration.TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, CB_LoadConfiguration.Result]
-Error = "TYPE, Error"
-Status = Str
-PassFail = Bool
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CB_LoadConfiguration.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-PassFail = True
-%INSTOVRD: Common = 4194304
-
-[DEF, CB_Connect]
-%LOCATION = "StepTypes"
-Substeps = "TYPE, StepTypeSubstepsArray"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = Str
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-%ROOT_TYPE = True
-
-[CB_Connect]
-%HI: Substeps = [0]
-DescriptionFormat = "\"Connect to the target \" + Step.TS.SData.Call.Parameters[0].ArgVal"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Connect to a target\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: TS = 4194304
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-CodeTemplates = "PassFail_Template|PassFailMFC_Template"
-%FLG: CodeTemplates = 24
-%COMMENT = "\n  "
-%TIMESTAMP = 1201268994
-%VERSION = "0.0.0.6"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 2
-
-[DEF, CB_Connect.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[DEF, CB_Connect.Substeps[0].TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Connect.Substeps[0].TS.SData.Call]
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3 et CB3.0.1."
-CreateObject = 0
-CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
-CoClassName = "affichage"
-Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
-InterfaceName = "_affichage"
-MemberType = 1
-Member = 1610809344
-MemberName = "edition"
-HasMemberInfo = True
-TypeLibVersion = "2f1.0"
-InterfaceType = 1
-VTableOffset = 28
-%HI: Parameters = [1]
-
-[DEF, CB_Connect.Substeps[0].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-
-[CB_Connect.Substeps[0].TS.SData.Call.Parameters[0]]
-Name = "Step"
-ArgVal = "ThisContext.step"
-ArgDisplayVal = "ThisContext.step"
-Type = 9
-DisplayType = "PropertyObject (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{8D8769A0-09C0-11D1-93BD-0020AF68E893}"
-
-[CB_Connect.Substeps[0].TS.SData.Call.Parameters[1]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[CB_Connect.Substeps[0].TS]
-%INSTOVRD: SData = 7274520
-ConnectionLifetime = 0
-
-[CB_Connect.Substeps[0]]
-%INSTFLG: TS = 0
-
-[CB_Connect.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-
-[DEF, CB_Connect.Substeps[0]]
-%NAME = "Edit"
-
-[CB_Connect.Menu]
-ItemName = "\"Connect to a target\""
-Group = "Configuration"
-
-[CB_Connect.TS]
-Icon = "ExprBrowse.ico"
-ConnectionLifetime = 0
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, CB_Connect.TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_Connect.TS.SData.Call]
-ObjectVariable = "FileGlobals.cb"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3 et CB3.0.1."
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{F529367C-6924-4C3E-AC93-E88DF87D5F5D}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809390
-MemberName = "CB_Connect"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "306.0"
-InterfaceType = 1
-VTableOffset = 308
-%HI: Parameters = [2]
-
-[DEF, CB_Connect.TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[CB_Connect.TS.SData.Call.Parameters[0]]
-Name = "strTargetName"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-
-[CB_Connect.TS.SData.Call.Parameters[1]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_Connect.TS.SData.Call.Parameters[2]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, CB_Connect.Result]
-Error = "TYPE, Error"
-Status = Str
-PassFail = Bool
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CB_Connect.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-PassFail = True
-%INSTOVRD: Common = 4194304
-
-[DEF, CB_StartExecution]
-%LOCATION = "StepTypes"
-Substeps = "TYPE, StepTypeSubstepsArray"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = Str
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-%ROOT_TYPE = True
-
-[CB_StartExecution]
-%HI: Substeps = [0]
-DescriptionFormat = "\"Launch organ of all or one target\" + \" (target : \" + Step.TS.SData.Call.Parameters[2].ArgVal + \")\""
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Launch organ of all or one target\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: TS = 4194304
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-CodeTemplates = "PassFail_Template|PassFailMFC_Template"
-%FLG: CodeTemplates = 24
-%COMMENT = "\n  "
-%TIMESTAMP = 1201268994
-%VERSION = "0.0.0.6"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 2
-
-[DEF, CB_StartExecution.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[DEF, CB_StartExecution.Substeps[0].TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_StartExecution.Substeps[0].TS.SData.Call]
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3 et CB3.0.1."
-CreateObject = 0
-CoClass = "{3153F69B-D9BA-4C88-84B5-C6663E5D63E3}"
-CoClassName = "affichage"
-Interface = "{C6CD374F-AA1B-482C-849A-0BB8E8C9B397}"
-InterfaceName = "_affichage"
-MemberType = 1
-Member = 1610809344
-MemberName = "edition"
-HasMemberInfo = True
-TypeLibVersion = "2f1.0"
-InterfaceType = 1
-VTableOffset = 28
-%HI: Parameters = [1]
-
-[DEF, CB_StartExecution.Substeps[0].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-
-[CB_StartExecution.Substeps[0].TS.SData.Call.Parameters[0]]
-Name = "Step"
-ArgVal = "ThisContext.step"
-ArgDisplayVal = "ThisContext.step"
-Type = 9
-DisplayType = "PropertyObject (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{8D8769A0-09C0-11D1-93BD-0020AF68E893}"
-
-[CB_StartExecution.Substeps[0].TS.SData.Call.Parameters[1]]
-Name = "SeqContext"
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-Type = 9
-DisplayType = "SequenceContext (Object Reference)"
-TypeValid = True
-Direction = 3
-IsByRef = True
-IID = "{6427D0E0-E410-11D0-93B4-0020AF68E893}"
-
-[CB_StartExecution.Substeps[0].TS]
-%INSTOVRD: SData = 7274520
-ConnectionLifetime = 0
-
-[CB_StartExecution.Substeps[0]]
-%INSTFLG: TS = 0
-
-[CB_StartExecution.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-
-[DEF, CB_StartExecution.Substeps[0]]
-%NAME = "Edit"
-
-[CB_StartExecution.Menu]
-ItemName = "\"Launch organ of all or one target\""
-Group = "Configuration"
-
-[CB_StartExecution.TS]
-Icon = "ExprBrowse.ico"
-ConnectionLifetime = 0
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, CB_StartExecution.TS]
-SData = "TYPE, AutomationStepAdditions"
-%FLG: SData = 2097152
-
-[CB_StartExecution.TS.SData.Call]
-ObjectVariable = "FileGlobals.cb"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand et CB, Fip, Hpts, Mmi, Matrix"
-CoClass = "{B51A0060-36D9-4E5C-AB1A-65720FD2E9CA}"
-CoClassName = "ControlBuild"
-Interface = "{B69189A7-664C-4507-A4D0-5FDFB0398C12}"
-InterfaceName = "_ControlBuild"
-MemberType = 1
-Member = 1610809374
-MemberName = "CB_StartExecution"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "24a.0"
-InterfaceType = 1
-VTableOffset = 176
-%HI: Parameters = [2]
-
-[DEF, CB_StartExecution.TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-
-[CB_StartExecution.TS.SData.Call.Parameters[0]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_StartExecution.TS.SData.Call.Parameters[1]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[CB_StartExecution.TS.SData.Call.Parameters[2]]
-Name = "strTargetName"
-Type = 12
-DisplayType = "Variant"
-TypeValid = True
-Direction = 1
-IsUserOptional = True
-IsServerOptional = True
-
-[DEF, CB_StartExecution.Result]
-Error = "TYPE, Error"
-Status = Str
-PassFail = Bool
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CB_StartExecution.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-PassFail = True
-%INSTOVRD: Common = 4194304
 
 [DEF, RP_Init]
 %LOCATION = "StepTypes"
@@ -5352,383 +2986,6 @@ Common = "TYPE, CommonResults"
 PassFail = True
 %INSTOVRD: Common = 4194304
 
-[DEF, CallExecutable]
-%LOCATION = "StepTypes"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-Substeps = "TYPE, StepTypeSubstepsArray"
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-TS = "TYPE, TEInf"
-Result = Obj
-Executable = "TYPE, Path"
-Arguments = "TYPE, Expression"
-WaitCondition = Str
-TimeToWait = Num
-InitialWindowState = Str
-TerminateOnAbort = Bool
-ProcessHandle = Num
-ExitCodeStatusAction = Str
-%ROOT_TYPE = True
-
-[CallExecutable]
-DescriptionFormat = "Step.Executable + ((Step.Arguments == \"\") ? \"\" : \" \" + LocalizeExpression(Step.Arguments))"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "ResStr(\"CALLEXEC_STEP_TYPE\", \"DEF_STEP_NAME\")"
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%INSTFLG: Menu = 524312
-%INSTOVRD: Menu = 524312
-%HI: Substeps = [1]
-%INSTFLG: Substeps = 524312
-%INSTOVRD: Substeps = 655384
-%FLG: CodeTemplates = 4194328
-%INSTFLG: TS = 4456472
-%INSTOVRD: TS = 4456472
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-Arguments = "\"\""
-WaitCondition = "WAIT_NONE"
-InitialWindowState = "WINSTATE_SHOWNORM_A"
-ExitCodeStatusAction = "EXIT_CODE_NO_ACTION"
-%TIMESTAMP = 1045854787
-%VERSION = "3.0.0.12373"
-%TYPELASTMOD = "3.0.0.12373"
-%MINPRODVER = "3.0.0.0"
-%TYPE_FLG = 33554446
-
-[CallExecutable.Menu]
-ItemName = "ResStr(\"CALLEXEC_STEP_TYPE\", \"MENU_ITEM_NAME\")"
-Group = "NI_Miscellaneous"
-
-[DEF, CallExecutable.Substeps]
-%[0] = Step
-%TYPE: %[0] = "PostSubstep"
-%[1] = Step
-%TYPE: %[1] = "EditSubstep"
-
-[DEF, CallExecutable.Substeps[0].TS]
-SData = "TYPE, FlexCStepAdditions"
-%FLG: SData = 2097152
-
-[CallExecutable.Substeps[0].TS.SData.Call]
-LibPath = "callexec.dll"
-Func = "CallExecutable"
-%HI: Parms = [1]
-
-[DEF, CallExecutable.Substeps[0].TS.SData.Call.Parms]
-%[0] = "TYPE, FCParameter"
-%[1] = "TYPE, FCParameter"
-
-[CallExecutable.Substeps[0].TS.SData.Call.Parms[0]]
-Name = "Return Value"
-ResultAct = 1
-Flags = 2
-
-[CallExecutable.Substeps[0].TS.SData.Call.Parms[1]]
-Name = "context"
-Type = 4
-ObjType = 1
-ArgVal = "ThisContext"
-ArgDisplayVal = "ThisContext"
-
-[CallExecutable.Substeps[0].TS]
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
-
-[CallExecutable.Substeps[0]]
-%INSTFLG: TS = 262168
-%INSTOVRD: TS = 262168
-
-[CallExecutable.Substeps[0].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-%INSTOVRD: Common = 4194304
-
-[DEF, CallExecutable.Substeps[0]]
-%NAME = "Post"
-
-[DEF, CallExecutable.Substeps[1].TS]
-SData = "TYPE, FlexCStepAdditions"
-%FLG: SData = 2097152
-
-[CallExecutable.Substeps[1].TS.SData.Call]
-LibPath = "callexec.dll"
-Func = "CallExec_Config"
-%HI: Parms = [2]
-
-[DEF, CallExecutable.Substeps[1].TS.SData.Call.Parms]
-%[0] = "TYPE, FCParameter"
-%[1] = "TYPE, FCParameter"
-%[2] = "TYPE, FCParameter"
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[0]]
-Name = "Return Value"
-ResultAct = 1
-Flags = 2
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[1]]
-Name = "context"
-Type = 4
-ObjType = 1
-ArgVal = "ThisContext"
-
-[CallExecutable.Substeps[1].TS.SData.Call.Parms[2]]
-Name = "changeCount"
-NumPass = 1
-ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
-ArgDisplayVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
-
-[CallExecutable.Substeps[1].TS]
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
-LoopIncrement = ""
-
-[CallExecutable.Substeps[1]]
-%INSTFLG: TS = 262168
-%INSTOVRD: TS = 262168
-MenuName = "ResStr(\"CALLEXEC_STEP_TYPE\", \"EDIT_STEP_MENU_NAME\")"
-SupportsReadOnly = True
-
-[CallExecutable.Substeps[1].Result]
-%INSTOVRD: Error = 4194304
-%INSTFLG: ReportText = 0
-%INSTOVRD: Common = 4194304
-
-[DEF, CallExecutable.Substeps[1]]
-%NAME = "Edit"
-
-[CallExecutable.TS]
-Icon = "execstep.ico"
-%INSTFLG: SData = 2097152
-%INSTOVRD: SData = 2097152
-ConnectionLifetime = 0
-LoopIncrement = ""
-LoopInitialize = ""
-CanSpecifyModule = False
-
-[DEF, CallExecutable.TS]
-SData = "TYPE, NoneStepAdditions"
-%FLG: SData = 2097152
-
-[DEF, CallExecutable.Result]
-Error = "TYPE, Error"
-Status = Str
-ExitCode = Num
-ReportText = Str
-Common = "TYPE, CommonResults"
-
-[CallExecutable.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%INSTOVRD: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-%FLG: ExitCode = 8192
-%INSTFLG: ExitCode = 8192
-%FLG: ReportText = 4194304
-%INSTFLG: ReportText = 4194304
-%INSTOVRD: Common = 4194304
-
-[DEF, TH_Init]
-%LOCATION = "StepTypes"
-DescriptionFormat = "TYPE, Expression"
-%FLG: DescriptionFormat = 524288
-DefaultNameFormat = "TYPE, Expression"
-%FLG: DefaultNameFormat = 524288
-Menu = "TYPE, StepTypeMenu"
-Substeps = "TYPE, StepTypeSubstepsArray"
-CodeTemplates = Str
-%FLG: CodeTemplates = 524288
-TS = "TYPE, TEInf"
-Result = Obj
-InBuf = Str
-DataSource = "TYPE, Expression"
-num_DDU = Num
-sImagesPath = Str
-bReferenceBuild = Bool
-sShadowFileConf = Str
-%ROOT_TYPE = True
-
-[TH_Init]
-DescriptionFormat = "\"DDU\" + Str( Step.num_DDU ) + \", Reference Mode : \" + Str( Step.bReferenceBuild)"
-%FLG: DescriptionFormat = 4194328
-%INSTFLG: DescriptionFormat = 4718616
-%INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"DDU Initialisation\""
-%FLG: DefaultNameFormat = 4194328
-%INSTFLG: DefaultNameFormat = 4718616
-%INSTOVRD: DefaultNameFormat = 4718616
-%HI: Substeps = [0]
-CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template|PassFailLabVIEW|PassFailCVI|PassFailVB.NET|PassFailCSharp.NET|PassFailC++.NET|PassFai"
-CodeTemplates Line0003 = "lVC++_Template|PassFailHTB80_Template|PassFailHTB72_Template|PassFail_Template"
-%FLG: CodeTemplates = 4194328
-%INSTFLG: TS = 262168
-%FLG: Result = 4194304
-%INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-%TIMESTAMP = 1227192093
-%VERSION = "0.0.0.18"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 10
-
-[TH_Init.Menu]
-ItemName = "\"DDU Initialisation\""
-Group = "TestHMI"
-
-[DEF, TH_Init.Substeps]
-%[0] = Step
-%TYPE: %[0] = "EditSubstep"
-
-[TH_Init.Substeps[0].TS]
-Id = "ID#:OFLfszM6a0WHRt2M256sTC"
-
-[DEF, TH_Init.Substeps[0].TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[TH_Init.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH_ED"
-ClassName = "TestHMI.TestHMI"
-CreateInstance = True
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "EditInitTestDDU"
-%HI: Params = [3]
-
-[DEF, TH_Init.Substeps[0].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-%[3] = "TYPE, DotNetParameter"
-
-[TH_Init.Substeps[0].TS.SData.Call.Params[0]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Direction = 8
-Dimension = -1
-
-[TH_Init.Substeps[0].TS.SData.Call.Params[1]]
-Name = "sImagesPath"
-ArgVal = "Step.sImagesPath"
-Type = 1
-Direction = 8
-Dimension = -1
-
-[TH_Init.Substeps[0].TS.SData.Call.Params[2]]
-Name = "bReferenceBuild"
-ArgVal = "Step.bReferenceBuild"
-Type = 2
-Direction = 8
-Dimension = -1
-
-[TH_Init.Substeps[0].TS.SData.Call.Params[3]]
-Name = "sShadowFileConf"
-ArgVal = "Step.sShadowFileConf"
-Type = 1
-Direction = 8
-Dimension = -1
-
-[TH_Init.Substeps[0].TS.SData]
-FunctionName = "EditInitTestDDU"
-
-[DEF, TH_Init.Substeps[0]]
-%NAME = "Edit"
-
-[TH_Init.TS]
-Icon = "ExprBrowse.ico"
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, TH_Init.TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[TH_Init.TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH"
-ClassName = "TestHMI.TestHMI"
-CreateInstance = True
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "InitTestDDU"
-%HI: Params = [5]
-
-[DEF, TH_Init.TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-%[3] = "TYPE, DotNetParameter"
-%[4] = "TYPE, DotNetParameter"
-%[5] = "TYPE, DotNetParameter"
-
-[TH_Init.TS.SData.Call.Params[0]]
-Name = "bPassFail"
-ArgVal = "Step.Result.PassFail"
-Type = 2
-Direction = 10
-Dimension = -1
-
-[TH_Init.TS.SData.Call.Params[1]]
-Name = "sReportText"
-ArgVal = "Step.Result.ReportText"
-Type = 1
-Direction = 10
-Dimension = -1
-
-[TH_Init.TS.SData.Call.Params[2]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Dimension = -1
-
-[TH_Init.TS.SData.Call.Params[3]]
-Name = "sImagesPath"
-ArgVal = "Step.sImagesPath"
-Type = 1
-Dimension = -1
-
-[TH_Init.TS.SData.Call.Params[4]]
-Name = "bReferenceBuild"
-ArgVal = "Step.bReferenceBuild"
-Type = 2
-Dimension = -1
-
-[TH_Init.TS.SData.Call.Params[5]]
-Name = "sShadowFileConf"
-ArgVal = "Step.sShadowFileConf"
-Type = 1
-Dimension = -1
-
-[DEF, TH_Init.Result]
-Error = "TYPE, Error"
-Status = Str
-ReportText = Str
-Common = "TYPE, CommonResults"
-PassFail = Bool
-
-[TH_Init.Result]
-%FLG: Error = 4194304
-%INSTFLG: Error = 4194304
-%FLG: Status = 4194304
-%INSTFLG: Status = 4194304
-%FLG: ReportText = 4194304
-%INSTFLG: ReportText = 4194304
-PassFail = True
-
 [DEF, DotNetStepAdditions]
 %LOCATION = "StdTypes"
 Call = DotNetCall
@@ -5807,318 +3064,562 @@ Dimension = 1
 %FLG = 24
 %TYPE_FLG = 33554436
 
-[DEF, TH_Start]
+[DEF, Variable_Force]
 %LOCATION = "StepTypes"
 DescriptionFormat = "TYPE, Expression"
 %FLG: DescriptionFormat = 524288
 DefaultNameFormat = "TYPE, Expression"
 %FLG: DefaultNameFormat = 524288
+BlockStartTypes = Str
+%FLG: BlockStartTypes = 524288
+BlockEndTypes = Str
+%FLG: BlockEndTypes = 524288
+AppliesToBlockStructure = Bool
+%FLG: AppliesToBlockStructure = 524288
 Menu = "TYPE, StepTypeMenu"
 Substeps = "TYPE, StepTypeSubstepsArray"
 CodeTemplates = Str
 %FLG: CodeTemplates = 524288
 TS = "TYPE, TEInf"
 Result = Obj
-InBuf = Str
-DataSource = "TYPE, Expression"
-num_DDU = Num
-sRemoteEqtAddress = Str
-sRemoteEqtPassword = Str
+VariableName = Str
+VariableValue = Num
 %ROOT_TYPE = True
 
-[TH_Start]
-DescriptionFormat Line0001 = "\"DDU\" + str(Step.num_DDU) + \", IP : \" + Step.sRemoteEqtAddress + (Step.sRemoteEqtPassword != \"\" ? \" Passwd : \" +"
-DescriptionFormat Line0002 = "\"\\\\\\"\"+ Step.sRemoteEqtPassword+\"\\\\\\"\" : \"\")"
+[Variable_Force]
+DescriptionFormat Line0001 = "(Step.VariableName ==\"\") ? \"Forces variable\" : \"Forces variable \"+Str(Step.VariableName)+((Step.VariableValue !=0)"
+DescriptionFormat Line0002 = " ? \" : sets its value to \"+ Str(Step.VariableValue) : \"\")"
 %FLG: DescriptionFormat = 4194328
 %INSTFLG: DescriptionFormat = 4718616
 %INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Remote Control Start\""
+DefaultNameFormat = "\"Force Variable\""
 %FLG: DefaultNameFormat = 4194328
 %INSTFLG: DefaultNameFormat = 4718616
 %INSTOVRD: DefaultNameFormat = 4718616
+%FLG: BlockStartTypes = 4194328
+%FLG: BlockEndTypes = 4194328
+%FLG: AppliesToBlockStructure = 4194328
 %HI: Substeps = [0]
 CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template|PassFailLabVIEW|PassFailCVI|PassFailVB.NET|PassFailCSharp.NET|PassFailC++.NET|PassFai"
-CodeTemplates Line0003 = "lVC++_Template|PassFailHTB80_Template|PassFailHTB72_Template|PassFail_Template"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template"
 %FLG: CodeTemplates = 4194328
 %INSTFLG: TS = 262168
 %FLG: Result = 4194304
 %INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-%TIMESTAMP = 1227255566
-%VERSION = "0.0.0.16"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 10
+%TIMESTAMP = 1266242554
+%VERSION = "0.0.0.12"
+%TYPELASTMOD = "4.0.0.1030"
+%TYPE_FLG = 8
 
-[TH_Start.Menu]
-ItemName = "\"Remote Control Start\""
-Group = "TestHMI"
+[Variable_Force.Menu]
+ItemName = "\"Force variable\""
+Group = "Variables"
 
-[DEF, TH_Start.Substeps]
+[DEF, Variable_Force.Substeps]
 %[0] = Step
-%TYPE: %[0] = "EditSubstep"
+%TYPE: %[0] = "PostSubstep"
 
-[TH_Start.Substeps[0].TS]
-Id = "ID#:OFLfszM6a0WHRt2M256sTC"
+[Variable_Force.Substeps[0].TS]
+Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
 
-[DEF, TH_Start.Substeps[0].TS]
+[DEF, Variable_Force.Substeps[0].TS]
 SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
-[TH_Start.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH_ED"
-ClassName = "TestHMI.TestHMI"
-Constructor = "TestHMI()"
+[Variable_Force.Substeps[0].TS.SData.Call]
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\UTM4TS\\\\bin\\\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
 MemberType = 1
-MemberName = "EditRemoteControlStart"
-%HI: Params = [2]
+MemberName = "GetMessage"
+%HI: Params = [3]
 
-[DEF, TH_Start.Substeps[0].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-%[1] = "TYPE, DotNetParameter"
-%[2] = "TYPE, DotNetParameter"
-
-[TH_Start.Substeps[0].TS.SData.Call.Params[0]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Direction = 8
-Dimension = -1
-
-[TH_Start.Substeps[0].TS.SData.Call.Params[1]]
-Name = "sRemoteEqtAddress"
-ArgVal = "Step.sRemoteEqtAddress"
-Type = 1
-Direction = 8
-Dimension = -1
-
-[TH_Start.Substeps[0].TS.SData.Call.Params[2]]
-Name = "sRemoteEqtPassword"
-ArgVal = "Step.sRemoteEqtPassword"
-Type = 1
-Direction = 8
-Dimension = -1
-
-[TH_Start.Substeps[0].TS.SData]
-FunctionName = "EditInitTestDDU"
-
-[DEF, TH_Start.Substeps[0]]
-%NAME = "Edit"
-
-[TH_Start.TS]
-Icon = "ExprBrowse.ico"
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, TH_Start.TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[TH_Start.TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH"
-ClassName = "TestHMI.TestHMI"
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "RemoteControlStart"
-%HI: Params = [4]
-
-[DEF, TH_Start.TS.SData.Call.Params]
+[DEF, Variable_Force.Substeps[0].TS.SData.Call.Params]
 %[0] = "TYPE, DotNetParameter"
 %[1] = "TYPE, DotNetParameter"
 %[2] = "TYPE, DotNetParameter"
 %[3] = "TYPE, DotNetParameter"
-%[4] = "TYPE, DotNetParameter"
 
-[TH_Start.TS.SData.Call.Params[0]]
-Name = "bPassFail"
-ArgVal = "Step.Result.PassFail"
+[Variable_Force.Substeps[0].TS.SData.Call.Params[0]]
+Name = "errorOccurred"
+ArgVal = "Step.Result.Error.Occurred"
 Type = 2
 Direction = 10
 Dimension = -1
 
-[TH_Start.TS.SData.Call.Params[1]]
-Name = "sReportText"
+[Variable_Force.Substeps[0].TS.SData.Call.Params[1]]
+Name = "errorCode"
+ArgVal = "Step.Result.Error.Code"
+Type = 6
+Direction = 10
+Dimension = -1
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.Error.Msg"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[Variable_Force.Substeps[0].TS.SData.Call.Params[3]]
+Name = "reportText"
 ArgVal = "Step.Result.ReportText"
 Type = 1
 Direction = 10
 Dimension = -1
 
-[TH_Start.TS.SData.Call.Params[2]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
+[DEF, Variable_Force.Substeps[0]]
+%NAME = "Post"
+
+[Variable_Force.TS]
+Icon = "TrainTracer\\\\Force.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7274521
+UnloadOpt = "UnloadAfterSequenceExecution"
+
+[DEF, Variable_Force.TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Force.TS.SData.Call]
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\UTM4TS\\\\bin\\\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+DisposeCreatedInstance = False
+Constructor = "Maintenance()"
+MemberType = 1
+MemberName = "ForceVariable"
+HasReturnValue = True
+%HI: Params = [2]
+
+[DEF, Variable_Force.TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+
+[Variable_Force.TS.SData.Call.Params[0]]
+Name = "Return Value"
+ArgVal = "Step.Result.APICall"
+Type = 2
+Direction = 6
 Dimension = -1
 
-[TH_Start.TS.SData.Call.Params[3]]
-Name = "sRemoteEqtAddress"
-ArgVal = "Step.sRemoteEqtAddress"
+[Variable_Force.TS.SData.Call.Params[1]]
+Name = "variableSymbolicPath"
+ArgVal = "Step.VariableName"
 Type = 1
+Direction = 1
 Dimension = -1
 
-[TH_Start.TS.SData.Call.Params[4]]
-Name = "sRemoteEqtPassword"
-ArgVal = "Step.sRemoteEqtPassword"
-Type = 1
+[Variable_Force.TS.SData.Call.Params[2]]
+Name = "value"
+ArgVal = "Step.VariableValue"
+Type = 12
+Direction = 1
 Dimension = -1
 
-[DEF, TH_Start.Result]
+[DEF, Variable_Force.Result]
 Error = "TYPE, Error"
 Status = Str
 ReportText = Str
 Common = "TYPE, CommonResults"
-PassFail = Bool
+APICall = Bool
 
-[TH_Start.Result]
+[Variable_Force.Result]
 %FLG: Error = 4194304
 %INSTFLG: Error = 4194304
 %FLG: Status = 4194304
 %INSTFLG: Status = 4194304
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
-PassFail = True
 
-[DEF, TH_Stop]
+[DEF, Variable_Read_Test]
 %LOCATION = "StepTypes"
 DescriptionFormat = "TYPE, Expression"
 %FLG: DescriptionFormat = 524288
 DefaultNameFormat = "TYPE, Expression"
 %FLG: DefaultNameFormat = 524288
+BlockStartTypes = Str
+%FLG: BlockStartTypes = 524288
+BlockEndTypes = Str
+%FLG: BlockEndTypes = 524288
+AppliesToBlockStructure = Bool
+%FLG: AppliesToBlockStructure = 524288
 Menu = "TYPE, StepTypeMenu"
 Substeps = "TYPE, StepTypeSubstepsArray"
 CodeTemplates = Str
 %FLG: CodeTemplates = 524288
 TS = "TYPE, TEInf"
 Result = Obj
+VariableName = Str
+Limits = Obj
+Comp = Str
+CompExpr = "TYPE, Expression"
+UseCompExpr = Bool
 InBuf = Str
 DataSource = "TYPE, Expression"
-num_DDU = Num
 %ROOT_TYPE = True
 
-[TH_Stop]
-DescriptionFormat = "\"DDU\" + str(Step.num_DDU) + \" Remote Control Stop\" "
+[Variable_Read_Test]
+DescriptionFormat = "(Step.VariableName ==\"\") ? \"Reads variable\" : \"Reads variable : \"+Step.VariableName"
 %FLG: DescriptionFormat = 4194328
 %INSTFLG: DescriptionFormat = 4718616
 %INSTOVRD: DescriptionFormat = 4718616
-DefaultNameFormat = "\"Remote Control Stop\""
+DefaultNameFormat = "\"Pass/Fail Read Variable\""
 %FLG: DefaultNameFormat = 4194328
 %INSTFLG: DefaultNameFormat = 4718616
 %INSTOVRD: DefaultNameFormat = 4718616
-%HI: Substeps = [0]
+%FLG: BlockStartTypes = 4194328
+%FLG: BlockEndTypes = 4194328
+%FLG: AppliesToBlockStructure = 4194328
+%HI: Substeps = [1]
 CodeTemplates Line0001 = "DefaultLabVIEW|DefaultCVI|DefaultVB.NET|DefaultCSharp.NET|DefaultC++.NET|DefaultVC++_Template|DefaultHTB72_Template|Defa"
-CodeTemplates Line0002 = "ultHTB80_Template|Default_Template|PassFailLabVIEW|PassFailCVI|PassFailVB.NET|PassFailCSharp.NET|PassFailC++.NET|PassFai"
-CodeTemplates Line0003 = "lVC++_Template|PassFailHTB80_Template|PassFailHTB72_Template|PassFail_Template"
+CodeTemplates Line0002 = "ultHTB80_Template|Default_Template|NumericLimitLabVIEW|NumericLimitCVI|NumericLimitVB.NET|NumericLimitCSharp.NET|Numeric"
+CodeTemplates Line0003 = "LimitC++.NET|NumericLimitVC++_Template|NumericLimitHTB80_Template|NumericLimitHTB72Template|NumericLimit_Template"
 %FLG: CodeTemplates = 4194328
 %INSTFLG: TS = 262168
 %FLG: Result = 4194304
 %INSTFLG: Result = 4194304
-DataSource = "Step.Result.PassFail"
-%TIMESTAMP = 1227173379
-%VERSION = "0.0.0.16"
-%TYPELASTMOD = "3.0.0.12373"
-%TYPE_FLG = 10
+%FLG: Limits = 12288
+%INSTFLG: Limits = 12288
+Comp = "GELE"
+%FLG: Comp = 12288
+%INSTFLG: Comp = 12288
+%FLG: CompExpr = 6144
+DataSource = "Step.Result.Numeric"
+%TIMESTAMP = 1266242453
+%VERSION = "0.0.0.19"
+%TYPELASTMOD = "4.0.0.1030"
+%TYPE_FLG = 8
 
-[TH_Stop.Menu]
-ItemName = "\"Remote Control Stop\""
-Group = "TestHMI"
+[Variable_Read_Test.Menu]
+ItemName = "\"Pass/Fail Read variable\""
+Group = "Variables"
 
-[DEF, TH_Stop.Substeps]
+[DEF, Variable_Read_Test.Substeps]
 %[0] = Step
-%TYPE: %[0] = "EditSubstep"
+%TYPE: %[0] = "PostSubstep"
+%[1] = Step
+%TYPE: %[1] = "EditSubstep"
 
-[TH_Stop.Substeps[0].TS]
-Id = "ID#:OFLfszM6a0WHRt2M256sTC"
+[Variable_Read_Test.Substeps[0].TS]
+Id = "ID#:L06vGxZM10K3NTY1SnrPbA"
 
-[DEF, TH_Stop.Substeps[0].TS]
+[DEF, Variable_Read_Test.Substeps[0].TS]
 SData = "TYPE, DotNetStepAdditions"
 %FLG: SData = 2097152
 
-[TH_Stop.Substeps[0].TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH_ED"
-ClassName = "TestHMI.TestHMI"
-Constructor = "TestHMI()"
+[Variable_Read_Test.Substeps[0].TS.SData.Call]
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\UTM4TS\\\\bin\\\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
 MemberType = 1
-MemberName = "EditRemoteControlStop"
-%HI: Params = [0]
+MemberName = "GetMessage"
+%HI: Params = [3]
 
-[DEF, TH_Stop.Substeps[0].TS.SData.Call.Params]
-%[0] = "TYPE, DotNetParameter"
-
-[TH_Stop.Substeps[0].TS.SData.Call.Params[0]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
-Direction = 8
-Dimension = -1
-
-[TH_Stop.Substeps[0].TS.SData]
-FunctionName = "EditInitTestDDU"
-
-[DEF, TH_Stop.Substeps[0]]
-%NAME = "Edit"
-
-[TH_Stop.TS]
-Icon = "ExprBrowse.ico"
-StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\" ? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.Pass"
-StatusExpr Line0002 = "Fail ? \"Passed\" : \"Failed\" "
-%INSTFLG: StatusExpr = 1
-%INSTOVRD: StatusExpr = 5046297
-
-[DEF, TH_Stop.TS]
-SData = "TYPE, DotNetStepAdditions"
-%FLG: SData = 2097152
-
-[TH_Stop.TS.SData.Call]
-AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\TCMS Testbench\\\\TestHMI\\\\TestHMI.dll"
-ClassVariable = "FileGlobals.TH"
-ClassName = "TestHMI.TestHMI"
-Constructor = "TestHMI()"
-MemberType = 1
-MemberName = "RemoteControlStop"
-%HI: Params = [2]
-
-[DEF, TH_Stop.TS.SData.Call.Params]
+[DEF, Variable_Read_Test.Substeps[0].TS.SData.Call.Params]
 %[0] = "TYPE, DotNetParameter"
 %[1] = "TYPE, DotNetParameter"
 %[2] = "TYPE, DotNetParameter"
+%[3] = "TYPE, DotNetParameter"
 
-[TH_Stop.TS.SData.Call.Params[0]]
-Name = "bPassFail"
-ArgVal = "Step.Result.PassFail"
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[0]]
+Name = "errorOccurred"
+ArgVal = "Step.Result.Error.Occurred"
 Type = 2
 Direction = 10
 Dimension = -1
 
-[TH_Stop.TS.SData.Call.Params[1]]
-Name = "sReportText"
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[1]]
+Name = "errorCode"
+ArgVal = "Step.Result.Error.Code"
+Type = 6
+Direction = 10
+Dimension = -1
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[2]]
+Name = "errorMsg"
+ArgVal = "Step.Result.Error.Msg"
+Type = 1
+Direction = 10
+Dimension = -1
+
+[Variable_Read_Test.Substeps[0].TS.SData.Call.Params[3]]
+Name = "reportText"
 ArgVal = "Step.Result.ReportText"
 Type = 1
 Direction = 10
 Dimension = -1
 
-[TH_Stop.TS.SData.Call.Params[2]]
-Name = "num_DDU"
-ArgVal = "Step.num_DDU"
-Type = 6
+[DEF, Variable_Read_Test.Substeps[0]]
+%NAME = "Post"
+
+[DEF, Variable_Read_Test.Substeps[1].TS]
+SData = "TYPE, FlexCStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call]
+LibPath = "CommonSubsteps.dll"
+Func = "EditNumericMeasurementStepUsingExpr"
+%HI: Parms = [3]
+
+[DEF, Variable_Read_Test.Substeps[1].TS.SData.Call.Parms]
+%[0] = "TYPE, FCParameter"
+%[1] = "TYPE, FCParameter"
+%[2] = "TYPE, FCParameter"
+%[3] = "TYPE, FCParameter"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[0]]
+Name = "Return Value"
+Type = 3
+ObjType = 2
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[1]]
+Name = "sequenceContext"
+Type = 4
+ArgVal = "ThisContext"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[2]]
+Name = "reserved"
+ArgVal = "0"
+
+[Variable_Read_Test.Substeps[1].TS.SData.Call.Parms[3]]
+Name = "changed"
+ObjType = 2
+NumPass = 1
+ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+ArgDisplayVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+
+[Variable_Read_Test.Substeps[1].TS]
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 2097152
+ConnectionLifetime = 0
+
+[Variable_Read_Test.Substeps[1]]
+%INSTFLG: TS = 262168
+%INSTOVRD: TS = 262168
+MenuName = "ResStr(\"NI_STEPTYPES\", \"NUM_EDIT_STEP_MENU_NAME\")"
+SupportsReadOnly = True
+
+[Variable_Read_Test.Substeps[1].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+%INSTOVRD: Common = 4194304
+
+[DEF, Variable_Read_Test.Substeps[1]]
+%NAME = "Edit"
+
+[Variable_Read_Test.TS]
+Icon = "TrainTracer\\\\Read.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7274521
+UnloadOpt = "UnloadAfterSequenceExecution"
+StatusExpr Line0001 = "CheckLimits(Step.DataSource == \"Step.Result.Numeric\" ? Step.Result.Numeric : (Step.Result.Numeric = Evaluate(Step.Data"
+StatusExpr Line0002 = "Source)), Step.Limits.High, Step.Limits.Low,Step.Comp)"
+
+[DEF, Variable_Read_Test.TS]
+SData = "TYPE, DotNetStepAdditions"
+%FLG: SData = 2097152
+
+[Variable_Read_Test.TS.SData.Call]
+AssemblyPath = "C:\\\\Program Files\\\\Alstom\\\\UTM4TS\\\\bin\\\\TestStand_TrainTracer.dll"
+ClassVariable = "FileGlobals.WebMaintenance"
+ClassName = "Alstom.eTrain.TestStand.Maintenance"
+DisposeCreatedInstance = False
+Constructor = "Maintenance()"
+MemberType = 1
+MemberName = "ReadVariable"
+HasReturnValue = True
+%HI: Params = [2]
+
+[DEF, Variable_Read_Test.TS.SData.Call.Params]
+%[0] = "TYPE, DotNetParameter"
+%[1] = "TYPE, DotNetParameter"
+%[2] = "TYPE, DotNetParameter"
+
+[Variable_Read_Test.TS.SData.Call.Params[0]]
+Name = "Return Value"
+ArgVal = "Step.Result.APICall"
+Type = 2
+Direction = 6
 Dimension = -1
 
-[DEF, TH_Stop.Result]
+[Variable_Read_Test.TS.SData.Call.Params[1]]
+Name = "variableSymbolicPath"
+ArgVal = "Step.VariableName"
+Type = 1
+Direction = 1
+Dimension = -1
+
+[Variable_Read_Test.TS.SData.Call.Params[2]]
+Name = "value"
+ArgVal = "Step.Result.Numeric"
+Type = 12
+Direction = 10
+Dimension = -1
+
+[DEF, Variable_Read_Test.Result]
 Error = "TYPE, Error"
 Status = Str
 ReportText = Str
 Common = "TYPE, CommonResults"
-PassFail = Bool
+APICall = Bool
+Numeric = Num
+Units = Str
 
-[TH_Stop.Result]
+[Variable_Read_Test.Result]
 %FLG: Error = 4194304
 %INSTFLG: Error = 4194304
 %FLG: Status = 4194304
 %INSTFLG: Status = 4194304
 %FLG: ReportText = 4194304
 %INSTFLG: ReportText = 4194304
-PassFail = True
+%FLG: Numeric = 9216
+%INSTFLG: Numeric = 9216
+%FLG: Units = 10240
+%INSTFLG: Units = 8192
+
+[DEF, Variable_Read_Test.Limits]
+Low = Num
+High = Num
+LowExpr = "TYPE, Expression"
+HighExpr = "TYPE, Expression"
+UseLowExpr = Bool
+UseHighExpr = Bool
+
+[Variable_Read_Test.Limits]
+Low = 9
+High = 11
+%FLG: LowExpr = 2048
+%FLG: HighExpr = 2048
+%FLG: UseLowExpr = 2048
+%FLG: UseHighExpr = 2048
+
+[DEF, Statement]
+%LOCATION = "StepTypes"
+Substeps = "TYPE, StepTypeSubstepsArray"
+DescriptionFormat = "TYPE, Expression"
+%FLG: DescriptionFormat = 524288
+DefaultNameFormat = "TYPE, Expression"
+%FLG: DefaultNameFormat = 524288
+Menu = "TYPE, StepTypeMenu"
+TS = "TYPE, TEInf"
+Result = Obj
+CodeTemplates = Str
+%FLG: CodeTemplates = 524288
+%ROOT_TYPE = True
+
+[Statement]
+%HI: Substeps = [0]
+%INSTFLG: Substeps = 524312
+%INSTOVRD: Substeps = 655384
+DescriptionFormat = "LocalizeExpression(Step.TS.PostExpr)"
+%FLG: DescriptionFormat = 4194328
+%INSTFLG: DescriptionFormat = 4718616
+%INSTOVRD: DescriptionFormat = 4718616
+DefaultNameFormat = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_DEF_STEP_NAME\")"
+%FLG: DefaultNameFormat = 4194328
+%INSTFLG: DefaultNameFormat = 4718616
+%INSTOVRD: DefaultNameFormat = 4718616
+%INSTFLG: Menu = 524312
+%INSTOVRD: Menu = 524312
+%INSTFLG: TS = 4456472
+%INSTOVRD: TS = 4456472
+%FLG: Result = 4194304
+%INSTFLG: Result = 4194304
+%FLG: CodeTemplates = 4194328
+%TIMESTAMP = 1035380509
+%VERSION = "3.0.0.12373"
+%TYPELASTMOD = "3.0.0.12373"
+%MINPRODVER = "3.0.0.0"
+%TYPE_FLG = 33554446
+
+[DEF, Statement.Substeps]
+%[0] = Step
+%TYPE: %[0] = "EditSubstep"
+
+[DEF, Statement.Substeps[0].TS]
+SData = "TYPE, FlexCStepAdditions"
+%FLG: SData = 2097152
+
+[Statement.Substeps[0].TS.SData.Call]
+LibPath = "CommonSubsteps.dll"
+Func = "EditStatementStep"
+%HI: Parms = [3]
+
+[DEF, Statement.Substeps[0].TS.SData.Call.Parms]
+%[0] = "TYPE, FCParameter"
+%[1] = "TYPE, FCParameter"
+%[2] = "TYPE, FCParameter"
+%[3] = "TYPE, FCParameter"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[0]]
+Name = "Return Value"
+Type = 3
+ObjType = 2
+
+[Statement.Substeps[0].TS.SData.Call.Parms[1]]
+Name = "context"
+Type = 4
+ArgVal = "ThisContext"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[2]]
+Name = "reserved"
+ArgVal = "0"
+
+[Statement.Substeps[0].TS.SData.Call.Parms[3]]
+Name = "changed"
+ObjType = 2
+NumPass = 1
+ArgVal = "RunState.InitialSelection.SelectedFile.ChangeCount"
+
+[Statement.Substeps[0].TS]
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 2097152
+ConnectionLifetime = 0
+
+[Statement.Substeps[0]]
+%INSTFLG: TS = 262168
+%INSTOVRD: TS = 262168
+MenuName = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_EDIT_STEP_MENU_NAME\")"
+SupportsReadOnly = True
+
+[Statement.Substeps[0].Result]
+%INSTOVRD: Error = 4194304
+%INSTFLG: ReportText = 0
+%INSTOVRD: Common = 4194304
+
+[DEF, Statement.Substeps[0]]
+%NAME = "Edit"
+
+[Statement.Menu]
+ItemName = "ResStr(\"NI_SUBSTEPS\", \"STATEMENT_MENU_ITEM_NAME\")"
+Group = "NI_Miscellaneous"
+
+[Statement.TS]
+Icon = "Statement.ico"
+%INSTFLG: SData = 2097152
+%INSTOVRD: SData = 7143448
+ConnectionLifetime = 0
+CanSpecifyModule = False
+
+[DEF, Statement.TS]
+SData = "TYPE, NoneStepAdditions"
+%FLG: SData = 2097152
+
+[DEF, Statement.Result]
+Error = "TYPE, Error"
+Status = Str
+ReportText = Str
+Common = "TYPE, CommonResults"
+
+[Statement.Result]
+%FLG: Error = 4194304
+%INSTFLG: Error = 4194304
+%INSTOVRD: Error = 4194304
+%FLG: Status = 4194304
+%INSTFLG: Status = 4194304
+%FLG: ReportText = 4194304
+%INSTFLG: ReportText = 4194304
+%INSTOVRD: Common = 4194304
 >>

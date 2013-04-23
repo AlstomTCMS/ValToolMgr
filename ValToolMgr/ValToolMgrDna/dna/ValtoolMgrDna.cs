@@ -1,6 +1,6 @@
 ﻿using System;
 using ExcelDna.Integration;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 using ValToolMgrDna.ExcelSpecific;
 
 using System.Collections.Generic;
@@ -17,40 +17,32 @@ namespace ValToolMgrDna
 {
     public class ValtoolMgrDna
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         [ExcelFunction(Description="My first Excel-DNA function")]
         public static string MyFirstFunction(string name)
         {
             return "Hello " + name;
         }
         
-        [ExcelCommand(MenuText = "Say Hello")] 
-        public static void SayHello() 
+        [ExcelCommand(MenuText = "Generate sequence")] 
+        public static void GenerateSequence() 
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
-            CTestContainer t = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+            CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
+
+            try
+            {
+                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+            }
+            catch (Exception ex)
+            {
+                logger.Debug("Exception raised : ", ex);
+                XlCall.Excel(XlCall.xlcAlert, ex.Message); 
+            }
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
-        }
-
-        [ExcelCommand(MenuText = "Workbook_Open")]
-        public static void TPL_Workbook_Open()
-        {
-            XlCall.Excel(XlCall.xlcAlert, "Workbook_Open"); 
-    //        'Refresh linked data sources
-    //Me.RefreshAll
-    
-    //Application.EnableEvents = True
-
-    //For Each sh In Me.Worksheets
-    //    ' Hidden sheets are refences. They don't have to be count
-    //    If Not sh.Visible = xlSheetHidden Then
-    //        For Each oList In sh.ListObjects
-    //            Set nm_c = MyName(oList.Name & ROWS, CStr(oList.ListRows.Count))
-    //            Set nm_c = MyName(oList.Name & COLUMNS, CStr(oList.ListColumns.Count))
-    //        Next oList
-    //    End If
-    //Next sh
-        }
+        } 
     }
 }

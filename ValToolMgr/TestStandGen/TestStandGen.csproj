@@ -12,6 +12,7 @@
     <AssemblyName>TestStandGen</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,9 @@
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>lib\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\ValToolMgrDna\lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,16 +49,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
-    <Compile Include="Types\CTestStandInstr.cs" />
+    <Compile Include="Types\CTsInstrFactory.cs" />
+    <Compile Include="Types\Instructions\CTsBasedVarInstr.cs" />
+    <Compile Include="Types\Instructions\CTsTtTest.cs" />
+    <Compile Include="Types\Instructions\CTsTtUnforce.cs" />
+    <Compile Include="Types\Instructions\CTsTtVariable.cs" />
+    <Compile Include="Types\Instructions\CTsTtForce.cs" />
+    <Compile Include="Types\Instructions\CTsCbVariable.cs" />
+    <Compile Include="Types\Instructions\CTsTestArray.cs" />
+    <Compile Include="Types\Instructions\CTsForceArray.cs" />
+    <Compile Include="Types\Instructions\CTsTestAna.cs" />
+    <Compile Include="Types\Instructions\CTsTest.cs" />
+    <Compile Include="Types\Instructions\CTsVariable.cs" />
+    <Compile Include="Types\Instructions\CTsWait.cs" />
+    <Compile Include="Types\Instructions\CTsPopup.cs" />
+    <Compile Include="Types\Instructions\CTsUnforce.cs" />
+    <Compile Include="Types\Instructions\CTsForce.cs" />
+    <Compile Include="Types\Instructions\CTsLabel.cs" />
+    <Compile Include="Types\Instructions\CTsSequenceCall.cs" />
+    <Compile Include="Types\TestStandArray.cs" />
+    <Compile Include="Types\TestStandFile.cs" />
+    <Compile Include="Types\Instructions\CTsGenericInstr.cs" />
     <Compile Include="Types\CTestStandSeq.cs" />
     <Compile Include="Types\CTestStandSeqContainer.cs" />
     <Compile Include="TestStandGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ValToolMgrDna\ValToolMgrDna.csproj">
-      <Project>{6A15B4ED-02B3-431C-A319-B244CF338A17}</Project>
-      <Name>ValToolMgrDna</Name>
+    <ProjectReference Include="..\ValToolMgrInt\ValToolMgrInt.csproj">
+      <Project>{20FCA3CC-FBBE-4634-8356-2740027EC27C}</Project>
+      <Name>ValToolMgrInt</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

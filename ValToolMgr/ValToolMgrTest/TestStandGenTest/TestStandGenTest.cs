@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using ValToolMgrDna.Interface;
-using TestStandGen;
+using ValToolMgrInt;
+using TestStandGen.Types;
 
-
-
-namespace ValToolMgrTest
+namespace TestStandGenTest
 {
         [TestFixture]
         public class TestStandGenTest
         {
+            [Test]
+            public void GenerateAllSteps()
+            {
+                CTsInstrFactory.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+                CTestContainer container = new CTestContainer();
+
+                CTest test = new CTest("Test_1", "This is my description");
+
+                CStep step = new CStep("Step 1", null, null);
+            }
+
             [Test]
             public void GenerateScenario()
             {
@@ -20,37 +29,29 @@ namespace ValToolMgrTest
                 container.description = "Test container";
                 for (int testIndex = 1; testIndex <= 3; testIndex++)
                 {
-                    CTest test = new CTest();
-                    test.description = "Test descriptor #" + testIndex;
-                    test.title = "Test_1." + testIndex;
+                    CTest test = new CTest("Test_1." + testIndex, "Test descriptor #" + testIndex);
 
-                    for (int stepIndex = 1; stepIndex < 20; stepIndex++)
+                    for (int stepIndex = 1; stepIndex < 2; stepIndex++)
                     {
-                        CStep step = new CStep();
-                        step.title = "Step " + testIndex + "." + stepIndex;
-                        step.DescAction = "Action description for " + step.title;
-                        step.DescCheck = "Check description for " + step.title;
+                        string title = "Step " + testIndex + "." + stepIndex;
+                        CStep step = new CStep(
+                            title, 
+                             "Action description for " + title,
+                             "Check description for " + title
+                            );
 
-                        for (int actionIndex = 1; actionIndex < 20; actionIndex++)
+                        for (int actionIndex = 1; actionIndex < 10; actionIndex++)
                         {
-                            CInstruction action = new CInstruction();
-                            action.category = CInstruction.actionList.A_FORCE;
-                            CVariableBool var = new CVariableBool();
-                            var.value = "true";
-                            var.name = "Var" + actionIndex;
-                            var.path = "/path/to/application" + actionIndex;
+                            CInstruction action = new CInstrForce();
+                            CVariableBool var = new CVariableBool("Var" + actionIndex, "Section1/ENV", "/path/to/application" + actionIndex, "true");
                             action.data = var;
                             step.actions.Add(action);
                         }
 
-                        for (int checkIndex = 1; checkIndex < 20; checkIndex++)
+                        for (int checkIndex = 1; checkIndex < 10; checkIndex++)
                         {
-                            CInstruction action = new CInstruction();
-                            action.category = CInstruction.actionList.A_TEST;
-                            CVariableBool var = new CVariableBool();
-                            var.value = "true";
-                            var.name = "Var" + checkIndex;
-                            var.path = "/path/to/application" + checkIndex;
+                            CInstruction action = new CInstrTest();
+                            CVariableBool var = new CVariableBool("Var" + checkIndex, "Section2/ENV", "/path/to/application" + checkIndex, "true");
                             action.data = var;
                             step.checks.Add(action);
                         }

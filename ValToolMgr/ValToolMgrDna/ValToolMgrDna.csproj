@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Microsoft Office\Office14\EXCEL.EXE</StartProgram>
-    <StartArguments>C:\macros_alstom\ValToolmgrDna\ValToolMgrDna\bin\Debug\ValToolMgrDna.xll</StartArguments>
+    <StartArguments>C:\macros_alstom\ValToolmgr\ValToolMgrDna\bin\Debug\ValToolMgrDna.xll</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +42,9 @@
       <HintPath>lib\ExcelDna\ExcelDna.Integration.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NetOffice">
       <HintPath>lib\NetOffice\NetOffice.dll</HintPath>
     </Reference>
@@ -53,30 +56,28 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="VBIDEApi">
+      <HintPath>lib\NetOffice\VBIDEApi.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\CInstruction.cs" />
-    <Compile Include="Interface\CVariableDateTime.cs" />
-    <Compile Include="Interface\CVariableDouble.cs" />
-    <Compile Include="Interface\CStep.cs" />
-    <Compile Include="Interface\CTest.cs" />
-    <Compile Include="Interface\CTestContainer.cs" />
-    <Compile Include="Interface\CVariable.cs" />
-    <Compile Include="Interface\CVariableBool.cs" />
-    <Compile Include="Interface\CVariableInt.cs" />
     <Compile Include="ExcelSpecific\TestSheetParser.cs" />
+    <Compile Include="ExcelSpecific\VariableParser.cs" />
     <Compile Include="ExcelSpecific\WorkbookParser.cs" />
     <Compile Include="dna\ValtoolMgrDna.cs" />
     <Compile Include="dna\Addin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Log4Net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ValToolMgrDna.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
     <None Include="ValToolMgrDna.xll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -89,15 +90,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestStandGen\TestStandGen.csproj">
+      <Project>{8EB59DDB-58F4-465D-AD3A-4503D328C4F5}</Project>
+      <Name>TestStandGen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValToolMgrInt\ValToolMgrInt.csproj">
+      <Project>{20FCA3CC-FBBE-4634-8356-2740027EC27C}</Project>
+      <Name>ValToolMgrInt</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
