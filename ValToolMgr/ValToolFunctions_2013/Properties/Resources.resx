@@ -118,15 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ExcelTemplate_2013_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExcelTemplate_2013.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ExcelTemplate_2013_dll_manifest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExcelTemplate_2013.dll.manifest;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ExcelTemplate_2013_Vsto" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExcelTemplate_2013.vsto;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="SwVTP_stub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Stubs\SwVTP_stub.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

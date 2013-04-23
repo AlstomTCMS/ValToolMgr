@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Excel;
-using ValToolMgrDna.Interface;
+using ValToolMgrInt;
 
 namespace ValToolFunctions_2013
 {
