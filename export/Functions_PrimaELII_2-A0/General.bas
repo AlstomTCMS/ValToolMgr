@@ -94,13 +94,17 @@ Dim has2Update, exist, hasCopyARefSheet, XlsConvert As Boolean
     End If
     If XlsConvert Then
         fileSaveName = workingDirectory & "\" & Replace(thisFileName, ".xls", ".xlsx")
+        Application.DisplayAlerts = False
         Workbooks(thisFileName).SaveAs Filename:=fileSaveName, FileFormat:=XlFileFormat.xlOpenXMLWorkbook, Addtomru:=True
+        Application.DisplayAlerts = True
         thisFileName = Replace(thisFileName, ".xls", ".xlsx")
         Workbooks(thisFileName).Close 'Attention, le nom est changé automatiquement
         On Error GoTo ErrHandler:
         Workbooks.Open fileSaveName, 0, ReadOnly:=False
         On Error GoTo 0
     End If
+        
+    Call Add_AddInRef_to_WorkBook(Workbooks(thisFileName))
     
     indiceToCopy = 1
     If WsExist(2) Then
@@ -142,7 +146,6 @@ Dim has2Update, exist, hasCopyARefSheet, XlsConvert As Boolean
             Sheets("Endpaper_PV").Protect
         'End
         Call RemoveDuplicateNamesRef(Workbooks(thisFileName))
-        Call Add_AddInRef_to_WorkBook(Workbooks(thisFileName))
     End If
             
 ErrHandler:
