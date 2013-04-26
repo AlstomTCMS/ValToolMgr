@@ -29,22 +29,31 @@ End Sub
 Public Sub Endpaper_PR_Sheet_change(wb As Workbook, ByVal Target As range)
     Dim functionName As String
     Dim targetValue As String
+    Dim nm As Name
     
     'update FunctionName from user choice
-    If Not Application.Intersect(Target, ActiveWorkbook.Names("FunctionIndex").RefersToRange) Is Nothing Then
-        targetValue = Target.Cells(1, 1).value
-        If targetValue = "" Then 'in order to handle range deletion by user
-            functionName = "" '=Endpaper_PR!$D$9"
-        Else
-            If InStr(targetValue, ":") <> 0 Then
-                functionName = Left(targetValue, InStr(targetValue, ":") - 2)
+    On Error Resume Next
+    Set nm = wb.Names("FunctionIndex")
+    If nm Is Nothing Then
+        Set nm = wb.Sheets(ENDPAPER_PR_NAME).Names("FunctionIndex")
+    End If
+    On Error GoTo 0
+    If Not nm Is Nothing Then
+        If Not Application.Intersect(Target, nm.RefersToRange) Is Nothing Then
+            targetValue = Target.Cells(1, 1).value
+            If targetValue = "" Then 'in order to handle range deletion by user
+                functionName = "" '=Endpaper_PR!$D$9"
             Else
-                'TODO: find the whole function description
-                functionName = targetValue
+                If InStr(targetValue, ":") <> 0 Then
+                    functionName = Left(targetValue, InStr(targetValue, ":") - 2)
+                Else
+                    'TODO: find the whole function description
+                    functionName = targetValue
+                End If
             End If
+            Call UpdateName(wb, "FunctionName", functionName) 'ActiveWorkbook.Names("Functions_2ES5").RefersToRange.Range("A" & 1)
+            
         End If
-        Call UpdateName(wb, "FunctionName", functionName) 'ActiveWorkbook.Names("Functions_2ES5").RefersToRange.Range("A" & 1)
-        
     End If
 End Sub
 

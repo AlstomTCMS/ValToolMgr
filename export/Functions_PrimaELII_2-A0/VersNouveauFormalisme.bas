@@ -34,6 +34,7 @@ Public Sub AncienVersNouveau()
     
     ' Empeche le rafraichissement de la fenetre
     Application.ScreenUpdating = False
+    Application.EnableEvents = False
     
     'Si une feuille de synthèse existe déjà, demander si l'utilisateur veut vraiment lancer le processus
     If WsExist(SYNTHESE_NAME) Then
@@ -49,7 +50,6 @@ Public Sub AncienVersNouveau()
         GoTo Finally
     End If
     
-    Call CopySheetsFromRef
     
     'Vérifier que la fiche 1 est bien un PR.
     If Not matchRange(getPR_IN.range("A1:A3"), Sheets(PR_MODEL_NAME).range("A1:A3")) Then
@@ -61,12 +61,54 @@ Public Sub AncienVersNouveau()
     Call virerFeuillesInutiles
     'If Not checkIsPrimaOldVersion Then GoTo Finally
         
-    'Copie de l'entete dans la page de garde
+        
+    Call CopySheetsFromRef
+    Call CopyHeaderInEndpaper
+    Call MergeEvolSheets
+    
+    Call FillSynthese
+    Call SupprimerOngletsTests
+    Call CreateAndFill_Tests
+    Call formatageSynthese
+    
+    
+    '---------------------------------------
+    ' Vérification Variables
+    ' Pas tant qu'il y ait un fonctionnement de fichiers excel en réseau pour les Tref_FBS et Tref_Equipement_CB
+    '
+    'Call testPR_chemin(PR_In_Sheet.Name)
+    '---------------------------------------
+    
+    'On cache la feuille de l'ancien format pour éviter les modifications de part et d'autres
+    PR_In_Sheet.visible = xlSheetHidden
+    
+Finally:
+    ' Permet le rafraichissement de la fenetre
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+End Sub
+
+Private Sub MergeEvolSheets()
+    oldEvolSheetName = "Suivi Versions"
+    
+    If WsExist(oldEvolSheetName) Then
+        'Shift columns to fit
+        Sheets(oldEvolSheetName).Columns(2).Insert
+        'copy data from old sheet "Suivi Versions" to "Evol"
+        Sheets(oldEvolSheetName).ListObjects(1).DataBodyRange.Copy
+        Sheets("Evol").ListObjects(1).DataBodyRange.EntireRow.Insert xlDown
+            
+        Application.DisplayAlerts = False
+        Sheets(oldEvolSheetName).Delete
+        Application.DisplayAlerts = True
+    End If
+End Sub
+
+Private Sub CopyHeaderInEndpaper()
     Set PR_In_Sheet = getPR_IN
     If WsExist(PDG_NAME) Then
-        'PR_In_Sheet.range("B1:B6").Copy
+        
         With Sheets(PDG_NAME)
-            Application.EnableEvents = False
             'Num_PR:date_PR C4:C6  D5:D7
             .range("C4:C6").Copy
             Sheets(ENDPAPER_PR_NAME).range("D5:D7").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
@@ -128,9 +170,11 @@ Public Sub AncienVersNouveau()
                 Sheets(ENDPAPER_PR_NAME).range("J19:J22") = splitData(data)
                 
             End If
+            
             Application.DisplayAlerts = False
             .Delete
             Application.DisplayAlerts = True
+            Call DeleteUnusedRefs(ActiveWorkbook)
             
         End With
     ElseIf WsExist(ENDPAPER_PR_NAME) Then 'New format
@@ -143,26 +187,6 @@ Public Sub AncienVersNouveau()
         Sheets(ENDPAPER_PV_NAME).range("D7").PasteSpecial Paste:=xlValue, Operation:=xlNone, SkipBlanks:=False, transpose:=False
         Application.EnableEvents = True
     End If
-    
-    Call FillSynthese
-    Call SupprimerOngletsTests
-    Call CreateAndFill_Tests
-    Call formatageSynthese
-    
-    '---------------------------------------
-    ' Vérification Variables
-    ' Pas tant qu'il y ait un fonctionnement de fichiers excel en réseau pour les Tref_FBS et Tref_Equipement_CB
-    '
-    'Call testPR_chemin(PR_In_Sheet.Name)
-    '---------------------------------------
-    
-    'On cache la feuille de l'ancien format pour éviter les modifications de part et d'autres
-    PR_In_Sheet.visible = xlSheetHidden
-    
-Finally:
-    ' Permet le rafraichissement de la fenetre
-    Application.ScreenUpdating = True
-    Application.EnableEvents = True
 End Sub
 
 Private Function splitData(data As Variant) As Variant

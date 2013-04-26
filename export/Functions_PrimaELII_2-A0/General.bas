@@ -104,13 +104,13 @@ Dim has2Update, exist, hasCopyARefSheet, XlsConvert As Boolean
         On Error GoTo 0
     End If
         
-    Call Add_AddInRef_to_WorkBook(Workbooks(thisFileName))
     
     indiceToCopy = 1
     If WsExist(2) Then
         indiceToCopy = 2
     End If
     
+    Call Add_AddInRef_to_WorkBook(Workbooks(thisFileName))
     
     For Each sheet In Workbooks(RefWB).Sheets
         exist = WsExist(sheet.Name)
@@ -136,17 +136,17 @@ Dim has2Update, exist, hasCopyARefSheet, XlsConvert As Boolean
 
     'Remove links to ref file in named ranges
     If hasCopyARefSheet Then
-        'If XlsConvert Then
-            'Workbooks(thisFileName).ChangeLink Name:=RefWB, NewName:=fileSaveName, Type:=xlExcelLinks
-        'Else
-            Sheets("Endpaper_PR").Unprotect
-            Sheets("Endpaper_PV").Unprotect
-            Workbooks(thisFileName).ChangeLink Name:=RefWB, NewName:=thisFileName, Type:=xlExcelLinks
-            Sheets("Endpaper_PR").Protect
-            Sheets("Endpaper_PV").Protect
-        'End
-        Call RemoveDuplicateNamesRef(Workbooks(thisFileName))
+        Sheets("Endpaper_PR").Unprotect
+        Sheets("Endpaper_PV").Unprotect
+        Workbooks(thisFileName).ChangeLink Name:=RefWB, NewName:=thisFileName, Type:=xlExcelLinks
+        Sheets("Endpaper_PR").Protect
+        Sheets("Endpaper_PV").Protect
     End If
+    
+    If hasCopyARefSheet Or XlsConvert Then
+        Call RemoveDuplicateNamesRef(ActiveWorkbook)
+    End If
+    
             
 ErrHandler:
     ' error handling code
@@ -185,18 +185,29 @@ Sub RemoveDuplicateNamesRef(wb As Workbook)
     
     For Each name_ In wb.Names
         If name_.Name Like "*!*" And Not (name_.Name Like "*Print_Area" Or name_.Name Like "*Zone_d_impression") Then   'Zone_d_impression
-            On Error Resume Next
-            Set nm = wb.Names(Split(name_.Name, "!")(1))
-            On Error GoTo 0
-            If Not nm Is Nothing Then
-                If Not nm.Name = name_.Name Then
-                    name_.Delete
-                End If
-            Else
-                wb.Names.Add Name:=Split(name_.Name, "!")(1), RefersTo:=name_.RefersTo
+            If name_.RefersTo Like "='C:*" Or name_.RefersTo Like "='D:*" Then
                 name_.Delete
             End If
-            Set nm = Nothing
+        End If
+    Next
+End Sub
+
+'Replace the sheet name in references in wb.Names
+'Used when a old sheet with references has been deleted
+Sub ReplaceNameRef(wb As Workbook, sheetName As String)
+    For Each name_ In wb.Names
+        If name_.RefersTo Like "=?REF*" Then
+            name_.RefersTo = Replace(name_.RefersTo, "#REF", sheetName)
+        End If
+    Next
+End Sub
+
+Sub DeleteUnusedRefs(wb As Workbook)
+    Dim name_ As Name
+    
+    For Each name_ In wb.Names
+        If name_.RefersTo Like "=?REF*" Then
+            name_.Delete
         End If
     Next
 End Sub
