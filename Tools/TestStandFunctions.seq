@@ -267,7 +267,6 @@ PostExpr = "Parameters.CbReference=Nothing"
 
 [SF.Seq[1].Setup[1].TS]
 Id = "ID#:0Ub32dQhQUatnWKztdKJoB"
-NoResult = True
 StatusExpr Line0001 = "Step.DataSource != \"Step.Result.PassFail\"? Step.Result.PassFail = Evaluate(Step.DataSource) : False, Step.Result.PassF"
 StatusExpr Line0002 = "ail ? \"Passed\": \"Failed\""
 
@@ -368,7 +367,6 @@ InBuf = "FileGlobals.CB_Path_Name"
 
 [SF.Seq[1].Setup[2].TS]
 Id = "ID#:sPXZEP3000udjUQEAUmK0A"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[2].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -444,7 +442,6 @@ IsByRef = True
 Id = "ID#:dP0Zt9UvYk2dsoFjlG1k4D"
 PreCond = "Parameters.StartTarget==False"
 Mode = "Skip"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[3].TS]
 SData = "TYPE, FlexCStepAdditions"
@@ -552,7 +549,6 @@ ArgVal = "Step.Result.Error.Msg"
 Id = "ID#:o65t02o+20WIWlZlhdPfIA"
 PreCond = "Parameters.StartTarget==False"
 Mode = "Skip"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[4].TS]
 SData = "TYPE, FlexCStepAdditions"
@@ -650,7 +646,6 @@ ArgVal = "Step.Result.Error.Msg"
 Id = "ID#:OhN3TH3w+0KDyI2x0eqaID"
 PreCond = "Parameters.StartTarget==False"
 Mode = "Skip"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[5].TS]
 SData = "TYPE, FlexCStepAdditions"
@@ -746,7 +741,6 @@ ArgVal = "Step.Result.Error.Msg"
 
 [SF.Seq[1].Setup[6].TS]
 Id = "ID#:bEdUToTeVkiv31FFVWqk7B"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[6].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -809,7 +803,6 @@ IsByRef = True
 [SF.Seq[1].Setup[7].TS]
 Id = "ID#:kbQVCYZG1k+qRBd0X/p0tB"
 PreCond = "Parameters.StartTarget==True"
-NoResult = True
 
 [DEF, SF.Seq[1].Setup[7].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -1507,19 +1500,15 @@ RTS = Obj
 
 [DEF, SF.Seq[4].Parameters]
 Path_HARD_EACB = Str
-MVB_Network_name1 = Str
-MVB_Network_name2 = Str
 
 [SF.Seq[4].Parameters]
 %FLG: Path_HARD_EACB = 4
-%FLG: MVB_Network_name1 = 4
-%FLG: MVB_Network_name2 = 4
 
 [SF.Seq[4]]
 %FLG: Parameters = 4456448
 %FLG: Locals = 4194304
 %FLG: Main = 4194304
-%HI: Setup = [11]
+%HI: Setup = [10]
 %FLG: Setup = 4194304
 %FLG: Cleanup = 4194304
 %FLG: GotoCleanupOnFail = 4194312
@@ -1556,8 +1545,6 @@ ResultList = Objs
 %TYPE: %[9] = "RP_ReadConfig"
 %[10] = Step
 %TYPE: %[10] = "RP_StartAllEqt"
-%[11] = Step
-%TYPE: %[11] = "RP_StartAllEqt"
 
 [SF.Seq[4].Setup[0].TS]
 Id = "ID#:ScQec0RtfUq36PEurNQhgC"
@@ -2115,7 +2102,7 @@ InBuf = "\"\""
 %NAME = "Configure a target R/P server - Architecture"
 
 [SF.Seq[4].Setup[10].TS]
-Id = "ID#:MRoKxHeEgkGPMy0TJP6iJD"
+Id = "ID#:0e2uvALvWEK0Towx4eWurD"
 
 [DEF, SF.Seq[4].Setup[10].TS]
 SData = "TYPE, AutomationStepAdditions"
@@ -2155,8 +2142,8 @@ Direction = 1
 
 [SF.Seq[4].Setup[10].TS.SData.Call.Parameters[1]]
 Name = "strNetwork"
-ArgVal = "Parameters.MVB_Network_name1"
-ArgDisplayVal = "Parameters.MVB_Network_name1"
+ArgVal = "\"\""
+ArgDisplayVal = "\"\""
 Type = 8
 DisplayType = "String"
 TypeValid = True
@@ -2183,78 +2170,6 @@ Direction = 3
 IsByRef = True
 
 [DEF, SF.Seq[4].Setup[10]]
-%NAME = "Start all equipments_mvb"
-
-[SF.Seq[4].Setup[11].TS]
-Id = "ID#:559qZxh4HUOhtwT9MqjuZB"
-PreCond = "!StrComp(Parameters.MVB_Network_name2, \"\")"
-
-[DEF, SF.Seq[4].Setup[11].TS]
-SData = "TYPE, AutomationStepAdditions"
-
-[SF.Seq[4].Setup[11].TS.SData.Call]
-ObjectVariable = "FileGlobals.Remote"
-Server = "{1E52CADB-5F9E-4E14-992F-C317D7B79AE2}"
-ServerName = "Interface between TestStand3.0 - CB4.0 - RP"
-CoClass = "{640B1D1E-8DBE-4F30-8988-8E985EF95F9D}"
-CoClassName = "RemoteCBTarget"
-Interface = "{618DD9ED-67C2-4C18-99F1-4D410B4DDC12}"
-InterfaceName = "_RemoteCBTarget"
-MemberType = 1
-Member = 1610809365
-MemberName = "RP_StartAllEqt"
-HasMemberInfo = True
-Locale = 1036
-TypeLibVersion = "4ba.0"
-InterfaceType = 1
-VTableOffset = 112
-%HI: Parameters = [3]
-
-[DEF, SF.Seq[4].Setup[11].TS.SData.Call.Parameters]
-%[0] = "TYPE, AutomationParameter"
-%[1] = "TYPE, AutomationParameter"
-%[2] = "TYPE, AutomationParameter"
-%[3] = "TYPE, AutomationParameter"
-
-[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[0]]
-Name = "strIPaddress"
-ArgVal = "\"\""
-ArgDisplayVal = "\"\""
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[1]]
-Name = "strNetwork"
-ArgVal = "Parameters.MVB_Network_name2"
-ArgDisplayVal = "Parameters.MVB_Network_name2"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 1
-
-[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[2]]
-Name = "passFail"
-ArgVal = "Step.Result.PassFail"
-ArgDisplayVal = "Step.Result.PassFail"
-Type = 11
-DisplayType = "Boolean"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[SF.Seq[4].Setup[11].TS.SData.Call.Parameters[3]]
-Name = "errorMsg"
-ArgVal = "Step.Result.ReportText"
-ArgDisplayVal = "Step.Result.ReportText"
-Type = 8
-DisplayType = "String"
-TypeValid = True
-Direction = 3
-IsByRef = True
-
-[DEF, SF.Seq[4].Setup[11]]
 %NAME = "Start all equipments_mvb"
 
 [DEF, SF.Seq[4].RTS]
@@ -2492,7 +2407,6 @@ SData = "TYPE, SeqCallStepAdditions"
 SFPath = "C:\\macros_alstom\\Tools\\TestStandFunctions.seq"
 SeqName = "RPServerInitialiser"
 %FLG: Prototype = 262144
-UsePrototype = True
 SpecifyHostByExpr = True
 RemoteExecution = True
 RemoteHostExpr = "Parameters.TestBenchEthAddress"
@@ -2503,30 +2417,16 @@ Prototype = Obj
 
 [DEF, SF.Seq[6].Setup[1].TS.SData.ActualArgs]
 Path_HARD_EACB = "TYPE, SequenceArgument"
-MVB_Network_name1 = "TYPE, SequenceArgument"
-MVB_Network_name2 = "TYPE, SequenceArgument"
 
 [SF.Seq[6].Setup[1].TS.SData.ActualArgs.Path_HARD_EACB]
 UseDef = False
 Expr = "Parameters.Path_EACB_HARD"
 
-[SF.Seq[6].Setup[1].TS.SData.ActualArgs.MVB_Network_name1]
-UseDef = False
-Expr = "\"mvb_S1\""
-
-[SF.Seq[6].Setup[1].TS.SData.ActualArgs.MVB_Network_name2]
-UseDef = False
-Expr = "\"mvb_S2\""
-
 [DEF, SF.Seq[6].Setup[1].TS.SData.Prototype]
 Path_HARD_EACB = Str
-MVB_Network_name1 = Str
-MVB_Network_name2 = Str
 
 [SF.Seq[6].Setup[1].TS.SData.Prototype]
 %FLG: Path_HARD_EACB = 4
-%FLG: MVB_Network_name1 = 4
-%FLG: MVB_Network_name2 = 4
 
 [DEF, SF.Seq[6].Setup[1]]
 %NAME = "SequenceCall"
