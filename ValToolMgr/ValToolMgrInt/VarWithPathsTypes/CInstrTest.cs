@@ -5,7 +5,8 @@ using System.Text;
 
 namespace ValToolMgrInt
 {
-    public class CInstrTest : CInstruction
+    public class CInstrTest : CInstrWithVar
     {
+        public object Value;
     }
 }

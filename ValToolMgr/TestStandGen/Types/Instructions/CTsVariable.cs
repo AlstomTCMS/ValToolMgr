@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using ValToolMgrInt;
 
@@ -21,7 +18,8 @@ namespace TestStandGen.Types.Instructions
              if (String.Equals(var.GetType().FullName, typeof(CVariableArray).FullName))
             {
                 CVariableArray v = (CVariableArray)var;
-                parseVariable((CVariable)v.value);
+                throw new NotImplementedException();
+                //parseVariable((CVariable)v.value);
             }
             else
             {
@@ -33,11 +31,11 @@ namespace TestStandGen.Types.Instructions
 
         private void parseVariable(CVariable var)
         {
-
-            if (String.Equals(var.GetType().FullName, typeof(CVariableDouble).FullName))
-                Value = var.value.ToString().Replace(',', '.');
-            else
-                Value = var.value.ToString();
+            throw new NotImplementedException();
+            //if (String.Equals(var.GetType().FullName, typeof(CVariableDouble).FullName))
+            //    Value = var.value.ToString().Replace(',', '.');
+            //else
+            //    Value = var.value.ToString();
 
             Name = var.name;
             Path = var.path.TrimEnd('/');

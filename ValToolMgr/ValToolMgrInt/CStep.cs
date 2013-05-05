@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ValToolMgrInt
 {
@@ -10,8 +7,8 @@ namespace ValToolMgrInt
         public string DescCheck;
         public string title;
         public string DescAction;
-        public ArrayList actions = new ArrayList();
-        public ArrayList checks = new ArrayList();
+        public List<CInstruction> actions = new List<CInstruction>();
+        public List<CInstruction> checks = new List<CInstruction>();
 
         public CStep(string title, string descAction, string descCheck)
         {

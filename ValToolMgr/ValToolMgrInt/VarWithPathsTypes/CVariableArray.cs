@@ -19,24 +19,9 @@ namespace ValToolMgrInt
             this.Index = Index;
         }
 
-        public override object value   // the property
+        public override string convValToValidStr(string value)
         {
-            get
-            {
-                return Variable;
-            }
-
-            set
-            {
-                if (value == null)
-                {
-                    Variable = null;
-                }
-                else
-                {
-                    Variable = (CVariable)value;
-                }
-            }
+            return this.Variable.convValToValidStr(value);
         }
     }
 }

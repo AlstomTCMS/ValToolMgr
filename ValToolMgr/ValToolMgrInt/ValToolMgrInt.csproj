@@ -39,25 +39,27 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CInstrForce.cs" />
+    <Compile Include="VarWithPathsTypes\CInstrForce.cs" />
     <Compile Include="CInstrPopup.cs" />
-    <Compile Include="CInstrTest.cs" />
+    <Compile Include="VarWithPathsTypes\CInstrTest.cs" />
     <Compile Include="CInstruction.cs" />
-    <Compile Include="CInstrUnForce.cs" />
+    <Compile Include="VarWithPathsTypes\CInstrUnForce.cs" />
     <Compile Include="CInstrWait.cs" />
-    <Compile Include="CVariableUInt.cs" />
-    <Compile Include="CVariableArray.cs" />
+    <Compile Include="VarWithPathsTypes\CInstrWithVar.cs" />
+    <Compile Include="VarWithPathsTypes\CVariableUInt.cs" />
+    <Compile Include="VarWithPathsTypes\CVariableArray.cs" />
     <Compile Include="CStep.cs" />
     <Compile Include="CTest.cs" />
     <Compile Include="CTestContainer.cs" />
-    <Compile Include="CVariable.cs" />
-    <Compile Include="CVariableBool.cs" />
-    <Compile Include="CVariableDouble.cs" />
-    <Compile Include="CVariableInt.cs" />
+    <Compile Include="VarWithPathsTypes\CVariable.cs" />
+    <Compile Include="VarWithPathsTypes\CVariableBool.cs" />
+    <Compile Include="VarWithPathsTypes\CVariableDouble.cs" />
+    <Compile Include="VarWithPathsTypes\CVariableInt.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -48,7 +48,7 @@ namespace ValToolMgrDna.ExcelSpecific
 
             public bool isValid()
             {
-                return (TargetColumnIndex >= 0 && LocationColumnIndex >= 0 && PathColumnIndex >= 0 && FirstColumnIndex >= 0) 
+                return (TargetColumnIndex >= 0 && LocationColumnIndex >= 0 && PathColumnIndex >= 0 && FirstColumnIndex >= 0)
                     && (TargetColumnIndex != LocationColumnIndex && PathColumnIndex != FirstColumnIndex && TargetColumnIndex != FirstColumnIndex);
             }
 
@@ -61,7 +61,7 @@ namespace ValToolMgrDna.ExcelSpecific
         public TestSheetParser(Excel.Worksheet sheet, string headerTableName, string actionsTableName, string checksTableName)
         {
             this.sheet = sheet;
-                        if (!Regex.IsMatch(sheet.Name, PR_TEST_PREFIX + ".*"))
+            if (!Regex.IsMatch(sheet.Name, PR_TEST_PREFIX + ".*"))
                 throw new FormatException(String.Format("Sheet name doesn't comply with naming rules (begins with \"{0}\").", PR_TEST_PREFIX));
 
             try
@@ -71,7 +71,7 @@ namespace ValToolMgrDna.ExcelSpecific
 
                 actionTableName = String.Format("'{0}'!{1}", sheet.Name, actionsTableName);
                 checkTableName = String.Format("'{0}'!{1}", sheet.Name, checksTableName);
-                    
+
                 logger.Debug(String.Format("Extracting columns for action table."));
                 lcActionsTableColumns = loActionsTable.ListColumns;
             }
@@ -95,7 +95,7 @@ namespace ValToolMgrDna.ExcelSpecific
                 throw new FormatException(String.Format("Check table \"{0}\" retrieval has failed.", checksTableName));
             }
 
-            if(lcActionsTableColumns.Count != lcChecksTableColumns.Count)
+            if (lcActionsTableColumns.Count != lcChecksTableColumns.Count)
                 throw new FormatException(String.Format("Action ({0} columns) and check ({1} columns)  tables has not same number of columns", lcActionsTableColumns.Count, lcChecksTableColumns.Count));
 
         }
@@ -113,7 +113,7 @@ namespace ValToolMgrDna.ExcelSpecific
             return test;
         }
 
-        private CTest parseAsTest(string title) 
+        private CTest parseAsTest(string title)
         {
             logger.Debug(String.Format("Extracting columns for action table."));
             Excel.ListColumns lcActionsTableColumns = loActionsTable.ListColumns;
@@ -121,11 +121,13 @@ namespace ValToolMgrDna.ExcelSpecific
             tableStructure = checkAndDetermineTablecolumns(lcActionsTableColumns);
 
             object[,] actionsValues = preloadTable(this.actionTableName);
+            CVariable[] actionsVariables = this.preProcessVariables(actionsValues);
 
             logger.Debug(String.Format("Extracting columns for checks table."));
             Excel.ListColumns lcChecksTableColumns = loChecksTable.ListColumns;
 
             object[,] checksValues = preloadTable(this.checkTableName);
+            CVariable[] checkVariables = this.preProcessVariables(checksValues);
 
             CTest parseSingleTest = new CTest(title, "Description");
             logger.Debug(String.Format("Creating Test : {0}", parseSingleTest.ToString()));
@@ -137,9 +139,10 @@ namespace ValToolMgrDna.ExcelSpecific
             for (int CurrentColumn = tableStructure.FirstColumnIndex; CurrentColumn < lcActionsTableColumns.Count; CurrentColumn++)
             {
                 logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn].Name));
-                CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
+                CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name + " : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
 
                 logger.Debug(String.Format("Processing Actions table."));
+
                 fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, actionsValues, CurrentColumn);
 
                 logger.Debug(String.Format("Processing Timer table."));
@@ -151,6 +154,7 @@ namespace ValToolMgrDna.ExcelSpecific
                 logger.Debug(String.Format("Adding step to results."));
                 parseSingleTest.Add(o_step);
             }
+
             return parseSingleTest;
         }
 
@@ -170,7 +174,7 @@ namespace ValToolMgrDna.ExcelSpecific
 
             tableStructure.setFirstColumnIndex();
 
-            if(!tableStructure.isValid())
+            if (!tableStructure.isValid())
                 throw new FormatException(String.Format("Table doesn't contains all necessary columns headers : {0}", tableStructure.ToString()));
 
             return tableStructure;
@@ -181,11 +185,11 @@ namespace ValToolMgrDna.ExcelSpecific
 
             // Get a reference to the current selection
             object selection = XlCall.Excel(XlCall.xlfEvaluate, namedRange);
-            if(selection is ExcelError)
+            if (selection is ExcelError)
             {
                 throw new FormatException(String.Format("Excel returned an error : {0}", ((ExcelError)selection)));
             }
-            
+
             // Get the value of the selection
             object selectionContent = ((ExcelReference)selection).GetValue();
             //object evalResult = XlCall.Excel(XlCall.xlfEvaluate, formula_text);
@@ -199,6 +203,29 @@ namespace ValToolMgrDna.ExcelSpecific
                 throw new Exception(String.Format("Calling named range \"{0}\" failed.", namedRange));
         }
 
+        private CVariable[] preProcessVariables(object[,] table)
+        {
+            CVariable[] list = new CVariable[table.GetLength(0)];
+            logger.Debug(String.Format("Found {0} Excel lines to process.", table.GetLength(0)));
+            for (int line = 0; line < table.GetLength(0); line++)
+            {
+                list[line] = null;
+                string Target = "";
+                if (table[line, tableStructure.TargetColumnIndex] is string) Target = (string)table[line, tableStructure.TargetColumnIndex];
+                string Path = "";
+                if (table[line, tableStructure.PathColumnIndex] is string) Path = (string)table[line, tableStructure.PathColumnIndex];
+                string Location = null;
+                if (table[line, tableStructure.LocationColumnIndex] is string) Location = (string)table[line, tableStructure.LocationColumnIndex];
+                else { continue; }
+
+                logger.Debug(String.Format("Found item to analyse [Target={0}, Location={1}, Path={2}].", Target, Location, Path));
+
+                logger.Debug(String.Format("Analysing current item."));
+               list[line] = VariableParser.parseAsVariable(Target, Location, Path);
+            }
+            return list;
+        }
+
         private void fillWithActions(CStep o_step, TableTypes typeOfTable, Excel.ListObject tableRef, object[,] table, int ColumnIndex)
         {
             logger.Debug(String.Format("Found {0} Excel lines to process.", table.GetLength(0)));
@@ -206,7 +233,7 @@ namespace ValToolMgrDna.ExcelSpecific
             {
                 object CellValue = table[line, ColumnIndex];
 
-                if(!(CellValue is ExcelDna.Integration.ExcelEmpty))
+                if (!(CellValue is ExcelDna.Integration.ExcelEmpty))
                 {
                     string Target = "";
                     if (table[line, tableStructure.TargetColumnIndex] is string) Target = (string)table[line, tableStructure.TargetColumnIndex];
@@ -234,7 +261,7 @@ namespace ValToolMgrDna.ExcelSpecific
                         else
                             throw new NotImplementedException(String.Format("This type of table ({0}) is not currently implemented", typeOfTable));
                     }
-                    catch(InvalidCastException ex)
+                    catch (InvalidCastException ex)
                     {
                         logger.Error("Problem when trying to find an equivalence for item.", ex);
                         XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + tableRef.Range[line + 2, ColumnIndex + 1].Address + " : " + ex.Message);
@@ -255,55 +282,55 @@ namespace ValToolMgrDna.ExcelSpecific
             string CellValueStr = Convert.ToString(CellValue);
 
             List<char> detectedChars = extractSpecialProperties(ref Target, ref CellValueStr);
-            if(detectedChars.Count > 0) logger.Debug(String.Format("Found {0} special properties.", detectedChars.Count));
+            if (detectedChars.Count > 0) logger.Debug(String.Format("Found {0} special properties.", detectedChars.Count));
 
-                if (typeOfTable == TableTypes.TABLE_ACTIONS)
+            if (typeOfTable == TableTypes.TABLE_ACTIONS)
+            {
+                if (CellValueStr.Equals("U"))
                 {
-                    if (CellValueStr.Equals("U"))
-                    {
-                        Instruction = new CInstrUnforce();
-                        logger.Debug(String.Format("Detected Unforce step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, null);
-                    }
-                    else if (String.Compare(Target, "@POPUP@") == 0)
-                    {
-                        Instruction = new CInstrPopup();
-                        logger.Debug(String.Format("Detected Popup."));
-                        Instruction.data = CellValueStr;
-                    }
-                    else
-                    {
-                        Instruction = new CInstrForce();
-                        logger.Debug(String.Format("Detected Force step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, CellValueStr);
-                    }
+                    Instruction = new CInstrUnforce();
+                    logger.Debug(String.Format("Detected Unforce step."));
+                    Instruction.data = VariableParser.parseAsVariable(Target, Location, Path);
                 }
-                else if (typeOfTable == TableTypes.TABLE_CHECKS)
+                else if (String.Compare(Target, "@POPUP@") == 0)
                 {
-                    if (String.Compare(Target, "@POPUP@") == 0)
-                    {
-                        Instruction = new CInstrPopup();
-                        logger.Debug(String.Format("Detected Popup."));
-                        Instruction.data = CellValueStr;
-                    }
-                    else
-                    {
-                        Instruction = new CInstrTest();
-                        logger.Debug(String.Format("Detected Test step."));
-                        Instruction.data = VariableParser.parseAsVariable(Target, Location, Path, CellValueStr);
-                    }
+                    Instruction = new CInstrPopup();
+                    logger.Debug(String.Format("Detected Popup."));
+                    Instruction.data = CellValueStr;
                 }
                 else
                 {
-                    throw new NotImplementedException("This step is not recognized as a correct step");
+                    Instruction = new CInstrForce();
+                    logger.Debug(String.Format("Detected Force step."));
+                    Instruction.data = VariableParser.parseAsVariable(Target, Location, Path);
                 }
+            }
+            else if (typeOfTable == TableTypes.TABLE_CHECKS)
+            {
+                if (String.Compare(Target, "@POPUP@") == 0)
+                {
+                    Instruction = new CInstrPopup();
+                    logger.Debug(String.Format("Detected Popup."));
+                    Instruction.data = CellValueStr;
+                }
+                else
+                {
+                    Instruction = new CInstrTest();
+                    logger.Debug(String.Format("Detected Test step."));
+                    Instruction.data = VariableParser.parseAsVariable(Target, Location, Path);
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("This step is not recognized as a correct step");
+            }
 
-                
-                Instruction.ForceFailed = detectedChars.Contains('F');
-                Instruction.ForcePassed = detectedChars.Contains('P');
-                Instruction.Skipped = detectedChars.Contains('S');
-                
-                return Instruction;
+
+            Instruction.ForceFailed = detectedChars.Contains('F');
+            Instruction.ForcePassed = detectedChars.Contains('P');
+            Instruction.Skipped = detectedChars.Contains('S');
+
+            return Instruction;
         }
 
         private List<char> extractSpecialProperties(ref string TargetTotest, ref string valueToTest)
@@ -341,7 +368,7 @@ namespace ValToolMgrDna.ExcelSpecific
             return table;
         }
 
-        private void addTempoIfExists(CStep o_step, Excel.ListObject loSourceFiles, int ColumnIndex) 
+        private void addTempoIfExists(CStep o_step, Excel.ListObject loSourceFiles, int ColumnIndex)
         {
             //'Delay retrieval. We know that data is contained inside Total line property
             object delay = loSourceFiles.TotalsRowRange.Cells[1, ColumnIndex].Value;
@@ -357,7 +384,7 @@ namespace ValToolMgrDna.ExcelSpecific
                     logger.Debug("Adding temporisation to results");
                     o_step.actions.Add(o_tempo);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error("Failed to parse temporisation.", ex);
                     XlCall.Excel(XlCall.xlcAlert, "Invalid value, expected : (int), have : " + delay.ToString());
@@ -365,7 +392,7 @@ namespace ValToolMgrDna.ExcelSpecific
             }
         }
 
-        public void repairSheet() 
+        public void repairSheet()
         {
             Excel.ListObjects ListOfRanges = this.sheet.ListObjects;
             List<Excel.ListObject> listActionsTable = new List<Excel.ListObject>();
@@ -373,10 +400,10 @@ namespace ValToolMgrDna.ExcelSpecific
             List<Excel.ListObject> listDescriptionTable = new List<Excel.ListObject>();
             List<Excel.ListObject> listSpecialActionsTable = new List<Excel.ListObject>();
 
-            foreach(Excel.ListObject obj in ListOfRanges)
+            foreach (Excel.ListObject obj in ListOfRanges)
             {
                 string range = obj.Range.AddressLocal;
-                logger.Debug(String.Format("Analysing Range {0}", range));                                                                                                                                                 
+                logger.Debug(String.Format("Analysing Range {0}", range));
             }
             throw new NotImplementedException();
         }
@@ -386,12 +413,12 @@ namespace ValToolMgrDna.ExcelSpecific
             return "Not implemented";
             // Function getComment(wsCurrentTestSheet As Worksheet, lcTable As ListObject, CurrentColumn As Integer, OldComment As String) As String
             //    Dim ColumnsHeaderPosition As Integer
-    
+
             //    getComment = OldComment
-    
+
             //    xPosition = lcTable.HeaderRowRange.Row - 1
             //    yPosition = lcTable.ListColumns.Item(CurrentColumn).Range.Column
-    
+
             //    If xPosition > 0 And Not IsEmpty(wsCurrentTestSheet.Cells(xPosition, yPosition)) Then
             //        getComment = wsCurrentTestSheet.Cells(xPosition, yPosition).value
             //    End If

@@ -11,7 +11,6 @@ namespace ValToolMgrInt
         private string Name;
         private string location;
 
-
         public string name
         {
             get
@@ -54,6 +53,6 @@ namespace ValToolMgrInt
             }
         }
 
-        public abstract object value { get; set; }
+        public abstract string convValToValidStr(string value);
     }
 }
