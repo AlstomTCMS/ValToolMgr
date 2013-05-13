@@ -587,7 +587,6 @@ IsServerOptional = True
 
 [SF.Seq[1].Setup[6].TS]
 Id = "ID#:72IP5wPTEUygbNe6jdtOnA"
-Mode = "Skip"
 StepFCSeqF = False
 IgnoreRTE = True
 
@@ -652,8 +651,8 @@ Direction = 1
 
 [SF.Seq[1].Setup[6].TS.SData.Call.Parameters[3]]
 Name = "strApplicationName"
-ArgVal = "Parameters.CbProjectName"
-ArgDisplayVal = "Parameters.CbProjectName"
+ArgVal = "Parameters.CbApplicationName"
+ArgDisplayVal = "Parameters.CbApplicationName"
 Type = 12
 DisplayType = "Variant"
 TypeValid = True
@@ -2562,7 +2561,7 @@ ArgVal = "0"
 
 [SF.Seq[8].Setup[0].TS.SData.Call.Parms[8]]
 Name = "GenerateReport"
-ArgVal = "1"
+ArgVal = "0"
 
 [SF.Seq[8].Setup[0].TS.SData.Call.Parms[9]]
 Name = "CRLF"
