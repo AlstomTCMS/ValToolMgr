@@ -12,29 +12,30 @@ using Excel = NetOffice.ExcelApi;
 using NetOffice.ExcelApi.Enums;
 using Office = NetOffice.OfficeApi;
 using NetOffice.ExcelApi.GlobalHelperModules;
+using System.IO;
 
 namespace ValToolMgrDna
 {
     public class ValtoolMgrDna
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        [ExcelFunction(Description="My first Excel-DNA function")]
-        public static string MyFirstFunction(string name)
-        {
-            return "Hello " + name;
-        }
-        
+       
         [ExcelCommand(MenuText = "Generate sequence")] 
         public static void GenerateSequence() 
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
+            //CallingFileName();
+
+            string path = application.ActiveWorkbook.FullName;
+            string filenameNoExtension = Path.GetFileNameWithoutExtension(path);
+            string root = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
+
             CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
 
             try
             {
-                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+                TestStandGen.TestStandGen.genSequence(container, root+filenameNoExtension+".seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
             }
             catch (Exception ex)
             {
@@ -43,6 +44,6 @@ namespace ValToolMgrDna
             }
 
             XlCall.Excel(XlCall.xlcAlert, "Generation is finished"); 
-        } 
+        }
     }
 }
