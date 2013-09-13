@@ -25,8 +25,6 @@ namespace ValToolMgrDna
         {
             Excel.Application application = new Excel.Application(null, ExcelDnaUtil.Application);
 
-            //CallingFileName();
-
             string path = application.ActiveWorkbook.FullName;
             string filenameNoExtension = Path.GetFileNameWithoutExtension(path);
             string root = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
@@ -35,7 +33,7 @@ namespace ValToolMgrDna
 
             try
             {
-                TestStandGen.TestStandGen.genSequence(container, root+filenameNoExtension+".seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+                TestStandGen.TestStandGen.genSequence(container, root+filenameNoExtension+".seq", "C:\\macros_alstom\\templates\\ST-TestStand4\\");
             }
             catch (Exception ex)
             {
