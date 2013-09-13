@@ -136,8 +136,8 @@ namespace ValToolMgrDna.ExcelSpecific
             logger.Debug(String.Format("Found {0} Excel columns to process.", lcActionsTableColumns.Count));
             for (int CurrentColumn = tableStructure.FirstColumnIndex; CurrentColumn < lcActionsTableColumns.Count; CurrentColumn++)
             {
-                logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn].Name));
-                CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
+                logger.Info(String.Format("Processing Column {0}.", lcActionsTableColumns[CurrentColumn+1].Name));
+                CStep o_step = new CStep(lcActionsTableColumns[CurrentColumn+1].Name+" : Title retrieval " + getComment(), "Action comment retrieval " + getComment(), "Checks comment retrieval " + getComment());
 
                 logger.Debug(String.Format("Processing Actions table."));
                 fillWithActions(o_step, TableTypes.TABLE_ACTIONS, loActionsTable, actionsValues, CurrentColumn);
@@ -344,7 +344,7 @@ namespace ValToolMgrDna.ExcelSpecific
         private void addTempoIfExists(CStep o_step, Excel.ListObject loSourceFiles, int ColumnIndex) 
         {
             //'Delay retrieval. We know that data is contained inside Total line property
-            object delay = loSourceFiles.TotalsRowRange.Cells[1, ColumnIndex].Value;
+            object delay = loSourceFiles.TotalsRowRange.Cells[1, ColumnIndex + 1].Value; // We get values from excel, and array indexes begin with 1, not 0
 
             if (delay != null)
             {
