@@ -22,6 +22,7 @@ namespace TestStandGen.Types.Instructions
             {
                 CVariableArray v = (CVariableArray)var;
                 parseVariable((CVariable)v.value);
+                Index = v.Index;
             }
             else
             {
