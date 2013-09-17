@@ -27,12 +27,12 @@ namespace ValToolMgrDna
 
             string path = application.ActiveWorkbook.FullName;
             string filenameNoExtension = Path.GetFileNameWithoutExtension(path);
+            string filename = Path.GetFileName(path);
             string root = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
-
-            CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets);
 
             try
             {
+                CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets, filename);
                 TestStandGen.TestStandGen.genSequence(container, root+filenameNoExtension+".seq", "C:\\macros_alstom\\templates\\ST-TestStand4\\");
             }
             catch (Exception ex)

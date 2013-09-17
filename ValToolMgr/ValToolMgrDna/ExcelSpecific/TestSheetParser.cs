@@ -4,6 +4,7 @@ using ExcelDna.Integration;
 using ValToolMgrInt;
 using System.Text.RegularExpressions;
 using Excel = NetOffice.ExcelApi;
+using ValToolMgrDna.Report;
 
 namespace ValToolMgrDna.ExcelSpecific
 {
@@ -32,6 +33,8 @@ namespace ValToolMgrDna.ExcelSpecific
         Excel.ListColumns lcActionsTableColumns;
         Excel.ListColumns lcChecksTableColumns;
 
+        private SheetReport report;
+
         public enum TableTypes
         {
             TABLE_ACTIONS,
@@ -58,8 +61,9 @@ namespace ValToolMgrDna.ExcelSpecific
             }
         }
 
-        public TestSheetParser(Excel.Worksheet sheet, string headerTableName, string actionsTableName, string checksTableName)
+        public TestSheetParser(Excel.Worksheet sheet, string headerTableName, string actionsTableName, string checksTableName, SheetReport report)
         {
+            this.report = report;
             this.sheet = sheet;
                         if (!Regex.IsMatch(sheet.Name, PR_TEST_PREFIX + ".*"))
                 throw new FormatException(String.Format("Sheet name doesn't comply with naming rules (begins with \"{0}\").", PR_TEST_PREFIX));
@@ -100,14 +104,16 @@ namespace ValToolMgrDna.ExcelSpecific
 
         }
 
-        public static CTest parseTest(string title, Excel.Worksheet sheet, WorkbookParser.ExcelTestStruct tableRefs)
+        public static CTest parseTest(string title, Excel.Worksheet sheet, WorkbookParser.ExcelTestStruct tableRefs, SheetReport report)
         {
             logger.Info(String.Format("Beginning Analysis of sheet {0}, using arrays {1} and {2}", sheet.Name, tableRefs.actionTableName, tableRefs.testTableName));
 
-            TestSheetParser analyser = new TestSheetParser(sheet, tableRefs.descrTableName, tableRefs.actionTableName, tableRefs.testTableName);
-            CTest test = null;
+            TestSheetParser analyser = new TestSheetParser(sheet, tableRefs.descrTableName, tableRefs.actionTableName, tableRefs.testTableName, report); 
+ 
 
             logger.Debug("Sheet passed validity tests successfully");
+
+            CTest test = null;
             test = analyser.parseAsTest(title);
 
             return test;
@@ -237,12 +243,12 @@ namespace ValToolMgrDna.ExcelSpecific
                     catch(InvalidCastException ex)
                     {
                         logger.Error("Problem when trying to find an equivalence for item.", ex);
-                        XlCall.Excel(XlCall.xlcAlert, "Invalid value in cell " + tableRef.Range[line + 2, ColumnIndex + 1].Address + " : " + ex.Message);
+                        report.add(new MessageReport("Invalid value in cell", tableRef.Range[line + 2, ColumnIndex + 1], ex.Message, Criticity.Error));
                     }
                     catch (Exception ex)
                     {
                         logger.Error("Invalid item processed.", ex);
-                        XlCall.Excel(XlCall.xlcAlert, "Cell problem " + tableRef.Range[line + 2, ColumnIndex + 1].Address + " : " + ex.Message);
+                        report.add(new MessageReport("Cell problem", tableRef.Range[line + 2, ColumnIndex + 1], ex.Message, Criticity.Error));
                     }
                 }
             }
@@ -360,7 +366,7 @@ namespace ValToolMgrDna.ExcelSpecific
                 catch(Exception ex)
                 {
                     logger.Error("Failed to parse temporisation.", ex);
-                    XlCall.Excel(XlCall.xlcAlert, "Invalid value, expected : (int), have : " + delay.ToString());
+                    report.add(new MessageReport("Invalid value for temporisation", loSourceFiles.TotalsRowRange.Cells[1, ColumnIndex + 1], String.Format("Invalid value, an integer was expected, but we had {0}", delay ), Criticity.Error));
                 }
             }
         }
@@ -375,8 +381,7 @@ namespace ValToolMgrDna.ExcelSpecific
 
             foreach(Excel.ListObject obj in ListOfRanges)
             {
-                string range = obj.Range.AddressLocal;
-                logger.Debug(String.Format("Analysing Range {0}", range));                                                                                                                                                 
+                logger.Debug(String.Format("Analysing Range {0}", MessageReport.printRange(obj.Range)));
             }
             throw new NotImplementedException();
         }
@@ -397,7 +402,5 @@ namespace ValToolMgrDna.ExcelSpecific
             //    End If
             //End Function
         }
-
-
     }
 }
