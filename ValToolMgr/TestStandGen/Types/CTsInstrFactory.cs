@@ -211,9 +211,12 @@ namespace TestStandGen.Types
             string typeOfData = inst.data.GetType().ToString();
             CVariable variable = (CVariable)inst.data;
 
-            if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName) && !String.Equals(typeOfData, typeof(CVariableArray).FullName))
+            if (String.Equals(typeOfStep, typeof(CInstrUnforce).FullName))
             {
-                instr = new CTsUnforce(TsVariable);
+                if(String.Equals(typeOfData, typeof(CVariableArray).FullName))
+                    instr = new CTsUnforceArray(TsVariable);
+                else
+                    instr = new CTsUnforce(TsVariable);
             }
 
             if (String.Equals(typeOfStep, typeof(CInstrForce).FullName))

@@ -27,7 +27,18 @@ namespace ValToolMgrDna.ExcelSpecific
 	        {
 	            // Finally, we get the Group value and display it.
 	            VariableName = match.Groups[1].Value;
-                uint Index = Convert.ToUInt32(match.Groups[2].Value);
+
+                uint Index;
+
+                if (match.Groups[2].Value == "")
+                {
+                    // When we are referring to complete array, then we use 0
+                    Index = 0;
+                }
+                else
+                {
+                    Index = Convert.ToUInt32(match.Groups[2].Value);
+                }
 
                 CVariable Var = parseAsVariable(VariableName, Location, Path, Value, expectedType);
                 CVariableArray array = new CVariableArray(Var, Index);

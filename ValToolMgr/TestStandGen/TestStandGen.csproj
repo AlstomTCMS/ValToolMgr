@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="TestStandAdapter.cs" />
     <Compile Include="Types\CTsInstrFactory.cs" />
+    <Compile Include="Types\Instructions\CTsUnforceArray.cs" />
     <Compile Include="Types\Instructions\CTsBasedVarInstr.cs" />
     <Compile Include="Types\Instructions\CTsTtTest.cs" />
     <Compile Include="Types\Instructions\CTsTtUnforce.cs" />
