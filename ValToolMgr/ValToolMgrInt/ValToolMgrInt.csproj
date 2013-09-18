@@ -54,6 +54,7 @@
     <Compile Include="CVariableBool.cs" />
     <Compile Include="CVariableDouble.cs" />
     <Compile Include="CVariableInt.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
