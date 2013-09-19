@@ -30,6 +30,11 @@ namespace ValToolMgrDna
             string filename = Path.GetFileName(path);
             string root = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
 
+            // Implementation of ticket #79 (see Github)
+            if(Directory.Exists(root + "GeneratedTests" + Path.DirectorySeparatorChar)) {
+                root = root + "GeneratedTests" + Path.DirectorySeparatorChar;
+            }
+
             try
             {
                 CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets, filename);
