@@ -33,7 +33,12 @@ namespace ValToolMgrDna
             try
             {
                 CTestContainer container = WorkbookParser.parseTestsOfWorkbook(application.ActiveWindow.SelectedSheets, filename);
-                TestStandGen.TestStandGen.genSequence(container, root+filenameNoExtension+".seq", "C:\\macros_alstom\\templates\\ST-TestStand4\\");
+
+                string URIFilename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) + Path.DirectorySeparatorChar + "templates" + Path.DirectorySeparatorChar + "ST-TestStand4" + Path.DirectorySeparatorChar;
+                Uri uri = new Uri(URIFilename);
+                logger.Debug("Defining Template directory for TestStand templates to " + uri.LocalPath);
+
+                TestStandGen.TestStandGen.genSequence(container, root + filenameNoExtension + ".seq", uri.LocalPath);
             }
             catch (Exception ex)
             {

@@ -5,6 +5,8 @@ using System.Text;
 using NUnit.Framework;
 using ValToolMgrInt;
 using TestStandGen.Types;
+using System.Reflection;
+using System.IO;
 
 namespace TestStandGenTest
 {
@@ -60,7 +62,10 @@ namespace TestStandGenTest
                     container.Add(test);
                 }
 
-                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", "C:\\macros_alstom\\templates\\ST-TestStand3\\");
+                string URIFilename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) + Path.DirectorySeparatorChar + "templates" + Path.DirectorySeparatorChar + "ST-TestStand4" + Path.DirectorySeparatorChar;
+                Uri uri = new Uri(URIFilename);
+
+                TestStandGen.TestStandGen.genSequence(container, "C:\\macros_alstom\\test\\genTest.seq", uri.LocalPath);
 
                 Assert.IsTrue(true);
             }
