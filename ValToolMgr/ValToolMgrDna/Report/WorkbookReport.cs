@@ -5,6 +5,7 @@ using System.Text;
 using Antlr4.StringTemplate;
 using Antlr4.StringTemplate.Misc;
 using System.Globalization;
+using System.Reflection;
 
 namespace ValToolMgrDna.Report
 {
@@ -20,7 +21,10 @@ namespace ValToolMgrDna.Report
 
         public void printReport(string filename)
         {
-            TemplateGroup group = new TemplateGroupDirectory("C:\\ValToolMgr\\templates\\ST-HtmlReport\\", '$', '$');
+            string URIFilename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) + Path.DirectorySeparatorChar + "templates" + Path.DirectorySeparatorChar + "ST-HtmlReport" + Path.DirectorySeparatorChar;
+            Uri uri = new Uri(URIFilename);
+            logger.Debug("Defining Template directory for HTML report to " + uri.LocalPath);
+            TemplateGroup group = new TemplateGroupDirectory(uri.LocalPath, '$', '$');
 
             ErrorBuffer errors = new ErrorBuffer();
             group.Listener = errors;

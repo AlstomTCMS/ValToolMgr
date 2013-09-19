@@ -12,6 +12,7 @@ namespace TestStandGen
     using Antlr4.StringTemplate.Misc;
     using System.IO;
     using System.Text;
+    using System.Reflection;
 
     public class TestStandGen
     {
@@ -25,7 +26,10 @@ namespace TestStandGen
 
         public static void genSequence(CTestContainer sequence, string outFile, string templatePath)
         {
-            CTsInstrFactory.loadConfiguration("C:\\macros_alstom\\Configuration\\LocationConfiguration.xml");
+            string URIFilename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) + Path.DirectorySeparatorChar + "Configuration" + Path.DirectorySeparatorChar + "LocationConfiguration.xml";
+            Uri uri = new Uri(URIFilename);
+            logger.Debug("Defining Configuration file to " + uri.LocalPath);
+            CTsInstrFactory.loadConfiguration(uri.LocalPath);
 
             TestStandGen test = new TestStandGen(sequence, outFile, templatePath);
             
